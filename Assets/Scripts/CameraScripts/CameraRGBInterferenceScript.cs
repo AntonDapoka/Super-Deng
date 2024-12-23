@@ -6,8 +6,8 @@ public class CameraRGBInterferenceScript : MonoBehaviour
 {
     [SerializeField] private RGBShiftEffect RGBShiftEffect;
 
-    public float variableValue = 0f; 
-    public float targetValue = 0.1f; 
+    public float variableValue = 0f;
+    public float targetValue = 0.1f;
     public float speed = 0.01f;
 
     public bool isTurnOn = false;

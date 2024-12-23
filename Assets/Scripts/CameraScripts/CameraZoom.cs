@@ -1,59 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
+п»їusing System.Collections;
 using UnityEngine;
 
 public class CameraZoom : MonoBehaviour
 {
-    public Camera mainCamera;  // Ссылка на основную камеру
-    public float zoomFactor = 1.5f;  // Фактор увеличения зума
-    public float zoomTime = 0.5f;  // Время для зумирования в тактах (в секундах)
-    public float returnTime = 0.2f;  // Время для возвращения к исходному зуму (в секундах)
-    public float beatsPerMinute = 90f;  // Указанный BPM (ударов в минуту)
-
-    private float originalFOV;  // Исходное поле зрения камеры
-    private float targetFOV;  // Целевое поле зрения камеры
-    [SerializeField] private BeatController BC;
+    [SerializeField] private Camera mainCamera; 
+    [SerializeField] private float zoomFactor = 1.5f;  
+    [SerializeField] private float zoomTime = 0.5f;  
+    [SerializeField] private float returnTime = 0.2f; 
+    [SerializeField] private float beatsPerMinute = 90f;  
+    private Coroutine zoomCoroutine;
+    private float originalFOV; 
+    private float targetFOV; 
     public bool isOn;
 
     private void Start()
     {
         originalFOV = mainCamera.orthographicSize;
-        targetFOV = originalFOV / zoomFactor;
     }
 
     public void StartZooming()
     {
-        if (isOn)
-            StartCoroutine(ZoomCamera());
+        if (zoomCoroutine != null)
+        {
+            StopCoroutine(zoomCoroutine);
+        }
+        zoomCoroutine = StartCoroutine(ZoomCamera());
     }
 
-    IEnumerator ZoomCamera()
+    private IEnumerator ZoomCamera()
     {
-        float zoomSpeed = (targetFOV - mainCamera.orthographicSize) / (zoomTime * (beatsPerMinute / 60f));
-        float elapsedTime = 0f;
-
-        // Зумируем камеру
-        while (elapsedTime < zoomTime)
+        if (isOn)
         {
-            mainCamera.orthographicSize += zoomSpeed * Time.deltaTime;
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            targetFOV = originalFOV / zoomFactor;
+            float zoomSpeed = (targetFOV - mainCamera.orthographicSize) / (zoomTime * (beatsPerMinute / 60f));
+            float elapsedTime = 0f;
+
+            while (elapsedTime < zoomTime)
+            {
+                mainCamera.orthographicSize += zoomSpeed * Time.deltaTime;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            float returnSpeed = (originalFOV - mainCamera.orthographicSize) / returnTime;
+            elapsedTime = 0f;
+
+            while (elapsedTime < returnTime)
+            {
+                mainCamera.orthographicSize += returnSpeed * Time.deltaTime;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            mainCamera.orthographicSize = originalFOV;
         }
-
-        // Возвращаем камеру к исходному зуму
-        float returnSpeed = (originalFOV - mainCamera.orthographicSize) / returnTime;
-        elapsedTime = 0f;
-
-        while (elapsedTime < returnTime)
-        {
-            mainCamera.orthographicSize += returnSpeed * Time.deltaTime;
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Заканчиваем выполнение корутины
-        mainCamera.orthographicSize = originalFOV;
-        BC.isAlreadyZoomed = false;
-
     }
 }

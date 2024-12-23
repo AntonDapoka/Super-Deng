@@ -58,13 +58,10 @@ public class TutorialController : MonoBehaviour
             
         }
     }
-    IEnumerator ToggleSpaceCoroutine()
+    private IEnumerator ToggleSpaceCoroutine()
     {
-        // Включаем Image
         _textSpace.SetActive(false);
-        // Ждем 0.3 секунды
         yield return new WaitForSeconds(2f);
-        // Выключаем Image
         _textSpace.SetActive(true);
     }
 

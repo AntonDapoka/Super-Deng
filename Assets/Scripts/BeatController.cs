@@ -14,16 +14,14 @@ public class BeatController : MonoBehaviour
     private Vector3 almostEndPos1 = new Vector3(-50f, 0f, 0f);
     private Vector3 endPos1 = new Vector3(100f, 0f, 0f);
     [SerializeField] private Image image2;
-    private Vector3 startPos2 = new Vector3(350f, 0f, 0f);
-    private Vector3 midPos2 = new Vector3(200f, 0f, 0f);
+    private Vector3 startPos2 = new(350f, 0f, 0f);
+    private Vector3 midPos2 = new(200f, 0f, 0f);
     private Vector3 almostEndPos2 = new Vector3(50f, 0f, 0f);
     private Vector3 endPos2 = new Vector3(-100f, 0f, 0f);
-    [SerializeField] private CameraZoom CZ;
     public int beatcount = 0;
     private float lastBeatTime = 0f;
     public bool isAlreadyPressed = false;
     public bool isAlreadyPressedIsAlreadyPressed = false;
-    public bool isAlreadyZoomed = false;
     public bool isTutorial = false;
 
     private void Start()
@@ -36,7 +34,7 @@ public class BeatController : MonoBehaviour
 
     private void Update()
     {
-        if (isTutorial || (0f < elapsedTime && ((elapsedTime < 0.25f * beatInterval) || (elapsedTime > 0.75f * beatInterval))))
+        if (0f < elapsedTime && ((elapsedTime < 0.25f * beatInterval) || (elapsedTime > 0.75f * beatInterval)))
         {
             canCombo = true;
         }
@@ -81,10 +79,6 @@ public class BeatController : MonoBehaviour
                 float t = (elapsedTime - ((2f * beatInterval) / 3f)) / (beatInterval / 3f);
                 image1.rectTransform.localPosition = Vector3.Lerp(midPos1, almostEndPos1, t);
                 image2.rectTransform.localPosition = Vector3.Lerp(midPos2, almostEndPos2, t);
-                if (! isAlreadyZoomed)
-                {
-                    PressIsAlreadyZoomed();
-                }
             }
             else
             {
@@ -99,13 +93,6 @@ public class BeatController : MonoBehaviour
         isAlreadyPressedIsAlreadyPressed = true;
     }
 
-    private void PressIsAlreadyZoomed()
-    {
-        isAlreadyZoomed = true;
-        CZ.StartZooming();
-        
-    }
-
     public void OnBeat()
     {
         float currentTime = Time.time;
@@ -115,7 +102,7 @@ public class BeatController : MonoBehaviour
         }
         lastBeatTime = currentTime;
         beatcount++;
-        elapsedTime = 0.0001f; // Запуск процесса
+        elapsedTime = 0.0001f; 
         //image.rectTransform.localPosition = startPos; // Телепортирование на начальную позицию
     }
 }

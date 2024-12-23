@@ -4,16 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIButtonScript : MonoBehaviour
+public class ReloadButtonScript : MonoBehaviour
 {
-    public Button reloadButton; // Переменная для кнопки UI
+    public Button reloadButton; 
 
     public void ReloadCurrentScene()
     {
-        // Получаем текущую сцену и перезагружаем ее
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
-
-    
 }

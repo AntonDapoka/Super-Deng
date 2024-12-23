@@ -31,13 +31,13 @@ public class StartCountDown : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         countDownText.gameObject.SetActive(false);
         isOn = true;
-        //icosahedron.GetComponent<CubeRotation>().enabled = true; // Включаем скрипт вращения куба
+        //icosahedron.GetComponent<CubeRotation>().enabled = true;
         //rhythmManager.GetComponent<RhythmManager>().enabled = true;
         //moveImageOnBeat.GetComponent<MoveImageOnBeat>().enabled = true;
         //moveImageOnBeat1.GetComponent<MoveImageOnBeat>().enabled = true;
         killerManager.GetComponent<RedFaceScript>().isTurnOn = true;
         cameraZoom.GetComponent<CameraZoom>().isOn = true;
-        beatManager.GetComponent<BeatController>().isAlreadyZoomed = false ;
+        //beatManager.GetComponent<BeatController>().isAlreadyZoomed = false ;
         //killerManager.GetComponent<RedFaceScript>().StartKilling();
     }
 }

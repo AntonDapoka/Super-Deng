@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class SoundScript : MonoBehaviour
 {
-    public AudioClip soundClipStep;  // Перетащите сюда ваш аудиофайл в инспекторе
+    public AudioClip soundClipStep;
     public AudioClip soundClipBlock;
     public AudioSource audioSource;
 
     private void Start()
     {
-        // Добавляем компонент AudioSource к объекту, если его еще нет
         audioSource.clip = soundClipStep;
     }
 

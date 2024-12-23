@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    public float shakeAmount = 0.1f;
-    public float shakeSpeed = 10.0f;
+    [SerializeField] private float shakeAmount = 0.1f;
+    [SerializeField] private float shakeSpeed = 10.0f;
 
     private Vector3 originalPosition;
 
