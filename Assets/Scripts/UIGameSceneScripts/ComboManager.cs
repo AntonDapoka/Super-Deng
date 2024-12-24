@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public class ComboManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text comboText; // Текстовое поле для отображения комбо
+    [SerializeField] private TMP_Text comboText;
     [SerializeField] private TMP_Text scoreText;
-    [SerializeField] private TMP_Text scoreLoseText; // Текстовое поле для отображения комбо
+    [SerializeField] private TMP_Text scoreLoseText; 
     [SerializeField] private TMP_Text scoreWinText;
-    public Image comboImage; // Изображение для смены при достижении определённого комбо
-    public Sprite[] comboSprites; // Массив изображений для смены
+    public Image comboImage; 
+    public Sprite[] comboSprites;
     [SerializeField] private BeatController BC;
     [SerializeField] private TimerController TC;
     private int comboCount = 0;
@@ -89,7 +89,7 @@ public class ComboManager : MonoBehaviour
             comboTimer -= Time.deltaTime;
             if (comboTimer <= 0)
             {
-                // Сбрасываем комбо, если таймер истёк
+              
                 previousComboCount = comboCount;
                 comboCount = 0;
                 UpdateComboDisplay();
@@ -101,8 +101,8 @@ public class ComboManager : MonoBehaviour
 
     private IEnumerator ResetCooldown()
     {
-        yield return new WaitForSeconds(BC.beatInterval * 0.75f); // Ждем 0.666 секунд
-        inProcess = false; // Сбрасываем флаг
+        yield return new WaitForSeconds(BC.beatInterval * 0.75f); 
+        inProcess = false; 
     }
 
     public void ResetComboTimer()

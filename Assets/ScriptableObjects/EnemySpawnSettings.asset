@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnTimes:
   - time: 0
-    isRedFaceTurnOn: 1
+    isRedFaceTurnOn: 0
     isRedFaceRandom: 1
     arrayOfRedFaces: 000000000000000000000000
     quantityOfRedFaces: 3

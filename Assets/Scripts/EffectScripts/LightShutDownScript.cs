@@ -12,11 +12,11 @@ public class LightShutDownScript : MonoBehaviour
     [SerializeField] private AudioClip[] soundsLight;
     [SerializeField] private AudioClip soundFace;
     [SerializeField] private Material material;
-    [SerializeField] private float delay = 1f;  // Задержка между отключениями
+    [SerializeField] private float delay = 1f; 
     [Space]
     public PostProcessVolume postProcessVolume;
     private Vignette vignette;
-    public float fadeDuration = 2f; // Время, за которое виньетка достигнет максимума
+    public float fadeDuration = 2f; 
     private float targetIntensity = 1f;
 
     private AudioSource audioSource;
@@ -95,28 +95,23 @@ public class LightShutDownScript : MonoBehaviour
         {
             n--;
             int k = rng.Next(n + 1);
-            int value = list[k];
-            list[k] = list[n];
-            list[n] = value;
+            (list[n], list[k]) = (list[k], list[n]);
         }
     }
+
     private IEnumerator FadeInVignette()
     {
         float elapsedTime = 0f;
         float initialIntensity = vignette.intensity.value;
 
-
         while (elapsedTime < fadeDuration)
         {
-            // Плавно увеличиваем интенсивность
             vignette.intensity.value = Mathf.Lerp(initialIntensity, targetIntensity, elapsedTime / fadeDuration);
             vignette.smoothness.value = Mathf.Lerp(initialIntensity, targetIntensity, elapsedTime / fadeDuration);
             elapsedTime += Time.deltaTime;
 
-            yield return null; // Ждем до следующего кадра
+            yield return null;
         }
-
-        // Устанавливаем конечную интенсивность
         vignette.intensity.value = targetIntensity;
         vignette.smoothness.value = targetIntensity;
     }

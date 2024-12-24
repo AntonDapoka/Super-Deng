@@ -20,9 +20,9 @@ public class MovementButtonsChanger : MonoBehaviour
     [SerializeField] private Image buttonLeftImage;
     [SerializeField] private Image buttonTopImage;
 
-    [SerializeField] private AudioSource errorSound; // Звук ошибки
+    [SerializeField] private AudioSource errorSound; 
 
-    private int currentButtonIndex = -1; // Индекс текущей выбранной кнопки
+    private int currentButtonIndex = -1;
 
     private KeyCode rightKey = KeyCode.D;
     private KeyCode leftKey = KeyCode.A;
@@ -51,15 +51,15 @@ public class MovementButtonsChanger : MonoBehaviour
                 {
                     if (Input.GetKeyDown(keyCode) && IsValidKey(keyCode))
                     {
-                        if (!IsKeyAlreadyAssigned(keyCode)) // Проверка, занята ли клавиша
+                        if (!IsKeyAlreadyAssigned(keyCode)) 
                         {
                             UpdateButtonTextAndImage(currentButtonIndex, keyCode);
-                            currentButtonIndex = -1; // Сброс текущей выбранной кнопки
-                            SetButtonsInteractable(true); // Включаем все кнопки
+                            currentButtonIndex = -1; 
+                            SetButtonsInteractable(true); 
                         }
                         else
                         {
-                            errorSound.Play(); // Воспроизводим звук ошибки
+                            errorSound.Play();
                         }
                         break;
                     }
@@ -70,9 +70,9 @@ public class MovementButtonsChanger : MonoBehaviour
 
     private void OnButtonClick(int index)
     {
-        if (currentButtonIndex == -1) // Если никакая кнопка не выбрана
+        if (currentButtonIndex == -1) 
         {
-            SetButtonsInteractable(false); // Выключаем другие кнопки
+            SetButtonsInteractable(false);
 
             if (index == 0)
             {
@@ -89,7 +89,7 @@ public class MovementButtonsChanger : MonoBehaviour
                 buttonTopText.text = "Press";
                 buttonTopImage.enabled = false;
             }
-            currentButtonIndex = index; // Запоминаем индекс выбранной кнопки
+            currentButtonIndex = index; 
         }
     }
 

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class StartCountDown : MonoBehaviour
 {
-    [SerializeField] private TMP_Text countDownText; // —сылка на UI элемент дл€ отображени€ текста
-    [SerializeField] private GameObject icosahedron; // —сылка на объект куба
+    [SerializeField] private TMP_Text countDownText; 
+    [SerializeField] private GameObject icosahedron; 
     [SerializeField] private GameObject rhythmManager;
     [SerializeField] private GameObject beatManager;
     [SerializeField] private GameObject killerManager;
@@ -19,7 +19,7 @@ public class StartCountDown : MonoBehaviour
         StartCoroutine(CountDownRoutine());
     }
 
-    IEnumerator CountDownRoutine()
+    private IEnumerator CountDownRoutine()
     {
         for (int i = 3; i > 0; i--)
         {

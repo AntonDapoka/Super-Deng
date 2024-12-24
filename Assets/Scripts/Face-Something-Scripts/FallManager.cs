@@ -227,12 +227,4 @@ public class FallManager : MonoBehaviour
         animator.enabled = false;
         isReset = false;
     }
-
-    private void SetPartsMaterial(Material material)
-    {
-        PS.rendPartTop.material = material;
-        PS.rendPartMiddle.material = material;
-        PS.rendPartLeft.material = material;
-        PS.rendPartRight.material = material;
-    }
 }

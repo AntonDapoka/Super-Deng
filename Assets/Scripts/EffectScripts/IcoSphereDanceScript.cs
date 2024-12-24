@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class IcoSphereDanceScript : MonoBehaviour
 {
-    public GameObject[] objects;  // Массив объектов для вращения
-    public float rotationAngle = 15f;  // Угол вращения в градусах
-    public float duration = 0.2f;  // Время для выполнения вращения в одну сторону
-    public bool isTurnOn = false;  // Переменная для управления вращением
+    [SerializeField] private GameObject[] objects; 
+    public float rotationAngle = 15f;  
+    public float duration = 0.2f; 
+    public bool isTurnOn = false;  
     private bool inProcess = false;
     private int side = -1;
     [SerializeField] private EnemySpawnSettings enemySpawnSettings;

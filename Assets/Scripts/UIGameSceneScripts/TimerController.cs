@@ -6,10 +6,10 @@ using TMPro;
 
 public class TimerController : MonoBehaviour
 {
-    public Slider timerSlider; // Ссылка на ползунок
-    public TextMeshProUGUI timerText; // Ссылка на текстовое поле (используйте Text вместо TextMeshProUGUI, если используете стандартный текст)
-    public float timeElapsed = 0f; // Прошедшее время
-    public float totalTime = 130f; // Общее время в секундах (2 минуты)
+    public Slider timerSlider;
+    public TextMeshProUGUI timerText; 
+    public float timeElapsed = 0f;
+    public float totalTime = 130f; 
     public bool timerIsRunning = false;
     [SerializeField] private Image imageCompleted;
     [SerializeField] private RedFaceScript RFS;
@@ -44,12 +44,11 @@ public class TimerController : MonoBehaviour
         }
     }
 
-    void UpdateTimerDisplay(float time)
+    private void UpdateTimerDisplay(float time)
     {
         // Обновление ползунка
         timerSlider.value = time;
 
-        // Обновление текстового отображения
         float minutes = Mathf.FloorToInt(time / 60);
         float seconds = Mathf.FloorToInt(time % 60);
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);

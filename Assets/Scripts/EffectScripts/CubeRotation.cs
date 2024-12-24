@@ -6,16 +6,8 @@ public class CubeRotation : MonoBehaviour
 {
     [Range(0, 20)]
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private bool isTimer;
     [SerializeField] private bool clockwiseRotation = true;
 
-    private void Start()
-    {
-        if (isTimer)
-        {
-            this.enabled = false;
-        }
-    }
 
     private void Update()
     {
