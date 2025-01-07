@@ -13,6 +13,7 @@ public class ComboManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreWinText;
     public Image comboImage; 
     public Sprite[] comboSprites;
+    [SerializeField] private RhythmManager RM;
     [SerializeField] private BeatController BC;
     [SerializeField] private TimerController TC;
     private int comboCount = 0;
@@ -56,7 +57,7 @@ public class ComboManager : MonoBehaviour
         }
         if ((Input.GetKeyDown(keyLeft) && !Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyRight)) || (Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyLeft) && !Input.GetKeyDown(keyRight)) || (Input.GetKeyDown(keyRight) && !Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyLeft)))
         {
-            if (!inProcess && TC.timeElapsed < TC.totalTime && TC.timerIsRunning)
+            if (!inProcess && TC.timeElapsed < TC.totalTime && TC.isTurnOn)
             {
                 inProcess = true;
                 if (comboTime)
@@ -93,7 +94,7 @@ public class ComboManager : MonoBehaviour
                 previousComboCount = comboCount;
                 comboCount = 0;
                 UpdateComboDisplay();
-                comboTimer = 1.5f * BC.beatInterval;
+                comboTimer = 1.5f * RM.beatInterval;
             }
         }
 
@@ -101,13 +102,13 @@ public class ComboManager : MonoBehaviour
 
     private IEnumerator ResetCooldown()
     {
-        yield return new WaitForSeconds(BC.beatInterval * 0.75f); 
+        yield return new WaitForSeconds(RM.beatInterval * 0.75f); 
         inProcess = false; 
     }
 
     public void ResetComboTimer()
     {
-        comboTimer = 1.5f * BC.beatInterval;
+        comboTimer = 1.5f * RM.beatInterval;
     }
 
     public void Double()

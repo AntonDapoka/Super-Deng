@@ -6,39 +6,29 @@ using UnityEngine.UI;
 
 public class StartCountDown : MonoBehaviour
 {
-    [SerializeField] private TMP_Text countDownText; 
-    [SerializeField] private GameObject icosahedron; 
-    [SerializeField] private GameObject rhythmManager;
-    [SerializeField] private GameObject beatManager;
-    [SerializeField] private GameObject killerManager;
-    [SerializeField] private GameObject cameraZoom;
-    public bool isOn = false;
+    [SerializeField] private RhythmManager RM;
+    [SerializeField] private TMP_Text countDownText;
+    [SerializeField] private LaunchObstaclesScript LOS;
 
-    private void Start()
+    public void StartStartCountDown()
     {
         StartCoroutine(CountDownRoutine());
     }
 
     private IEnumerator CountDownRoutine()
     {
+        float delay = RM.beatInterval;
+        countDownText.gameObject.SetActive(true);
+
         for (int i = 3; i > 0; i--)
         {
             countDownText.text = i.ToString();
-            yield return new WaitForSeconds(0.666f);
+            yield return new WaitForSeconds(delay);
         }
-
+        LOS.StartLaunchObstacles();
         countDownText.text = "GO!";
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(delay);
         countDownText.gameObject.SetActive(false);
-        isOn = true;
-        //icosahedron.GetComponent<CubeRotation>().enabled = true;
-        //rhythmManager.GetComponent<RhythmManager>().enabled = true;
-        //moveImageOnBeat.GetComponent<MoveImageOnBeat>().enabled = true;
-        //moveImageOnBeat1.GetComponent<MoveImageOnBeat>().enabled = true;
-        killerManager.GetComponent<RedFaceScript>().isTurnOn = true;
-        cameraZoom.GetComponent<CameraZoom>().isOn = true;
-        //beatManager.GetComponent<BeatController>().isAlreadyZoomed = false ;
-        //killerManager.GetComponent<RedFaceScript>().StartKilling();
     }
 }
 

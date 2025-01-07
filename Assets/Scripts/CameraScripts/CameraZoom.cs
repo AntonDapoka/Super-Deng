@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CameraZoom : MonoBehaviour
 {
+    public bool isTurnOn = false;
     [SerializeField] private Camera mainCamera; 
     [SerializeField] private float zoomFactor = 1.5f;  
     [SerializeField] private float zoomTime = 0.5f;  
@@ -11,7 +12,7 @@ public class CameraZoom : MonoBehaviour
     private Coroutine zoomCoroutine;
     private float originalFOV; 
     private float targetFOV; 
-    public bool isOn;
+    
 
     private void Start()
     {
@@ -29,7 +30,7 @@ public class CameraZoom : MonoBehaviour
 
     private IEnumerator ZoomCamera()
     {
-        if (isOn)
+        if (isTurnOn)
         {
             targetFOV = originalFOV / zoomFactor;
             float zoomSpeed = (targetFOV - mainCamera.orthographicSize) / (zoomTime * (beatsPerMinute / 60f));

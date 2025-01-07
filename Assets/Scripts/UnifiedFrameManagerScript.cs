@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UnifiedFrameManagerScript : MonoBehaviour
 {
+    public bool isTurnOn = false;
     [SerializeField] private TimerController TC;
     [SerializeField] private RedFaceScript RFS;
     [SerializeField] private RedWaveScript RWS;
@@ -27,7 +28,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
 
     private void Update()
     {
-        if (TC != null)
+        if (TC != null && TC.isTurnOn && isTurnOn)
         {
             float elapsedTime = TC.timeElapsed;
 

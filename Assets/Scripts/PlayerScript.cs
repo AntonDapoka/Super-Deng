@@ -5,6 +5,9 @@ using UnityEngine.UI;
 public class PlayerScript : MonoBehaviour
 {
     [SerializeField] private int hp = 4;
+    [SerializeField] private GameObject faceCurrent;
+    private FaceScript faceCurrentFS;
+    [Space]
     [SerializeField] private GameObject glowingPartTop;
     [SerializeField] private GameObject glowingPartMiddle;
     [SerializeField] private GameObject glowingPartLeft;
@@ -12,9 +15,6 @@ public class PlayerScript : MonoBehaviour
     [Space]
     [SerializeField] private Animator animator;
     [SerializeField] private AnimationClip animClipBlink;
-    [SerializeField] private AudioClip sound;
-    [SerializeField] private GameObject faceCurrent;
-    private FaceScript faceCurrentFS;
     [SerializeField] private Material materialTurnOn;
     [SerializeField] private Material materialTurnOff;
     [Space]
@@ -23,16 +23,7 @@ public class PlayerScript : MonoBehaviour
     public MeshRenderer rendPartLeft;
     public MeshRenderer rendPartRight;
 
-
-    [SerializeField] private Image imageLose;
-    [SerializeField] private TimerController TC;
-    [SerializeField] private StartCountDown SCD;
-    [SerializeField] private RedFaceScript RFS;
-    [SerializeField] private LightShutDownScript LSDS;
-    [SerializeField] private IcoSphereDanceScript ISDS;
-    [SerializeField] private AudioSource audioSourceMusic;
-    [SerializeField] private AudioSource audioSourceGameOver;
-    [SerializeField] private float fadeDuration = 2f;
+    [SerializeField] private LoseScript LS;
 
     private bool inBlinking = false;
     private bool isLosing = false;
@@ -79,7 +70,7 @@ public class PlayerScript : MonoBehaviour
             if (animator != null && animClipBlink != null)
             {
                 animator.enabled = true;
-                animator.Play(animClipBlink.name); // Проигрываем анимацию
+                animator.Play(animClipBlink.name); 
             }
         }
         else if (!faceCurrent.GetComponent<FaceScript>().isBlinking && inBlinking)
@@ -144,7 +135,7 @@ public class PlayerScript : MonoBehaviour
         else if (!isLosing)
         {
             hp -= 1;
-            Lose();
+            StartLosing();
         }
         
         if (hp <= 3)
@@ -188,54 +179,18 @@ public class PlayerScript : MonoBehaviour
         {
             animator.enabled = true;
             animator.Play(animClipBlink.name);
-            yield return new WaitForSeconds(animClipBlink.length); // Ждем завершения анимации
+            yield return new WaitForSeconds(animClipBlink.length); 
         }
         ResetMaterials();
         animator.enabled = false;
         inTakingDamage = false;
     }
 
-    public void Lose()
+    public void StartLosing()
     {
         isLosing = true;
-        //faceCurrent.GetComponent<FaceScript>().havePlayer = false;
         rendPartMiddle.material = materialTurnOff;
-        RFS.isTurnOn = false;
-        SCD.isOn = false;
-        ISDS.isTurnOn = false;
-        if (TC != null)
-        {
-            TC.timerIsRunning = false;
-        }
-        if (LSDS != null)
-        {
-            LSDS.StartShutDown();
-        }
-        else ShowImage();
-        audioSourceGameOver.clip = sound;
-        audioSourceGameOver.Play();
-
-        StartCoroutine(FadeOutCoroutine());
-    }
-
-    private IEnumerator FadeOutCoroutine()
-    {
-
-        float startVolume = audioSourceMusic.volume;
-
-        while (audioSourceMusic.volume > 0)
-        {
-            audioSourceMusic.volume -= startVolume * Time.deltaTime / fadeDuration;
-            yield return null;
-        }
-
-        audioSourceMusic.volume = 0;
-        audioSourceMusic.Stop();
-    }
-
-    public void ShowImage()
-    {
-        imageLose.gameObject.SetActive(true);
+        LS.Lose();
     }
 
     public void SetPartsMaterial(Material material)

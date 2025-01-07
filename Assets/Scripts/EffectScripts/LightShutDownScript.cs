@@ -6,6 +6,7 @@ using UnityEngine.Rendering.PostProcessing;
 public class LightShutDownScript : MonoBehaviour
 {
     private GameObject[] faces;
+    [SerializeField] private LoseScript LS;
     [SerializeField] private FaceArrayScript FAS;
     [SerializeField] private GameObject[] lights;
     [SerializeField] private PlayerScript player;
@@ -54,7 +55,7 @@ public class LightShutDownScript : MonoBehaviour
                 yield return new WaitForSeconds(delay);
             }
         }
-        player.ShowImage();
+        LS.ShowImage();
         StartCoroutine(ShutDownIcosahedron());
         
     }

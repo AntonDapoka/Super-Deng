@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PulseToTheBeat : MonoBehaviour
-{
+{ 
+    public bool isTurnOn = false;
     [SerializeField] private float pulseSize = 1.5f;
     [SerializeField] private float returnSpeed = 10f;
     private Vector3 startSize;
@@ -21,7 +22,7 @@ public class PulseToTheBeat : MonoBehaviour
 
     public void Pulse()
     {
-        transform.localScale = startSize * pulseSize;
+        if (isTurnOn) transform.localScale = startSize * pulseSize;
     }
 
 }

@@ -172,7 +172,7 @@ public class FaceScript : MonoBehaviour
 
     private void Update()
     {
-        if (havePlayer && !transferInProgress && (SCD == null || SCD.isOn) && BC.canPress)
+        if (havePlayer && !transferInProgress && BC.canPress)
         {
             if (Input.GetKeyDown(keyLeft) || Input.GetKeyDown(keyTop) || Input.GetKeyDown(keyRight))
             {

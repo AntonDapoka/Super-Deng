@@ -6,26 +6,24 @@ using TMPro;
 
 public class TimerController : MonoBehaviour
 {
-    public Slider timerSlider;
-    public TextMeshProUGUI timerText; 
+    public bool isTurnOn = false;
     public float timeElapsed = 0f;
-    public float totalTime = 130f; 
-    public bool timerIsRunning = false;
-    [SerializeField] private Image imageCompleted;
-    [SerializeField] private RedFaceScript RFS;
-    [SerializeField] private StartCountDown SCD;
-    [SerializeField] private ComboManager CM;
+    public float totalTime = 130f;
+    [SerializeField] private Slider timerSlider;
+    [SerializeField] private TextMeshProUGUI timerText; 
+    [SerializeField] private WinScript WS;
 
-    private void Start()
+    public void StartTimerController(float totalTrackTime)
     {
+        totalTime = totalTrackTime;
         timerSlider.maxValue = totalTime;
         timerSlider.value = 0;
-        timerIsRunning = true;
+        isTurnOn = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (timerIsRunning)
+        if (isTurnOn)
         {
             if (timeElapsed < totalTime)
             {
@@ -35,20 +33,16 @@ public class TimerController : MonoBehaviour
             else
             {
                 timeElapsed = totalTime;
-                timerIsRunning = false;
+                isTurnOn = false;
                 UpdateTimerDisplay(timeElapsed);
-                imageCompleted.gameObject.SetActive(true);
-                RFS.isTurnOn = false;
-                SCD.isOn = false;
+                WS.Win();
             }
         }
     }
 
     private void UpdateTimerDisplay(float time)
     {
-        // Обновление ползунка
         timerSlider.value = time;
-
         float minutes = Mathf.FloorToInt(time / 60);
         float seconds = Mathf.FloorToInt(time % 60);
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);

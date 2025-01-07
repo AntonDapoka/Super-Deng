@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class RedWaveScript : MonoBehaviour
 {
+    public bool isTurnOn = false;
     private GameObject[] faces;
     public int proximityLimit = 5;
     [SerializeField] private float colorChangeDuration = 2f;
@@ -23,7 +24,7 @@ public class RedWaveScript : MonoBehaviour
     [SerializeField] private PlayerScript PS;
     [SerializeField] private ComboManager CM;
     [SerializeField] private EnemySpawnSettings enemySpawnSettings;
-    public bool isTurnOn = false;
+    
 
     public List<int> faceIndices = new();
     public int colvo = 0;

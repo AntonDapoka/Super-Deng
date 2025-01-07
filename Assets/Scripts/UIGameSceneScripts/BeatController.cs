@@ -3,7 +3,8 @@ using UnityEngine.UI;
 
 public class BeatController : MonoBehaviour
 {
-    public float beatInterval = 0.6666f;
+    [SerializeField] private RhythmManager RM;
+    private float beatInterval;
     private float elapsedTime = 0f;
     public bool canPress = false;
     public bool canCombo = false;
@@ -26,6 +27,7 @@ public class BeatController : MonoBehaviour
 
     private void Start()
     {
+        beatInterval = RM.beatInterval;
         image1.enabled = false;
         image1.rectTransform.localPosition = startPos1;
         image2.enabled = false;

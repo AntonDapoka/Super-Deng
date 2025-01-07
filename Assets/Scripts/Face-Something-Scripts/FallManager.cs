@@ -163,7 +163,7 @@ public class FallManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         if (waitForDeath)
         {
-            PS.Lose();
+            PS.StartLosing();
         }
         
         Renderer[] childRenderers = face.GetComponentsInChildren<Renderer>();

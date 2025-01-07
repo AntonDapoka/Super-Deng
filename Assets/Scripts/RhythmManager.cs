@@ -1,34 +1,43 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class RhythmManager : MonoBehaviour
 {
-    [SerializeField] private float bpm = 90f;
+    public bool isTurnOn = false;
+    public float bpm = 90f;
     public float beatInterval; // Длительность одного такта в секундах
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource musicManager;
     [SerializeField] private Intervals[] intervals;
-   
+
     private void Awake()
     {
         beatInterval = 60f / bpm;
     }
 
-    private void Start()
+    private void FixedUpdate()
     {
-        audioSource = gameObject.GetComponent<AudioSource>();
-
+        if (isTurnOn)
+        {
+            foreach (Intervals interval in intervals)
+            {
+                float sampledTime = (musicManager.timeSamples / (musicManager.clip.frequency * interval.GetIntervalLength(bpm)));
+                interval.CheckForNewInterval(sampledTime);
+            }
+        }
     }
 
-    private void Update()
+    public void StartWithSync()
     {
-        foreach (Intervals interval in intervals)
-        {
-            float sampledTime = (audioSource.timeSamples / (audioSource.clip.frequency * interval.GetIntervalLength(bpm)));
-            interval.CheckForNewInterval(sampledTime);
-        }
+        StartCoroutine(SynchronizeAndTurnOn());
+    }
+
+    private IEnumerator SynchronizeAndTurnOn()
+    {
+        float currentTime = musicManager.time % beatInterval;
+        float waitTime = beatInterval - currentTime;
+        yield return new WaitForSeconds(waitTime);
+        isTurnOn = true;
     }
 }
 
@@ -44,13 +53,12 @@ public class Intervals
         return 60f / (bpm * steps);
     }
 
-    public void CheckForNewInterval (float interval)
+    public void CheckForNewInterval(float interval)
     {
         if (Mathf.FloorToInt(interval) != lastInterval)
         {
             lastInterval = Mathf.FloorToInt(interval);
-            if (trigger != null)
-                trigger.Invoke();
+            trigger?.Invoke();
         }
     }
 }

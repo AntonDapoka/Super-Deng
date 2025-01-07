@@ -7,6 +7,7 @@ using System.Linq;
 
 public class RedFaceScript : MonoBehaviour
 {
+    public bool isTurnOn = false;
     private GameObject[] faces;
     [SerializeField] private float colorChangeDuration = 2f;
     [SerializeField] private float scaleChangeDurationUp = 1f;
@@ -22,7 +23,7 @@ public class RedFaceScript : MonoBehaviour
     [SerializeField] private TimerController TC;
     [SerializeField] private PlayerScript PS;
     [SerializeField] private ComboManager CM;
-    public bool isTurnOn = false;
+    
 
     public List<int> faceIndices = new();
     public int colvo = 0;
