@@ -20,6 +20,7 @@ public class FaceScript : MonoBehaviour
                  / 1 \  / 2 \
                 /_____\/_____\
     */
+    public bool isTurnOn = false;
     public GameObject player;
     public int pathObjectCount = -1;
     [SerializeField] private PlayerScript PS;
@@ -172,7 +173,7 @@ public class FaceScript : MonoBehaviour
 
     private void Update()
     {
-        if (havePlayer && !transferInProgress && BC.canPress)
+        if (isTurnOn && havePlayer && !transferInProgress && BC.canPress)
         {
             if (Input.GetKeyDown(keyLeft) || Input.GetKeyDown(keyTop) || Input.GetKeyDown(keyRight))
             {

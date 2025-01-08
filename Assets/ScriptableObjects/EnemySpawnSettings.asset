@@ -96,7 +96,7 @@ MonoBehaviour:
     isChangingFaceDance: 0
     isIncreaseFaceDance: 0
     durationChangingFaceDance: 0
-    isSphereDanceTurnOn: 1
+    isSphereDanceTurnOn: 0
     angleSphereDance: 20
     durationOfCycleSphereDance: 2
     isCameraRotationTurnOn: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
     arrayOfRedWaves: 
     quantityOfRedWaves: 1
     proximityLimitOfRedWaves: 5
-    isFallFaceTurnOn: 1
+    isFallFaceTurnOn: 0
     isFallFaceRandom: 1
     arrayOfFallFaces: 
     quantityOfFallFaces: 3
