@@ -8,6 +8,7 @@ public class LaunchObstaclesScript : MonoBehaviour
     [SerializeField] private FaceArrayScript FAS;
     [SerializeField] private UnifiedFrameManagerScript UFMS;
     [SerializeField] private RhythmManager RM;
+    [SerializeField] private BeatController BC;
     [SerializeField] private RedFaceScript RFS;
     [SerializeField] private RedWaveScript RWS;
     [SerializeField] private FallManager FM;
@@ -21,6 +22,7 @@ public class LaunchObstaclesScript : MonoBehaviour
         UFMS.isTurnOn = true;
         RM.StartWithSync();
         RFS.isTurnOn = true;
+        BC.isTurnOn = true;
         RWS.isTurnOn = true;
         FM.isTurnOn = true;
         BSS.isTurnOn = true;

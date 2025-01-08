@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class BeatController : MonoBehaviour
 {
+    public bool isTurnOn = false;
     [SerializeField] private RhythmManager RM;
     private float beatInterval;
     private float elapsedTime = 0f;
@@ -36,55 +37,58 @@ public class BeatController : MonoBehaviour
 
     private void Update()
     {
-        if (0f < elapsedTime && ((elapsedTime < 0.25f * beatInterval) || (elapsedTime > 0.75f * beatInterval)))
+        if (isTurnOn)
         {
-            canCombo = true;
-        }
-        else canCombo = false;
-
-        if (elapsedTime > 0f)
-        {
-            elapsedTime += Time.deltaTime;
-
-            if (elapsedTime < beatInterval / 3f)
+            if (0f < elapsedTime && ((elapsedTime < 0.25f * beatInterval) || (elapsedTime > 0.75f * beatInterval)))
             {
-
-                if (isTutorial || !isAlreadyPressed)
-                    canPress = true;
-                else
-                    canPress = false;
-                float t = elapsedTime / (beatInterval / 3f);
-                image1.rectTransform.localPosition = Vector3.Lerp(almostEndPos1, endPos1, t);
-                image2.rectTransform.localPosition = Vector3.Lerp(almostEndPos2, endPos2, t);
-
+                canCombo = true;
             }
-            else if (elapsedTime < (2f * beatInterval) / 3f)
+            else canCombo = false;
+
+            if (elapsedTime > 0f)
             {
-                if (isTutorial)
-                    canPress = true;
+                elapsedTime += Time.deltaTime;
+
+                if (elapsedTime < beatInterval / 3f)
+                {
+
+                    if (isTutorial || !isAlreadyPressed)
+                        canPress = true;
+                    else
+                        canPress = false;
+                    float t = elapsedTime / (beatInterval / 3f);
+                    image1.rectTransform.localPosition = Vector3.Lerp(almostEndPos1, endPos1, t);
+                    image2.rectTransform.localPosition = Vector3.Lerp(almostEndPos2, endPos2, t);
+
+                }
+                else if (elapsedTime < (2f * beatInterval) / 3f)
+                {
+                    if (isTutorial)
+                        canPress = true;
+                    else
+                        canPress = false;
+                    if (!isAlreadyPressedIsAlreadyPressed)
+                        PressIsAlreadyPress();
+                    float t = (elapsedTime - (beatInterval / 3f)) / (beatInterval / 3f);
+                    image1.enabled = true;
+                    image1.rectTransform.localPosition = Vector3.Lerp(startPos1, midPos1, t);
+                    image2.enabled = true;
+                    image2.rectTransform.localPosition = Vector3.Lerp(startPos2, midPos2, t);
+                }
+                else if (elapsedTime < beatInterval)
+                {
+                    if (isTutorial || !isAlreadyPressed)
+                        canPress = true;
+                    else
+                        canPress = false;
+                    float t = (elapsedTime - ((2f * beatInterval) / 3f)) / (beatInterval / 3f);
+                    image1.rectTransform.localPosition = Vector3.Lerp(midPos1, almostEndPos1, t);
+                    image2.rectTransform.localPosition = Vector3.Lerp(midPos2, almostEndPos2, t);
+                }
                 else
-                    canPress = false;
-                if (!isAlreadyPressedIsAlreadyPressed)
-                    PressIsAlreadyPress();
-                float t = (elapsedTime - (beatInterval / 3f)) / (beatInterval / 3f);
-                image1.enabled = true;
-                image1.rectTransform.localPosition = Vector3.Lerp(startPos1, midPos1, t);
-                image2.enabled = true;
-                image2.rectTransform.localPosition = Vector3.Lerp(startPos2, midPos2, t);
-            }
-            else if (elapsedTime < beatInterval)
-            {
-                if (isTutorial || !isAlreadyPressed)
-                    canPress = true;
-                else
-                    canPress = false;
-                float t = (elapsedTime - ((2f * beatInterval) / 3f)) / (beatInterval / 3f);
-                image1.rectTransform.localPosition = Vector3.Lerp(midPos1, almostEndPos1, t);
-                image2.rectTransform.localPosition = Vector3.Lerp(midPos2, almostEndPos2, t);
-            }
-            else
-            {
-                elapsedTime = 0f;
+                {
+                    elapsedTime = 0f;
+                }
             }
         }
     }
