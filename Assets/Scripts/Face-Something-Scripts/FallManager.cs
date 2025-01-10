@@ -11,7 +11,7 @@ public class FallManager : MonoBehaviour
     private GameObject[] faces;
     private FaceScript[] faceScripts;
     [SerializeField] private FaceArrayScript FAS;
-    private List<int> numbersOfFalledFaces;
+    private List<FallData> fallDataList = new List<FallData>();
     public int proximityLimit = 0;
     public bool isResetDelay = false;
     [SerializeField] private PlayerScript PS;
@@ -23,7 +23,6 @@ public class FallManager : MonoBehaviour
     [SerializeField] private AnimationClip animClipReset;
     public float resetDelayTime = 0f;
     private bool waitForDeath = false;
-    private bool isReset = false;
     public bool isTurnOn = false;
     public bool isRandomSpawnTime = false;
     public int colvo = 0;
@@ -33,7 +32,7 @@ public class FallManager : MonoBehaviour
     {
         faces = FAS.GetAllFaces();
         faceScripts = FAS.GetAllFaceScripts();
-        numbersOfFalledFaces = new List<int>();
+
         foreach (GameObject face in faces)
         {
             Rigidbody rb = face.GetComponent<Rigidbody>();
@@ -51,8 +50,8 @@ public class FallManager : MonoBehaviour
 
     public void StartSettingFallFace()
     {
-        
-        if (numbersOfFalledFaces.Count >= 79) return;
+        if (fallDataList.Count >= 79) return;
+
         if (isTurnOn)
         {
             List<int> availableFaces = new List<int>();
@@ -83,8 +82,13 @@ public class FallManager : MonoBehaviour
                     int randomIndex = Random.Range(0, availableFaces.Count);
                     int selectedFaceIndex = availableFaces[randomIndex];
 
+                    Rigidbody rb = faces[selectedFaceIndex].GetComponent<Rigidbody>();
+                    var initialPosition = rb.transform.position;
+                    var initialRotation = rb.transform.rotation;
+                    var initialLocalPosition = rb.transform.localPosition;
+                    var initialLocalRotation = rb.transform.localRotation;
+                    fallDataList.Add(new FallData(selectedFaceIndex, initialPosition, initialRotation, initialLocalPosition, initialLocalRotation));
 
-                    numbersOfFalledFaces.Add(selectedFaceIndex);
                     StartCoroutine(PlayAnimationFall(faces[selectedFaceIndex], selectedFaceIndex));
                     availableFaces.RemoveAt(randomIndex);
                 }
@@ -94,7 +98,13 @@ public class FallManager : MonoBehaviour
                 var intersectedIndices = faceIndices.Intersect(availableFaces);
                 foreach (int index in intersectedIndices)
                 {
-                    numbersOfFalledFaces.Add(index);
+                    Rigidbody rb = faces[index].GetComponent<Rigidbody>();
+                    var initialPosition = rb.transform.position;
+                    var initialRotation = rb.transform.rotation;
+                    var initialLocalPosition = rb.transform.localPosition;
+                    var initialLocalRotation = rb.transform.localRotation;
+                    fallDataList.Add(new FallData(index, initialPosition, initialRotation, initialLocalPosition, initialLocalRotation));
+
                     StartCoroutine(PlayAnimationFall(faces[index], index));
 
                 }
@@ -122,10 +132,7 @@ public class FallManager : MonoBehaviour
     private void ApplyImpulse(GameObject face, int numb)
     {
         Rigidbody rb = face.GetComponent<Rigidbody>();
-        var initialPosition = rb.transform.position;
-        var initialRotation = rb.transform.rotation;
-        var initialLocalPosition = rb.transform.localPosition;
-        var initialLocalRotation = rb.transform.localRotation;
+
         if (face.GetComponent<FaceScript>().havePlayer) 
         {
             face.GetComponent<FaceScript>().havePlayer = false;
@@ -143,22 +150,23 @@ public class FallManager : MonoBehaviour
 
         rb.AddTorque(randomTorque, ForceMode.Impulse);
 
-        StartCoroutine(ResetAfterDelay(face, initialPosition, initialRotation, initialLocalPosition, initialLocalRotation, delay, numb));
+        StartCoroutine(ResetAfterDelay(face, delay, numb));
     }
 
-    IEnumerator ResetAfterDelay(GameObject face, Vector3 initialPosition, Quaternion initialRotation, Vector3 initialLocalPosition, Quaternion initialLocalRotation, float delay, int numb)
+    IEnumerator ResetAfterDelay(GameObject face, float delay, int numb)
     {
         Rigidbody rb = face.GetComponent<Rigidbody>();
-
+        /*
         if (isReset)
         {
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            rb.transform.position = initialPosition;
-            rb.transform.rotation = initialRotation;
-            rb.transform.localPosition = initialLocalPosition;
-            rb.transform.localRotation = initialLocalRotation;
-        }
+
+            rb.transform.position = fallDataList.First(data => data.FallFaceNumber == numb).InitialPosition;
+            rb.transform.rotation = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation;
+            rb.transform.localPosition = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalPosition;
+            rb.transform.localRotation = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation;
+        }*/
 
         yield return new WaitForSeconds(delay);
         if (waitForDeath)
@@ -169,20 +177,26 @@ public class FallManager : MonoBehaviour
         Renderer[] childRenderers = face.GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in childRenderers)
         {
-            renderer.enabled = false; // Отключаем рендеринг у всех дочерних объектов
+            renderer.enabled = false; 
         }
 
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        rb.transform.position = initialPosition;
-        rb.transform.rotation = initialRotation;
-        rb.transform.localPosition = initialLocalPosition;
-        rb.transform.localRotation = initialLocalRotation;
+        rb.transform.position = fallDataList.First(data => data.FallFaceNumber == numb).InitialPosition;
+        rb.transform.rotation = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation;
+        rb.transform.localPosition = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalPosition;
+        rb.transform.localRotation = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation;
     }
 
     public void ResetFall()
     {
-        isReset = true;
+
+        for (int i = 0; i < fallDataList.Count; i++) // Обратный цикл для безопасного удаления
+        {
+            Debug.Log(delay);
+            ResetAfterDelay(faces[fallDataList[i].FallFaceNumber], 0f, fallDataList[i].FallFaceNumber);
+        }
+
         foreach (GameObject face in faces)
         {
             Renderer[] childRenderers = face.GetComponentsInChildren<Renderer>();
@@ -199,10 +213,7 @@ public class FallManager : MonoBehaviour
         }
         for (int numb = 0; numb <= 80; numb++)
         {
-            if (numbersOfFalledFaces.Contains(numb))
-            {
-                numbersOfFalledFaces.Remove(numb);
-            }
+            fallDataList.RemoveAll(fallData => fallData.FallFaceNumber == numb);
         }
     }
 
@@ -225,6 +236,25 @@ public class FallManager : MonoBehaviour
             FS.ResetRightLeftTop();
         }
         animator.enabled = false;
-        isReset = false;
     }
+
+
+    private struct FallData
+    {
+        public int FallFaceNumber { get; } 
+        public Vector3 InitialPosition { get; }
+        public Quaternion InitialRotation { get; }
+        public Vector3 InitialLocalPosition { get; }
+        public Quaternion InitialLocalRotation { get; }
+
+        public FallData(int fallFaceNumber, Vector3 initialPosition, Quaternion initialRotation, Vector3 initialLocalPosition, Quaternion initialLocalRotation)
+        {
+            FallFaceNumber = fallFaceNumber;
+            InitialPosition = initialPosition;
+            InitialRotation = initialRotation;
+            InitialLocalPosition = initialLocalPosition;
+            InitialLocalRotation = initialLocalRotation;
+        }
+    }
+
 }
