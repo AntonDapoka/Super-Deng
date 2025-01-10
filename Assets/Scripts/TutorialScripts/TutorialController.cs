@@ -43,7 +43,7 @@ public class TutorialController : MonoBehaviour
 
             if (_tutorialSettings[_index].isMoving && _index == 1)
             {
-                _mainFace.TurnOnInTutorial();
+                //_mainFace.TurnOnInTutorial();
                 _imageWAD.SetActive(true);
             }
             if (_tutorialSettings[_index].isBeat)

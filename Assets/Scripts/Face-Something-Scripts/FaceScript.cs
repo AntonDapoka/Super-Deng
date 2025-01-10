@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Serialization;
 using UnityEngine.XR;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 // Обязательное уведомление: "Правые", "Левые" и "Верхние" указаны для треугольника с основанием, направленным ВНИЗ!!!
 // Обратите внимание, что "Правая" сторона раньше носила название "BlueSide", "Левая" - "OrangeSide", а "Верхняя" - "GreenSide"
@@ -67,9 +68,6 @@ public class FaceScript : MonoBehaviour
     public KeyCode keyLeft = KeyCode.A;
     public KeyCode keyTop = KeyCode.W;
     public KeyCode keyRight = KeyCode.D;
-    [SerializeField] private TextMeshProUGUI textTop;
-    [SerializeField] private TextMeshProUGUI textRight;
-    [SerializeField] private TextMeshProUGUI textLeft;
 
     [Space]
     [Header("Scene ScriptManagers")]
@@ -77,16 +75,15 @@ public class FaceScript : MonoBehaviour
     [SerializeField] private RedFaceScript RFS;
     [SerializeField] private BeatController BC;
     [SerializeField] private SoundScript SS;
-    [SerializeField] private TutorialController TC;
     [SerializeField] private BonusSpawnerScript BSS;
     [SerializeField] private PathCounterScript PCS;
     [SerializeField] private PortalSpawnerScript PSS;
+    [SerializeField] private NavigationHintScript NHS;
 
     [Space]
     [Header("Questions")]
     public bool havePlayer = false;
     [SerializeField] private bool isAnExtremeSide = false;
-    [SerializeField] private bool isTutorial = false;
     private bool transferInProgress = false;
     private bool isPreviousAnExtremeSide1 = false;
     public bool isKilling = false;
@@ -105,10 +102,6 @@ public class FaceScript : MonoBehaviour
         keyRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
         keyLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
         keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
-
-        textRight.text = keyRight.ToString();
-        textLeft.text = keyLeft.ToString();
-        textTop.text = keyTop.ToString();
 
         if (havePlayer)
         {
@@ -155,19 +148,15 @@ public class FaceScript : MonoBehaviour
             */
             PS.SetCurrentFace(gameObject);
 
-            if (TC != null && !TC._tutorialSettings[TC._index].isMoving)
-            {
-                player.SetActive(false);
-                havePlayer = false;
-            }
-            else
-            {
-                //if (!isKilling) gameObject.GetComponent<FaceScript>().rend.material = materialPlayerFace;
 
-                if (!FS2.isKilling) FS2.rend.material = materialRightFace;
-                if (!FS1.isKilling) FS1.rend.material = materialLeftFace;
-                if (!FS3.isKilling) FS3.rend.material = materialTopFace;
-            }
+            if (!FS2.isKilling) FS2.rend.material = materialRightFace;
+            if (!FS1.isKilling) FS1.rend.material = materialLeftFace;
+            if (!FS3.isKilling) FS3.rend.material = materialTopFace;
+
+
+            NHS.SetNavigationHint(FS1);
+            NHS.SetNavigationHint(FS2);
+            NHS.SetNavigationHint(FS3);
         }
     }
 
@@ -237,16 +226,6 @@ public class FaceScript : MonoBehaviour
         }
     }
 
-    public void TurnOnInTutorial()
-    {
-        player.SetActive(true);
-        havePlayer = true;
-        //gameObject.GetComponent<FaceScript>().rend.material = materialPlayerFace;
-        FS2.rend.material = materialRightFace;
-        FS1.rend.material = materialLeftFace;
-        FS3.rend.material = materialTopFace;
-    }
-
     private void StartTransfer(GameObject targetSide, int sideNumber, string color)
     {
         transferInProgress = true;
@@ -294,8 +273,6 @@ public class FaceScript : MonoBehaviour
 
     public void ReceivePlayer(GameObject newPlayer, int sideNumber, string color, bool isPreviousAnExtremeSide, bool isPreviousPreviousAnExtremeSide) //GameObject newPlayer, int sideNumber, string color)
     {
-        //if (!isKilling) rend.material = materialPlayerFace;
-        
 
         materials.Remove("RightSide");
         materials.Remove("LeftSide");
@@ -541,16 +518,17 @@ public class FaceScript : MonoBehaviour
         PS.ResetMaterials();
         PCS.SetPathCount();
         PS.SetCurrentFace(gameObject);
+
+        
+
         newPlayer.transform.SetParent(gameObject.transform);
         newPlayer.transform.localPosition = new Vector3(0, 0, 0);
-        if (isTutorial)
-        {
-            newPlayer.transform.localRotation = Quaternion.Euler(0, 180f, 0);
-        }
-        else
-        {
-            newPlayer.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        }
+        newPlayer.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+        NHS.SetNavigationHint(FS1);
+        NHS.SetNavigationHint(FS2);
+        NHS.SetNavigationHint(FS3);
+
     }
 
     public void ResetRightLeftTop()
