@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnTimes:
   - time: 0
-    isRedFaceTurnOn: 0
+    isRedFaceTurnOn: 1
     isRedFaceRandom: 1
     arrayOfRedFaces: 000000000000000000000000
-    quantityOfRedFaces: 3
+    quantityOfRedFaces: 1
     isRedWaveTurnOn: 0
     isRedWaveRandom: 0
     arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
     quantityOfRedWaves: 0
     proximityLimitOfRedWaves: 0
     isFallFaceTurnOn: 0
@@ -62,12 +63,13 @@ MonoBehaviour:
     isSetRGBDecrease: 0
   - time: 6
     isRedFaceTurnOn: 0
-    isRedFaceRandom: 0
+    isRedFaceRandom: 1
     arrayOfRedFaces: 
-    quantityOfRedFaces: 0
-    isRedWaveTurnOn: 0
+    quantityOfRedFaces: 3
+    isRedWaveTurnOn: 1
     isRedWaveRandom: 1
     arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
     quantityOfRedWaves: 1
     proximityLimitOfRedWaves: 5
     isFallFaceTurnOn: 0
@@ -107,7 +109,7 @@ MonoBehaviour:
     targetValueRGB: 0
     isSetRGBIncrease: 0
     isSetRGBDecrease: 0
-  - time: 12
+  - time: 7
     isRedFaceTurnOn: 0
     isRedFaceRandom: 0
     arrayOfRedFaces: 
@@ -115,6 +117,7 @@ MonoBehaviour:
     isRedWaveTurnOn: 0
     isRedWaveRandom: 1
     arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
     quantityOfRedWaves: 1
     proximityLimitOfRedWaves: 5
     isFallFaceTurnOn: 0
@@ -154,7 +157,7 @@ MonoBehaviour:
     targetValueRGB: 10
     isSetRGBIncrease: 1
     isSetRGBDecrease: 0
-  - time: 18
+  - time: 13
     isRedFaceTurnOn: 0
     isRedFaceRandom: 0
     arrayOfRedFaces: 
@@ -162,6 +165,7 @@ MonoBehaviour:
     isRedWaveTurnOn: 0
     isRedWaveRandom: 1
     arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
     quantityOfRedWaves: 1
     proximityLimitOfRedWaves: 5
     isFallFaceTurnOn: 0
@@ -209,6 +213,7 @@ MonoBehaviour:
     isRedWaveTurnOn: 0
     isRedWaveRandom: 1
     arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
     quantityOfRedWaves: 1
     proximityLimitOfRedWaves: 5
     isFallFaceTurnOn: 0

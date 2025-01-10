@@ -11,14 +11,14 @@ public class RedFaceScript : MonoBehaviour
     private GameObject[] faces;
     [SerializeField] private float colorChangeDuration = 2f;
     [SerializeField] private float scaleChangeDurationUp = 1f;
+    [SerializeField] private float waitDuration = 1f;
     [SerializeField] private float scaleChangeDurationDown = 1f;
     [SerializeField] private float scaleChange = 25f;
-    [SerializeField] private float waitDuration = 1f;
     [SerializeField] private float positionChange = -4.5f;
     [SerializeField] private Material materialWhite;
     [SerializeField] private Material materialRed;
     [SerializeField] private Material materialPlayer;
-    [SerializeField] private StartCountDown SCD;
+    [SerializeField] private RhythmManager RM;
     [SerializeField] private FaceArrayScript FAS;
     [SerializeField] private TimerController TC;
     [SerializeField] private PlayerScript PS;
@@ -29,10 +29,12 @@ public class RedFaceScript : MonoBehaviour
     public int colvo = 0;
     public bool isRandomSpawnTime = true;
 
+
     private void Start()
     {
         isTurnOn = false;
         faces = FAS.GetAllFaces();
+        SetBPMSettings();
     }
 
     public void StartSettingRedFace()
@@ -139,5 +141,13 @@ public class RedFaceScript : MonoBehaviour
             yield return null;
         }
         FS.glowingPart.transform.localScale = targetScale;
+    }
+
+    private void SetBPMSettings() 
+    {
+        colorChangeDuration = RM.beatInterval * 3;
+        scaleChangeDurationUp = RM.beatInterval / 2;
+        waitDuration = 0f;
+        scaleChangeDurationDown = RM.beatInterval;
     }
 }

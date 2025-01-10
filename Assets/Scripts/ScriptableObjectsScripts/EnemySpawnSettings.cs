@@ -23,6 +23,7 @@ public class SpawnTimeData
     public bool isRedWaveTurnOn;
     public bool isRedWaveRandom;
     public int[] arrayOfRedWaves;
+    public float lifeDurationOfRedWaves;
     public int quantityOfRedWaves;
     public int proximityLimitOfRedWaves;
 

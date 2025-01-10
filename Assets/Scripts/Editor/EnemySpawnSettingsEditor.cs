@@ -48,6 +48,7 @@ public class EnemySpawnSettingsEditor : Editor
             SerializedProperty isRedWaveTurnOn = spawnTime.FindPropertyRelative("isRedWaveTurnOn");
             SerializedProperty isRedWaveRandom = spawnTime.FindPropertyRelative("isRedWaveRandom");
             SerializedProperty arrayOfRedWaves = spawnTime.FindPropertyRelative("arrayOfRedWaves");
+            SerializedProperty lifeDurationOfRedWaves = spawnTime.FindPropertyRelative("lifeDurationOfRedWaves");
             SerializedProperty quantityOfRedWaves = spawnTime.FindPropertyRelative("quantityOfRedWaves");
             SerializedProperty proximityLimitOfRedWaves = spawnTime.FindPropertyRelative("proximityLimitOfRedWaves");
 
@@ -219,6 +220,7 @@ public class EnemySpawnSettingsEditor : Editor
                 {
                     EditorGUILayout.PropertyField(arrayOfRedWaves, new GUIContent("Array of Red Waves"), true);
                 }
+                EditorGUILayout.PropertyField(lifeDurationOfRedWaves, new GUIContent("Life Duration Of Red Waves"));
                 EditorGUILayout.PropertyField(proximityLimitOfRedWaves, new GUIContent("Proximity Limit of Red Waves"));
             }
 

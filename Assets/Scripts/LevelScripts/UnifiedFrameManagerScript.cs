@@ -68,7 +68,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
                     {
                         RWS.isTurnOn = true;
                         RWS.proximityLimit = spawnTimeData.proximityLimitOfRedWaves;
-
+                        RWS.lifeDuration = spawnTimeData.lifeDurationOfRedWaves;
                         if (spawnTimeData.isRedWaveRandom)
                         {
                             RWS.colvo = spawnTimeData.quantityOfRedWaves;
