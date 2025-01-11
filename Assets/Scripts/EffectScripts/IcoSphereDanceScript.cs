@@ -12,7 +12,6 @@ public class IcoSphereDanceScript : MonoBehaviour
     private bool inProcess = false;
     private int side = -1;
     [SerializeField] private EnemySpawnSettings enemySpawnSettings;
-    [SerializeField] private TimerController TC;
 
     private void Update()
     {

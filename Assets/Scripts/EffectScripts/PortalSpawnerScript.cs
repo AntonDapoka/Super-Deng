@@ -55,7 +55,6 @@ public class PortalSpawnerScript : MonoBehaviour
 
             if (isRandomSpawnTime)
             {
-                //Debug.Log(colvo);
                 for (int i = 0; i < colvo; i++)
                 {
                     if (availableFaces.Count == 0) return;
@@ -77,7 +76,7 @@ public class PortalSpawnerScript : MonoBehaviour
         }
     }
 
-    private void SetPortal(FaceScript face) //0 - Health, 1 - Combo
+    private void SetPortal(FaceScript face)
     {
         FaceScript FS = face.GetComponent<FaceScript>();
         FS.isPortal = true;
@@ -85,14 +84,14 @@ public class PortalSpawnerScript : MonoBehaviour
 
         GameObject instance = Instantiate(prefab, face.transform);
         instance.transform.localPosition = Vector3.zero;
-        StartCoroutine(DestroyBonus(face, instance, delay));
+        StartCoroutine(DestroyPortal(face, instance, delay));
     }
 
-    private IEnumerator DestroyBonus(FaceScript face, GameObject bonus, float delay)
+    private IEnumerator DestroyPortal(FaceScript face, GameObject portal, float delay)
     {
         yield return new WaitForSeconds(delay);
         face.isPortal = false;
-        Destroy(bonus);
+        Destroy(portal);
     }
 
     public void LoadSecretScene()
@@ -104,7 +103,7 @@ public class PortalSpawnerScript : MonoBehaviour
     {
         panel.enabled = true;
         panel.GetComponent<Animator>().enabled = true;
-        //panel.GetComponent<Animator>().Play(animClip.name);
+        panel.GetComponent<Animator>().Play(animClip.name);
         yield return new WaitForSeconds(animClip.length);
         SceneManager.LoadScene(indexScene);
     }

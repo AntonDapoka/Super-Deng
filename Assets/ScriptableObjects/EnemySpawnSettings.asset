@@ -17,7 +17,7 @@ MonoBehaviour:
     isRedFaceTurnOn: 0
     isRedFaceRandom: 1
     arrayOfRedFaces: 000000000000000000000000
-    quantityOfRedFaces: 1
+    quantityOfRedFaces: 3
     isRedWaveTurnOn: 0
     isRedWaveRandom: 0
     arrayOfRedWaves: 
@@ -25,9 +25,57 @@ MonoBehaviour:
     quantityOfRedWaves: 0
     proximityLimitOfRedWaves: 0
     isFallFaceTurnOn: 0
-    isFallFaceRandom: 0
+    isFallFaceRandom: 1
     arrayOfFallFaces: 
-    quantityOfFallFaces: 0
+    quantityOfFallFaces: 2
+    proximityLimitOfFallFaces: 0
+    isResetDelay: 0
+    resetDelayTime: 0
+    isResetFallFaceTurnOn: 0
+    isBonusTurnOn: 0
+    isBonusRandom: 0
+    arrayOfBonuses: 
+    quantityOfBonuses: 0
+    proximityLimitOfBonuses: 0
+    isBonusHealth: 0
+    isBonusCombo: 0
+    isPortalTurnOn: 0
+    isPortalRandom: 1
+    arrayOfPortals: 
+    quantityOfPortals: 3
+    proximityLimitOfPortals: 1
+    isFaceDanceTurnOn: 0
+    durationOfCycleFaceDance: 0
+    scaleFactorFaceDance: 0
+    isChangingFaceDance: 0
+    isIncreaseFaceDance: 0
+    durationChangingFaceDance: 0
+    isSphereDanceTurnOn: 0
+    angleSphereDance: 0
+    durationOfCycleSphereDance: 0
+    isCameraRotationTurnOn: 1
+    isCameraRotationClockwise: 0
+    speedCameraRotation: 151.14
+    isRGBTurnOn: 0
+    speedRGB: 10
+    targetValueRGB: 2
+    isSetRGBIncrease: 1
+    isSetRGBDecrease: 0
+  - time: 5
+    isRedFaceTurnOn: 0
+    isRedFaceRandom: 1
+    arrayOfRedFaces: 000000000000000000000000
+    quantityOfRedFaces: 3
+    isRedWaveTurnOn: 0
+    isRedWaveRandom: 0
+    arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
+    quantityOfRedWaves: 0
+    proximityLimitOfRedWaves: 0
+    isFallFaceTurnOn: 0
+    isFallFaceRandom: 1
+    arrayOfFallFaces: 
+    quantityOfFallFaces: 2
     proximityLimitOfFallFaces: 0
     isResetDelay: 0
     resetDelayTime: 0
@@ -53,30 +101,78 @@ MonoBehaviour:
     isSphereDanceTurnOn: 0
     angleSphereDance: 0
     durationOfCycleSphereDance: 0
-    isCameraRotationTurnOn: 0
-    isCameraRotationClockwise: 0
-    speedCameraRotation: 0
+    isCameraRotationTurnOn: 1
+    isCameraRotationClockwise: 1
+    speedCameraRotation: 156.59
+    isRGBTurnOn: 1
+    speedRGB: 10
+    targetValueRGB: 2
+    isSetRGBIncrease: 1
+    isSetRGBDecrease: 0
+  - time: 12
+    isRedFaceTurnOn: 0
+    isRedFaceRandom: 1
+    arrayOfRedFaces: 000000000000000000000000
+    quantityOfRedFaces: 3
+    isRedWaveTurnOn: 0
+    isRedWaveRandom: 0
+    arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
+    quantityOfRedWaves: 0
+    proximityLimitOfRedWaves: 0
+    isFallFaceTurnOn: 0
+    isFallFaceRandom: 1
+    arrayOfFallFaces: 
+    quantityOfFallFaces: 2
+    proximityLimitOfFallFaces: 0
+    isResetDelay: 0
+    resetDelayTime: 0
+    isResetFallFaceTurnOn: 0
+    isBonusTurnOn: 0
+    isBonusRandom: 0
+    arrayOfBonuses: 
+    quantityOfBonuses: 0
+    proximityLimitOfBonuses: 0
+    isBonusHealth: 0
+    isBonusCombo: 0
+    isPortalTurnOn: 0
+    isPortalRandom: 0
+    arrayOfPortals: 
+    quantityOfPortals: 0
+    proximityLimitOfPortals: 0
+    isFaceDanceTurnOn: 0
+    durationOfCycleFaceDance: 0
+    scaleFactorFaceDance: 0
+    isChangingFaceDance: 0
+    isIncreaseFaceDance: 0
+    durationChangingFaceDance: 0
+    isSphereDanceTurnOn: 0
+    angleSphereDance: 0
+    durationOfCycleSphereDance: 0
+    isCameraRotationTurnOn: 1
+    isCameraRotationClockwise: 1
+    speedCameraRotation: 156.59
     isRGBTurnOn: 0
     speedRGB: 10
     targetValueRGB: 2
     isSetRGBIncrease: 1
     isSetRGBDecrease: 0
-  - time: 6
+  - time: 20
     isRedFaceTurnOn: 0
     isRedFaceRandom: 1
-    arrayOfRedFaces: 
+    arrayOfRedFaces: 000000000000000000000000
     quantityOfRedFaces: 3
     isRedWaveTurnOn: 0
-    isRedWaveRandom: 1
+    isRedWaveRandom: 0
     arrayOfRedWaves: 
-    lifeDurationOfRedWaves: 10
-    quantityOfRedWaves: 1
-    proximityLimitOfRedWaves: 5
-    isFallFaceTurnOn: 1
+    lifeDurationOfRedWaves: 0
+    quantityOfRedWaves: 0
+    proximityLimitOfRedWaves: 0
+    isFallFaceTurnOn: 0
     isFallFaceRandom: 1
     arrayOfFallFaces: 
-    quantityOfFallFaces: 5
-    proximityLimitOfFallFaces: 1
+    quantityOfFallFaces: 2
+    proximityLimitOfFallFaces: 0
     isResetDelay: 0
     resetDelayTime: 0
     isResetFallFaceTurnOn: 0
@@ -99,205 +195,13 @@ MonoBehaviour:
     isIncreaseFaceDance: 0
     durationChangingFaceDance: 0
     isSphereDanceTurnOn: 0
-    angleSphereDance: 20
-    durationOfCycleSphereDance: 2
-    isCameraRotationTurnOn: 0
-    isCameraRotationClockwise: 0
-    speedCameraRotation: 0
+    angleSphereDance: 0
+    durationOfCycleSphereDance: 0
+    isCameraRotationTurnOn: 1
+    isCameraRotationClockwise: 1
+    speedCameraRotation: 156.59
     isRGBTurnOn: 0
     speedRGB: 10
-    targetValueRGB: 0
-    isSetRGBIncrease: 0
-    isSetRGBDecrease: 0
-  - time: 8
-    isRedFaceTurnOn: 0
-    isRedFaceRandom: 0
-    arrayOfRedFaces: 
-    quantityOfRedFaces: 0
-    isRedWaveTurnOn: 0
-    isRedWaveRandom: 1
-    arrayOfRedWaves: 
-    lifeDurationOfRedWaves: 0
-    quantityOfRedWaves: 1
-    proximityLimitOfRedWaves: 5
-    isFallFaceTurnOn: 0
-    isFallFaceRandom: 1
-    arrayOfFallFaces: 
-    quantityOfFallFaces: 3
-    proximityLimitOfFallFaces: 2
-    isResetDelay: 0
-    resetDelayTime: 0
-    isResetFallFaceTurnOn: 1
-    isBonusTurnOn: 0
-    isBonusRandom: 0
-    arrayOfBonuses: 
-    quantityOfBonuses: 0
-    proximityLimitOfBonuses: 0
-    isBonusHealth: 0
-    isBonusCombo: 0
-    isPortalTurnOn: 0
-    isPortalRandom: 0
-    arrayOfPortals: 
-    quantityOfPortals: 0
-    proximityLimitOfPortals: 0
-    isFaceDanceTurnOn: 0
-    durationOfCycleFaceDance: 0
-    scaleFactorFaceDance: 0
-    isChangingFaceDance: 0
-    isIncreaseFaceDance: 0
-    durationChangingFaceDance: 0
-    isSphereDanceTurnOn: 0
-    angleSphereDance: 20
-    durationOfCycleSphereDance: 2
-    isCameraRotationTurnOn: 0
-    isCameraRotationClockwise: 0
-    speedCameraRotation: 5
-    isRGBTurnOn: 0
-    speedRGB: 10
-    targetValueRGB: 10
-    isSetRGBIncrease: 1
-    isSetRGBDecrease: 0
-  - time: 13
-    isRedFaceTurnOn: 0
-    isRedFaceRandom: 0
-    arrayOfRedFaces: 
-    quantityOfRedFaces: 0
-    isRedWaveTurnOn: 0
-    isRedWaveRandom: 1
-    arrayOfRedWaves: 
-    lifeDurationOfRedWaves: 0
-    quantityOfRedWaves: 1
-    proximityLimitOfRedWaves: 5
-    isFallFaceTurnOn: 0
-    isFallFaceRandom: 1
-    arrayOfFallFaces: 
-    quantityOfFallFaces: 3
-    proximityLimitOfFallFaces: 2
-    isResetDelay: 0
-    resetDelayTime: 0
-    isResetFallFaceTurnOn: 1
-    isBonusTurnOn: 0
-    isBonusRandom: 1
-    arrayOfBonuses: 
-    quantityOfBonuses: 1
-    proximityLimitOfBonuses: 4
-    isBonusHealth: 1
-    isBonusCombo: 0
-    isPortalTurnOn: 0
-    isPortalRandom: 0
-    arrayOfPortals: 
-    quantityOfPortals: 0
-    proximityLimitOfPortals: 0
-    isFaceDanceTurnOn: 0
-    durationOfCycleFaceDance: 0
-    scaleFactorFaceDance: 0
-    isChangingFaceDance: 0
-    isIncreaseFaceDance: 0
-    durationChangingFaceDance: 0
-    isSphereDanceTurnOn: 0
-    angleSphereDance: 20
-    durationOfCycleSphereDance: 2
-    isCameraRotationTurnOn: 0
-    isCameraRotationClockwise: 0
-    speedCameraRotation: 5
-    isRGBTurnOn: 0
-    speedRGB: 10
-    targetValueRGB: 10
-    isSetRGBIncrease: 1
-    isSetRGBDecrease: 0
-  - time: 22
-    isRedFaceTurnOn: 0
-    isRedFaceRandom: 0
-    arrayOfRedFaces: 
-    quantityOfRedFaces: 0
-    isRedWaveTurnOn: 0
-    isRedWaveRandom: 1
-    arrayOfRedWaves: 
-    lifeDurationOfRedWaves: 0
-    quantityOfRedWaves: 1
-    proximityLimitOfRedWaves: 5
-    isFallFaceTurnOn: 1
-    isFallFaceRandom: 1
-    arrayOfFallFaces: 
-    quantityOfFallFaces: 3
-    proximityLimitOfFallFaces: 1
-    isResetDelay: 0
-    resetDelayTime: 0
-    isResetFallFaceTurnOn: 0
-    isBonusTurnOn: 0
-    isBonusRandom: 1
-    arrayOfBonuses: 
-    quantityOfBonuses: 1
-    proximityLimitOfBonuses: 4
-    isBonusHealth: 1
-    isBonusCombo: 0
-    isPortalTurnOn: 0
-    isPortalRandom: 0
-    arrayOfPortals: 
-    quantityOfPortals: 0
-    proximityLimitOfPortals: 0
-    isFaceDanceTurnOn: 0
-    durationOfCycleFaceDance: 2
-    scaleFactorFaceDance: 2
-    isChangingFaceDance: 0
-    isIncreaseFaceDance: 0
-    durationChangingFaceDance: 0
-    isSphereDanceTurnOn: 0
-    angleSphereDance: 20
-    durationOfCycleSphereDance: 2
-    isCameraRotationTurnOn: 0
-    isCameraRotationClockwise: 0
-    speedCameraRotation: 5
-    isRGBTurnOn: 0
-    speedRGB: 10
-    targetValueRGB: 10
-    isSetRGBIncrease: 1
-    isSetRGBDecrease: 0
-  - time: 23
-    isRedFaceTurnOn: 0
-    isRedFaceRandom: 0
-    arrayOfRedFaces: 
-    quantityOfRedFaces: 0
-    isRedWaveTurnOn: 0
-    isRedWaveRandom: 1
-    arrayOfRedWaves: 
-    lifeDurationOfRedWaves: 0
-    quantityOfRedWaves: 1
-    proximityLimitOfRedWaves: 5
-    isFallFaceTurnOn: 0
-    isFallFaceRandom: 1
-    arrayOfFallFaces: 
-    quantityOfFallFaces: 3
-    proximityLimitOfFallFaces: 1
-    isResetDelay: 0
-    resetDelayTime: 0
-    isResetFallFaceTurnOn: 1
-    isBonusTurnOn: 0
-    isBonusRandom: 1
-    arrayOfBonuses: 
-    quantityOfBonuses: 1
-    proximityLimitOfBonuses: 4
-    isBonusHealth: 1
-    isBonusCombo: 0
-    isPortalTurnOn: 0
-    isPortalRandom: 0
-    arrayOfPortals: 
-    quantityOfPortals: 0
-    proximityLimitOfPortals: 0
-    isFaceDanceTurnOn: 0
-    durationOfCycleFaceDance: 2
-    scaleFactorFaceDance: 2
-    isChangingFaceDance: 0
-    isIncreaseFaceDance: 0
-    durationChangingFaceDance: 0
-    isSphereDanceTurnOn: 0
-    angleSphereDance: 20
-    durationOfCycleSphereDance: 2
-    isCameraRotationTurnOn: 0
-    isCameraRotationClockwise: 0
-    speedCameraRotation: 5
-    isRGBTurnOn: 0
-    speedRGB: 10
-    targetValueRGB: 10
+    targetValueRGB: 2
     isSetRGBIncrease: 1
     isSetRGBDecrease: 0

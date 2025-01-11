@@ -7,8 +7,8 @@ public class CameraZoom : MonoBehaviour
     [SerializeField] private Camera mainCamera; 
     [SerializeField] private float zoomFactor = 1.5f;  
     [SerializeField] private float zoomTime = 0.5f;  
-    [SerializeField] private float returnTime = 0.2f; 
-    [SerializeField] private float beatsPerMinute = 90f;  
+    [SerializeField] private float returnTime = 0.2f;
+    [SerializeField] private RhythmManager RM;
     private Coroutine zoomCoroutine;
     private float originalFOV; 
     private float targetFOV; 
@@ -33,7 +33,7 @@ public class CameraZoom : MonoBehaviour
         if (isTurnOn)
         {
             targetFOV = originalFOV / zoomFactor;
-            float zoomSpeed = (targetFOV - mainCamera.orthographicSize) / (zoomTime * (beatsPerMinute / 60f));
+            float zoomSpeed = (targetFOV - mainCamera.orthographicSize) / (zoomTime * (RM.bpm / 60f));
             float elapsedTime = 0f;
 
             while (elapsedTime < zoomTime)

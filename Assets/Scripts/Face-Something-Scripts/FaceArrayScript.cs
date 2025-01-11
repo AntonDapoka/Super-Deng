@@ -19,7 +19,7 @@ public class FaceArrayScript : MonoBehaviour
     [SerializeField] private GameObject[] facesStripY_D;
     [SerializeField] private GameObject[] facesStripY_E;
     [SerializeField] private GameObject[] facesStripY_F;
-    [Space]
+    /*[Space]
     [Header("X-axis")]
     [SerializeField] private GameObject[] facesStripX_A;
     [SerializeField] private GameObject[] facesStripX_B;
@@ -27,7 +27,7 @@ public class FaceArrayScript : MonoBehaviour
     [SerializeField] private GameObject[] facesStripX_D;
     [SerializeField] private GameObject[] facesStripX_E;
     [SerializeField] private GameObject[] facesStripX_F;
-    /*[Space]
+    [Space]
     [Header("Z-axis")]
     [SerializeField] private GameObject[] facesStripZ_A;
     [SerializeField] private GameObject[] facesStripZ_B;
@@ -53,7 +53,7 @@ public class FaceArrayScript : MonoBehaviour
         }
         return result;
     }
-
+    /*
     public void ReassembleStripsYX(int numbSet) //Y == 0, X == 1, Z == 2
     {
         if (numbSet == 0)
@@ -82,7 +82,7 @@ public class FaceArrayScript : MonoBehaviour
             ReassembleStrip(Strip_D, facesStripZ_D);
             ReassembleStrip(Strip_E, facesStripZ_E);
             ReassembleStrip(Strip_F, facesStripZ_F);
-        }*/
+        }
         
     }
 
@@ -96,5 +96,5 @@ public class FaceArrayScript : MonoBehaviour
                 newFace.transform.SetParent(strip);
             }
         }
-    }
+    }*/
 }

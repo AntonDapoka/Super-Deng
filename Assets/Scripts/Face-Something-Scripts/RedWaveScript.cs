@@ -10,10 +10,10 @@ public class RedWaveScript : MonoBehaviour
     private GameObject[] faces;
     public int proximityLimit = 5;
     public float lifeDuration = 4f;
-    [SerializeField] private float colorChangeDuration = 2f;
-    [SerializeField] private float scaleChangeDurationUp = 1f;
-    [SerializeField] private float waitDuration = 1f;
-    [SerializeField] private float scaleChangeDurationDown = 1f;
+    private float colorChangeDuration;
+    private float scaleChangeDurationUp;
+    private float waitDuration;
+    private float scaleChangeDurationDown;
     [SerializeField] private float scaleChange = 4f;
     [SerializeField] private float positionChange = -4f;
     [SerializeField] private Material materialWhite;
@@ -51,7 +51,6 @@ public class RedWaveScript : MonoBehaviour
     {
         if (isTurnOn)
         {
-           
             List<int> availableFaces = new List<int>();
 
             for (int i = 0; i < faces.Length; i++)
@@ -72,7 +71,6 @@ public class RedWaveScript : MonoBehaviour
 
             if (isRandomSpawnTime)
             {
-                //Debug.Log(colvo);
                 for (int i = 0; i < colvo; i++)
                 {
                     if (availableFaces.Count == 0) return;
@@ -92,11 +90,12 @@ public class RedWaveScript : MonoBehaviour
                 var intersectedIndices = faceIndices.Intersect(availableFaces);
                 foreach (int index in intersectedIndices)
                 {
-                    waveCount++; // Увеличиваем счётчик вызовов
-                    float removalTime = Time.time + lifeDuration; // Время, когда нужно удалить вызов
-                    waveOrder.Add(new WaveCall(waveCount, removalTime)); // Добавляем вызов в список
+                    waveCount++; // Аналогично
+                    float removalTime = Time.time + lifeDuration; 
+                    waveOrder.Add(new WaveCall(waveCount, removalTime)); 
 
                     StartCoroutine(SetRedWave(faces[index], waveCount));
+                    availableFaces.RemoveAt(index);
                 }
             }
         }
@@ -106,11 +105,10 @@ public class RedWaveScript : MonoBehaviour
     {
         float startTime = Time.time;
 
-
         FaceScript FS = face.GetComponent<FaceScript>();
         FaceDanceScript FDC = face.GetComponent<FaceDanceScript>();
-        FS.isKilling = true;
-        FDC.isTurnOn = false;
+        
+        FDC.isTurnOn = false; //Не работает
         float timer = 0f;
         while (timer < colorChangeDuration)
         {
@@ -118,8 +116,9 @@ public class RedWaveScript : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-        
-        
+
+        FS.isKilling = true;
+
         if (TC.isTurnOn && waveOrder.Exists(call => call.CallNumber == callNumber))
         {
             SetNextStep(FS, callNumber);

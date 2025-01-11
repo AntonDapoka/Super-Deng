@@ -13,7 +13,7 @@ public class TimerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText; 
     [SerializeField] private WinScript WS;
 
-    public void StartTimerController(float totalTrackTime)
+    public void StartTimerController(float totalTrackTime) // Запуск таймера
     {
         totalTime = totalTrackTime;
         timerSlider.maxValue = totalTime;

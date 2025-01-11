@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BeatController : MonoBehaviour
+public class BeatController : MonoBehaviour //Скрипт под снос
 {
     public bool isTurnOn = false;
     [SerializeField] private RhythmManager RM;

@@ -13,8 +13,11 @@ public class LevelLaunchScript : MonoBehaviour
     private void Start()
     {
         musicManager.clip = musicTrack;
-        TC.StartTimerController(musicTrack.length);
+
+        TC.StartTimerController(musicTrack.length); //Запускаем таймер на продолжительность трека
+
         musicManager.Play();
-        SCD.StartStartCountDown();
+
+        SCD.StartStartCountDown(); //Запускаем анимацию отсчета
     }
 }

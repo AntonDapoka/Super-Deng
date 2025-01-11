@@ -7,6 +7,7 @@ public class CameraRotation : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform laserShowTransform;
     public bool isTurnOn = false;
+    public bool flag = false;
     public bool isClockwise = true;
     public float rotationSpeed = 10f;
 

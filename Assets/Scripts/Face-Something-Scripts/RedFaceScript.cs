@@ -9,10 +9,10 @@ public class RedFaceScript : MonoBehaviour
 {
     public bool isTurnOn = false;
     private GameObject[] faces;
-    [SerializeField] private float colorChangeDuration = 2f;
-    [SerializeField] private float scaleChangeDurationUp = 1f;
-    [SerializeField] private float waitDuration = 1f;
-    [SerializeField] private float scaleChangeDurationDown = 1f;
+    private float colorChangeDuration;
+    private float scaleChangeDurationUp;
+    private float waitDuration;
+    private float scaleChangeDurationDown;
     [SerializeField] private float scaleChange = 25f;
     [SerializeField] private float positionChange = -4.5f;
     [SerializeField] private Material materialWhite;
@@ -26,7 +26,7 @@ public class RedFaceScript : MonoBehaviour
     
 
     public List<int> faceIndices = new();
-    public int colvo = 0;
+    public int colvo;
     public bool isRandomSpawnTime = true;
 
 
@@ -41,7 +41,7 @@ public class RedFaceScript : MonoBehaviour
     {
         if (isTurnOn)
         {
-            List<int> availableFaces = new List<int>();
+            List<int> availableFaces = new List<int>(); //Составляем массив из доступных граней
 
             for (int i = 0; i < faces.Length; i++)
             {
@@ -67,7 +67,7 @@ public class RedFaceScript : MonoBehaviour
 
                     int randomIndex = Random.Range(0, availableFaces.Count);
                     int selectedFaceIndex = availableFaces[randomIndex];
-                    StartCoroutine(SetRedFace(faces[selectedFaceIndex], materialRed));
+                    StartCoroutine(SetRedFace(faces[selectedFaceIndex])); //Запускаем рандомные из доступных
                     availableFaces.RemoveAt(randomIndex);
                 }
             }
@@ -76,35 +76,30 @@ public class RedFaceScript : MonoBehaviour
                 var intersectedIndices = faceIndices.Intersect(availableFaces);
                 foreach (int index in intersectedIndices)
                 {
-                    StartCoroutine(SetRedFace(faces[index], materialRed));
-                    //Debug.Log(faces[index].name);
+                    StartCoroutine(SetRedFace(faces[index])); //Запускаем указанные из доступных
+                    availableFaces.RemoveAt(index);
                 }
             }
         }
     }
 
-    private IEnumerator SetRedFace(GameObject face, Material targetMaterial)
+    private IEnumerator SetRedFace(GameObject face)
     {
         FaceScript FS = face.GetComponent<FaceScript>();
         FaceDanceScript FDC = face.GetComponent<FaceDanceScript>();
         
-        /*
-        if (FDC.isOn && FDC != null)
-        {
-            FDC.StopScaling();
-        }*/
-        FDC.isTurnOn = false;
+        FDC.isTurnOn = false; //Не работает
         FS.isColored = true;
         float timer = 0f;
         while (timer < colorChangeDuration)
         {
-            if (!FS.havePlayer) FS.rend.material = targetMaterial;
-            else PS.SetPartsMaterial(targetMaterial);
+            if (!FS.havePlayer) FS.rend.material = materialRed;
+            else PS.SetPartsMaterial(materialRed);
             timer += Time.deltaTime;
             yield return null;
         }
         FS.isKilling = true;
-        FS.isColored = false ;
+        FS.isColored = false;
         yield return StartCoroutine(ChangeScale(face, new Vector3(1f, 1f, scaleChange), new Vector3(0f, positionChange, 0f), scaleChangeDurationUp));
 
         yield return new WaitForSeconds(waitDuration);
@@ -116,7 +111,6 @@ public class RedFaceScript : MonoBehaviour
         else if (FS.isLeft) FS.rend.material = FS.materialLeftFace;
         else if (FS.isTop) FS.rend.material = FS.materialTopFace;
         else FS.rend.material = materialWhite;
-
 
         FS.isKilling = false;
 
@@ -132,7 +126,7 @@ public class RedFaceScript : MonoBehaviour
         while (timer < duration)
         {
             if (!FS.havePlayer) FS.rend.material = materialRed;
-            else PS.SetPartsMaterial(materialPlayer);
+            else PS.SetPartsMaterial(materialRed); 
 
             FS.glowingPart.transform.localScale = Vector3.Lerp(startScale, targetScale, timer / duration);
             FS.glowingPart.transform.localPosition = Vector3.Lerp(startPosition, targetPosition, timer / duration);

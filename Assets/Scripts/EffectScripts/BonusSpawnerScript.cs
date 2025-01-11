@@ -8,7 +8,6 @@ using UnityEngine.XR;
 
 public class BonusSpawnerScript : MonoBehaviour
 {
-    private GameObject[] faces;
     private FaceScript[] faceScripts;
     [SerializeField] private GameObject prefabBonusCombo;
     [SerializeField] private GameObject prefabBonusHealth;
@@ -19,7 +18,7 @@ public class BonusSpawnerScript : MonoBehaviour
     [SerializeField] private ComboManager CM;
     [SerializeField] private AnimationClip animClip;
     [SerializeField] private float delay;
-    private List<int> numbersOfBonusFaces;
+    private List<int> numbersOfBonusFaces = new List<int>();
     public int proximityLimit = 0;
     public int colvo = 0;
     public bool isTurnOn = false;
@@ -30,16 +29,14 @@ public class BonusSpawnerScript : MonoBehaviour
 
     private void Start()
     {
-        faces = FAS.GetAllFaces();
         faceScripts = FAS.GetAllFaceScripts();
-        numbersOfBonusFaces = new List<int>();
     }
 
     public void StartSettingBonus()
     {
         if (isTurnOn)
         {
-            List<int> availableFaces = new List<int>();
+            List<int> availableFaces = new();
 
             for (int i = 0; i < faceScripts.Length; i++)
             {
@@ -61,7 +58,6 @@ public class BonusSpawnerScript : MonoBehaviour
 
             if (isRandomSpawnTime)
             {
-                //Debug.Log(colvo);
                 for (int i = 0; i < colvo; i++)
                 {
                     if (availableFaces.Count == 0) return;
@@ -78,7 +74,6 @@ public class BonusSpawnerScript : MonoBehaviour
                 foreach (int index in intersectedIndices)
                 {
                     SetBonus(faceScripts[index].gameObject, SetBonusType());
-                    //Debug.Log(faces[index].name);
                 }
             }
         }
@@ -123,7 +118,7 @@ public class BonusSpawnerScript : MonoBehaviour
 
     public void GetComboBonus()
     {
-        CM.Double();
+        CM.Double(); //Потом переделаю
     }
 
     private IEnumerator DestroyBonus(GameObject face, GameObject bonus, float delay)

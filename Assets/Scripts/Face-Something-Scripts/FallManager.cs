@@ -193,8 +193,7 @@ public class FallManager : MonoBehaviour
 
         for (int i = 0; i < fallDataList.Count; i++) // Обратный цикл для безопасного удаления
         {
-            Debug.Log(delay);
-            ResetAfterDelay(faces[fallDataList[i].FallFaceNumber], 0f, fallDataList[i].FallFaceNumber);
+            StartCoroutine(ResetAfterDelay(faces[fallDataList[i].FallFaceNumber], 0f, fallDataList[i].FallFaceNumber));
         }
 
         foreach (GameObject face in faces)

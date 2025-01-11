@@ -30,17 +30,10 @@ public class LoseScript : MonoBehaviour
 
     public void Lose()
     {
-        RFS.isTurnOn = false;
-        ISDS.isTurnOn = false;
-        if (TC != null)
-        {
-            TC.isTurnOn = false;
-        }
-        if (LSDS != null)
-        {
-            LSDS.StartShutDown();
-        }
-        else ShowImage();
+        DisableEverything();
+
+        LSDS.StartShutDown();
+        
         audioSourceGameOver.clip = sound;
         audioSourceGameOver.Play();
 
@@ -49,20 +42,21 @@ public class LoseScript : MonoBehaviour
 
     private void DisableEverything()
     {
-        UFMS.isTurnOn = true;
-        RM.StartWithSync();
-        RFS.isTurnOn = true;
-        RWS.isTurnOn = true;
-        FM.isTurnOn = true;
-        BSS.isTurnOn = true;
-        PSS.isTurnOn = true;
-        CZ.isTurnOn = true;
-        PTTB.isTurnOn = true;
+        TC.isTurnOn = false;
+        UFMS.isTurnOn = false;
+        RM.isTurnOn = false;
+        RFS.isTurnOn = false;
+        RWS.isTurnOn = false;
+        FM.isTurnOn = false;
+        BSS.isTurnOn = false;
+        PSS.isTurnOn = false;
+        CZ.isTurnOn = false;
+        PTTB.isTurnOn = false;
+        ISDS.isTurnOn = false;
     }
 
     private IEnumerator FadeOutCoroutine()
     {
-
         float startVolume = audioSourceMusic.volume;
 
         while (audioSourceMusic.volume > 0)
