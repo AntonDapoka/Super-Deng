@@ -8,7 +8,7 @@ public class TimerController : MonoBehaviour
 {
     public bool isTurnOn = false;
     public float timeElapsed = 0f;
-    public float totalTime = 130f;
+    public float totalTime;
     [SerializeField] private Slider timerSlider;
     [SerializeField] private TextMeshProUGUI timerText; 
     [SerializeField] private WinScript WS;

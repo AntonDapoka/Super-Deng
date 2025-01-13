@@ -46,7 +46,7 @@ public class RhythmManager : MonoBehaviour
             }
         }
     }
-}
+} 
 
 [System.Serializable]
 public class Intervals

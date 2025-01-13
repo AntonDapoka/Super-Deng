@@ -108,7 +108,7 @@ public class RedWaveScript : MonoBehaviour
         FaceScript FS = face.GetComponent<FaceScript>();
         FaceDanceScript FDC = face.GetComponent<FaceDanceScript>();
         
-        FDC.isTurnOn = false; //Не работает
+        FDC.isTurnOn = false;
         float timer = 0f;
         while (timer < colorChangeDuration)
         {
@@ -133,7 +133,6 @@ public class RedWaveScript : MonoBehaviour
         SetMaterialBack(FS);
 
         FS.isKilling = false;
-
     }
 
     private IEnumerator ChangeScale(GameObject face, Vector3 targetScale, Vector3 targetPosition, float duration, bool flag)

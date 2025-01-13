@@ -24,7 +24,7 @@ public class FaceDanceScript : MonoBehaviour
     {
         if (isTurnOn && !inProcess && !FS.havePlayer && !FS.isBlinking && !FS.isKilling && !FS.isBlocked)
         {
-            constantCoroutine = StartCoroutine(ScaleObject(FS.glowingPart));
+            constantCoroutine = StartCoroutine(ScaleObject(FS, FS.glowingPart));
             inProcess = true;
         }
         //Debug.Log(scaleFactor);
@@ -50,7 +50,7 @@ public class FaceDanceScript : MonoBehaviour
     public void StartScaling()
     {
         FS.glowingPart.transform.localScale = originalScale;
-        constantCoroutine = StartCoroutine(ScaleObject(FS.glowingPart));
+        constantCoroutine = StartCoroutine(ScaleObject(FS, FS.glowingPart));
     }
 
     public void StopScaling()
@@ -103,9 +103,9 @@ public class FaceDanceScript : MonoBehaviour
         isChanging = false;
     }
 
-    private IEnumerator ScaleObject(GameObject obj)
+    private IEnumerator ScaleObject(FaceScript FS, GameObject obj)
     {
-        if (isTurnOn)
+        if (isTurnOn && !FS.havePlayer && !FS.isBlinking && !FS.isKilling && !FS.isBlocked && !FS.isColored)
         {
             inProcess = true;
 

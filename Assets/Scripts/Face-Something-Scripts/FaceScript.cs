@@ -1,12 +1,8 @@
+using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using UnityEngine.Serialization;
-using UnityEngine.XR;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 // Обязательное уведомление: "Правые", "Левые" и "Верхние" указаны для треугольника с основанием, направленным ВНИЗ!!!
 // Обратите внимание, что "Правая" сторона раньше носила название "BlueSide", "Левая" - "OrangeSide", а "Верхняя" - "GreenSide"
@@ -369,7 +365,7 @@ public class FaceScript : MonoBehaviour
                 materials.Add("LeftSide", 1);
                 materials.Add("RightSide", 3);
                 materials.Add("TopSide", 2);
-
+                
                 sides.Add("LeftSide", side1);
                 sides.Add("RightSide", side3);
                 sides.Add("TopSide", side2);

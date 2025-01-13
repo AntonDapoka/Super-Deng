@@ -74,7 +74,6 @@ public class FallManager : MonoBehaviour
 
             if (isRandomSpawnTime)
             {
-                //Debug.Log(colvo);
                 for (int i = 0; i < colvo; i++)
                 {
                     if (availableFaces.Count == 0) return;
@@ -182,6 +181,7 @@ public class FallManager : MonoBehaviour
 
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        Debug.Log(fallDataList.Count);
         rb.transform.position = fallDataList.First(data => data.FallFaceNumber == numb).InitialPosition;
         rb.transform.rotation = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation;
         rb.transform.localPosition = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalPosition;
@@ -190,7 +190,7 @@ public class FallManager : MonoBehaviour
 
     public void ResetFall()
     {
-
+        Debug.Log("))))))))))))))");
         for (int i = 0; i < fallDataList.Count; i++) // Обратный цикл для безопасного удаления
         {
             StartCoroutine(ResetAfterDelay(faces[fallDataList[i].FallFaceNumber], 0f, fallDataList[i].FallFaceNumber));
@@ -205,15 +205,16 @@ public class FallManager : MonoBehaviour
                {
                     StartCoroutine(PlayAnimationReset(face));
                     renderer.enabled = true;
+                    
                }
             }
             
             face.GetComponent<FaceScript>().isBlocked = false;
-        }
+        }/*
         for (int numb = 0; numb <= 80; numb++)
         {
-            fallDataList.RemoveAll(fallData => fallData.FallFaceNumber == numb);
-        }
+            //fallDataList.RemoveAll(fallData => fallData.FallFaceNumber == numb);
+        }*/
     }
 
     private IEnumerator PlayAnimationReset(GameObject face)

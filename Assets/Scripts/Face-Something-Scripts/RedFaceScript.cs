@@ -88,7 +88,7 @@ public class RedFaceScript : MonoBehaviour
         FaceScript FS = face.GetComponent<FaceScript>();
         FaceDanceScript FDC = face.GetComponent<FaceDanceScript>();
         
-        FDC.isTurnOn = false; //Не работает
+        FDC.isTurnOn = false;
         FS.isColored = true;
         float timer = 0f;
         while (timer < colorChangeDuration)

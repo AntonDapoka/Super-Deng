@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class LevelLaunchScript : MonoBehaviour
 {
-    [SerializeField] AudioSource musicManager;
-    [SerializeField] AudioClip musicTrack;
+    [SerializeField] private AudioSource musicManager;
+    [SerializeField] private AudioClip musicTrack;
     [SerializeField] private TimerController TC;
     [SerializeField] private StartCountDown SCD;
 
