@@ -24,7 +24,6 @@ public class BeatController : MonoBehaviour //Скрипт под снос
     private float lastBeatTime = 0f;
     public bool isAlreadyPressed = false;
     public bool isAlreadyPressedIsAlreadyPressed = false;
-    public bool isTutorial = false;
 
     private void Start()
     {
@@ -52,7 +51,7 @@ public class BeatController : MonoBehaviour //Скрипт под снос
                 if (elapsedTime < beatInterval / 3f)
                 {
 
-                    if (isTutorial || !isAlreadyPressed)
+                    if (!isAlreadyPressed)
                         canPress = true;
                     else
                         canPress = false;
@@ -63,12 +62,12 @@ public class BeatController : MonoBehaviour //Скрипт под снос
                 }
                 else if (elapsedTime < (2f * beatInterval) / 3f)
                 {
-                    if (isTutorial)
-                        canPress = true;
-                    else
-                        canPress = false;
+                    canPress = false;
+
+
                     if (!isAlreadyPressedIsAlreadyPressed)
                         PressIsAlreadyPress();
+
                     float t = (elapsedTime - (beatInterval / 3f)) / (beatInterval / 3f);
                     image1.enabled = true;
                     image1.rectTransform.localPosition = Vector3.Lerp(startPos1, midPos1, t);
@@ -77,7 +76,7 @@ public class BeatController : MonoBehaviour //Скрипт под снос
                 }
                 else if (elapsedTime < beatInterval)
                 {
-                    if (isTutorial || !isAlreadyPressed)
+                    if (!isAlreadyPressed)
                         canPress = true;
                     else
                         canPress = false;

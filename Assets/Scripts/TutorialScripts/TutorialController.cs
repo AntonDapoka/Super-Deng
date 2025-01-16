@@ -48,7 +48,7 @@ public class TutorialController : MonoBehaviour
             }
             if (_tutorialSettings[_index].isBeat)
             {
-                BC.isTutorial = false;
+                //BC.isTutorial = false;
                 ImageOnBeat.SetActive(true);
             }
             if (_tutorialSettings[_index].isKilling)
