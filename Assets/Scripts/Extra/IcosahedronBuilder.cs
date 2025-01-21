@@ -13,59 +13,90 @@ public class IcosahedronBuilder : MonoBehaviour
 
     private void BuildIcosahedron()
     {
-        float phi = (1.0f + Mathf.Sqrt(5.0f)) / 2.0f;
+        float a = 1.0f;
+        float radiusIco = a * 0.25f * (Mathf.Sqrt(2.0f * (5.0f + Mathf.Sqrt(5.0f))));
+        float radiusPenta = a * (Mathf.Sqrt(10.0f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.0f))) / 10.0f;
+
+        Vector3 vertex1 = new Vector3(0, radiusIco, 0);
+        Vector3 vertex2 = new Vector3(-radiusPenta, radiusPenta / 2, 0);
+        Vector3 vertex3 = new Vector3(-Mathf.Cos(72f * Mathf.Deg2Rad) * radiusPenta, radiusPenta / 2, Mathf.Cos(18f * Mathf.Deg2Rad) * radiusPenta);
+        Vector3 vertex4 = new Vector3(Mathf.Cos(36f * Mathf.Deg2Rad) * radiusPenta, radiusPenta / 2, Mathf.Cos(54f * Mathf.Deg2Rad) * radiusPenta);
+        Vector3 vertex5 = new Vector3(Mathf.Cos(36f * Mathf.Deg2Rad) * radiusPenta, radiusPenta / 2, -Mathf.Cos(54f * Mathf.Deg2Rad) * radiusPenta);
+        Vector3 vertex6 = new Vector3(-Mathf.Cos(72f * Mathf.Deg2Rad) * radiusPenta, radiusPenta / 2, -Mathf.Cos(18f * Mathf.Deg2Rad) * radiusPenta);
+
+        Vector3 vertex7 = new Vector3(radiusPenta, -radiusPenta / 2, 0);
+        Vector3 vertex8 = new Vector3(Mathf.Cos(72f * Mathf.Deg2Rad) * radiusPenta, -radiusPenta / 2, -Mathf.Cos(18f * Mathf.Deg2Rad) * radiusPenta);
+        Vector3 vertex9 = new Vector3(-Mathf.Cos(36f * Mathf.Deg2Rad) * radiusPenta, -radiusPenta / 2, -Mathf.Cos(54f * Mathf.Deg2Rad) * radiusPenta);
+        Vector3 vertex10 = new Vector3(-Mathf.Cos(36f * Mathf.Deg2Rad) * radiusPenta, -radiusPenta / 2, Mathf.Cos(54f * Mathf.Deg2Rad) * radiusPenta);
+        Vector3 vertex11 = new Vector3(Mathf.Cos(72f * Mathf.Deg2Rad) * radiusPenta, -radiusPenta / 2, Mathf.Cos(18f * Mathf.Deg2Rad) * radiusPenta);
+        Vector3 vertex12 = new Vector3(0, -radiusIco, 0);
+
+        Vector3 center123 = (vertex1 + vertex2 + vertex3) / 3;
+        Vector3 center134 = (vertex1 + vertex3 + vertex4) / 3;
+        Vector3 center145 = (vertex1 + vertex4 + vertex5) / 3;
+        Vector3 center156 = (vertex1 + vertex5 + vertex6) / 3;
+        Vector3 center162 = (vertex1 + vertex6 + vertex2) / 3;
+
+        Vector3 center1023 = (vertex10 + vertex2 + vertex3) / 3;
+        Vector3 center1134 = (vertex11 + vertex3 + vertex4) / 3;
+        Vector3 center745 = (vertex7 + vertex4 + vertex5) / 3; 
+        Vector3 center856 = (vertex8 + vertex5 + vertex6) / 3;
+        Vector3 center962 = (vertex9 + vertex6 + vertex2) / 3;
+
+        Vector3 center578 = (vertex5 + vertex7 + vertex8) / 3;
+        Vector3 center689 = (vertex6 + vertex8 + vertex9) / 3;
+        Vector3 center2910 = (vertex2 + vertex9 + vertex10) / 3;
+        Vector3 center31011 = (vertex3 + vertex10 + vertex11) / 3;
+        Vector3 center4117 = (vertex4 + vertex11 + vertex7) / 3;
+
+        Vector3 center1278 = (vertex12 + vertex7 + vertex8) / 3;
+        Vector3 center1289 = (vertex12 + vertex8 + vertex9) / 3;
+        Vector3 center12910 = (vertex12 + vertex9 + vertex10) / 3;
+        Vector3 center121011 = (vertex12 + vertex10 + vertex11) / 3;
+        Vector3 center12117 = (vertex12 + vertex11 + vertex7) / 3;
 
         Vector3[] vertices = new Vector3[]
         {
-            new Vector3(-1,  phi,  0),
-            new Vector3( 1,  phi,  0),
-            new Vector3(-1, -phi,  0),
-            new Vector3( 1, -phi,  0),
-            new Vector3( 0, -1,  phi),
-            new Vector3( 0,  1,  phi),
-            new Vector3( 0, -1, -phi),
-            new Vector3( 0,  1, -phi),
-            new Vector3( phi,  0, -1),
-            new Vector3( phi,  0,  1),
-            new Vector3(-phi,  0, -1),
-            new Vector3(-phi,  0,  1)
+            vertex1,
+            vertex2,
+            vertex3,
+            vertex4,
+            vertex5,
+            vertex6,
+            vertex7,
+            vertex8,
+            vertex9,
+            vertex10,
+            vertex11,
+            vertex12,
+            center123,
+            center134,
+            center145,
+            center156,
+            center162,
+
+            center1023,
+            center1134,
+            center745,
+            center856,
+            center962,
+
+            center578,
+             center689,
+            center2910,
+            center31011,
+             center4117,
+
+            center1278,
+            center1289,
+            center12910,
+            center121011,
+            center12117
         };
-        for (int i = 0; i < vertices.Length; i++)
+
+        foreach (var vertice in vertices)
         {
-            vertices[i] = vertices[i].normalized * scale;
-        }
-        int[][] triangles = new int[][]
-        {
-            new int[] { 0, 11, 5 },
-            new int[] { 0, 5, 1 },
-            new int[] { 0, 1, 7 },
-            new int[] { 0, 7, 10 },
-            new int[] { 0, 10, 11 },
-            new int[] { 1, 5, 9 },
-            new int[] { 5, 11, 4 },
-            new int[] { 11, 10, 2 },
-            new int[] { 10, 7, 6 },
-            new int[] { 7, 1, 8 },
-            new int[] { 3, 9, 4 },
-            new int[] { 3, 4, 2 },
-            new int[] { 3, 2, 6 },
-            new int[] { 3, 6, 8 },
-            new int[] { 3, 8, 9 },
-            new int[] { 4, 9, 5 },
-            new int[] { 2, 4, 11 },
-            new int[] { 6, 2, 10 },
-            new int[] { 8, 6, 7 },
-            new int[] { 9, 8, 1 }
-        };
-        foreach (var triangle in triangles)
-        {
-            Vector3 v0 = vertices[triangle[0]];
-            Vector3 v1 = vertices[triangle[1]];
-            Vector3 v2 = vertices[triangle[2]];
-            Vector3 center = (v0 + v1 + v2) / 3.0f;
-            Quaternion rotation = Quaternion.LookRotation((v1 - v0).normalized, Vector3.Cross(v1 - v0, v2 - v0).normalized);
-            GameObject prism = Instantiate(prismPrefab, center, rotation);
-            prism.transform.localScale = new Vector3(prismScaleFactor, prismScaleFactor, prismScaleFactor);
+            Instantiate(prismPrefab, vertice, Quaternion.identity);
         }
     }
 }
