@@ -3,8 +3,8 @@ using UnityEngine;
 public class IcosahedronBuilder : MonoBehaviour
 {
     [SerializeField] private GameObject prismPrefab; 
-    [SerializeField] private float scale = 1.0f; 
-    [SerializeField] private float prismScaleFactor = 0.9f;
+    //[SerializeField] private float scale = 1.0f; 
+    //[SerializeField] private float prismScaleFactor = 0.9f;
 
     private void Start()
     {

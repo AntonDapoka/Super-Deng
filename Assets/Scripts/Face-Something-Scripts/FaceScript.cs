@@ -1,7 +1,10 @@
 using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 // Обязательное уведомление: "Правые", "Левые" и "Верхние" указаны для треугольника с основанием, направленным ВНИЗ!!!
@@ -25,15 +28,13 @@ public class FaceScript : MonoBehaviour
     [Space]
     [Header("Sides of the Face")]
     [FormerlySerializedAs("sideBlue")]
-    [SerializeField] private GameObject side2; // BlueSide == Side2
-    [FormerlySerializedAs("sideOrange")]
     [SerializeField] private GameObject side1; // OrangeSide == Side1
-    [FormerlySerializedAs("sideGreen")]
+    [SerializeField] private GameObject side2; // BlueSide == Side2
     [SerializeField] private GameObject side3; // GreenSide == Side3
     public Dictionary<string, GameObject> sides;
 
-    [HideInInspector] public FaceScript FS2;
     [HideInInspector] public FaceScript FS1;
+    [HideInInspector] public FaceScript FS2;
     [HideInInspector] public FaceScript FS3;
 
     [Space]
@@ -52,7 +53,6 @@ public class FaceScript : MonoBehaviour
     public Material materialLeftFace;
     [FormerlySerializedAs("materialGreen")]
     public Material materialTopFace;
-    public Dictionary<string, int> materials;
 
     [Space]
     [Header("Glowing&Rendering")]
@@ -79,31 +79,24 @@ public class FaceScript : MonoBehaviour
     [Space]
     [Header("Questions")]
     public bool havePlayer = false;
-    [SerializeField] private bool isAnExtremeSide = false;
     private bool transferInProgress = false;
-    private bool isPreviousAnExtremeSide1 = false;
     public bool isKilling = false;
     public bool isBlinking = false;
     public bool isColored = false;
     public bool isBlocked = false;
     public bool isPortal = false;
     public bool isBonus = false;
-    [HideInInspector] public bool isLeft = false;
-    [HideInInspector] public bool isRight = false;
-    [HideInInspector] public bool isTop = false;
-
-    private void Awake() 
+     public bool isLeft = false;
+     public bool isRight = false;
+     public bool isTop = false;
+    private void Awake()
     {
         rend = glowingPart.GetComponent<MeshRenderer>();
         keyRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
         keyLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
         keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
 
-        if (havePlayer)
-        {
-            pathObjectCount = 0;
-        }
-        else pathObjectCount = -1;
+        pathObjectCount = havePlayer ? 0 : -1;
 
         FS1 = side1.GetComponent<FaceScript>();
         FS2 = side2.GetComponent<FaceScript>();
@@ -112,7 +105,6 @@ public class FaceScript : MonoBehaviour
 
     private void Start()
     {
-        materials = new Dictionary<string, int>();
         sides = new Dictionary<string, GameObject>();
 
         animator = GetComponent<Animator>();
@@ -123,408 +115,293 @@ public class FaceScript : MonoBehaviour
 
         if (havePlayer)
         {
-            materials.Add("LeftSide", 1);
-            materials.Add("RightSide", 2);
-            materials.Add("TopSide", 3);
-
-            sides.Add("LeftSide", side1);
-            sides.Add("RightSide", side2);
-            sides.Add("TopSide", side3);
-
-            FS1.isLeft = true;
-            FS2.isRight = true;
-            FS3.isTop = true;
-            /*        /\  
-                     /  \
-                    /  3 \
-                   /______\
-                  / \    / \
-                 / 1 \  / 2 \
-                /_____\/_____\
-            */
-            PS.SetCurrentFace(gameObject);
-
-
-            if (!FS2.isKilling) FS2.rend.material = materialRightFace;
-            if (!FS1.isKilling) FS1.rend.material = materialLeftFace;
-            if (!FS3.isKilling) FS3.rend.material = materialTopFace;
-
-
-            NHS.SetNavigationHint(FS1);
-            NHS.SetNavigationHint(FS2);
-            NHS.SetNavigationHint(FS3);
+            InitializePlayerFace();
         }
+    }
+
+    private void InitializePlayerFace()
+    {
+        sides.Add("LeftSide", side1);
+        sides.Add("RightSide", side2);
+        sides.Add("TopSide", side3);
+
+        FS1.isLeft = true;
+        FS2.isRight = true;
+        FS3.isTop = true;
+
+        PS.SetCurrentFace(gameObject);
+
+        SetSideMaterial(FS1, materialLeftFace);
+        SetSideMaterial(FS2, materialRightFace);
+        SetSideMaterial(FS3, materialTopFace);
+
+        NHS.SetNavigationHint(FS1);
+        NHS.SetNavigationHint(FS2);
+        NHS.SetNavigationHint(FS3);
+    }
+
+    private void SetSideMaterial(FaceScript face, Material material)
+    {
+        if (!face.isKilling) face.rend.material = material;
     }
 
     private void Update()
     {
         if (isTurnOn && havePlayer && !transferInProgress && BC.canPress)
         {
-            if (Input.GetKeyDown(keyLeft) || Input.GetKeyDown(keyTop) || Input.GetKeyDown(keyRight))
-            {
-                string direction = "";
-                if (Input.GetKeyDown(keyLeft) && !GetGameObject("LeftSide").GetComponent<FaceScript>().isBlocked
-                        && !Input.GetKey(keyTop) && !Input.GetKey(keyRight)) direction = "Left";
-                else if (GetGameObject("LeftSide").GetComponent<FaceScript>().isBlocked)
-                {
-                    SS.TurnOnSoundBlock();
-                }
-
-                if (Input.GetKeyDown(keyTop) && !GetGameObject("TopSide").GetComponent<FaceScript>().isBlocked
-                    && !Input.GetKey(keyLeft) && !Input.GetKey(keyRight)) direction = "Top";
-                else if (GetGameObject("TopSide").GetComponent<FaceScript>().isBlocked)
-                {
-                    SS.TurnOnSoundBlock();
-                }
-
-                if (Input.GetKeyDown(keyRight) && !GetGameObject("RightSide").GetComponent<FaceScript>().isBlocked
-                    && !Input.GetKey(keyTop) && !Input.GetKey(keyLeft)) direction = "Right";
-                else if (GetGameObject("RightSide").GetComponent<FaceScript>().isBlocked)
-                {
-                    SS.TurnOnSoundBlock();
-                }
-
-                if (!string.IsNullOrEmpty(direction))
-                {
-                    StartTransfer(GetGameObject($"{direction}Side"), GetInt($"{direction}Side"), direction);
-                    BC.isAlreadyPressed = true;
-                    BC.isAlreadyPressedIsAlreadyPressed = false;
-                    SS.TurnOnSoundStep();
-                }
-            }
+            HandleInput();
         }
 
-        if (havePlayer && isBonus && BSS!= null)
+        if (havePlayer && isBonus && BSS != null)
         {
-            HealthBonus bonusHealth = GetComponentInChildren<HealthBonus>(true);
-            if (bonusHealth != null)
-            {
-                PS.TakeHP();
-                isBonus = false;
-                bonusHealth.DestroyMe();
-            }
-            ComboBonus bonusCombo = GetComponentInChildren<ComboBonus>(true);
-            if (bonusCombo != null)
-            {
-                Debug.Log("COMBOTIME");
-                BSS.GetComboBonus();
-                isBonus = false;
-                bonusCombo.DestroyMe();
-            }
+            HandleBonus();
         }
 
         if (havePlayer && isPortal && PSS != null)
         {
-            Portal portal = GetComponentInChildren<Portal>(true);
-            isPortal = false;
-            portal.DestroyMe();
-            PSS.LoadSecretScene();  
+            HandlePortal();
         }
     }
 
-    private void StartTransfer(GameObject targetSide, int sideNumber, string color)
+    private void HandleInput()
     {
-        transferInProgress = true;
-        FS1.isLeft = false;
-        FS1.isRight = false;
-        FS1.isTop = false;
-
-        FS2.isLeft = false;
-        FS2.isRight = false;
-        FS2.isTop = false;
-
-        FS3.isLeft = false;
-        FS3.isRight = false;
-        FS3.isTop = false;
-
-        if (FS1.isBonus) FS1.rend.material = materialPlayerFace;
-        else if (FS1.isKilling) FS1.rend.material = materialKillerFace;
-        else if (FS1.isPortal) FS1.rend.material = materialSecretFace;
-        else FS1.rend.material = materialBasicFace;
-
-        if (FS2.isBonus) FS2.rend.material = materialPlayerFace;
-        else if (FS2.isKilling) FS2.rend.material = materialKillerFace;
-        else if (FS2.isPortal) FS2.rend.material = materialSecretFace;
-        else FS2.rend.material = materialBasicFace;
-
-        if (FS3.isBonus) FS3.rend.material = materialPlayerFace;
-        else if (FS3.isKilling) FS3.rend.material = materialKillerFace;
-        else if (FS3.isPortal) FS3.rend.material = materialSecretFace;
-        else FS3.rend.material = materialBasicFace;
-
-        StartCoroutine(TransferPlayer(targetSide, sideNumber, color));
+        if (Input.GetKeyDown(keyLeft) || Input.GetKeyDown(keyTop) || Input.GetKeyDown(keyRight))
+        {
+            string direction = GetDirectionFromInput();
+            if (!string.IsNullOrEmpty(direction))
+            {
+                StartTransfer(GetGameObject($"{direction}Side"), direction);
+                BC.isAlreadyPressed = true;
+                BC.isAlreadyPressedIsAlreadyPressed = false;
+                SS.TurnOnSoundStep();
+            }
+        }
     }
 
-    private IEnumerator TransferPlayer(GameObject targetSide, int sideNumber, string color)
+    private string GetDirectionFromInput()
+    {
+        if (Input.GetKeyDown(keyLeft) && !GetGameObject("LeftSide").GetComponent<FaceScript>().isBlocked)
+        {
+            return "Left";
+        }
+        else if (Input.GetKeyDown(keyTop) && !GetGameObject("TopSide").GetComponent<FaceScript>().isBlocked)
+        {
+            return "Top";
+        }
+        else if (Input.GetKeyDown(keyRight) && !GetGameObject("RightSide").GetComponent<FaceScript>().isBlocked)
+        {
+            return "Right";
+        }
+        return "";
+    }
+
+    private void HandleBonus()
+    {
+        HealthBonus bonusHealth = GetComponentInChildren<HealthBonus>(true);
+        if (bonusHealth != null)
+        {
+            PS.TakeHP();
+            isBonus = false;
+            bonusHealth.DestroyMe();
+        }
+        ComboBonus bonusCombo = GetComponentInChildren<ComboBonus>(true);
+        if (bonusCombo != null)
+        {
+            Debug.Log("COMBOTIME");
+            BSS.GetComboBonus();
+            isBonus = false;
+            bonusCombo.DestroyMe();
+        }
+    }
+
+    private void HandlePortal()
+    {
+        Portal portal = GetComponentInChildren<Portal>(true);
+        isPortal = false;
+        portal.DestroyMe();
+        PSS.LoadSecretScene();
+    }
+
+    private void StartTransfer(GameObject targetSide, string color)
+    {
+        transferInProgress = true;
+        ResetSideMaterials();
+        StartCoroutine(TransferPlayer(targetSide, color));
+    }
+
+    private void ResetSideMaterials()
+    {
+        SetSideMaterial(FS1, materialBasicFace);
+        SetSideMaterial(FS2, materialBasicFace);
+        SetSideMaterial(FS3, materialBasicFace);
+    }
+
+    private IEnumerator TransferPlayer(GameObject targetSide, string color)
     {
         yield return new WaitForSeconds(0.01f);
         FaceScript targetFace = targetSide.GetComponent<FaceScript>();
         if (!targetFace.havePlayer)
         {
             havePlayer = false;
-            targetFace.ReceivePlayer(player, sideNumber, color, isAnExtremeSide, isPreviousAnExtremeSide1);
+            targetFace.ReceivePlayer(player, this.gameObject, color, GetOtherGameObjects(color));
         }
         transferInProgress = false;
     }
 
-    public void ReceivePlayer(GameObject newPlayer, int sideNumber, string color, bool isPreviousAnExtremeSide, bool isPreviousPreviousAnExtremeSide) //GameObject newPlayer, int sideNumber, string color)
+    public void ReceivePlayer(GameObject newPlayer, GameObject sidePrevious, string colorPrevious, GameObject[] sidesPreviousOther)
     {
+        sides.Clear();
+        isRight = false;
+        isTop = false;
+        isLeft = false;
 
-        materials.Remove("RightSide");
-        materials.Remove("LeftSide");
-        materials.Remove("TopSide");
+        sides.Add($"{colorPrevious}Side", sidePrevious);
 
-        sides.Remove("RightSide");
-        sides.Remove("LeftSide");
-        sides.Remove("TopSide");
-        /*            /\  
-                     /  \
-                    /  3 \
-                   /______\
-                  / \    / \
-                 / 1 \  / 2 \
-                /_____\/_____\
-        */
+        FaceScript faceScriptPrevious = sidePrevious.GetComponent<FaceScript>();
+        SetSideMaterial(faceScriptPrevious, GetMaterialForSide(colorPrevious));
 
-        if (!isPreviousPreviousAnExtremeSide && isPreviousAnExtremeSide && isAnExtremeSide)
+
+        if (colorPrevious == "Right")
         {
-            if (sideNumber == 1 && color == "Left")
-            {
-                materials.Add("LeftSide", 2);
-                materials.Add("RightSide", 1);
-                materials.Add("TopSide", 3);
-
-                sides.Add("LeftSide", side2);
-                sides.Add("RightSide", side1);
-                sides.Add("TopSide", side3);
-
-                if (!FS2.isKilling) FS2.rend.material = materialLeftFace;
-                if (!FS1.isKilling) FS1.rend.material = materialRightFace;
-                if (!FS3.isKilling) FS3.rend.material = materialTopFace;
-
-                FS2.isLeft = true;
-                FS1.isRight = true;
-                FS3.isTop = true;
-            }
-            else if (sideNumber == 2 && color == "Top")
-            {
-                materials.Add("LeftSide", 3);
-                materials.Add("RightSide", 2);
-                materials.Add("TopSide", 1);
-
-                sides.Add("LeftSide", side3);
-                sides.Add("RightSide", side2);
-                sides.Add("TopSide", side1);
-
-                if (!FS2.isKilling) FS2.rend.material = materialRightFace;
-                if (!FS1.isKilling) FS1.rend.material = materialTopFace;
-                if (!FS3.isKilling) FS3.rend.material = materialLeftFace;
-
-                FS2.isRight = true;
-                FS1.isTop = true;
-                FS3.isLeft = true;
-            }
-            else if (sideNumber == 3 && color == "Right")
-            {
-                materials.Add("LeftSide", 1);
-                materials.Add("RightSide", 3);
-                materials.Add("TopSide", 2);
-
-                sides.Add("LeftSide", side1);
-                sides.Add("RightSide", side3);
-                sides.Add("TopSide", side2);
-
-                if (!FS2.isKilling) FS2.rend.material = materialTopFace;
-                if (!FS1.isKilling) FS1.rend.material = materialLeftFace;
-                if (!FS3.isKilling) FS3.rend.material = materialRightFace;
-
-                FS2.isTop = true;
-                FS1.isLeft = true;
-                FS3.isRight = true;
-            }
-            else if (sideNumber == 1 && color == "Right")
-            {
-                materials.Add("LeftSide", 3);
-                materials.Add("RightSide", 2);
-                materials.Add("TopSide", 1);
-
-                sides.Add("LeftSide", side3);
-                sides.Add("RightSide", side2);
-                sides.Add("TopSide", side1);
-
-                if (!FS2.isKilling) FS2.rend.material = materialRightFace;
-                if (!FS1.isKilling) FS1.rend.material = materialTopFace;
-                if (!FS3.isKilling) FS3.rend.material = materialLeftFace;
-
-                FS2.isRight = true;
-                FS1.isTop = true;
-                FS3.isLeft = true;
-            }
-            else if (sideNumber == 2 && color == "Left")
-            {
-                materials.Add("LeftSide", 1);
-                materials.Add("RightSide", 3);
-                materials.Add("TopSide", 2);
-                
-                sides.Add("LeftSide", side1);
-                sides.Add("RightSide", side3);
-                sides.Add("TopSide", side2);
-
-                if (!FS2.isKilling) FS2.rend.material = materialTopFace;
-                if (!FS1.isKilling) FS1.rend.material = materialLeftFace;
-                if (!FS3.isKilling) FS3.rend.material = materialRightFace;
-
-                FS2.isTop = true;
-                FS1.isLeft = true;
-                FS3.isRight = true;
-            }
-            else if (sideNumber == 3 && color == "Top")
-            {
-                materials.Add("LeftSide", 2);
-                materials.Add("RightSide", 1);
-                materials.Add("TopSide", 3);
-
-                sides.Add("LeftSide", side2);
-                sides.Add("RightSide", side1);
-                sides.Add("TopSide", side3);
-
-                if (!FS2.isKilling) FS2.rend.material = materialLeftFace;
-                if (!FS1.isKilling) FS1.rend.material = materialRightFace;
-                if (!FS3.isKilling) FS3.rend.material = materialTopFace;
-
-                FS2.isLeft = true;
-                FS1.isRight = true;
-                FS3.isTop = true;
-            }
-            else if (sideNumber == 1 && color == "Top")
-            {
-                materials.Add("LeftSide", 1);
-                materials.Add("RightSide", 3);
-                materials.Add("TopSide", 2);
-
-                sides.Add("LeftSide", side1);
-                sides.Add("RightSide", side3);
-                sides.Add("TopSide", side2);
-
-                if (!FS2.isKilling) FS2.rend.material = materialTopFace;
-                if (!FS1.isKilling) FS1.rend.material = materialLeftFace;
-                if (!FS3.isKilling) FS3.rend.material = materialRightFace;
-
-                FS2.isTop = true;
-                FS1.isLeft = true;
-                FS3.isRight = true;
-            }
-            else if (sideNumber == 2 && color == "Right")
-            {
-                materials.Add("LeftSide", 2);
-                materials.Add("RightSide", 1);
-                materials.Add("TopSide", 3);
-
-                sides.Add("LeftSide", side2);
-                sides.Add("RightSide", side1);
-                sides.Add("TopSide", side3);
-
-                if (!FS2.isKilling) FS2.rend.material = materialLeftFace;
-                if (!FS1.isKilling) FS1.rend.material = materialRightFace;
-                if (!FS3.isKilling) FS3.rend.material = materialTopFace;
-
-                FS2.isLeft = true;
-                FS1.isRight = true;
-                FS3.isTop = true;
-            }
-            else if (sideNumber == 3 && color == "Left")
-            {
-                materials.Add("LeftSide", 3);
-                materials.Add("RightSide", 2);
-                materials.Add("TopSide", 1);
-
-                sides.Add("LeftSide", side3);
-                sides.Add("RightSide", side2);
-                sides.Add("TopSide", side1);
-
-                if (!FS2.isKilling) FS2.rend.material = materialRightFace;
-                if (!FS1.isKilling) FS1.rend.material = materialTopFace;
-                if (!FS3.isKilling) FS3.rend.material = materialLeftFace;
-
-                FS2.isRight = true;
-                FS1.isTop = true;
-                FS3.isLeft = true;
-            }
-            isPreviousAnExtremeSide1 = true;
-        }
-        else
+            faceScriptPrevious.isRight = true;
+        } 
+        else if (colorPrevious == "Left")
         {
-            if ((sideNumber == 1 && color == "Left") || (sideNumber == 2 && color == "Top") || (sideNumber == 3 && color == "Right"))
-            {
-                materials.Add("LeftSide", 2);
-                materials.Add("RightSide", 3);
-                materials.Add("TopSide", 1);
-
-                sides.Add("LeftSide", side2);
-                sides.Add("RightSide", side3);
-                sides.Add("TopSide", side1);
-
-                if (!FS2.isKilling) FS2.rend.material = materialLeftFace;
-                if (!FS1.isKilling) FS1.rend.material = materialTopFace;
-                if (!FS3.isKilling) FS3.rend.material = materialRightFace;
-
-                FS2.isLeft = true;
-                FS1.isTop = true;
-                FS3.isRight = true;
-            }
-            else if ((sideNumber == 1 && color == "Right") || (sideNumber == 2 && color == "Left") || (sideNumber == 3 && color == "Top"))
-            {
-                materials.Add("LeftSide", 1);
-                materials.Add("RightSide", 2);
-                materials.Add("TopSide", 3);
-
-                sides.Add("LeftSide", side1);
-                sides.Add("RightSide", side2);
-                sides.Add("TopSide", side3);
-
-                if (!FS2.isKilling) FS2.rend.material = materialRightFace;
-                if (!FS1.isKilling) FS1.rend.material = materialLeftFace;
-                if (!FS3.isKilling) FS3.rend.material = materialTopFace;
-
-                FS2.isRight = true;
-                FS1.isLeft = true;
-                FS3.isTop = true;
-            }
-            else if ((sideNumber == 1 && color == "Top") || (sideNumber == 2 && color == "Right") || (sideNumber == 3 && color == "Left"))
-            {
-                materials.Add("LeftSide", 3);
-                materials.Add("RightSide", 1);
-                materials.Add("TopSide", 2);
-
-                sides.Add("LeftSide", side3);
-                sides.Add("RightSide", side1);
-                sides.Add("TopSide", side2);
-
-                if (!FS2.isKilling) FS2.rend.material = materialTopFace;
-                if (!FS1.isKilling) FS1.rend.material = materialRightFace;
-                if (!FS3.isKilling) FS3.rend.material = materialLeftFace;
-
-                FS2.isTop = true;
-                FS1.isRight = true;
-                FS3.isLeft = true;
-            }
-            isPreviousAnExtremeSide1 = false;
+            faceScriptPrevious.isLeft = true;
         }
+        else if (colorPrevious == "Top")
+        {
+            faceScriptPrevious.isTop = true;
+        }
+
+        if (side1 == sidePrevious)
+        {
+            UpdateSidesBasedOnPrevious(side2, side3, sidesPreviousOther);
+        } 
+        else if (side2 == sidePrevious)
+        {
+            UpdateSidesBasedOnPrevious(side1, side3, sidesPreviousOther);
+        } 
+        else if (side3 == sidePrevious)
+        {
+            UpdateSidesBasedOnPrevious(side1, side2, sidesPreviousOther);
+        }
+
+
+        ResetOtherSides(sidesPreviousOther);
+
         havePlayer = true;
         PS.ResetMaterials();
         PCS.SetPathCount();
         PS.SetCurrentFace(gameObject);
 
-        
-
         newPlayer.transform.SetParent(gameObject.transform);
-        newPlayer.transform.localPosition = new Vector3(0, 0, 0);
-        newPlayer.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        newPlayer.transform.localPosition = Vector3.zero;
+        newPlayer.transform.localRotation = Quaternion.identity;
 
         NHS.SetNavigationHint(FS1);
         NHS.SetNavigationHint(FS2);
         NHS.SetNavigationHint(FS3);
 
+        foreach (var pair in sides)
+        {
+            Debug.Log($"Key: {pair.Key}, Value: {pair.Value.name}");
+        }
+    }
+
+    private Material GetMaterialForSide(string side)
+    {
+        switch (side)
+        {
+            case "Left": return materialLeftFace;
+            case "Right": return materialRightFace;
+            case "Top": return materialTopFace;
+            default: return materialBasicFace;
+        }
+    }
+
+    private void UpdateSidesBasedOnPrevious(GameObject sideOne, GameObject sideTwo, GameObject[] sidesPreviousOther)
+    {
+        Transform transformSideOne = sideOne.transform;
+        Transform transformSideTwo = sideTwo.transform;
+
+        float distance1 = Vector3.Distance(transformSideOne.position, sidesPreviousOther[0].transform.position);
+        float distance2 = Vector3.Distance(transformSideOne.position, sidesPreviousOther[1].transform.position);
+        float distance3 = Vector3.Distance(transformSideTwo.position, sidesPreviousOther[0].transform.position);
+        float distance4 = Vector3.Distance(transformSideTwo.position, sidesPreviousOther[1].transform.position);
+
+        Debug.Log(distance1.ToString() + "\n" + distance2.ToString() + "\n" + distance3.ToString() + "\n" + distance4.ToString());
+
+        if (distance1 < distance2 && distance3 > distance4)
+        {
+            UpdateSide(sideOne, sidesPreviousOther[0], sideTwo, sidesPreviousOther[1]);
+        }
+        else if (distance1 > distance2 && distance3 < distance4)
+        {
+            UpdateSide(sideOne, sidesPreviousOther[1], sideTwo, sidesPreviousOther[0]);
+        }
+        else
+        {
+            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        }
+    }
+
+    private void UpdateSide(GameObject sideA, GameObject sidePreviousA, GameObject sideB, GameObject sidePreviousB)
+    {
+        FaceScript faceScriptSideA = sideA.GetComponent<FaceScript>();
+        FaceScript faceScriptSideB = sideB.GetComponent<FaceScript>();
+        FaceScript faceScriptSidePreviousA = sidePreviousA.GetComponent<FaceScript>();
+        FaceScript faceScriptSidePreviousB = sidePreviousB.GetComponent<FaceScript>();
+
+
+        if (faceScriptSidePreviousA.isRight)
+        {
+            sides.Add("RightSide", sideA);
+            SetSideMaterial(faceScriptSideA, materialRightFace);
+            faceScriptSideA.isRight = true;
+        }
+        else if (faceScriptSidePreviousA.isLeft)
+        {
+            sides.Add("LeftSide", sideA);
+            SetSideMaterial(faceScriptSideA, materialLeftFace);
+            faceScriptSideA.isLeft = true;
+        }
+        else if (faceScriptSidePreviousA.isTop)
+        {
+            sides.Add("TopSide", sideA);
+            SetSideMaterial(faceScriptSideA, materialTopFace);
+            faceScriptSideA.isTop = true;
+        }
+
+        if (faceScriptSidePreviousB.isRight)
+        {
+            sides.Add("RightSide", sideB);
+            SetSideMaterial(faceScriptSideB, materialRightFace);
+            faceScriptSideB.isRight = true;
+        }
+        else if (faceScriptSidePreviousB.isLeft)
+        {
+            sides.Add("LeftSide", sideB);
+            SetSideMaterial(faceScriptSideB, materialLeftFace);
+            faceScriptSideB.isLeft = true;
+        }
+        else if (faceScriptSidePreviousB.isTop)
+        {
+            sides.Add("TopSide", sideB);
+            SetSideMaterial(faceScriptSideB, materialTopFace);
+            faceScriptSideB.isTop = true;
+        }
+    }
+
+    private void ResetOtherSides(GameObject[] sidesPreviousOther)
+    {
+        foreach (var side in sidesPreviousOther)
+        {
+            FaceScript faceScript = side.GetComponent<FaceScript>();
+            faceScript.isRight = false;
+            faceScript.isTop = false;
+            faceScript.isLeft = false;
+        }
     }
 
     public void ResetRightLeftTop()
@@ -541,21 +418,25 @@ public class FaceScript : MonoBehaviour
         {
             return gameObject;
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
-    public int GetInt(string key)
+
+    public GameObject[] GetOtherGameObjects(string key)
     {
-        int num;
-        if (materials.TryGetValue(key, out num))
+        GameObject[] otherObjects = new GameObject[2];
+        int index = 0;
+
+        foreach (var pair in sides)
         {
-            return num;
+            if (pair.Key != key)
+            {
+                otherObjects[index] = pair.Value;
+                index++;
+
+                if (index == 2)
+                    break;
+            }
         }
-        else
-        {
-            return -1;
-        }
+        return otherObjects;
     }
 }
