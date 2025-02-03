@@ -378,11 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &59535935
 GameObject:
   m_ObjectHideFlags: 0
@@ -1792,11 +1788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &323525086
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2014,11 +2006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &325435712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2236,11 +2224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &342599622
 GameObject:
   m_ObjectHideFlags: 0
@@ -2490,11 +2474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &350777933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2712,11 +2692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &353647849
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2934,11 +2910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &359243145
 GameObject:
   m_ObjectHideFlags: 0
@@ -3258,6 +3230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06fc38c5129eeeb4a958aafa44ce298e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  panelBlack: {fileID: 0}
+  animTransit: {fileID: 0}
+  indexStart: 0
+  indexLevel: 0
 --- !u!1 &468607621
 GameObject:
   m_ObjectHideFlags: 0
@@ -3556,11 +3533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &503264735
 GameObject:
   m_ObjectHideFlags: 0
@@ -3912,11 +3885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &515564149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4134,11 +4103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &519762240
 GameObject:
   m_ObjectHideFlags: 0
@@ -4587,11 +4552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &549825518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4809,11 +4770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &559824778
 GameObject:
   m_ObjectHideFlags: 0
@@ -5289,11 +5246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &729326018
 GameObject:
   m_ObjectHideFlags: 0
@@ -5466,7 +5419,9 @@ MonoBehaviour:
   breakBeforeColorGrading: 0
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
-  m_AfterStackBundles: []
+  m_AfterStackBundles:
+  - assemblyQualifiedName: RetroPostProcessEffect, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &729326024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5479,13 +5434,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00e03623602adbe40af91f20750d272d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTurnOn: 0
   mainCamera: {fileID: 729326020}
   zoomFactor: 1.2
   zoomTime: 0.5
   returnTime: 0.2
-  beatsPerMinute: 120
-  BC: {fileID: 908284754}
-  isOn: 0
+  RM: {fileID: 0}
 --- !u!114 &729326025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5717,11 +5671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &751627048
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5939,11 +5889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &764074388
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6161,11 +6107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &774087385
 GameObject:
   m_ObjectHideFlags: 0
@@ -6535,11 +6477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &814362109
 GameObject:
   m_ObjectHideFlags: 0
@@ -6891,11 +6829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &855615505
 GameObject:
   m_ObjectHideFlags: 0
@@ -6970,79 +6904,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c3609fb2513ba4f93a97861552b392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faces:
-  - {fileID: 540753612}
-  - {fileID: 1219121696}
-  - {fileID: 739368052}
-  - {fileID: 1384280347}
-  - {fileID: 1565514110}
-  - {fileID: 2126625117}
-  - {fileID: 1757797953}
-  - {fileID: 1146641578}
-  - {fileID: 1287327506}
-  - {fileID: 1360641862}
-  - {fileID: 973029736}
-  - {fileID: 1662116706}
-  - {fileID: 1135029193}
-  - {fileID: 1731109050}
-  - {fileID: 289921537}
-  - {fileID: 515564151}
-  - {fileID: 1476337378}
-  - {fileID: 473116938}
-  - {fileID: 2027355235}
-  - {fileID: 1669653744}
-  - {fileID: 751627050}
-  - {fileID: 764074390}
-  - {fileID: 549825520}
-  - {fileID: 877526154}
-  - {fileID: 1594320652}
-  - {fileID: 350777935}
-  - {fileID: 866518600}
-  - {fileID: 2046113563}
-  - {fileID: 1906877660}
-  - {fileID: 1031482608}
-  - {fileID: 1278899624}
-  - {fileID: 1579396412}
-  - {fileID: 1477480488}
-  - {fileID: 1144420028}
-  - {fileID: 810189962}
-  - {fileID: 1189824564}
-  - {fileID: 325435714}
-  - {fileID: 1867619672}
-  - {fileID: 1399384775}
-  - {fileID: 1937856166}
-  - {fileID: 1213635422}
-  - {fileID: 907446590}
-  - {fileID: 323525088}
-  - {fileID: 818555032}
-  - {fileID: 1184248930}
-  - {fileID: 2144729006}
-  - {fileID: 696803244}
-  - {fileID: 1815606615}
-  - {fileID: 344074349}
-  - {fileID: 1846930743}
-  - {fileID: 353647851}
-  - {fileID: 48962851}
-  - {fileID: 1083267340}
-  - {fileID: 1066737691}
-  - {fileID: 510502199}
-  - {fileID: 1473392274}
-  imageLose: {fileID: 910074616}
-  colorChangeDuration: 0.666666
-  scaleChangeDuration: 0.6666666
+  isTurnOn: 0
   scaleChange: 80
+  positionChange: -4.5
   materialWhite: {fileID: 2100000, guid: 9ae1bc24c5ec1b8419106d9a9960710e, type: 2}
   materialRed: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
   materialPlayer: {fileID: 2100000, guid: c11a02e573dd05145bd2f29b900363c6, type: 2}
-  SCD: {fileID: 0}
+  RM: {fileID: 0}
+  FAS: {fileID: 0}
   TC: {fileID: 0}
-  enemySpawnSettings: {fileID: 11400000, guid: 462a48b24a2344e40a04fa0f363199f8, type: 2}
   PS: {fileID: 1651598535}
   CM: {fileID: 0}
-  isTurnOn: 0
-  isTutorial: 1
-  TuC: {fileID: 2064100246}
-  panel: {fileID: 653177928}
+  faceIndices: 
+  colvo: 0
+  isRandomSpawnTime: 1
 --- !u!4 &864045403
 Transform:
   m_ObjectHideFlags: 0
@@ -7275,11 +7150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &877526152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7497,11 +7368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &907446588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7719,11 +7586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &908284752
 GameObject:
   m_ObjectHideFlags: 0
@@ -7768,17 +7631,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c39fc7abef23e04db01180d8a237194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatInterval: 0.6666
+  isTurnOn: 0
+  RM: {fileID: 0}
   canPress: 1
   canCombo: 0
   image1: {fileID: 975646836}
   image2: {fileID: 1752286480}
-  CZ: {fileID: 729326024}
   beatcount: 0
   isAlreadyPressed: 0
   isAlreadyPressedIsAlreadyPressed: 0
-  isAlreadyZoomed: 0
-  isTutorial: 1
 --- !u!1 &910074613
 GameObject:
   m_ObjectHideFlags: 0
@@ -8304,11 +8165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &975646834
 GameObject:
   m_ObjectHideFlags: 0
@@ -8414,7 +8271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660b4b79cec47c44e9a9dd5416083558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundClip: {fileID: 8300000, guid: adc7cdcfbd3f82e408644a170b390f46, type: 3}
+  soundClipStep: {fileID: 0}
+  soundClipBlock: {fileID: 0}
   audioSource: {fileID: 979528039}
 --- !u!82 &979528039
 AudioSource:
@@ -8850,11 +8708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1066737689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9072,11 +8926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1083267338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9294,11 +9144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1086914891
 GameObject:
   m_ObjectHideFlags: 0
@@ -9795,7 +9641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1118948110
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10118,11 +9964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1137287799
 GameObject:
   m_ObjectHideFlags: 0
@@ -10375,11 +10217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1146641576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10597,11 +10435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1151559228
 GameObject:
   m_ObjectHideFlags: 0
@@ -11220,11 +11054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1189824562
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11442,11 +11272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1213635420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11664,11 +11490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1219121694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11887,11 +11709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1232063935
 GameObject:
   m_ObjectHideFlags: 0
@@ -12731,11 +12549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1287327504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12953,11 +12767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1319117064
 GameObject:
   m_ObjectHideFlags: 0
@@ -13387,11 +13197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1384280345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13609,11 +13415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1399384773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13831,11 +13633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1454973563
 GameObject:
   m_ObjectHideFlags: 0
@@ -14321,11 +14119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1476337376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14543,11 +14337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1477480486
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14765,11 +14555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1495611871
 GameObject:
   m_ObjectHideFlags: 0
@@ -15045,8 +14831,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba12aa97bbe51443bc6b5cb1091500e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTurnOn: 0
   bpm: 90
   beatInterval: 0
+  currentBeat: 0
+  musicManager: {fileID: 0}
   intervals:
   - steps: 1
     trigger:
@@ -15435,11 +15224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1579396410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15657,11 +15442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1594320650
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15879,11 +15660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1595109821
 GameObject:
   m_ObjectHideFlags: 0
@@ -16356,11 +16133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1669653742
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16578,11 +16351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1670529161
 GameObject:
   m_ObjectHideFlags: 0
@@ -17243,11 +17012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1752286478
 GameObject:
   m_ObjectHideFlags: 0
@@ -17540,11 +17305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1815391220
 GameObject:
   m_ObjectHideFlags: 0
@@ -17837,11 +17598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1846930741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18059,11 +17816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1867619670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18281,11 +18034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1903077454
 GameObject:
   m_ObjectHideFlags: 0
@@ -18578,11 +18327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &1937856164
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18800,11 +18545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &1950819914
 GameObject:
   m_ObjectHideFlags: 0
@@ -19471,11 +19212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1001 &2046113561
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19693,11 +19430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &2060119126
 GameObject:
   m_ObjectHideFlags: 0
@@ -20391,11 +20124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1 &2142863175
 GameObject:
   m_ObjectHideFlags: 0
@@ -20747,11 +20476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0551880ecb16dc4eb6ade4ce980aa1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 1.2
-  duration: 0.2
-  isOn: 0
-  enemySpawnSettings: {fileID: 0}
-  TC: {fileID: 0}
+  isTurnOn: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

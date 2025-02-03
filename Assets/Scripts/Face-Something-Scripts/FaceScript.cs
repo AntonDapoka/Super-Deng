@@ -86,9 +86,11 @@ public class FaceScript : MonoBehaviour
     public bool isBlocked = false;
     public bool isPortal = false;
     public bool isBonus = false;
-     public bool isLeft = false;
-     public bool isRight = false;
-     public bool isTop = false;
+    [HideInInspector] public bool isLeft = false;
+    [HideInInspector] public bool isRight = false;
+    [HideInInspector] public bool isTop = false;
+
+
     private void Awake()
     {
         rend = glowingPart.GetComponent<MeshRenderer>();
@@ -240,11 +242,10 @@ public class FaceScript : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
         FaceScript targetFace = targetSide.GetComponent<FaceScript>();
-        if (!targetFace.havePlayer)
-        {
-            havePlayer = false;
-            targetFace.ReceivePlayer(player, this.gameObject, color, GetOtherGameObjects(color));
-        }
+
+        havePlayer = false;
+        targetFace.ReceivePlayer(player, gameObject, color, GetOtherGameObjects(color));
+
         transferInProgress = false;
     }
 
@@ -256,37 +257,17 @@ public class FaceScript : MonoBehaviour
         isLeft = false;
 
         sides.Add($"{colorPrevious}Side", sidePrevious);
-
+        
         FaceScript faceScriptPrevious = sidePrevious.GetComponent<FaceScript>();
         SetSideMaterial(faceScriptPrevious, GetMaterialForSide(colorPrevious));
 
-
-        if (colorPrevious == "Right")
-        {
-            faceScriptPrevious.isRight = true;
-        } 
-        else if (colorPrevious == "Left")
-        {
-            faceScriptPrevious.isLeft = true;
-        }
-        else if (colorPrevious == "Top")
-        {
-            faceScriptPrevious.isTop = true;
-        }
-
-        if (side1 == sidePrevious)
-        {
-            UpdateSidesBasedOnPrevious(side2, side3, sidesPreviousOther);
-        } 
-        else if (side2 == sidePrevious)
-        {
-            UpdateSidesBasedOnPrevious(side1, side3, sidesPreviousOther);
-        } 
-        else if (side3 == sidePrevious)
-        {
-            UpdateSidesBasedOnPrevious(side1, side2, sidesPreviousOther);
-        }
-
+        if (colorPrevious == "Right"){faceScriptPrevious.isRight = true;} 
+        else if (colorPrevious == "Left"){faceScriptPrevious.isLeft = true;}
+        else if (colorPrevious == "Top"){faceScriptPrevious.isTop = true;}
+        
+        if (side1 == sidePrevious){UpdateSidesBasedOnPrevious(side2, side3, sidesPreviousOther);} 
+        else if (side2 == sidePrevious){UpdateSidesBasedOnPrevious(side1, side3, sidesPreviousOther);} 
+        else if (side3 == sidePrevious){UpdateSidesBasedOnPrevious(side1, side2, sidesPreviousOther);}
 
         ResetOtherSides(sidesPreviousOther);
 
@@ -302,11 +283,6 @@ public class FaceScript : MonoBehaviour
         NHS.SetNavigationHint(FS1);
         NHS.SetNavigationHint(FS2);
         NHS.SetNavigationHint(FS3);
-
-        foreach (var pair in sides)
-        {
-            Debug.Log($"Key: {pair.Key}, Value: {pair.Value.name}");
-        }
     }
 
     private Material GetMaterialForSide(string side)
@@ -325,71 +301,50 @@ public class FaceScript : MonoBehaviour
         Transform transformSideOne = sideOne.transform;
         Transform transformSideTwo = sideTwo.transform;
 
-        float distance1 = Vector3.Distance(transformSideOne.position, sidesPreviousOther[0].transform.position);
-        float distance2 = Vector3.Distance(transformSideOne.position, sidesPreviousOther[1].transform.position);
-        float distance3 = Vector3.Distance(transformSideTwo.position, sidesPreviousOther[0].transform.position);
-        float distance4 = Vector3.Distance(transformSideTwo.position, sidesPreviousOther[1].transform.position);
+        float distanceFrom1To1 = Vector3.Distance(transformSideOne.position, sidesPreviousOther[0].transform.position);
+        float distanceFrom1To2 = Vector3.Distance(transformSideOne.position, sidesPreviousOther[1].transform.position);
+        float distanceFrom2To1 = Vector3.Distance(transformSideTwo.position, sidesPreviousOther[0].transform.position);
+        float distanceFrom2To2 = Vector3.Distance(transformSideTwo.position, sidesPreviousOther[1].transform.position);
 
-        Debug.Log(distance1.ToString() + "\n" + distance2.ToString() + "\n" + distance3.ToString() + "\n" + distance4.ToString());
-
-        if (distance1 < distance2 && distance3 > distance4)
+        if (distanceFrom1To1 < distanceFrom1To2 && distanceFrom2To1 > distanceFrom2To2)
         {
-            UpdateSide(sideOne, sidesPreviousOther[0], sideTwo, sidesPreviousOther[1]);
+
+            UpdateSide(sideOne, sidesPreviousOther[0]);
+            UpdateSide(sideTwo, sidesPreviousOther[1]);
         }
-        else if (distance1 > distance2 && distance3 < distance4)
+        else if (distanceFrom1To1 > distanceFrom1To2 && distanceFrom2To1 < distanceFrom2To2)
         {
-            UpdateSide(sideOne, sidesPreviousOther[1], sideTwo, sidesPreviousOther[0]);
+            UpdateSide(sideOne, sidesPreviousOther[1]);
+            UpdateSide(sideTwo, sidesPreviousOther[0]);
         }
         else
         {
-            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
 
-    private void UpdateSide(GameObject sideA, GameObject sidePreviousA, GameObject sideB, GameObject sidePreviousB)
+    private void UpdateSide(GameObject side, GameObject sidePrevious)
     {
-        FaceScript faceScriptSideA = sideA.GetComponent<FaceScript>();
-        FaceScript faceScriptSideB = sideB.GetComponent<FaceScript>();
-        FaceScript faceScriptSidePreviousA = sidePreviousA.GetComponent<FaceScript>();
-        FaceScript faceScriptSidePreviousB = sidePreviousB.GetComponent<FaceScript>();
+        FaceScript faceScriptSide = side.GetComponent<FaceScript>();
+        FaceScript faceScriptSidePrevious = sidePrevious.GetComponent<FaceScript>();
 
-
-        if (faceScriptSidePreviousA.isRight)
+        if (faceScriptSidePrevious.isRight)
         {
-            sides.Add("RightSide", sideA);
-            SetSideMaterial(faceScriptSideA, materialRightFace);
-            faceScriptSideA.isRight = true;
+            sides.Add("RightSide", side);
+            SetSideMaterial(faceScriptSide, materialRightFace);
+            faceScriptSide.isRight = true;
         }
-        else if (faceScriptSidePreviousA.isLeft)
+        else if (faceScriptSidePrevious.isLeft)
         {
-            sides.Add("LeftSide", sideA);
-            SetSideMaterial(faceScriptSideA, materialLeftFace);
-            faceScriptSideA.isLeft = true;
+            sides.Add("LeftSide", side);
+            SetSideMaterial(faceScriptSide, materialLeftFace);
+            faceScriptSide.isLeft = true;
         }
-        else if (faceScriptSidePreviousA.isTop)
+        else if (faceScriptSidePrevious.isTop)
         {
-            sides.Add("TopSide", sideA);
-            SetSideMaterial(faceScriptSideA, materialTopFace);
-            faceScriptSideA.isTop = true;
-        }
-
-        if (faceScriptSidePreviousB.isRight)
-        {
-            sides.Add("RightSide", sideB);
-            SetSideMaterial(faceScriptSideB, materialRightFace);
-            faceScriptSideB.isRight = true;
-        }
-        else if (faceScriptSidePreviousB.isLeft)
-        {
-            sides.Add("LeftSide", sideB);
-            SetSideMaterial(faceScriptSideB, materialLeftFace);
-            faceScriptSideB.isLeft = true;
-        }
-        else if (faceScriptSidePreviousB.isTop)
-        {
-            sides.Add("TopSide", sideB);
-            SetSideMaterial(faceScriptSideB, materialTopFace);
-            faceScriptSideB.isTop = true;
+            sides.Add("TopSide", side);
+            SetSideMaterial(faceScriptSide, materialTopFace);
+            faceScriptSide.isTop = true;
         }
     }
 
@@ -428,7 +383,7 @@ public class FaceScript : MonoBehaviour
 
         foreach (var pair in sides)
         {
-            if (pair.Key != key)
+            if (pair.Key != key + "Side")
             {
                 otherObjects[index] = pair.Value;
                 index++;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TutorialController : MonoBehaviour
+public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _text;
     public GameObject _textSpace;

@@ -7,7 +7,7 @@ public class TutorialAnimationScript : MonoBehaviour
     [SerializeField] private GameObject[] objectsToAnimate;
     [SerializeField] private AnimationClip animationClip1;
     [SerializeField] private AnimationClip animationClip2;
-    [SerializeField] private TutorialController TC;
+    [SerializeField] private TutorialManager TM;
     [SerializeField] private float moveDuration = 1.0f; // Время, за которое объекты будут подниматься
 
     private void Start()
@@ -45,8 +45,8 @@ public class TutorialAnimationScript : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
             }
         }
-        TC._textSpace.SetActive(true);
-        TC.isAnimationEnded = true;
+        TM._textSpace.SetActive(true);
+        TM.isAnimationEnded = true;
     }
 
     private IEnumerator MoveObjectUp(GameObject obj)
