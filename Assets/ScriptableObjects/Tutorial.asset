@@ -13,23 +13,39 @@ MonoBehaviour:
   m_Name: Tutorial
   m_EditorClassIdentifier: 
   _messages:
-  - _message: BE NOT AFRAID, CHILD
+  - _message: IT...IS...YOU...
     _isMoving: 0
     _isBeat: 0
     _isKilling: 0
-  - _message: Moving, huh? Use WAD
-    _isMoving: 1
+  - _message: PRESS W TO MOVE
+    _isMoving: 0
     _isBeat: 0
     _isKilling: 0
-  - _message: Yeah, there's beats. You can move only in beat
-    _isMoving: 1
-    _isBeat: 1
+  - _message: EVERY STEP INVERT YOUR SIDES
+    _isMoving: 0
+    _isBeat: 0
     _isKilling: 0
-  - _message: Red faces can kill you ;)
-    _isMoving: 1
-    _isBeat: 1
-    _isKilling: 1
-  - _message: Bye-Bye
+  - _message: MOVE 5 MORE TIMES
+    _isMoving: 0
+    _isBeat: 0
+    _isKilling: 0
+  - _message: MOVE 4 MORE TIMES
+    _isMoving: 0
+    _isBeat: 0
+    _isKilling: 0
+  - _message: MOVE 3 MORE TIMES
+    _isMoving: 0
+    _isBeat: 0
+    _isKilling: 0
+  - _message: MOVE 2 MORE TIMES
+    _isMoving: 0
+    _isBeat: 0
+    _isKilling: 0
+  - _message: MOVE 1 MORE TIMES
+    _isMoving: 0
+    _isBeat: 0
+    _isKilling: 0
+  - _message: GOOD BOY
     _isMoving: 0
     _isBeat: 0
     _isKilling: 0

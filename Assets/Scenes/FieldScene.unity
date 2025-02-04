@@ -4865,7 +4865,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &653177928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6454,17 +6454,6 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &810189966 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 17391637735116295, guid: 5155a2d849069b64e895f0cae445592d, type: 3}
-  m_PrefabInstance: {fileID: 810189960}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 810189962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8982b84b108a02d41bd90fc972d45f90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &810189967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6912,7 +6901,6 @@ MonoBehaviour:
   materialPlayer: {fileID: 2100000, guid: c11a02e573dd05145bd2f29b900363c6, type: 2}
   RM: {fileID: 0}
   FAS: {fileID: 0}
-  TC: {fileID: 0}
   PS: {fileID: 1651598535}
   CM: {fileID: 0}
   faceIndices: 
@@ -7632,6 +7620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTurnOn: 0
+  isTutorial: 0
   RM: {fileID: 0}
   canPress: 1
   canCombo: 0
@@ -9641,7 +9630,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1118948110
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15914,7 +15903,7 @@ MonoBehaviour:
   - {fileID: 323525088}
   animationClip1: {fileID: 7400000, guid: b923a1b813bca284e85bf23227cae815, type: 2}
   animationClip2: {fileID: 7400000, guid: e12384ea0cde1224a9da9f1ed0974398, type: 2}
-  TC: {fileID: 2064100246}
+  TM: {fileID: 0}
   moveDuration: 1
 --- !u!1001 &1662116704
 PrefabInstance:
@@ -16448,7 +16437,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1685764110
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19556,7 +19545,7 @@ MonoBehaviour:
   _tutorialSettings: {fileID: 11400000, guid: e059237301094c241baf081cba3f7cac, type: 2}
   _timeTypeSymbolDefault: 0.08
   _timeTypeSymbolSpeedUp: 0.01
-  _mainFace: {fileID: 810189966}
+  _mainFace: {fileID: 0}
   BC: {fileID: 908284754}
   RFS: {fileID: 864045402}
   ImageOnBeat: {fileID: 1351956854}

@@ -45,8 +45,7 @@ public class TutorialAnimationScript : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
             }
         }
-        TM._textSpace.SetActive(true);
-        TM.isAnimationEnded = true;
+        //TM.isAnimationEnded = true;
     }
 
     private IEnumerator MoveObjectUp(GameObject obj)

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,71 +7,93 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _text;
-    public GameObject _textSpace;
-    public GameObject _imageWAD;
+    [SerializeField] private AudioSource musicManager;
+    [SerializeField] private AudioClip musicTrack;
+    [SerializeField] private TextMeshPro textMain;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject faceStart;
     public TutorialSettings _tutorialSettings;
     [SerializeField] private float _timeTypeSymbolDefault;
     [SerializeField] private float _timeTypeSymbolSpeedUp;
-    [SerializeField] private FaceScript _mainFace;
     [SerializeField] private BeatController BC;
     [SerializeField] private RedFaceScript RFS;
-    [SerializeField] private GameObject ImageOnBeat;
-    [SerializeField] private TutorialAnimationScript TAS;
+    [SerializeField] private float fadeInDuration = 2f;
     private float _timeTypeSymbolCurrent;
-    public int _index;
+    public int index = -1;
     private bool _isWriting;
-    public bool isAnimationEnded = false;
-
 
 
     private void Start()
     {
         _timeTypeSymbolCurrent = _timeTypeSymbolDefault;
-        _imageWAD.SetActive(false);
         _isWriting = false;
-        SetMessage(0);
+        textMain.text = "";
+
+        musicManager.clip = musicTrack;
+        musicManager.volume = 0f; // Начинаем с нулевой громкости
+        musicManager.Play();
+        StartCoroutine(FadeIn(musicManager, fadeInDuration));
+
+        StartCoroutine(AfterLoadWaiting());
     }
 
-    private void Update()
+    private IEnumerator AfterLoadWaiting()
     {
-        if (_textSpace.activeInHierarchy && isAnimationEnded && (Input.GetKeyDown(KeyCode.Space) && !_tutorialSettings[_index].isMoving || _tutorialSettings[_index].isMoving && Input.GetKeyDown(KeyCode.Space)))
+        GameObject[] faces = FindObjectsOfType<TutorialFaceScript>()
+            .Select(faceScript => faceScript.gameObject)
+            .ToArray();
+        
+        for (int i = 0; i < faces.Length; i++)
         {
-            _textSpace.SetActive(true);
-            StartCoroutine(ToggleSpaceCoroutine());
-            if (_isWriting) _timeTypeSymbolCurrent = _timeTypeSymbolSpeedUp;
-            else SetMessage(_index + 1);
-
-            if (_tutorialSettings[_index].isMoving && _index == 1)
+            if (faces[i] != null)
             {
-                //_mainFace.TurnOnInTutorial();
-                _imageWAD.SetActive(true);
+                DisableRenderers(faces[i]);
             }
-            if (_tutorialSettings[_index].isBeat)
-            {
-                //BC.isTutorial = false;
-                ImageOnBeat.SetActive(true);
-            }
-            if (_tutorialSettings[_index].isKilling)
-            {
-                RFS.isTurnOn=true;
-            }
-            
         }
-    }
-    private IEnumerator ToggleSpaceCoroutine()
-    {
-        _textSpace.SetActive(false);
+        
+        DisableRenderers(player);
+        
         yield return new WaitForSeconds(2f);
-        _textSpace.SetActive(true);
+
+        EnableRenderers(player);
+        EnableRenderers(faceStart);
+
+        yield return new WaitForSeconds(1f);
+
+        SetMessage(0);
+
+        yield return new WaitForSeconds(2f);
+
+        for (int i = 0; i < faces.Length; i++)
+        {
+            if (faces[i].GetComponent<TutorialFaceScript>().isTop)
+            {
+                EnableRenderers(faces[i]);
+            }
+        }
+        
+        yield return new WaitForSeconds(2f);
+        
+        SetMessage(1);
+
+        yield return new WaitForSeconds(2f);
+        SetMessage(2);
+
+        for (int i = 0; i < faces.Length; i++)
+        {
+            if (faces[i] != null)
+            {
+                EnableRenderers(faces[i]);
+            }
+        }
     }
 
     private void SetMessage(int newIndex)
     {
         if (newIndex < _tutorialSettings.CountMessages)
         {
-            _index = newIndex;
-            StartCoroutine(TypingText(_tutorialSettings[_index].Message));
+            index = newIndex;
+            StartCoroutine(TypingText(_tutorialSettings[index].Message));
         }
         else
         {
@@ -86,19 +109,51 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator TypingText(string text)
     {
         _isWriting = true;
-        _text.text = "";
+        textMain.text = "";
 
         for (int i = 0; i < text.Length; i++)
         {
-            _text.text += text[i];
+            textMain.text += text[i];
             yield return new WaitForSeconds(_timeTypeSymbolCurrent);
         }
         _isWriting = false;
         _timeTypeSymbolCurrent = _timeTypeSymbolDefault;
-        if (_index == 0)
-        {
-            TAS.StartAnimation();
-        }
         yield return null;
+    }
+
+    private void EnableRenderers(GameObject side)
+    {
+        Renderer[] childRenderers = side.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in childRenderers)
+        {
+            renderer.enabled = true;
+        }
+        side.SetActive(true);
+    }
+
+    private void DisableRenderers(GameObject side)
+    {
+        Renderer[] childRenderers = side.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in childRenderers)
+        {
+            renderer.enabled = false;
+        }
+        side.SetActive(false);
+    }
+
+    IEnumerator FadeIn(AudioSource audioSource, float duration)
+    {
+        float startVolume = 0f;
+        float targetVolume = 1f; // Максимальная громкость
+
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, targetVolume, elapsedTime / duration);
+            yield return null;
+        }
+
+        audioSource.volume = targetVolume; // Убедимся, что громкость установлена в 1 после завершения
     }
 }

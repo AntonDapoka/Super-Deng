@@ -73,6 +73,7 @@ public class TutorialFaceScript : MonoBehaviour
     public bool isKilling = false;
     public bool isColored = false;
     public bool isBlocked = false;
+    public bool isTurnOffNavigation = false;
     public bool isBonus = false;
     public bool isTutorial = true;
     public bool isLeft = false;
@@ -131,9 +132,7 @@ public class TutorialFaceScript : MonoBehaviour
 
         FS1.isBlocked = true;
         FS2.isBlocked = true;
-
-        DisableRenderers(side1);
-        DisableRenderers(side2);
+        FS3.isBlocked = false;
 
         PS.SetCurrentFace(gameObject);
 
@@ -145,15 +144,7 @@ public class TutorialFaceScript : MonoBehaviour
         NHS.SetNavigationHintTutorial(FS2);
         NHS.SetNavigationHintTutorial(FS3);
     }
-
-    private void DisableRenderers(GameObject side)
-    {
-        Renderer[] childRenderers = side.GetComponentsInChildren<Renderer>();
-        foreach (Renderer renderer in childRenderers)
-        {
-            renderer.enabled = false;
-        }
-    }
+ 
 
     private void SetSideMaterial(TutorialFaceScript face, Material material)
     {

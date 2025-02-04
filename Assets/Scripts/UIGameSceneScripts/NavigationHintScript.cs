@@ -75,7 +75,7 @@ public class NavigationHintScript : MonoBehaviour
             TurnToThePlayer(textNavigationHint.transform);
         }
 
-        if (TFS.isBlocked)
+        if (TFS.isTurnOffNavigation)
         {
             textNavigationHint.enabled = false;
         }
