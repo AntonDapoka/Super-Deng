@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class BeatController : MonoBehaviour //Скрипт под снос
 {
     public bool isTurnOn = false;
+    public bool isTutorial = false;
     [SerializeField] private RhythmManager RM;
     private float beatInterval;
     private float elapsedTime = 0f;
@@ -28,10 +29,13 @@ public class BeatController : MonoBehaviour //Скрипт под снос
     private void Start()
     {
         beatInterval = RM.beatInterval;
-        image1.enabled = false;
-        image1.rectTransform.localPosition = startPos1;
-        image2.enabled = false;
-        image2.rectTransform.localPosition = startPos2;
+        if (!isTutorial)
+        {
+            image1.enabled = false;
+            image1.rectTransform.localPosition = startPos1;
+            image2.enabled = false;
+            image2.rectTransform.localPosition = startPos2;
+        }
     }
 
     private void Update()
@@ -56,8 +60,12 @@ public class BeatController : MonoBehaviour //Скрипт под снос
                     else
                         canPress = false;
                     float t = elapsedTime / (beatInterval / 3f);
-                    image1.rectTransform.localPosition = Vector3.Lerp(almostEndPos1, endPos1, t);
-                    image2.rectTransform.localPosition = Vector3.Lerp(almostEndPos2, endPos2, t);
+                    if (!isTutorial)
+                    {
+                        image1.rectTransform.localPosition = Vector3.Lerp(almostEndPos1, endPos1, t);
+                        image2.rectTransform.localPosition = Vector3.Lerp(almostEndPos2, endPos2, t);
+                    }
+                    
 
                 }
                 else if (elapsedTime < (2f * beatInterval) / 3f)
@@ -69,10 +77,13 @@ public class BeatController : MonoBehaviour //Скрипт под снос
                         PressIsAlreadyPress();
 
                     float t = (elapsedTime - (beatInterval / 3f)) / (beatInterval / 3f);
-                    image1.enabled = true;
-                    image1.rectTransform.localPosition = Vector3.Lerp(startPos1, midPos1, t);
-                    image2.enabled = true;
-                    image2.rectTransform.localPosition = Vector3.Lerp(startPos2, midPos2, t);
+                    if (!isTutorial)
+                    {
+                        image1.enabled = true;
+                        image1.rectTransform.localPosition = Vector3.Lerp(startPos1, midPos1, t);
+                        image2.enabled = true;
+                        image2.rectTransform.localPosition = Vector3.Lerp(startPos2, midPos2, t);
+                    }
                 }
                 else if (elapsedTime < beatInterval)
                 {
@@ -81,8 +92,11 @@ public class BeatController : MonoBehaviour //Скрипт под снос
                     else
                         canPress = false;
                     float t = (elapsedTime - ((2f * beatInterval) / 3f)) / (beatInterval / 3f);
-                    image1.rectTransform.localPosition = Vector3.Lerp(midPos1, almostEndPos1, t);
-                    image2.rectTransform.localPosition = Vector3.Lerp(midPos2, almostEndPos2, t);
+                    if (!isTutorial)
+                    {
+                        image1.rectTransform.localPosition = Vector3.Lerp(midPos1, almostEndPos1, t);
+                        image2.rectTransform.localPosition = Vector3.Lerp(midPos2, almostEndPos2, t);
+                    }
                 }
                 else
                 {

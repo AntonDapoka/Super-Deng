@@ -4,9 +4,11 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
+    public bool isTutorial = false;
     [SerializeField] private int hp = 4;
     [SerializeField] private GameObject faceCurrent;
     private FaceScript faceCurrentFS;
+    private TutorialFaceScript faceCurrentFST;
     [Space]
     [SerializeField] private GameObject glowingPartTop;
     [SerializeField] private GameObject glowingPartMiddle;
@@ -29,9 +31,9 @@ public class PlayerScript : MonoBehaviour
     private bool isLosing = false;
     private bool inTakingDamage = false;
 
+
     private void Awake()
     {
-        
         rendPartTop = glowingPartTop.GetComponent<MeshRenderer>();
         rendPartMiddle = glowingPartMiddle.GetComponent<MeshRenderer>();
         rendPartLeft = glowingPartLeft.GetComponent<MeshRenderer>();
@@ -42,84 +44,64 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
-        faceCurrentFS = faceCurrent.GetComponent<FaceScript>();
+        if (!isTutorial)
+        {
+            faceCurrentFS = faceCurrent.GetComponent<FaceScript>();
+        }
+        else faceCurrentFST = faceCurrent.GetComponent<TutorialFaceScript>();
     }
 
     private void Update()
     {
-        if (faceCurrentFS.isKilling && !inTakingDamage)
+        
+        if (!isTutorial)
         {
-            inTakingDamage = true;
-            TakeDamage();
-            StartCoroutine(PlayAnimationTakeDamage());
-        }
-        if (Input.GetKeyDown(KeyCode.Q) && !inTakingDamage)
-        {
-            inTakingDamage = true;
-            TakeDamage();
-            StartCoroutine(PlayAnimationTakeDamage());
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TakeHP();
-        }
-
-        if (faceCurrent.GetComponent<FaceScript>().isBlinking && !inBlinking)
-        {
-            inBlinking = true;
-            if (animator != null && animClipBlink != null)
+            if (faceCurrentFS != null && faceCurrentFS.isKilling && !inTakingDamage)
             {
-                animator.enabled = true;
-                animator.Play(animClipBlink.name); 
+                inTakingDamage = true;
+                TakeDamage();
+                StartCoroutine(PlayAnimationTakeDamage());
+            }
+            if (faceCurrentFS != null && faceCurrentFS.isBlinking && !inBlinking)
+            {
+                inBlinking = true;
+                if (animator != null && animClipBlink != null)
+                {
+                    animator.enabled = true;
+                    animator.Play(animClipBlink.name);
+                }
+            }
+            else if (faceCurrentFS != null && !faceCurrentFS.isBlinking && inBlinking)
+            {
+                inBlinking = false;
+                animator.enabled = false;
+                ResetMaterials();
             }
         }
-        else if (!faceCurrent.GetComponent<FaceScript>().isBlinking && inBlinking)
+        else if (faceCurrentFST.isKilling && !inTakingDamage)
         {
-            inBlinking = false;
-            animator.enabled = false;
-            ResetMaterials();
+            inTakingDamage = true;
+            TakeDamage();
+            StartCoroutine(PlayAnimationTakeDamage());
         }
     }
 
     public void ResetMaterials()
     {
-        if (hp == 4)
+        Material[] materials = new Material[] { materialTurnOff, materialTurnOn };
+        Material[] parts = new Material[] { rendPartTop.material, rendPartMiddle.material, rendPartLeft.material, rendPartRight.material };
+
+        for (int i = 0; i < 4; i++)
         {
-            rendPartTop.material = materialTurnOn;
-            rendPartMiddle.material = materialTurnOn;
-            rendPartLeft.material = materialTurnOn;
-            rendPartRight.material = materialTurnOn;
+            parts[i] = materials[(hp >= i + 1) ? 1 : 0];
         }
-        else if (hp == 3)
-        {
-            rendPartRight.material = materialTurnOn;
-            rendPartTop.material = materialTurnOff;
-            rendPartMiddle.material = materialTurnOn;
-            rendPartLeft.material = materialTurnOn;
-        }
-        else if (hp == 2)
-        {
-            rendPartRight.material = materialTurnOff;
-            rendPartTop.material = materialTurnOff;
-            rendPartMiddle.material = materialTurnOn;
-            rendPartLeft.material = materialTurnOn;
-        }
-        else if (hp == 1)
-        {
-            rendPartRight.material = materialTurnOff;
-            rendPartTop.material = materialTurnOff;
-            rendPartMiddle.material = materialTurnOn;
-            rendPartLeft.material = materialTurnOff;
-        }
-        else
-        {
-            rendPartRight.material = materialTurnOff;
-            rendPartTop.material = materialTurnOff;
-            rendPartMiddle.material = materialTurnOff;
-            rendPartLeft.material = materialTurnOff;
-        }
+
+        rendPartTop.material = parts[0];
+        rendPartMiddle.material = parts[1];
+        rendPartLeft.material = parts[2];
+        rendPartRight.material = parts[3];
     }
-    
+
     public void SetCurrentFace(GameObject face)
     {
         faceCurrent = face;

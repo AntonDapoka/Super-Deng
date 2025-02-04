@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -11,7 +12,7 @@ using UnityEngine.Serialization;
 // Обязательное уведомление: "Правые", "Левые" и "Верхние" указаны для треугольника с основанием, направленным ВНИЗ!!!
 // Обратите внимание, что "Правая" сторона раньше носила название "BlueSide", "Левая" - "OrangeSide", а "Верхняя" - "GreenSide"
 // Помимо прочих наименований, "Правая" сторона может записываться как "Side2", "Левая" - "Side1", а "Верхняя" - "Side3"
-public class FaceScriptTutorial : MonoBehaviour
+public class TutorialFaceScript : MonoBehaviour
 {
     /*                /\  
                      /  \
@@ -23,43 +24,33 @@ public class FaceScriptTutorial : MonoBehaviour
     */
     public bool isTurnOn = false;
     public GameObject player;
-    public int pathObjectCount = -1;
     [SerializeField] private PlayerScript PS;
 
     [Space]
-    [Header("Sides of the Face")]
-    [FormerlySerializedAs("sideBlue")]
-    [SerializeField] private GameObject side1; // OrangeSide == Side1
-    [SerializeField] private GameObject side2; // BlueSide == Side2
-    [SerializeField] private GameObject side3; // GreenSide == Side3
+    [Header("Side of the Face")]
+    [SerializeField] private GameObject prefabFace;
+    private GameObject side1; 
+    private GameObject side2;
+    private GameObject side3; 
     public Dictionary<string, GameObject> sides;
 
-    [HideInInspector] public FaceScript FS1;
-    [HideInInspector] public FaceScript FS2;
-    [HideInInspector] public FaceScript FS3;
+    [HideInInspector] public TutorialFaceScript FS1;
+    [HideInInspector] public TutorialFaceScript FS2;
+    [HideInInspector] public TutorialFaceScript FS3;
 
     [Space]
     [Header("Materials")]
-    [FormerlySerializedAs("materialWhite")]
     [SerializeField] private Material materialBasicFace;
-    [FormerlySerializedAs("materialRed")]
     [SerializeField] private Material materialKillerFace;
-    [FormerlySerializedAs("materialLightBlue")]
     [SerializeField] private Material materialPlayerFace;
-    [FormerlySerializedAs("heheheheh")]
-    [SerializeField] private Material materialSecretFace;
-    [FormerlySerializedAs("materialBlue")]
     public Material materialRightFace;
-    [FormerlySerializedAs("materialOrange")]
     public Material materialLeftFace;
-    [FormerlySerializedAs("materialGreen")]
     public Material materialTopFace;
 
     [Space]
     [Header("Glowing&Rendering")]
     public MeshRenderer rend;
     public GameObject glowingPart;
-    private Animator animator;
 
     [Header("Key Bindings")]
     public KeyCode keyLeft = KeyCode.A;
@@ -69,13 +60,10 @@ public class FaceScriptTutorial : MonoBehaviour
     [Space]
     [Header("Scene ScriptManagers")]
     [SerializeField] private FaceArrayScript FAS;
-    [SerializeField] private StartCountDown SCD;
     [SerializeField] private RedFaceScript RFS;
     [SerializeField] private BeatController BC;
     [SerializeField] private SoundScript SS;
     [SerializeField] private BonusSpawnerScript BSS;
-    [SerializeField] private PathCounterScript PCS;
-    [SerializeField] private PortalSpawnerScript PSS;
     [SerializeField] private NavigationHintScript NHS;
 
     [Space]
@@ -83,64 +71,69 @@ public class FaceScriptTutorial : MonoBehaviour
     public bool havePlayer = false;
     private bool transferInProgress = false;
     public bool isKilling = false;
-    public bool isBlinking = false;
     public bool isColored = false;
     public bool isBlocked = false;
-    public bool isPortal = false;
     public bool isBonus = false;
-    public bool isTutorial = false;
-    [HideInInspector] public bool isLeft = false;
-    [HideInInspector] public bool isRight = false;
-    [HideInInspector] public bool isTop = false;
+    public bool isTutorial = true;
+    public bool isLeft = false;
+     public bool isRight = false;
+     public bool isTop = false;
 
-
-    private void OnEnable()
+    
+    private void Start()
     {
         rend = glowingPart.GetComponent<MeshRenderer>();
         keyRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
         keyLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
         keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
 
-        pathObjectCount = havePlayer ? 0 : -1;
-
-        if (!havePlayer && !isTutorial)
+        if (havePlayer)
         {
-            GameObject[] closestObjects = FindClosestObjectsFromArray(FAS.GetAllFaces(), 3);
-            side1 = closestObjects[0];
-            side2 = closestObjects[1];
-            side3 = closestObjects[2];
+            side1 = Instantiate(prefabFace, transform);
+            side2 = Instantiate(prefabFace, transform);
+            side3 = Instantiate(prefabFace, transform);
+            
+            side1.transform.SetLocalPositionAndRotation(new Vector3(-1, 0, -0.5f), Quaternion.Euler(0, 180, 0));
+            side2.transform.SetLocalPositionAndRotation(new Vector3(1, 0, -0.5f), Quaternion.Euler(0, 180, 0));
+            side3.transform.SetLocalPositionAndRotation(new Vector3(0, 0, 1.15f), Quaternion.Euler(0, 180, 0));
+
+            side1.transform.parent = null;
+            side2.transform.parent = null;
+            side3.transform.parent = null;
+
+            FS1 = side1.GetComponent<TutorialFaceScript>();
+            FS2 = side2.GetComponent<TutorialFaceScript>();
+            FS3 = side3.GetComponent<TutorialFaceScript>();
+
+            TransfetDataToNewFaces(FS1, FS2, FS3);
         }
-
-        FS1 = side1.GetComponent<FaceScript>();
-        FS2 = side2.GetComponent<FaceScript>();
-        FS3 = side3.GetComponent<FaceScript>();
-    }
-
-    private void Start()
-    {
         sides = new Dictionary<string, GameObject>();
-
-        animator = GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.enabled = false;
-        }
 
         if (havePlayer)
         {
             InitializePlayerFace();
         }
     }
-
+    
     private void InitializePlayerFace()
     {
         sides.Add("LeftSide", side1);
         sides.Add("RightSide", side2);
         sides.Add("TopSide", side3);
-
+        /*
+        foreach (var pair in sides)
+        {
+            Debug.Log($"Key: {pair.Key}, Value: {pair.Value.name}");
+        }*/
         FS1.isLeft = true;
         FS2.isRight = true;
         FS3.isTop = true;
+
+        FS1.isBlocked = true;
+        FS2.isBlocked = true;
+
+        DisableRenderers(side1);
+        DisableRenderers(side2);
 
         PS.SetCurrentFace(gameObject);
 
@@ -148,16 +141,49 @@ public class FaceScriptTutorial : MonoBehaviour
         SetSideMaterial(FS2, materialRightFace);
         SetSideMaterial(FS3, materialTopFace);
 
-        NHS.SetNavigationHint(FS1);
-        NHS.SetNavigationHint(FS2);
-        NHS.SetNavigationHint(FS3);
+        NHS.SetNavigationHintTutorial(FS1);
+        NHS.SetNavigationHintTutorial(FS2);
+        NHS.SetNavigationHintTutorial(FS3);
     }
 
-    private void SetSideMaterial(FaceScript face, Material material)
+    private void DisableRenderers(GameObject side)
+    {
+        Renderer[] childRenderers = side.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in childRenderers)
+        {
+            renderer.enabled = false;
+        }
+    }
+
+    private void SetSideMaterial(TutorialFaceScript face, Material material)
     {
         if (!face.isKilling) face.rend.material = material;
     }
+    
+    private void TransfetDataToNewFaces(TutorialFaceScript faceScript1, TutorialFaceScript faceScript2, TutorialFaceScript faceScript3)
+    {
+        faceScript1.ReceiveDataToNewFaces(player, PS, prefabFace, FAS, RFS, BC, SS, BSS, NHS);
+        faceScript2.ReceiveDataToNewFaces(player, PS, prefabFace, FAS, RFS, BC, SS, BSS, NHS);
+        faceScript3.ReceiveDataToNewFaces(player, PS, prefabFace, FAS, RFS, BC, SS, BSS, NHS);
+    }
 
+    public void ReceiveDataToNewFaces(GameObject _player, PlayerScript _PS, GameObject _prefabFace,
+        FaceArrayScript _FAS, RedFaceScript _RFS, BeatController _BC, SoundScript _SS, 
+        BonusSpawnerScript _BSS, NavigationHintScript _NHS)
+    {
+        isTurnOn = true;
+        isTutorial = true;
+        player = _player;
+        PS = _PS; 
+        prefabFace = _prefabFace;
+        FAS = _FAS;
+        RFS = _RFS;
+        BC = _BC;
+        SS = _SS;
+        BSS = _BSS;
+        NHS = _NHS;
+    }
+    
     private void Update()
     {
         if (isTurnOn && havePlayer && !transferInProgress && BC.canPress)
@@ -168,11 +194,6 @@ public class FaceScriptTutorial : MonoBehaviour
         if (havePlayer && isBonus && BSS != null)
         {
             HandleBonus();
-        }
-
-        if (havePlayer && isPortal && PSS != null)
-        {
-            HandlePortal();
         }
     }
 
@@ -193,15 +214,15 @@ public class FaceScriptTutorial : MonoBehaviour
 
     private string GetDirectionFromInput()
     {
-        if (Input.GetKeyDown(keyLeft) && !GetGameObject("LeftSide").GetComponent<FaceScript>().isBlocked)
+        if (Input.GetKeyDown(keyLeft) && !GetGameObject("LeftSide").GetComponent<TutorialFaceScript>().isBlocked)
         {
             return "Left";
         }
-        else if (Input.GetKeyDown(keyTop) && !GetGameObject("TopSide").GetComponent<FaceScript>().isBlocked)
+        else if (Input.GetKeyDown(keyTop) && !GetGameObject("TopSide").GetComponent<TutorialFaceScript>().isBlocked)
         {
             return "Top";
         }
-        else if (Input.GetKeyDown(keyRight) && !GetGameObject("RightSide").GetComponent<FaceScript>().isBlocked)
+        else if (Input.GetKeyDown(keyRight) && !GetGameObject("RightSide").GetComponent<TutorialFaceScript>().isBlocked)
         {
             return "Right";
         }
@@ -227,14 +248,6 @@ public class FaceScriptTutorial : MonoBehaviour
         }
     }
 
-    private void HandlePortal()
-    {
-        Portal portal = GetComponentInChildren<Portal>(true);
-        isPortal = false;
-        portal.DestroyMe();
-        PSS.LoadSecretScene();
-    }
-
     private void StartTransfer(GameObject targetSide, string color)
     {
         transferInProgress = true;
@@ -252,7 +265,7 @@ public class FaceScriptTutorial : MonoBehaviour
     private IEnumerator TransferPlayer(GameObject targetSide, string color)
     {
         yield return new WaitForSeconds(0.01f);
-        FaceScript targetFace = targetSide.GetComponent<FaceScript>();
+        TutorialFaceScript targetFace = targetSide.GetComponent<TutorialFaceScript>();
 
         havePlayer = false;
         targetFace.ReceivePlayer(player, gameObject, color, GetOtherGameObjects(color));
@@ -267,33 +280,75 @@ public class FaceScriptTutorial : MonoBehaviour
         isTop = false;
         isLeft = false;
 
-        sides.Add($"{colorPrevious}Side", sidePrevious);
+        side1 = Instantiate(prefabFace, transform);
+        side2 = Instantiate(prefabFace, transform);
+        side3 = Instantiate(prefabFace, transform);
 
-        FaceScript faceScriptPrevious = sidePrevious.GetComponent<FaceScript>();
+        side1.transform.SetLocalPositionAndRotation(new Vector3(-1, 0, -0.5f), Quaternion.Euler(0, 180, 0));
+        side2.transform.SetLocalPositionAndRotation(new Vector3(1, 0, -0.5f), Quaternion.Euler(0, 180, 0));
+        side3.transform.SetLocalPositionAndRotation(new Vector3(0, 0, 1.15f), Quaternion.Euler(0, 180, 0));
+
+        side1.transform.parent = null;
+        side2.transform.parent = null;
+        side3.transform.parent = null;
+
+
+        FS1 = side1.GetComponent<TutorialFaceScript>();
+        FS2 = side2.GetComponent<TutorialFaceScript>();
+        FS3 = side3.GetComponent<TutorialFaceScript>();
+        TransfetDataToNewFaces(FS1, FS2, FS3);
+
+        TutorialFaceScript faceScriptPrevious;
+
+        if (sidePrevious.transform.position == side1.transform.position)
+        {
+            sides.Add($"{colorPrevious}Side", side1);
+
+            faceScriptPrevious = side1.GetComponent<TutorialFaceScript>();
+            UpdateSidesBasedOnPrevious(side2, side3, sidesPreviousOther);
+
+        }
+        else if (sidePrevious.transform.position == side2.transform.position)
+        {
+            sides.Add($"{colorPrevious}Side", side2);
+            faceScriptPrevious = side2.GetComponent<TutorialFaceScript>();
+            UpdateSidesBasedOnPrevious(side1, side3, sidesPreviousOther);
+        }
+        else
+        {
+            sides.Add($"{colorPrevious}Side", side3);
+            faceScriptPrevious = side3.GetComponent<TutorialFaceScript>();
+            UpdateSidesBasedOnPrevious(side1, side2, sidesPreviousOther);
+        }
+
         SetSideMaterial(faceScriptPrevious, GetMaterialForSide(colorPrevious));
 
         if (colorPrevious == "Right") { faceScriptPrevious.isRight = true; }
         else if (colorPrevious == "Left") { faceScriptPrevious.isLeft = true; }
         else if (colorPrevious == "Top") { faceScriptPrevious.isTop = true; }
 
-        if (side1 == sidePrevious) { UpdateSidesBasedOnPrevious(side2, side3, sidesPreviousOther); }
-        else if (side2 == sidePrevious) { UpdateSidesBasedOnPrevious(side1, side3, sidesPreviousOther); }
-        else if (side3 == sidePrevious) { UpdateSidesBasedOnPrevious(side1, side2, sidesPreviousOther); }
-
         ResetOtherSides(sidesPreviousOther);
 
         havePlayer = true;
         PS.ResetMaterials();
-        PCS.SetPathCount();
         PS.SetCurrentFace(gameObject);
 
         newPlayer.transform.SetParent(gameObject.transform);
         newPlayer.transform.localPosition = Vector3.zero;
         newPlayer.transform.localRotation = Quaternion.identity;
 
-        NHS.SetNavigationHint(FS1);
-        NHS.SetNavigationHint(FS2);
-        NHS.SetNavigationHint(FS3);
+        NHS.SetNavigationHintTutorial(FS1);
+        NHS.SetNavigationHintTutorial(FS2);
+        NHS.SetNavigationHintTutorial(FS3);
+
+        foreach (var pair in sides)
+        {
+            Debug.Log($"Key: {pair.Key}, Value: {pair.Value.name}");
+        }
+
+        Destroy(sidePrevious);
+        Destroy(sidesPreviousOther[0]);
+        Destroy(sidesPreviousOther[1]);
     }
 
     private Material GetMaterialForSide(string side)
@@ -336,8 +391,8 @@ public class FaceScriptTutorial : MonoBehaviour
 
     private void UpdateSide(GameObject side, GameObject sidePrevious)
     {
-        FaceScript faceScriptSide = side.GetComponent<FaceScript>();
-        FaceScript faceScriptSidePrevious = sidePrevious.GetComponent<FaceScript>();
+        TutorialFaceScript faceScriptSide = side.GetComponent<TutorialFaceScript>();
+        TutorialFaceScript faceScriptSidePrevious = sidePrevious.GetComponent<TutorialFaceScript>();
 
         if (faceScriptSidePrevious.isRight)
         {
@@ -363,7 +418,7 @@ public class FaceScriptTutorial : MonoBehaviour
     {
         foreach (var side in sidesPreviousOther)
         {
-            FaceScript faceScript = side.GetComponent<FaceScript>();
+            TutorialFaceScript faceScript = side.GetComponent<TutorialFaceScript>();
             faceScript.isRight = false;
             faceScript.isTop = false;
             faceScript.isLeft = false;
