@@ -79,6 +79,16 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1268033295347960166}
   m_SourcePrefab: {fileID: 100100000, guid: bd3131f766189fb489bb8b0fe0301a28, type: 3}
+--- !u!23 &304469189995291341 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4174145801627146455, guid: bd3131f766189fb489bb8b0fe0301a28, type: 3}
+  m_PrefabInstance: {fileID: 4455250118724352538}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &892989168009083719 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3580558009726075229, guid: bd3131f766189fb489bb8b0fe0301a28, type: 3}
+  m_PrefabInstance: {fileID: 4455250118724352538}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3536825102783596363 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bd3131f766189fb489bb8b0fe0301a28, type: 3}
@@ -113,11 +123,12 @@ MonoBehaviour:
   materialRightFace: {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
   materialLeftFace: {fileID: 2100000, guid: 59989691223971d4f80f5f257faa22f4, type: 2}
   materialTopFace: {fileID: 2100000, guid: 58f78dde3204a174db4c9037a8914c82, type: 2}
-  rend: {fileID: 0}
-  glowingPart: {fileID: 0}
+  rend: {fileID: 304469189995291341}
+  glowingPart: {fileID: 892989168009083719}
   keyLeft: 97
   keyTop: 119
   keyRight: 100
+  FAS: {fileID: 0}
   SCD: {fileID: 0}
   RFS: {fileID: 0}
   BC: {fileID: 0}

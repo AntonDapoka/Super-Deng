@@ -57,7 +57,7 @@ public class ComboManager : MonoBehaviour
         }
         if ((Input.GetKeyDown(keyLeft) && !Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyRight)) || (Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyLeft) && !Input.GetKeyDown(keyRight)) || (Input.GetKeyDown(keyRight) && !Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyLeft)))
         {
-            if (!inProcess && TC.timeElapsed < TC.totalTime && TC.isTurnOn)
+            if (!inProcess && (TC == null || (TC.timeElapsed < TC.totalTime && TC.isTurnOn)))
             {
                 inProcess = true;
                 if (comboTime)

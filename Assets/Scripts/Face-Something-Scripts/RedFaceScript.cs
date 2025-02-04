@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using System.Linq;
 
 public class RedFaceScript : MonoBehaviour
@@ -20,10 +18,8 @@ public class RedFaceScript : MonoBehaviour
     [SerializeField] private Material materialPlayer;
     [SerializeField] private RhythmManager RM;
     [SerializeField] private FaceArrayScript FAS;
-    [SerializeField] private TimerController TC;
     [SerializeField] private PlayerScript PS;
     [SerializeField] private ComboManager CM;
-    
 
     public List<int> faceIndices = new();
     public int colvo;

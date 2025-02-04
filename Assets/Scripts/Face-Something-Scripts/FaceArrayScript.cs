@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FaceArrayScript : MonoBehaviour
@@ -35,6 +36,13 @@ public class FaceArrayScript : MonoBehaviour
     [SerializeField] private GameObject[] facesStripZ_D;
     [SerializeField] private GameObject[] facesStripZ_E;
     [SerializeField] private GameObject[] facesStripZ_F;*/
+    private void Awake()
+    {
+        GameObject[] faces = FindObjectsOfType<FaceScript>()
+            .Select(faceScript => faceScript.gameObject)
+            .ToArray();
+        Debug.Log($"Найдено объектов с FaceScript: {faces.Length}");
+    }
 
     public GameObject[] GetAllFaces()
     {

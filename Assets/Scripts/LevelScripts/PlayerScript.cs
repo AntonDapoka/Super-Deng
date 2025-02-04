@@ -190,7 +190,11 @@ public class PlayerScript : MonoBehaviour
     {
         isLosing = true;
         rendPartMiddle.material = materialTurnOff;
-        LS.Lose();
+        if (LS != null)
+        {
+            LS.Lose();
+        }
+        
     }
 
     public void SetPartsMaterial(Material material)

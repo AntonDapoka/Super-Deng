@@ -61,3 +61,51 @@ MonoBehaviour:
     targetValueRGB: 0
     isSetRGBIncrease: 0
     isSetRGBDecrease: 0
+  - time: 3
+    isRedFaceTurnOn: 1
+    isRedFaceRandom: 1
+    arrayOfRedFaces: 
+    quantityOfRedFaces: 3
+    isRedWaveTurnOn: 0
+    isRedWaveRandom: 0
+    arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
+    quantityOfRedWaves: 0
+    proximityLimitOfRedWaves: 0
+    isFallFaceTurnOn: 0
+    isFallFaceRandom: 0
+    arrayOfFallFaces: 
+    quantityOfFallFaces: 0
+    proximityLimitOfFallFaces: 0
+    isResetDelay: 0
+    resetDelayTime: 0
+    isResetFallFaceTurnOn: 0
+    isBonusTurnOn: 0
+    isBonusRandom: 0
+    arrayOfBonuses: 
+    quantityOfBonuses: 0
+    proximityLimitOfBonuses: 0
+    isBonusHealth: 0
+    isBonusCombo: 0
+    isPortalTurnOn: 0
+    isPortalRandom: 0
+    arrayOfPortals: 
+    quantityOfPortals: 0
+    proximityLimitOfPortals: 0
+    isFaceDanceTurnOn: 0
+    durationOfCycleFaceDance: 0
+    scaleFactorFaceDance: 0
+    isChangingFaceDance: 0
+    isIncreaseFaceDance: 0
+    durationChangingFaceDance: 0
+    isSphereDanceTurnOn: 0
+    angleSphereDance: 0
+    durationOfCycleSphereDance: 0
+    isCameraRotationTurnOn: 0
+    isCameraRotationClockwise: 0
+    speedCameraRotation: 0
+    isRGBTurnOn: 0
+    speedRGB: 0
+    targetValueRGB: 0
+    isSetRGBIncrease: 0
+    isSetRGBDecrease: 0

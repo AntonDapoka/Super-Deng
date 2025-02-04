@@ -2,6 +2,7 @@ using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -67,6 +68,7 @@ public class FaceScript : MonoBehaviour
 
     [Space]
     [Header("Scene ScriptManagers")]
+    [SerializeField] private FaceArrayScript FAS;
     [SerializeField] private StartCountDown SCD;
     [SerializeField] private RedFaceScript RFS;
     [SerializeField] private BeatController BC;
@@ -86,12 +88,13 @@ public class FaceScript : MonoBehaviour
     public bool isBlocked = false;
     public bool isPortal = false;
     public bool isBonus = false;
+    public bool isTutorial = false;
     [HideInInspector] public bool isLeft = false;
     [HideInInspector] public bool isRight = false;
     [HideInInspector] public bool isTop = false;
 
 
-    private void Awake()
+    private void OnEnable()
     {
         rend = glowingPart.GetComponent<MeshRenderer>();
         keyRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
@@ -99,6 +102,14 @@ public class FaceScript : MonoBehaviour
         keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
 
         pathObjectCount = havePlayer ? 0 : -1;
+
+        if (!havePlayer && !isTutorial)
+        {
+            GameObject[] closestObjects = FindClosestObjectsFromArray(FAS.GetAllFaces(), 3);
+            side1 = closestObjects[0];
+            side2 = closestObjects[1];
+            side3 = closestObjects[2];
+        }
 
         FS1 = side1.GetComponent<FaceScript>();
         FS2 = side2.GetComponent<FaceScript>();
@@ -393,5 +404,16 @@ public class FaceScript : MonoBehaviour
             }
         }
         return otherObjects;
+    }
+
+    GameObject[] FindClosestObjectsFromArray(GameObject[] objectsArray, int count)
+    {
+        var sortedObjects = objectsArray
+            .OrderBy(obj => Vector3.Distance(this.transform.position, obj.transform.position))
+            .Skip(1) // Пропускаем первый объект (потому что самый ближайший - это и есть сама грань)
+            .Take(count) 
+            .ToArray();
+
+        return sortedObjects;
     }
 }
