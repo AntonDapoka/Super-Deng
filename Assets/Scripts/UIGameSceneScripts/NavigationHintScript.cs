@@ -42,6 +42,11 @@ public class NavigationHintScript : MonoBehaviour
         else if (FS.isTop)
             textNavigationHint = textNavigationHintTop;
 
+        if (FS.isBlocked)
+            textNavigationHint.GetComponent<MeshRenderer>().enabled = false;
+        else
+            textNavigationHint.GetComponent<MeshRenderer>().enabled = true;
+
         if (textNavigationHint != null)
         {
             textNavigationHint.transform.SetParent(faceTransform);
@@ -66,20 +71,21 @@ public class NavigationHintScript : MonoBehaviour
         else if (TFS.isTop)
             textNavigationHint = textNavigationHintTop;
 
+        if (TFS.isBlocked)
+        {
+            textNavigationHint.GetComponent<MeshRenderer>().enabled = false;
+        }
+        else
+            textNavigationHint.GetComponent<MeshRenderer>().enabled = true;
+
         if (textNavigationHint != null)
         {
             textNavigationHint.transform.SetParent(faceTransform);
             textNavigationHint.transform.localPosition = new Vector3(0, extraHeight, 0);
             textNavigationHint.transform.localRotation = Quaternion.Euler(-90f, 90f, 0);
-            textNavigationHint.transform.SetParent(player);
+            //textNavigationHint.transform.SetParent(player);
             TurnToThePlayer(textNavigationHint.transform);
         }
-
-        if (TFS.isTurnOffNavigation)
-        {
-            textNavigationHint.enabled = false;
-        }
-        else textNavigationHint.enabled = true;
     }
 
     private void TurnToThePlayer(Transform obj)

@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Tutorial
   m_EditorClassIdentifier: 
   _messages:
+  - _message: 
+    _isMoving: 0
+    _isBeat: 0
+    _isKilling: 0
+  - _message: 
+    _isMoving: 0
+    _isBeat: 0
+    _isKilling: 0
   - _message: IT...IS...YOU...
     _isMoving: 0
     _isBeat: 0

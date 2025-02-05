@@ -332,10 +332,10 @@ public class TutorialFaceScript : MonoBehaviour
         NHS.SetNavigationHintTutorial(FS2);
         NHS.SetNavigationHintTutorial(FS3);
 
-        foreach (var pair in sides)
+        /*foreach (var pair in sides)
         {
             Debug.Log($"Key: {pair.Key}, Value: {pair.Value.name}");
-        }
+        }*/
 
         Destroy(sidePrevious);
         Destroy(sidesPreviousOther[0]);
