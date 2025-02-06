@@ -21,6 +21,10 @@ MonoBehaviour:
     _isMoving: 0
     _isBeat: 0
     _isKilling: 0
+  - _message: 
+    _isMoving: 0
+    _isBeat: 0
+    _isKilling: 0
   - _message: IT...IS...YOU...
     _isMoving: 0
     _isBeat: 0
@@ -29,27 +33,11 @@ MonoBehaviour:
     _isMoving: 0
     _isBeat: 0
     _isKilling: 0
-  - _message: EVERY STEP INVERT YOUR SIDES
+  - _message: EVERY STEP INVERTS YOUR SIDES
     _isMoving: 0
     _isBeat: 0
     _isKilling: 0
-  - _message: MOVE 5 MORE TIMES
-    _isMoving: 0
-    _isBeat: 0
-    _isKilling: 0
-  - _message: MOVE 4 MORE TIMES
-    _isMoving: 0
-    _isBeat: 0
-    _isKilling: 0
-  - _message: MOVE 3 MORE TIMES
-    _isMoving: 0
-    _isBeat: 0
-    _isKilling: 0
-  - _message: MOVE 2 MORE TIMES
-    _isMoving: 0
-    _isBeat: 0
-    _isKilling: 0
-  - _message: MOVE 1 MORE TIMES
+  - _message: REACH THE DESTINATION
     _isMoving: 0
     _isBeat: 0
     _isKilling: 0

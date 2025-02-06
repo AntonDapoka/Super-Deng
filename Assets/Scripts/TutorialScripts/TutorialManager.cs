@@ -1,83 +1,142 @@
 using System.Collections;
-using System.Linq;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
+    [Header("Key Bindings")]
+    public KeyCode keyLeft = KeyCode.A;
+    public KeyCode keyTop = KeyCode.W;
+    public KeyCode keyRight = KeyCode.D;
+
+    [SerializeField] private RhythmManager rhythmManager;
     [SerializeField] private AudioSource musicManager;
     [SerializeField] private AudioClip musicTrack;
-    [SerializeField] private TextMeshPro textMain;
+    [SerializeField] private TextMeshPro tutorialText;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject faceStart;
-    public TutorialSettings _tutorialSettings;
-    [SerializeField] private float _timeTypeSymbolDefault;
-    [SerializeField] private float _timeTypeSymbolSpeedUp;
-    [SerializeField] private BeatController BC;
-    [SerializeField] private RedFaceScript RFS;
+    [SerializeField] private GameObject faceDestination;
+    [SerializeField] private TutorialSettings tutorialSettings;
+    [SerializeField] private float defaultTypeSpeed = 0.1f;
+    [SerializeField] private float fastTypeSpeed = 0.05f;
+    [SerializeField] private BeatController beatController;
+    [SerializeField] private RedFaceScript redFaceScript;
     [SerializeField] private float fadeInDuration = 2f;
-    private float _timeTypeSymbolCurrent;
-    public int index = -1;
-    private bool isWriting;
+
+    private float currentTypeSpeed;
+    [SerializeField] private int currentMessageIndex = -1;
+    private bool isTyping;
     private bool isWaiting;
-    private Coroutine currentCoroutine;
+    private Coroutine typingCoroutine;
 
     private void Start()
     {
-        _timeTypeSymbolCurrent = _timeTypeSymbolDefault;
-        isWriting = false;
-        textMain.text = "";
+        InitializeTutorial();
+    }
+
+    private void InitializeTutorial()
+    {
+        currentTypeSpeed = defaultTypeSpeed;
+        isTyping = false;
+        tutorialText.text = "";
+        faceDestination.SetActive(false);
 
         musicManager.clip = musicTrack;
-        musicManager.volume = 0f; // Начинаем с нулевой громкости
+        musicManager.volume = 0f;
         musicManager.Play();
 
-        GameObject[] faces = FindObjectsOfType<TutorialFaceScript>()
-            .Select(faceScript => faceScript.gameObject)
-            .ToArray();
-
-        for (int i = 0; i < faces.Length; i++)
-        {
-            if (faces[i] != null)
-            {
-                DisableRenderers(faces[i]);
-            }
-        }
+        LoadKeyBindings();
+        DisableAllFaces();
         DisableRenderers(player);
 
-        StartCoroutine(FadeIn(musicManager, fadeInDuration));
+        StartCoroutine(FadeInAudio(musicManager, fadeInDuration));
+        StartCoroutine(StartTutorialSequence());
+    }
 
-        StartCoroutine(AfterLoadWaiting());
+    private void LoadKeyBindings()
+    {
+        keyRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
+        keyLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
+        keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
+    }
+
+    private void DisableAllFaces()
+    {
+        foreach (var face in FindObjectsOfType<TutorialFaceScript>())
+        {
+            DisableRenderers(face.gameObject);
+        }
     }
 
     private void Update()
     {
-        if (Input.anyKeyDown || Input.GetMouseButtonDown(0) ||
-            Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump") ||
-            Input.GetButtonDown("Submit") || Input.GetButtonDown("Cancel"))
+        HandleInput();
+
+        if (faceDestination != null && Vector3.Distance(player.transform.position, faceDestination.transform.position) < 0.1f)
         {
-            if (isWriting) _timeTypeSymbolCurrent = _timeTypeSymbolSpeedUp;
-            else if (!isWaiting)
+            Destroy(faceDestination);
+            currentMessageIndex++;
+            DisplayMessage(currentMessageIndex);
+        }
+    }
+
+    private void HandleInput()
+    {
+        if (Input.anyKeyDown || Input.GetMouseButtonDown(0) || Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump") 
+            || Input.GetButtonDown("Submit") || Input.GetButtonDown("Cancel"))
+        {
+            if (!IsValidKeyPress())
             {
-                StartCoroutine(SetAccess());
+                if (isTyping)
+                {
+                    currentTypeSpeed = fastTypeSpeed;
+                }
+                else if (currentMessageIndex < 4)
+                {
+                    StartCoroutine(StartTutorialSequence());
+                    //DisplayMessage(currentMessageIndex);
+                }
+            }
+            else if (Input.GetKeyDown(keyTop) && currentMessageIndex == 4)
+            {
+                UnlockTopFaces();
+                currentMessageIndex++;
+                DisplayMessage(currentMessageIndex);
+            }
+            else if (IsValidKeyPress() && currentMessageIndex == 5)
+            {
+                currentMessageIndex++;
+                DisplayMessage(currentMessageIndex);
+                faceDestination.SetActive(true);
             }
         }
     }
 
-    private IEnumerator AfterLoadWaiting()
+    private bool IsValidKeyPress()
     {
-        yield return new WaitForSeconds(2f);
-        StartCoroutine(SetAccess());
+        return Input.GetKeyDown(keyLeft) || Input.GetKeyDown(keyTop) || Input.GetKeyDown(keyRight);
     }
 
-    private void SetMessage(int newIndex)
+    private void UnlockTopFaces()
     {
-        if (newIndex < _tutorialSettings.CountMessages)
+        foreach (var face in FindObjectsOfType<TutorialFaceScript>())
         {
-            index = newIndex;
-            StartCoroutine(TypingText(_tutorialSettings[index].Message));
+            if (face.isTop)
+            {
+                EnableRenderers(face.gameObject);
+                face.isBlocked = false;
+            }
+        }
+    }
+
+    private void DisplayMessage(int messageIndex)
+    {
+        if (messageIndex < tutorialSettings.CountMessages)
+        {
+            currentMessageIndex = messageIndex;
+            StartCoroutine(TypeText(tutorialSettings[messageIndex].Message));
         }
         else
         {
@@ -85,102 +144,78 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private IEnumerator SetAccess()
+    private IEnumerator StartTutorialSequence()
     {
-        index++;
+        currentMessageIndex++;
         isWaiting = true;
-        if (currentCoroutine != null)
-            StopCoroutine(currentCoroutine);
-        SetMessage(index);
 
-        GameObject[] faces = FindObjectsOfType<TutorialFaceScript>()
-            .Select(faceScript => faceScript.gameObject)
-            .ToArray();
-        
-        if (index == 1)
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        DisplayMessage(currentMessageIndex);
+
+        if (currentMessageIndex == 2)
         {
-
             EnableRenderers(player);
             EnableRenderers(faceStart);
-
-            yield return new WaitForSeconds(2f);
         }
-        else if (index == 2)
+        else if (currentMessageIndex == 4)
         {
-            for (int i = 0; i < faces.Length; i++)
-            {
+            UnlockTopFaces();
+        }
 
-                if (faces[i].GetComponent<TutorialFaceScript>().isTop)
-                {
-                    EnableRenderers(faces[i]);
-                    Debug.Log(faces[i].name);
-                }
-            }
-            yield return new WaitForSeconds(2f);
-        }
-        else if (index == 3)
-        {
-            for (int i = 0; i < faces.Length; i++)
-            {
-                if (faces[i] != null)
-                {
-                    Debug.Log("aaa");
-                    EnableRenderers(faces[i]);
-                }
-            }
-            yield return new WaitForSeconds(2f);
-        }
+        yield return new WaitForSeconds(rhythmManager.beatInterval * 3);
         isWaiting = false;
-        if (index < 4) currentCoroutine = StartCoroutine(SetAccess());
-    }
 
-    public void LoseTutorial()
-    {
-        TypingText("Loser");
-    }
-
-
-    private IEnumerator TypingText(string text)
-    {
-        isWriting = true;
-        textMain.text = "";
-
-        for (int i = 0; i < text.Length; i++)
+        if (currentMessageIndex < 4)
         {
-            textMain.text += text[i];
-            yield return new WaitForSeconds(_timeTypeSymbolCurrent);
-        }
-        isWriting = false;
-        _timeTypeSymbolCurrent = _timeTypeSymbolDefault;
-        yield return null;
-    }
-
-    private void EnableRenderers(GameObject side)
-    {
-        Renderer[] childRenderers = side.GetComponentsInChildren<Renderer>();
-        foreach (Renderer renderer in childRenderers)
-        {
-            renderer.enabled = true;
+            typingCoroutine = StartCoroutine(StartTutorialSequence());
         }
     }
 
-    private void DisableRenderers(GameObject side)
+    private IEnumerator TypeText(string text)
     {
-        
-        Renderer[] childRenderers = side.GetComponentsInChildren<Renderer>();
-        foreach (Renderer renderer in childRenderers)
+        isTyping = true;
+        tutorialText.text = "";
+
+        foreach (char letter in text)
         {
-            renderer.enabled = false;
+            tutorialText.text += letter;
+            yield return new WaitForSeconds(currentTypeSpeed);
         }
-        //side.SetActive(false);
+
+        isTyping = false;
+        currentTypeSpeed = defaultTypeSpeed;
     }
 
-    IEnumerator FadeIn(AudioSource audioSource, float duration)
+    private void EnableRenderers(GameObject target)
     {
-        float startVolume = 0f;
-        float targetVolume = 1f; // Максимальная громкость
+        if (target != null)
+        {
+            foreach (var renderer in target.GetComponentsInChildren<Renderer>())
+            {
+                renderer.enabled = true;
+            }
+        }
+    }
 
+    private void DisableRenderers(GameObject target)
+    {
+        if (target != null)
+        {
+            foreach (var renderer in target.GetComponentsInChildren<Renderer>())
+            {
+                renderer.enabled = false;
+            }
+        }
+    }
+
+    private IEnumerator FadeInAudio(AudioSource audioSource, float duration)
+    {
         float elapsedTime = 0f;
+        float startVolume = 0f;
+        float targetVolume = 1f;
+
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
@@ -188,6 +223,6 @@ public class TutorialManager : MonoBehaviour
             yield return null;
         }
 
-        audioSource.volume = targetVolume; // Убедимся, что громкость установлена в 1 после завершения
+        audioSource.volume = targetVolume;
     }
 }
