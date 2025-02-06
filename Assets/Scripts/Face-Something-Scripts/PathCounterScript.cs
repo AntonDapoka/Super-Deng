@@ -29,7 +29,9 @@ public class PathCounterScript : MonoBehaviour
         }
         queue = new Queue<FaceScript>();
         queue.Enqueue(startface);
-        startface.pathObjectCount = 0;
+        if (startface != null)
+            startface.pathObjectCount = 0;
+        else Debug.Log("No startface");
         while (queue.Count > 0)
         {
             FaceScript current = queue.Dequeue();
