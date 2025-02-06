@@ -317,13 +317,13 @@ public class FaceScript : MonoBehaviour
         float distanceFrom2To1 = Vector3.Distance(transformSideTwo.position, sidesPreviousOther[0].transform.position);
         float distanceFrom2To2 = Vector3.Distance(transformSideTwo.position, sidesPreviousOther[1].transform.position);
 
-        if (distanceFrom1To1 < distanceFrom1To2)//&& distanceFrom2To1 > distanceFrom2To2
+        if (distanceFrom1To1 < distanceFrom1To2 && distanceFrom2To1 > distanceFrom2To2)
         {
 
             UpdateSide(sideOne, sidesPreviousOther[0]);
             UpdateSide(sideTwo, sidesPreviousOther[1]);
         }
-        else if (distanceFrom1To1 > distanceFrom1To2)// && distanceFrom2To1 < distanceFrom2To2
+        else if (distanceFrom1To1 > distanceFrom1To2 && distanceFrom2To1 < distanceFrom2To2)
         {
             UpdateSide(sideOne, sidesPreviousOther[1]);
             UpdateSide(sideTwo, sidesPreviousOther[0]);
