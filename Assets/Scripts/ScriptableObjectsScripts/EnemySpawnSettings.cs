@@ -12,7 +12,7 @@ public class EnemySpawnSettings : ScriptableObject
 [System.Serializable]
 public class SpawnTimeData
 {
-    public float time;
+    public int time;
 
 
     public bool isRedFaceTurnOn;

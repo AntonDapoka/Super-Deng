@@ -44,7 +44,7 @@ public class EnemySpawnSettingsEditor : Editor
 
             EditorGUILayout.BeginVertical(GUI.skin.box);
             EditorGUILayout.LabelField("Frame ¹" + i.ToString(), headerStyle);
-            EditorGUILayout.PropertyField(time, new GUIContent("Time"));
+            EditorGUILayout.PropertyField(time, new GUIContent("Time (beats)"));
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Red Face Settings:", labelStyle);

@@ -6,6 +6,7 @@ using UnityEngine;
 public class UnifiedFrameManagerScript : MonoBehaviour
 {
     public bool isTurnOn = false;
+    [SerializeField] private RhythmManager RM;
     [SerializeField] private TimerController TC;
     [SerializeField] private RedFaceScript RFS;
     [SerializeField] private RedWaveScript RWS;
@@ -31,16 +32,16 @@ public class UnifiedFrameManagerScript : MonoBehaviour
     {
         if (TC != null && TC.isTurnOn && isTurnOn)
         {
-            float elapsedTime = TC.timeElapsed; //Время таймера
+            int currentBeat = RM.currentBeat; //Время таймера
 
             //if (currentSpawnIndex < enemySpawnSettings.spawnTimes.Length)   //Если текущий фрейм настроек не последний. Не используется
 
             var spawnTimeData = enemySpawnSettings.spawnTimes[currentSpawnIndex];
             var nextSpawnTimeData = currentSpawnIndex < enemySpawnSettings.spawnTimes.Length - 1
                 ? enemySpawnSettings.spawnTimes[currentSpawnIndex + 1]
-                : new SpawnTimeData { time = float.MaxValue }; //Если следующего фрейма нет, то создаем максимально далекий
+                : new SpawnTimeData { time = int.MaxValue }; //Если следующего фрейма нет, то создаем максимально далекий
 
-            if (elapsedTime >= spawnTimeData.time && elapsedTime <= nextSpawnTimeData.time && !spawnExecuted[currentSpawnIndex]) //Во время текущего фрейма применяем настройки
+            if (currentBeat >= spawnTimeData.time && currentBeat <= nextSpawnTimeData.time && !spawnExecuted[currentSpawnIndex]) //Во время текущего фрейма применяем настройки
             {
                 if (spawnTimeData.isRedFaceTurnOn)
                 {
@@ -271,7 +272,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
                 spawnExecuted[currentSpawnIndex] = true;
             }
 
-            if (elapsedTime > nextSpawnTimeData.time)
+            if (currentBeat > nextSpawnTimeData.time)
             {
                 currentSpawnIndex++;
             }

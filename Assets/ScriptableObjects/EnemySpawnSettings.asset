@@ -126,16 +126,16 @@ MonoBehaviour:
     - {x: 4, y: 4, z: 2}
     - {x: 5, y: 5, z: 5}
     speedsOfOrbits:
-    - 0.2
-    - 1.2
-    - 0.4
+    - 20
+    - 120
+    - 40
     materialsOfOrbits:
     - {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
     - {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
     - {fileID: 2100000, guid: c11a02e573dd05145bd2f29b900363c6, type: 2}
     minChangeIntervalOfOrbits: 5
     maxChangeIntervalOfOrbits: 20
-  - time: 10
+  - time: 40
     isRedFaceTurnOn: 0
     isRedFaceRandom: 0
     arrayOfRedFaces: 
@@ -254,9 +254,9 @@ MonoBehaviour:
     - {x: 4, y: 4, z: 2}
     - {x: 5, y: 5, z: 5}
     speedsOfOrbits:
-    - 2
-    - 12
-    - 4
+    - 0.2
+    - 1.2
+    - 0.4
     materialsOfOrbits:
     - {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
     - {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}

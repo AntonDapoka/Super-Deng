@@ -35,7 +35,7 @@ public class OrbitScript : MonoBehaviour
         targetRotationAxes = new Vector3[torusCount];
         currentRotationAxes = new Vector3[torusCount];
         sizesTorus = sizes;
-        speedsTorus = speeds;   
+        speedsTorus = new float[torusCount];
         materialsTorus = materials;
         minChangeIntervalTorus = minChangeInterval;
         maxChangeIntervalTorus = maxChangeInterval;
@@ -45,6 +45,7 @@ public class OrbitScript : MonoBehaviour
 
         for (int i = 0; i < torusCount; i++)
         {
+            speedsTorus[i] = speeds[i];
             torusArray[i] = Instantiate(torusPrefab, transform);
             torusArray[i].transform.localScale = sizesTorus[i];
             torusArray[i].GetComponent<Renderer>().material = materialsTorus[i];
