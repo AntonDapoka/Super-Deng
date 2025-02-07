@@ -1,75 +1,154 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class OrbitScript : MonoBehaviour
 {
-    [SerializeField] private GameObject torusPrefab; // Префаб тора
-    [SerializeField] private int torusCount = 5; // Количество торов
-    public float rotationSpeed = 100f; // Скорость вращения
-    public float minChangeInterval = 1f; // Минимальный интервал смены направления
-    public float maxChangeInterval = 5f; // Максимальный интервал смены направления
-    public float smoothness = 0.1f; // Плавность смены направления
+    public bool isTurnOn = false;
+    [SerializeField] private GameObject torusPrefab; // РџСЂРµС„Р°Р± С‚РѕСЂР°
+    [SerializeField] private float smoothness = 0.1f; // РџР»Р°РІРЅРѕСЃС‚СЊ СЃРјРµРЅС‹ РЅР°РїСЂР°РІР»РµРЅРёСЏ
+    [SerializeField] private float duration = 3f; 
+    private int torusCount = 5; // РљРѕР»РёС‡РµСЃС‚РІРѕ С‚РѕСЂРѕРІ
+    private float minChangeIntervalTorus = 1f; // РњРёРЅРёРјР°Р»СЊРЅС‹Р№ РёРЅС‚РµСЂРІР°Р» СЃРјРµРЅС‹ РЅР°РїСЂР°РІР»РµРЅРёСЏ
+    private float maxChangeIntervalTorus = 5f; // РњР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РёРЅС‚РµСЂРІР°Р» СЃРјРµРЅС‹ РЅР°РїСЂР°РІР»РµРЅРёСЏ
 
-    private GameObject[] torusArray; // Массив торов
-    private Vector3[] targetRotationAxes; // Массив целевых осей вращения
-    private Vector3[] currentRotationAxes; // Массив текущих осей вращения
-    [SerializeField]  private Material[] materials;
-    private float[] changeIntervals; // Массив уникальных интервалов для каждого тора
-    private float[] timers; // Массив индивидуальных таймеров для каждого тора
+    private GameObject[] torusArray; // РњР°СЃСЃРёРІ С‚РѕСЂРѕРІ
+    private Vector3[] targetRotationAxes; // РњР°СЃСЃРёРІ С†РµР»РµРІС‹С… РѕСЃРµР№ РІСЂР°С‰РµРЅРёСЏ
+    private Vector3[] currentRotationAxes; // РњР°СЃСЃРёРІ С‚РµРєСѓС‰РёС… РѕСЃРµР№ РІСЂР°С‰РµРЅРёСЏ
+    private Vector3[] sizesTorus;
+    private float[] speedsTorus;
+    private Material[] materialsTorus;
+    private float[] changeIntervalsTorus; // РњР°СЃСЃРёРІ СѓРЅРёРєР°Р»СЊРЅС‹С… РёРЅС‚РµСЂРІР°Р»РѕРІ РґР»СЏ РєР°Р¶РґРѕРіРѕ С‚РѕСЂР°
+    private float[] timers; // РњР°СЃСЃРёРІ РёРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹С… С‚Р°Р№РјРµСЂРѕРІ РґР»СЏ РєР°Р¶РґРѕРіРѕ С‚РѕСЂР°
 
-    void Start()
+    public AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    public void SetOrbits(int count, Vector3[] sizes, float[] speeds, Material[] materials, float minChangeInterval, float maxChangeInterval)
     {
-        // Инициализация массивов
+        if (sizes.Length != count || speeds.Length != count || materials.Length != count)
+        {
+            Debug.Log("РќРµРїСЂР°РІРёР»СЊРЅРѕ СѓРєР°Р·Р°РЅС‹ РјР°СЃСЃРёРІС‹ РѕСЂР±РёС‚");
+        }
+
+        torusCount = count;
         torusArray = new GameObject[torusCount];
         targetRotationAxes = new Vector3[torusCount];
         currentRotationAxes = new Vector3[torusCount];
-        changeIntervals = new float[torusCount];
+        sizesTorus = sizes;
+        speedsTorus = speeds;   
+        materialsTorus = materials;
+        minChangeIntervalTorus = minChangeInterval;
+        maxChangeIntervalTorus = maxChangeInterval;
+
+        changeIntervalsTorus = new float[torusCount];
         timers = new float[torusCount];
 
         for (int i = 0; i < torusCount; i++)
         {
-            // Создание тора и добавление его в массив
             torusArray[i] = Instantiate(torusPrefab, transform);
-
-            // Инициализация осей вращения
+            torusArray[i].transform.localScale = sizesTorus[i];
+            torusArray[i].GetComponent<Renderer>().material = materialsTorus[i];
             targetRotationAxes[i] = Random.onUnitSphere;
             currentRotationAxes[i] = targetRotationAxes[i];
 
-            // Генерация уникального интервала для каждого тора
-            changeIntervals[i] = Random.Range(minChangeInterval, maxChangeInterval);
 
-            // Инициализация таймера
+            changeIntervalsTorus[i] = Random.Range(minChangeInterval, maxChangeInterval);
+
             timers[i] = 0f;
         }
+
+        StartCoroutine(SettingOrbits());
     }
 
-    void Update()
+    private IEnumerator SettingOrbits()
     {
-        for (int i = 0; i < torusCount; i++)
+        for (int i = 0; i < torusArray.Length; i++)
         {
-            // Плавное изменение оси вращения
-            currentRotationAxes[i] = Vector3.Lerp(currentRotationAxes[i], targetRotationAxes[i], smoothness * Time.deltaTime);
-            torusArray[i].transform.Rotate(currentRotationAxes[i] * rotationSpeed * Time.deltaTime);
-
-            // Обновление таймера
-            timers[i] += Time.deltaTime;
-
-            // Если таймер превысил интервал, меняем ось вращения
-            if (timers[i] >= changeIntervals[i])
+            if (torusArray[i] != null)
             {
-                ChangeRotation(i);
-                timers[i] = 0f;
+                torusArray[i].transform.localScale *= 100f;
+                speedsTorus[i] /= 10f;
+            }
+        }
+
+
+        Vector3[] startScales = new Vector3[torusArray.Length];
+        for (int i = 0; i < torusArray.Length; i++)
+        {
+            if (torusArray[i] != null)
+            {
+                startScales[i] = torusArray[i].transform.localScale;
+
+            }
+        }
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration; 
+            float curveValue = scaleCurve.Evaluate(t); // РџРѕР»СѓС‡Р°РµРј Р·РЅР°С‡РµРЅРёРµ РёР· РєСЂРёРІРѕР№
+
+            for (int i = 0; i < torusArray.Length; i++)
+            {
+                if (torusArray[i] != null)
+                {
+                    torusArray[i].transform.localScale = Vector3.LerpUnclamped(startScales[i], sizesTorus[i], curveValue);
+                }
+            }
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        for (int i = 0; i < torusArray.Length; i++)
+        {
+            if (torusArray[i] != null)
+            {
+                torusArray[i].transform.localScale = sizesTorus[i];
+                speedsTorus[i] *= 10f;
             }
         }
     }
 
-    void ChangeRotation(int index)
+    private void Update()
     {
-        // Генерация новой случайной оси вращения для конкретного тора
+        if (isTurnOn)
+        {
+            for (int i = 0; i < torusCount; i++)
+            {
+                // РџР»Р°РІРЅРѕРµ РёР·РјРµРЅРµРЅРёРµ РѕСЃРё РІСЂР°С‰РµРЅРёСЏ
+                currentRotationAxes[i] = Vector3.Lerp(currentRotationAxes[i], targetRotationAxes[i], smoothness * Time.deltaTime);
+                torusArray[i].transform.Rotate(currentRotationAxes[i] * speedsTorus[i] * Time.deltaTime);
+
+                // РћР±РЅРѕРІР»РµРЅРёРµ С‚Р°Р№РјРµСЂР°
+                timers[i] += Time.deltaTime;
+
+                // Р•СЃР»Рё С‚Р°Р№РјРµСЂ РїСЂРµРІС‹СЃРёР» РёРЅС‚РµСЂРІР°Р», РјРµРЅСЏРµРј РѕСЃСЊ РІСЂР°С‰РµРЅРёСЏ
+                if (timers[i] >= changeIntervalsTorus[i])
+                {
+                    ChangeRotation(i);
+                    timers[i] = 0f;
+                }
+            }
+        }
+        else if (torusArray != null && torusArray.Length > 0)
+        {
+            for (int i = 0; i < torusCount; i++)
+            {
+                Destroy(torusArray[i]);
+
+            }
+        }
+        
+    }
+
+    private void ChangeRotation(int index)
+    {
+        // Р“РµРЅРµСЂР°С†РёСЏ РЅРѕРІРѕР№ СЃР»СѓС‡Р°Р№РЅРѕР№ РѕСЃРё РІСЂР°С‰РµРЅРёСЏ РґР»СЏ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ С‚РѕСЂР°
         targetRotationAxes[index] = Random.onUnitSphere;
 
-        // Опционально: можно обновить интервал для этого тора
-        changeIntervals[index] = Random.Range(minChangeInterval, maxChangeInterval);
+        // РћРїС†РёРѕРЅР°Р»СЊРЅРѕ: РјРѕР¶РЅРѕ РѕР±РЅРѕРІРёС‚СЊ РёРЅС‚РµСЂРІР°Р» РґР»СЏ СЌС‚РѕРіРѕ С‚РѕСЂР°
+        changeIntervalsTorus[index] = Random.Range(minChangeIntervalTorus, maxChangeIntervalTorus);
     }
 }

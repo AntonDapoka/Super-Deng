@@ -72,5 +72,13 @@ public class SpawnTimeData
     public float targetValueRGB;
     public bool isSetRGBIncrease;
     public bool isSetRGBDecrease;
+
+    public bool isOrbitsOn;
+    public int quantityOfOrbits;
+    public Vector3[] sizesOfOrbits;
+    public float[] speedsOfOrbits;
+    public Material[] materialsOfOrbits;
+    public float minChangeIntervalOfOrbits;
+    public float maxChangeIntervalOfOrbits;
 }
 

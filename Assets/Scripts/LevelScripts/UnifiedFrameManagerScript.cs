@@ -16,6 +16,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
     [SerializeField] private IcoSphereDanceScript ISDS;
     [SerializeField] private CameraRotation CR;
     [SerializeField] private CameraRGBInterferenceScript CRGBIS;
+    [SerializeField] private OrbitScript OS;
 
     [SerializeField] private EnemySpawnSettings enemySpawnSettings;
     private bool[] spawnExecuted;
@@ -252,6 +253,18 @@ public class UnifiedFrameManagerScript : MonoBehaviour
                 else
                 {
                     CRGBIS.isTurnOn = false;
+                }
+
+
+                if (spawnTimeData.isOrbitsOn)
+                {
+                    OS.isTurnOn = true;
+                    OS.SetOrbits(spawnTimeData.quantityOfOrbits, spawnTimeData.sizesOfOrbits, spawnTimeData.speedsOfOrbits, 
+                        spawnTimeData.materialsOfOrbits, spawnTimeData.minChangeIntervalOfOrbits, spawnTimeData.maxChangeIntervalOfOrbits);
+                }
+                else
+                {
+                    OS.isTurnOn = false;
                 }
 
 

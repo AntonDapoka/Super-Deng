@@ -68,7 +68,6 @@ public class EnemySpawnSettingsEditor : Editor
             EditorGUILayout.LabelField("FaceDance Settings:", labelStyle);
             SetFaceDance(spawnTime);
 
-
             EditorGUILayout.LabelField("SphereDance Settings:", labelStyle);
             SetSphereDance(spawnTime);
 
@@ -77,6 +76,9 @@ public class EnemySpawnSettingsEditor : Editor
 
             EditorGUILayout.LabelField("RGB Settings:", labelStyle);
             SetRGB(spawnTime, attentionStyle);
+
+            EditorGUILayout.LabelField("Orbits Settings:", labelStyle);
+            SetOrbits(spawnTime, attentionStyle);
 
             EditorGUILayout.EndVertical();
         }
@@ -311,6 +313,38 @@ public class EnemySpawnSettingsEditor : Editor
             EditorGUILayout.PropertyField(isSetRGBIncrease, new GUIContent("Is set RGB increase?"));
             EditorGUILayout.PropertyField(isSetRGBDecrease, new GUIContent("Is set RGB decrease?"));
             EditorGUILayout.LabelField("can not be true and true!!!", attentionStyle);
+        }
+    }
+
+    private void SetOrbits(SerializedProperty spawnTime, GUIStyle attentionStyle)
+    {
+        SerializedProperty isOrbitsOn = spawnTime.FindPropertyRelative("isOrbitsOn");
+        SerializedProperty quantityOfOrbits = spawnTime.FindPropertyRelative("quantityOfOrbits");
+        SerializedProperty sizesOfOrbits = spawnTime.FindPropertyRelative("sizesOfOrbits");
+        SerializedProperty speedsOfOrbits = spawnTime.FindPropertyRelative("speedsOfOrbits");
+        SerializedProperty materialsOfOrbits = spawnTime.FindPropertyRelative("materialsOfOrbits");
+        SerializedProperty minChangeIntervalOfOrbits = spawnTime.FindPropertyRelative("minChangeIntervalOfOrbits");
+        SerializedProperty maxChangeIntervalOfOrbits = spawnTime.FindPropertyRelative("maxChangeIntervalOfOrbits");
+
+        EditorGUILayout.PropertyField(isOrbitsOn, new GUIContent("Is Orbits On?"));
+        if (isOrbitsOn.boolValue)
+        {
+            EditorGUILayout.PropertyField(quantityOfOrbits, new GUIContent("Quantity Of Orbits"));
+            if (quantityOfOrbits.intValue > 0)
+            {
+                EditorGUILayout.PropertyField(sizesOfOrbits, new GUIContent("Array Of Sizes Of Orbits"));
+                EditorGUILayout.PropertyField(speedsOfOrbits, new GUIContent("Array Of Speeds Of Orbits"));
+                EditorGUILayout.PropertyField(materialsOfOrbits, new GUIContent("Array Of Materials Of Orbits"));
+                EditorGUILayout.PropertyField(minChangeIntervalOfOrbits, new GUIContent("Min Change Interval Of Orbits"));
+                EditorGUILayout.PropertyField(maxChangeIntervalOfOrbits, new GUIContent("Max Change Interval Of Orbits"));
+                if (sizesOfOrbits.arraySize != quantityOfOrbits.intValue ||
+                    speedsOfOrbits.arraySize != quantityOfOrbits.intValue ||
+                    materialsOfOrbits.arraySize != quantityOfOrbits.intValue)
+                {
+                    EditorGUILayout.LabelField("WROOONGGGG!!! Sizes of Arrays aren't correct!!!", attentionStyle);
+                }
+                         
+            }
         }
     }
 }

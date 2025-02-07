@@ -15,9 +15,9 @@ MonoBehaviour:
   spawnTimes:
   - time: 0
     isRedFaceTurnOn: 0
-    isRedFaceRandom: 1
+    isRedFaceRandom: 0
     arrayOfRedFaces: 
-    quantityOfRedFaces: 3
+    quantityOfRedFaces: 0
     isRedWaveTurnOn: 0
     isRedWaveRandom: 0
     arrayOfRedWaves: 
@@ -61,11 +61,21 @@ MonoBehaviour:
     targetValueRGB: 0
     isSetRGBIncrease: 0
     isSetRGBDecrease: 0
-  - time: 3
-    isRedFaceTurnOn: 1
-    isRedFaceRandom: 1
+    isOrbitsOn: 0
+    quantityOfOrbits: 1
+    sizesOfOrbits:
+    - {x: 0, y: 0, z: 0}
+    speedsOfOrbits:
+    - 0
+    materialsOfOrbits:
+    - {fileID: 0}
+    minChangeIntervalOfOrbits: 0
+    maxChangeIntervalOfOrbits: 0
+  - time: 5
+    isRedFaceTurnOn: 0
+    isRedFaceRandom: 0
     arrayOfRedFaces: 
-    quantityOfRedFaces: 3
+    quantityOfRedFaces: 0
     isRedWaveTurnOn: 0
     isRedWaveRandom: 0
     arrayOfRedWaves: 
@@ -109,3 +119,147 @@ MonoBehaviour:
     targetValueRGB: 0
     isSetRGBIncrease: 0
     isSetRGBDecrease: 0
+    isOrbitsOn: 1
+    quantityOfOrbits: 3
+    sizesOfOrbits:
+    - {x: 3, y: 3, z: 1}
+    - {x: 4, y: 4, z: 2}
+    - {x: 5, y: 5, z: 5}
+    speedsOfOrbits:
+    - 0.2
+    - 1.2
+    - 0.4
+    materialsOfOrbits:
+    - {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
+    - {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
+    - {fileID: 2100000, guid: c11a02e573dd05145bd2f29b900363c6, type: 2}
+    minChangeIntervalOfOrbits: 5
+    maxChangeIntervalOfOrbits: 20
+  - time: 10
+    isRedFaceTurnOn: 0
+    isRedFaceRandom: 0
+    arrayOfRedFaces: 
+    quantityOfRedFaces: 0
+    isRedWaveTurnOn: 0
+    isRedWaveRandom: 0
+    arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
+    quantityOfRedWaves: 0
+    proximityLimitOfRedWaves: 0
+    isFallFaceTurnOn: 0
+    isFallFaceRandom: 0
+    arrayOfFallFaces: 
+    quantityOfFallFaces: 0
+    proximityLimitOfFallFaces: 0
+    isResetDelay: 0
+    resetDelayTime: 0
+    isResetFallFaceTurnOn: 0
+    isBonusTurnOn: 0
+    isBonusRandom: 0
+    arrayOfBonuses: 
+    quantityOfBonuses: 0
+    proximityLimitOfBonuses: 0
+    isBonusHealth: 0
+    isBonusCombo: 0
+    isPortalTurnOn: 0
+    isPortalRandom: 0
+    arrayOfPortals: 
+    quantityOfPortals: 0
+    proximityLimitOfPortals: 0
+    isFaceDanceTurnOn: 0
+    durationOfCycleFaceDance: 0
+    scaleFactorFaceDance: 0
+    isChangingFaceDance: 0
+    isIncreaseFaceDance: 0
+    durationChangingFaceDance: 0
+    isSphereDanceTurnOn: 0
+    angleSphereDance: 0
+    durationOfCycleSphereDance: 0
+    isCameraRotationTurnOn: 0
+    isCameraRotationClockwise: 0
+    speedCameraRotation: 0
+    isRGBTurnOn: 0
+    speedRGB: 0
+    targetValueRGB: 0
+    isSetRGBIncrease: 0
+    isSetRGBDecrease: 0
+    isOrbitsOn: 0
+    quantityOfOrbits: 3
+    sizesOfOrbits:
+    - {x: 3, y: 3, z: 1}
+    - {x: 4, y: 4, z: 2}
+    - {x: 5, y: 5, z: 5}
+    speedsOfOrbits:
+    - 20
+    - 120
+    - 40
+    materialsOfOrbits:
+    - {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
+    - {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
+    - {fileID: 2100000, guid: c11a02e573dd05145bd2f29b900363c6, type: 2}
+    minChangeIntervalOfOrbits: 5
+    maxChangeIntervalOfOrbits: 20
+  - time: 15
+    isRedFaceTurnOn: 0
+    isRedFaceRandom: 0
+    arrayOfRedFaces: 
+    quantityOfRedFaces: 0
+    isRedWaveTurnOn: 0
+    isRedWaveRandom: 0
+    arrayOfRedWaves: 
+    lifeDurationOfRedWaves: 0
+    quantityOfRedWaves: 0
+    proximityLimitOfRedWaves: 0
+    isFallFaceTurnOn: 0
+    isFallFaceRandom: 0
+    arrayOfFallFaces: 
+    quantityOfFallFaces: 0
+    proximityLimitOfFallFaces: 0
+    isResetDelay: 0
+    resetDelayTime: 0
+    isResetFallFaceTurnOn: 0
+    isBonusTurnOn: 0
+    isBonusRandom: 0
+    arrayOfBonuses: 
+    quantityOfBonuses: 0
+    proximityLimitOfBonuses: 0
+    isBonusHealth: 0
+    isBonusCombo: 0
+    isPortalTurnOn: 0
+    isPortalRandom: 0
+    arrayOfPortals: 
+    quantityOfPortals: 0
+    proximityLimitOfPortals: 0
+    isFaceDanceTurnOn: 0
+    durationOfCycleFaceDance: 0
+    scaleFactorFaceDance: 0
+    isChangingFaceDance: 0
+    isIncreaseFaceDance: 0
+    durationChangingFaceDance: 0
+    isSphereDanceTurnOn: 0
+    angleSphereDance: 0
+    durationOfCycleSphereDance: 0
+    isCameraRotationTurnOn: 0
+    isCameraRotationClockwise: 0
+    speedCameraRotation: 0
+    isRGBTurnOn: 0
+    speedRGB: 0
+    targetValueRGB: 0
+    isSetRGBIncrease: 0
+    isSetRGBDecrease: 0
+    isOrbitsOn: 1
+    quantityOfOrbits: 3
+    sizesOfOrbits:
+    - {x: 3, y: 3, z: 1}
+    - {x: 4, y: 4, z: 2}
+    - {x: 5, y: 5, z: 5}
+    speedsOfOrbits:
+    - 2
+    - 12
+    - 4
+    materialsOfOrbits:
+    - {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
+    - {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
+    - {fileID: 2100000, guid: c11a02e573dd05145bd2f29b900363c6, type: 2}
+    minChangeIntervalOfOrbits: 5
+    maxChangeIntervalOfOrbits: 20
