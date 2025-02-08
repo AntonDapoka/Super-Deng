@@ -35,13 +35,11 @@ public class FallManager : MonoBehaviour
 
         foreach (GameObject face in faces)
         {
-            Rigidbody rb = face.GetComponent<Rigidbody>();
-            if (rb != null)
+            if (face.TryGetComponent<Rigidbody>(out var rb))
             {
                 rb.useGravity = false;
             }
-            Animator animator = face.GetComponent<Animator>();
-            if (animator != null)
+            if (face.TryGetComponent<Animator>(out var animator))
             {
                 animator.enabled = false;
             }
@@ -82,10 +80,8 @@ public class FallManager : MonoBehaviour
                     int selectedFaceIndex = availableFaces[randomIndex];
 
                     Rigidbody rb = faces[selectedFaceIndex].GetComponent<Rigidbody>();
-                    var initialPosition = rb.transform.position;
-                    var initialRotation = rb.transform.rotation;
-                    var initialLocalPosition = rb.transform.localPosition;
-                    var initialLocalRotation = rb.transform.localRotation;
+                    rb.transform.GetPositionAndRotation(out Vector3 initialPosition, out var initialRotation);
+                    rb.transform.GetLocalPositionAndRotation(out Vector3 initialLocalPosition, out var initialLocalRotation);
                     fallDataList.Add(new FallData(selectedFaceIndex, initialPosition, initialRotation, initialLocalPosition, initialLocalRotation));
 
                     StartCoroutine(PlayAnimationFall(faces[selectedFaceIndex], selectedFaceIndex));
@@ -97,15 +93,14 @@ public class FallManager : MonoBehaviour
                 var intersectedIndices = faceIndices.Intersect(availableFaces);
                 foreach (int index in intersectedIndices)
                 {
+                    Debug.Log(index);
                     Rigidbody rb = faces[index].GetComponent<Rigidbody>();
-                    var initialPosition = rb.transform.position;
-                    var initialRotation = rb.transform.rotation;
-                    var initialLocalPosition = rb.transform.localPosition;
-                    var initialLocalRotation = rb.transform.localRotation;
+                    rb.transform.GetPositionAndRotation(out Vector3 initialPosition, out var initialRotation);
+                    rb.transform.GetLocalPositionAndRotation(out Vector3 initialLocalPosition, out var initialLocalRotation);
                     fallDataList.Add(new FallData(index, initialPosition, initialRotation, initialLocalPosition, initialLocalRotation));
 
                     StartCoroutine(PlayAnimationFall(faces[index], index));
-
+                    availableFaces.RemoveAt(index);
                 }
             }
         }
@@ -121,10 +116,10 @@ public class FallManager : MonoBehaviour
             FS.isBlinking = true;
             animator.Play(animClipFall.name);
             yield return new WaitForSeconds(animClipFall.length);
+            FS.isBlinking = false;
+            animator.enabled = false;
         }
         FS.isBlocked = true;
-        FS.isBlinking = false;
-        animator.enabled = false;
         ApplyImpulse(face, numb);
     }
 
@@ -149,75 +144,57 @@ public class FallManager : MonoBehaviour
 
         rb.AddTorque(randomTorque, ForceMode.Impulse);
 
-        StartCoroutine(ResetAfterDelay(face, delay, numb));
+        StartCoroutine(ResetAfterDelay(face, delay, numb, false));
     }
 
-    IEnumerator ResetAfterDelay(GameObject face, float delay, int numb)
+    IEnumerator ResetAfterDelay(GameObject face, float delay, int numb, bool isVisible)
     {
         Rigidbody rb = face.GetComponent<Rigidbody>();
-        /*
-        if (isReset)
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
-            rb.transform.position = fallDataList.First(data => data.FallFaceNumber == numb).InitialPosition;
-            rb.transform.rotation = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation;
-            rb.transform.localPosition = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalPosition;
-            rb.transform.localRotation = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation;
-        }*/
+        Renderer[] childRenderers = face.GetComponentsInChildren<Renderer>();
 
         yield return new WaitForSeconds(delay);
+
         if (waitForDeath)
         {
             PS.StartLosing();
         }
-        
-        Renderer[] childRenderers = face.GetComponentsInChildren<Renderer>();
+
         foreach (Renderer renderer in childRenderers)
         {
-            renderer.enabled = false; 
+            if (isVisible) renderer.enabled = true;
+            else renderer.enabled = false;
         }
 
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        Debug.Log(fallDataList.Count);
-        rb.transform.position = fallDataList.First(data => data.FallFaceNumber == numb).InitialPosition;
-        rb.transform.rotation = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation;
-        rb.transform.localPosition = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalPosition;
-        rb.transform.localRotation = fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation;
+        //Debug.Log(fallDataList.Count);
+        rb.transform.SetPositionAndRotation(fallDataList.First(data => data.FallFaceNumber == numb).InitialPosition, fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation);
+        rb.transform.SetLocalPositionAndRotation(fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalPosition, fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation);
+        if (isVisible) 
+        {
+            StartCoroutine(PlayAnimationReset(face, numb));
+            
+        }
+        else if (isResetDelay && !isVisible)
+        {
+            StartCoroutine(ResetAfterDelay(face, resetDelayTime, numb, true));
+        }
+
     }
 
     public void ResetFall()
     {
-        Debug.Log("))))))))))))))");
-        for (int i = 0; i < fallDataList.Count; i++) // Обратный цикл для безопасного удаления
-        {
-            StartCoroutine(ResetAfterDelay(faces[fallDataList[i].FallFaceNumber], 0f, fallDataList[i].FallFaceNumber));
-        }
+        StopAllCoroutines();
 
-        foreach (GameObject face in faces)
+        for (int i = 0; i < fallDataList.Count; i++)
         {
-            Renderer[] childRenderers = face.GetComponentsInChildren<Renderer>();
-            foreach (Renderer renderer in childRenderers)
-            {
-               if (!renderer.enabled && !face.GetComponent<FaceScript>().havePlayer)
-               {
-                    StartCoroutine(PlayAnimationReset(face));
-                    renderer.enabled = true;
-                    
-               }
-            }
-            
-            face.GetComponent<FaceScript>().isBlocked = false;
-        }/*
-        for (int numb = 0; numb <= 80; numb++)
-        {
-            //fallDataList.RemoveAll(fallData => fallData.FallFaceNumber == numb);
-        }*/
+            //Debug.Log(fallDataList[i].FallFaceNumber);
+            StartCoroutine(ResetAfterDelay(faces[fallDataList[i].FallFaceNumber], 0f, fallDataList[i].FallFaceNumber, true));
+            faces[fallDataList[i].FallFaceNumber].GetComponent<FaceScript>().isBlinking = false;
+        }
     }
 
-    private IEnumerator PlayAnimationReset(GameObject face)
+    private IEnumerator PlayAnimationReset(GameObject face, int numb)
     {
         foreach (FaceScript FS in faceScripts)
         {
@@ -236,6 +213,9 @@ public class FallManager : MonoBehaviour
             FS.ResetRightLeftTop();
         }
         animator.enabled = false;
+
+        fallDataList.RemoveAll(f => f.FallFaceNumber == numb);
+        face.GetComponent<FaceScript>().isBlocked = false;
     }
 
 

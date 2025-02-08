@@ -22,11 +22,12 @@ public class FaceDanceScript : MonoBehaviour
 
     private void Update()
     {
-        if (isTurnOn && !inProcess && !FS.havePlayer && !FS.isBlinking && !FS.isKilling && !FS.isBlocked)
+        if (isTurnOn && !inProcess && !FS.havePlayer && !FS.isBlinking && !FS.isKilling && !FS.isBlocked && !FS.isColored && FS.glowingPart.GetComponent<Renderer>().material != FS.materialKillerFace)
         {
             constantCoroutine = StartCoroutine(ScaleObject(FS, FS.glowingPart));
             inProcess = true;
         }
+        else StopAllCoroutines();
         //Debug.Log(scaleFactor);
     }
 
@@ -105,7 +106,7 @@ public class FaceDanceScript : MonoBehaviour
 
     private IEnumerator ScaleObject(FaceScript FS, GameObject obj)
     {
-        if (isTurnOn && !FS.havePlayer && !FS.isBlinking && !FS.isKilling && !FS.isBlocked && !FS.isColored)
+        if (isTurnOn && !FS.havePlayer && !FS.isBlinking && !FS.isKilling && !FS.isBlocked && !FS.isColored && FS.glowingPart.GetComponent<Renderer>().material != FS.materialKillerFace)
         {
             inProcess = true;
 

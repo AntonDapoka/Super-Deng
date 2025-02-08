@@ -18,7 +18,7 @@ MonoBehaviour:
     value: 1
   focusDistance:
     overrideState: 1
-    value: 0.5
+    value: 1.55
   aperture:
     overrideState: 1
     value: 18.8
@@ -46,7 +46,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 12
+    value: 25
   intensityX:
     overrideState: 0
     value: 1
@@ -106,13 +106,13 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 5.85
+    value: 3.5
   threshold:
     overrideState: 1
-    value: 0.69
+    value: 0.7
   softKnee:
     overrideState: 1
-    value: 0.685
+    value: 0.819
   clamp:
     overrideState: 0
     value: 65472
@@ -189,19 +189,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
   m_Name: AutoExposure
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   filtering:
     overrideState: 1
-    value: {x: 46.87234, y: 87.87943}
+    value: {x: 39.17726, y: 78.2606}
   minLuminance:
     overrideState: 1
-    value: -0.3
+    value: -0.06
   maxLuminance:
     overrideState: 1
-    value: 1.45
+    value: 3.02
   keyValue:
     overrideState: 0
     value: 1

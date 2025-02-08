@@ -43,7 +43,7 @@ public class FaceScript : MonoBehaviour
     [FormerlySerializedAs("materialWhite")]
     [SerializeField] private Material materialBasicFace;
     [FormerlySerializedAs("materialRed")]
-    [SerializeField] private Material materialKillerFace;
+    public Material materialKillerFace;
     [FormerlySerializedAs("materialLightBlue")]
     [SerializeField] private Material materialPlayerFace;
     [FormerlySerializedAs("heheheheh")]

@@ -89,8 +89,8 @@ public class RedFaceScript : MonoBehaviour
         float timer = 0f;
         while (timer < colorChangeDuration)
         {
-            if (!FS.havePlayer) FS.rend.material = materialRed;
-            else PS.SetPartsMaterial(materialRed);
+            FS.rend.material = materialRed;
+            if (FS.havePlayer) PS.SetPartsMaterial(materialRed);
             timer += Time.deltaTime;
             yield return null;
         }
@@ -121,8 +121,8 @@ public class RedFaceScript : MonoBehaviour
 
         while (timer < duration)
         {
-            if (!FS.havePlayer) FS.rend.material = materialRed;
-            else PS.SetPartsMaterial(materialRed); 
+            FS.rend.material = materialRed;
+            if (FS.havePlayer) PS.SetPartsMaterial(materialRed);
 
             FS.glowingPart.transform.localScale = Vector3.Lerp(startScale, targetScale, timer / duration);
             FS.glowingPart.transform.localPosition = Vector3.Lerp(startPosition, targetPosition, timer / duration);
