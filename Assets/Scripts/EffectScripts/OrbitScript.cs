@@ -5,21 +5,21 @@ using UnityEngine;
 public class OrbitScript : MonoBehaviour
 {
     public bool isTurnOn = false;
-    [SerializeField] private GameObject torusPrefab; // Префаб тора
-    [SerializeField] private float smoothness = 0.1f; // Плавность смены направления
+    [SerializeField] private GameObject torusPrefab; 
+    [SerializeField] private float smoothness = 0.1f; 
     [SerializeField] private float duration = 3f; 
-    private int torusCount = 5; // Количество торов
-    private float minChangeIntervalTorus = 1f; // Минимальный интервал смены направления
-    private float maxChangeIntervalTorus = 5f; // Максимальный интервал смены направления
+    private int torusCount = 5; 
+    private float minChangeIntervalTorus = 1f; 
+    private float maxChangeIntervalTorus = 5f; 
 
-    private GameObject[] torusArray; // Массив торов
-    private Vector3[] targetRotationAxes; // Массив целевых осей вращения
-    private Vector3[] currentRotationAxes; // Массив текущих осей вращения
+    private GameObject[] torusArray; 
+    private Vector3[] targetRotationAxes; 
+    private Vector3[] currentRotationAxes; 
     private Vector3[] sizesTorus;
     private float[] speedsTorus;
     private Material[] materialsTorus;
-    private float[] changeIntervalsTorus; // Массив уникальных интервалов для каждого тора
-    private float[] timers; // Массив индивидуальных таймеров для каждого тора
+    private float[] changeIntervalsTorus;
+    private float[] timers;
 
     public AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
@@ -88,7 +88,7 @@ public class OrbitScript : MonoBehaviour
         while (elapsedTime < duration)
         {
             float t = elapsedTime / duration; 
-            float curveValue = scaleCurve.Evaluate(t); // Получаем значение из кривой
+            float curveValue = scaleCurve.Evaluate(t); 
 
             for (int i = 0; i < torusArray.Length; i++)
             {
@@ -118,14 +118,9 @@ public class OrbitScript : MonoBehaviour
         {
             for (int i = 0; i < torusCount; i++)
             {
-                // Плавное изменение оси вращения
                 currentRotationAxes[i] = Vector3.Lerp(currentRotationAxes[i], targetRotationAxes[i], smoothness * Time.deltaTime);
                 torusArray[i].transform.Rotate(currentRotationAxes[i] * speedsTorus[i] * Time.deltaTime);
-
-                // Обновление таймера
                 timers[i] += Time.deltaTime;
-
-                // Если таймер превысил интервал, меняем ось вращения
                 if (timers[i] >= changeIntervalsTorus[i])
                 {
                     ChangeRotation(i);
@@ -141,15 +136,12 @@ public class OrbitScript : MonoBehaviour
 
             }
         }
-        
     }
 
     private void ChangeRotation(int index)
     {
-        // Генерация новой случайной оси вращения для конкретного тора
         targetRotationAxes[index] = Random.onUnitSphere;
 
-        // Опционально: можно обновить интервал для этого тора
         changeIntervalsTorus[index] = Random.Range(minChangeIntervalTorus, maxChangeIntervalTorus);
     }
 }
