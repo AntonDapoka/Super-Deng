@@ -103,7 +103,7 @@ public class FaceScript : MonoBehaviour
 
         pathObjectCount = havePlayer ? 0 : -1;
 
-        if (!havePlayer && !isTutorial)
+        if (!havePlayer && !isTutorial && FAS != null)
         {
             GameObject[] closestObjects = FindClosestObjectsFromArray(FAS.GetAllFaces(), 3);
             side1 = closestObjects[0];
