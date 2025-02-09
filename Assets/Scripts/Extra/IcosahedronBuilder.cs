@@ -40,9 +40,7 @@ public class IcosahedronBuilder : MonoBehaviour
             new(0, -radiusIco, 0)
         };
 
-        Debug.Log(verticesIcosahedron[0]);
-        Debug.Log(verticesIcosahedron[1]);
-        Debug.Log(verticesIcosahedron[2]);
+      
         foreach (var vertice in verticesIcosahedron)
         {
             
@@ -51,17 +49,8 @@ public class IcosahedronBuilder : MonoBehaviour
 
         //StartCoroutine(GenerateIcosphere(verticesIcosahedron, radiusIco, inter));
 
-        Vector3[] centers = GenerateCenters(verticesIcosahedron, 1.1f);
-        Quaternion[] quaternions = GenerateRotation(verticesIcosahedron, 1.1f);
 
-        //for (int j = 0; j < centers.Length; j++)
-        //{
-
-        Debug.Log(centers[0]);
-        Debug.Log(quaternions[0]);
-        GameObject gameobject = Instantiate(facePrefab, centers[0], quaternions[0]);
-            //gameobject.GetComponent<FaceScript>().enabled = false;
-        //}
+        GenerateFaces(verticesIcosahedron, 1.1f);
     }
 
     public IEnumerator GenerateIcosphere(Vector3[] vertices, float radiusIco, int iterations)
@@ -134,9 +123,8 @@ public class IcosahedronBuilder : MonoBehaviour
         return distances;
     }
 
-    public Vector3[] GenerateCenters(Vector3[] vertices, float maxDistance)
+    public void GenerateFaces(Vector3[] vertices, float maxDistance)
     {
-        List<Vector3> centers = new();
 
         for (int i = 0; i < vertices.Length; i++)
         {
@@ -149,48 +137,20 @@ public class IcosahedronBuilder : MonoBehaviour
                         Vector3.Distance(vertices[k], vertices[i]) <= maxDistance)
                     {
                         Vector3 center = (vertices[i] + vertices[j] + vertices[k]) / 3f;
-                        centers.Add(center);
+
+                        GameObject planeObject = Instantiate(facePrefab);
+
+                        Vector3 normal = Vector3.Cross(vertices[j] - vertices[i], vertices[k] - vertices[i]).normalized;
+
+
+                        planeObject.transform.position = center;
+
+                        Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
+                        planeObject.transform.rotation = rotation;
                     }
                 }
             }
         }
 
-        return centers.ToArray();
-    }
-
-    public Quaternion[] GenerateRotation(Vector3[] vertices, float maxDistance)
-    {
-        List<Quaternion> quaternions = new();
-
-        // Проходим по всем вершинам
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            for (int j = i + 1; j < vertices.Length; j++)
-            {
-                for (int k = j + 1; k < vertices.Length; k++)
-                {
-                    // Проверяем расстояния между вершинами
-                    if (Vector3.Distance(vertices[i], vertices[j]) <= maxDistance &&
-                        Vector3.Distance(vertices[j], vertices[k]) <= maxDistance &&
-                        Vector3.Distance(vertices[k], vertices[i]) <= maxDistance)
-                    {
-                        // Если все расстояния меньше или равны maxDistance, добавляем треугольник
-                        Vector3 v1 = vertices[j] - vertices[i];
-                        Vector3 v2 = vertices[k] - vertices[i];
-                        Vector3 normal = Vector3.Cross(v1, v2).normalized;
-
-                        float angleX = Mathf.Acos(Vector3.Dot(normal, Vector3.right)) * Mathf.Rad2Deg;
-                        float angleY = Mathf.Acos(Vector3.Dot(normal, Vector3.up)) * Mathf.Rad2Deg;
-                        float angleZ = Mathf.Acos(Vector3.Dot(normal, Vector3.forward)) * Mathf.Rad2Deg;
-
-                        Quaternion rotation = Quaternion.Euler(angleX, angleY, angleZ);
-
-                        quaternions.Add(rotation);
-                    }
-                }
-            }
-        }
-
-        return quaternions.ToArray();
     }
 }
