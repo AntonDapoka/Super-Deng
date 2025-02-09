@@ -2404,9 +2404,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b062008f307952c48b8a0049a2e4646e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faces: []
   prismPrefab: {fileID: 8621958319103481344, guid: f183aed9516f7bd4ba48608542eb2f0b, type: 3}
   facePrefab: {fileID: 3536825102783596363, guid: 95235c21bf4ffa94cac9072722066f5a, type: 3}
-  inter: 2
+  iter: 0
+  radiusIco: 0
 --- !u!4 &757738068
 Transform:
   m_ObjectHideFlags: 0
