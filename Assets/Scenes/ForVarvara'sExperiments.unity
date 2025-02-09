@@ -2407,7 +2407,7 @@ MonoBehaviour:
   faces: []
   prismPrefab: {fileID: 8621958319103481344, guid: f183aed9516f7bd4ba48608542eb2f0b, type: 3}
   facePrefab: {fileID: 3536825102783596363, guid: 95235c21bf4ffa94cac9072722066f5a, type: 3}
-  iter: 0
+  iter: 1
   radiusIco: 0
 --- !u!4 &757738068
 Transform:

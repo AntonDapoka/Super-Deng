@@ -145,16 +145,17 @@ public class IcosahedronBuilder : MonoBehaviour
 
                         GameObject shadow = face.GetComponentInChildren<Shadow>().gameObject;
 
+                        
+
                         Vector3 normal = Vector3.Cross(vertices[j] - vertices[i], vertices[k] - vertices[i]).normalized;
                         face.transform.position = center;
 
                         Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
                         face.transform.rotation = rotation;
 
-                        
                         float distance = Vector3.Distance(shadow.transform.position, Vector3.zero); // Расстояние до (0,0,0)
                         Debug.Log(distance);
-                        if (Mathf.Abs(distance - 0.76f) < 0.01f)
+                        if (Mathf.Abs(distance - 0.8984507f) < 0.01f) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         {
                             face.transform.Rotate(0, 0, 180, Space.Self);
                         }
@@ -171,24 +172,6 @@ public class IcosahedronBuilder : MonoBehaviour
     {
         List<List<GameObject>> stripes = new List<List<GameObject>>();
 
-        int groupCount = 0;
-        if (gameObjects.Length == 20)
-        {
-            groupCount = 4;
-        }
-        else if (gameObjects.Length == 80)
-        {
-            groupCount = 7;
-        }
-        else if (gameObjects.Length == 320)
-        {
-            groupCount = 13;
-        }
-        else
-        {
-            Debug.Log("ERRORORORORORORO");
-        }
-
         List<GameObject> sortedObjects = new List<GameObject>(faces);
         sortedObjects.Sort((a, b) => a.transform.position.y.CompareTo(b.transform.position.y));
 
@@ -197,7 +180,7 @@ public class IcosahedronBuilder : MonoBehaviour
             bool added = false;
             foreach (var stripe in stripes)
             {
-                if (Mathf.Abs(stripe[0].transform.position.y - obj.transform.position.y) <= 0.25f)
+                if (Mathf.Abs(stripe[0].transform.position.y - obj.transform.position.y) <= 0.1f) //////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 {
                     stripe.Add(obj);
                     added = true;
@@ -223,6 +206,7 @@ public class IcosahedronBuilder : MonoBehaviour
                 if (k % 2 != 0) 
                 {
                     AlignLocalZDown(face);
+                    face.transform.localScale = Vector3.one / 3f;  
                 }
                 else
                 {
