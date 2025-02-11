@@ -11,6 +11,7 @@ public class LaunchObstaclesScript : MonoBehaviour
     [SerializeField] private BeatController BC;
     [SerializeField] private CameraZoom CZ;
     [SerializeField] private PulseToTheBeat PTTB;
+    [SerializeField] private BeatFlickeringScript BFS;
 
     public void StartLaunchObstacles()
     {
@@ -19,6 +20,7 @@ public class LaunchObstaclesScript : MonoBehaviour
         BC.isTurnOn = true;
         CZ.isTurnOn = true;
         PTTB.isTurnOn = true;
+        BFS.isTurnOn = true;
         TurnOnFaceScripts(); 
     }
 

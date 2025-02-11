@@ -15,7 +15,7 @@ public class BeatFlickeringScript : MonoBehaviour
 
     private void Start()
     {
-        SetMaterialAlpha(1f);
+        SetMaterialAlpha(0f);
     }
 
     private void Update()
@@ -28,16 +28,16 @@ public class BeatFlickeringScript : MonoBehaviour
                 if (BC.canCombo)
                 {
                     SetMaterialAlpha(0f);
-                    Debug.Log("0f");
+                    //Debug.Log("0f");
                 }
 
             }
             else
             {
                 SetMaterialAlpha(0.75f);
-                Debug.Log("1f");
+                //Debug.Log("1f");
             }
-        }    
+        }
     }
 
     private void SetMaterialAlpha(float alpha)

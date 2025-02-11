@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class OrbitScript : MonoBehaviour
 {
     public bool isTurnOn = false;
+    private bool isWaiting = false;
     [SerializeField] private GameObject torusPrefab; 
+    [SerializeField] private GameObject mainCamera; 
     [SerializeField] private float smoothness = 0.1f; 
     [SerializeField] private float duration = 3f; 
     private int torusCount = 5; 
@@ -39,81 +42,89 @@ public class OrbitScript : MonoBehaviour
         materialsTorus = materials;
         minChangeIntervalTorus = minChangeInterval;
         maxChangeIntervalTorus = maxChangeInterval;
-
+        isWaiting = true;
         changeIntervalsTorus = new float[torusCount];
         timers = new float[torusCount];
 
         for (int i = 0; i < torusCount; i++)
         {
             speedsTorus[i] = speeds[i];
-            torusArray[i] = Instantiate(torusPrefab, transform);
+            torusArray[i] = Instantiate(torusPrefab, mainCamera.transform);
+            torusArray[i].transform.position = new Vector3(0, 0, -50);
+            torusArray[i].transform.localRotation = new Quaternion(0f, 0f, 0f, 0f);
             torusArray[i].transform.localScale = sizesTorus[i];
             torusArray[i].GetComponent<Renderer>().material = materialsTorus[i];
             targetRotationAxes[i] = Random.onUnitSphere;
             currentRotationAxes[i] = targetRotationAxes[i];
-
-
             changeIntervalsTorus[i] = Random.Range(minChangeInterval, maxChangeInterval);
+
+
 
             timers[i] = 0f;
         }
-
+        //Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         StartCoroutine(SettingOrbits());
     }
-
+    
     private IEnumerator SettingOrbits()
     {
-        for (int i = 0; i < torusArray.Length; i++)
-        {
-            if (torusArray[i] != null)
-            {
-                torusArray[i].transform.localScale *= 100f;
-                speedsTorus[i] /= 10f;
-            }
-        }
-
-
-        Vector3[] startScales = new Vector3[torusArray.Length];
-        for (int i = 0; i < torusArray.Length; i++)
-        {
-            if (torusArray[i] != null)
-            {
-                startScales[i] = torusArray[i].transform.localScale;
-
-            }
-        }
-
         float elapsedTime = 0f;
+        float movementTime = 3f;
+        Vector3[] startPositions = new Vector3[torusArray.Length];
+        Vector3[] startScales = new Vector3[torusArray.Length];
 
-        while (elapsedTime < duration)
+        for (int i = 0; i < torusArray.Length; i++)
         {
-            float t = elapsedTime / duration; 
-            float curveValue = scaleCurve.Evaluate(t); 
+            startPositions[i] = torusArray[i].transform.position;
 
+            torusArray[i].transform.localScale *= 100f;
+            startScales[i] = torusArray[i].transform.localScale;
+        }
+        
+        while (elapsedTime < movementTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / movementTime; // Нормализуем время от 0 до 1
+            t = Mathf.SmoothStep(0, 1, t); // Добавляем плавность движения
+            float curveValue = scaleCurve.Evaluate(t);
             for (int i = 0; i < torusArray.Length; i++)
             {
                 if (torusArray[i] != null)
                 {
+                    torusArray[i].transform.localPosition = Vector3.Lerp(startPositions[i], new Vector3(0, 0, 9.3f), t);
                     torusArray[i].transform.localScale = Vector3.LerpUnclamped(startScales[i], sizesTorus[i], curveValue);
                 }
             }
 
-            elapsedTime += Time.deltaTime;
             yield return null;
+        }
+        
+        // Убедимся, что все объекты точно дошли до цели
+        for (int i = 0; i < torusArray.Length; i++)
+        {
+            if (torusArray[i] != null)
+            {
+                torusArray[i].transform.localPosition = new Vector3(0, 0, 9.3f);
+                torusArray[i].transform.localScale = sizesTorus[i];
+            }
         }
 
         for (int i = 0; i < torusArray.Length; i++)
         {
             if (torusArray[i] != null)
             {
-                torusArray[i].transform.localScale = sizesTorus[i];
-                speedsTorus[i] *= 10f;
+                torusArray[i].transform.SetParent(transform);
+                torusArray[i].transform.position = new Vector3(0, 0, 0f);
             }
         }
+        isWaiting = false;
+
     }
 
     private void Update()
     {
+        if (isWaiting) return;
+
         if (isTurnOn)
         {
             for (int i = 0; i < torusCount; i++)
