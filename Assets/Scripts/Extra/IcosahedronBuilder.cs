@@ -11,7 +11,8 @@ public class IcosahedronBuilder : MonoBehaviour
     [SerializeField] private GameObject prismPrefab; 
     [SerializeField] private GameObject facePrefab;
     [SerializeField] private int iter;
-    [SerializeField] private float radiusIco; 
+    [SerializeField] private float radiusIco;
+    public float a;
     //[SerializeField] private float prismScaleFactor = 0.9f;
 
     private void Start()
@@ -21,7 +22,6 @@ public class IcosahedronBuilder : MonoBehaviour
 
     private void BuildIcosahedron()
     {
-        float a = 1.00000f;
         radiusIco = a * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
         float radiusPenta = a * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
@@ -51,7 +51,7 @@ public class IcosahedronBuilder : MonoBehaviour
     {
         Vector3[] combined = vertices;
 
-        float[] distances = GenerateDistances(iterations+1);
+        float[] distances = GenerateDistances(iterations+1, a);
 
         foreach (var vertice in vertices)
         {
@@ -111,10 +111,10 @@ public class IcosahedronBuilder : MonoBehaviour
         return midpoints;
     }
 
-    public static float[] GenerateDistances(int iterations)
+    public static float[] GenerateDistances(int iterations, float a)
     {
         float[] distances = new float[iterations];
-        float currentDistance = 1f;
+        float currentDistance = a;
 
         for (int i = 0; i < iterations; i++)
         {
@@ -155,7 +155,7 @@ public class IcosahedronBuilder : MonoBehaviour
 
                         float distance = Vector3.Distance(shadow.transform.position, Vector3.zero); // Расстояние до (0,0,0)
                         Debug.Log(distance);
-                        if (Mathf.Abs(distance - 0.8984507f) < 0.01f) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        if (Mathf.Abs(distance - 1.332582f) < 0.01f) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         {
                             face.transform.Rotate(0, 0, 180, Space.Self);
                         }
@@ -206,7 +206,7 @@ public class IcosahedronBuilder : MonoBehaviour
                 if (k % 2 != 0) 
                 {
                     AlignLocalZDown(face);
-                    face.transform.localScale = Vector3.one / 3f;  
+                    //face.transform.localScale = Vector3.one / 3f;  
                 }
                 else
                 {
