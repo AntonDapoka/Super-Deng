@@ -30,26 +30,29 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
         }
     }
 
-    public void LogoTurningOnAndOff(float time, bool isOn)
+    public void LogoTurningOnAndOff(float time, bool isOn, bool isChangeIcosahedron)
     {
         wall.gameObject.SetActive(true);
         if (!isOn) StartCoroutine(FlinkeringOfTriangle(triangle.GetComponent<SpriteRenderer>(), 0.1f, 0.4f, true));
         isFlinkeringContinue = !isOn;
-        StartCoroutine(ChangeColorsWithAnimationCurve(time, isOn));
+        StartCoroutine(ChangeColorsWithAnimationCurve(time, isOn, isChangeIcosahedron));
     }
 
-    private IEnumerator ChangeColorsWithAnimationCurve(float time, bool isOn)
+    private IEnumerator ChangeColorsWithAnimationCurve(float time, bool isOn, bool isChangeIcosahedron)
     {
         float elapsedTime = 0f;
 
         Color initialColor = isOn ? Color.gray : Color.white;
         Color targetColor = isOn ? Color.white : Color.gray;
 
-        foreach (var renderer in renderersGP)
-        {
-            if (renderer != null)
+        if (isChangeIcosahedron) 
+        { 
+            foreach (var renderer in renderersGP)
             {
-                StartCoroutine(SettingMaterial(renderer, isOn ? materialWhite : materialBlack, time));
+                if (renderer != null)
+                {
+                    StartCoroutine(SettingMaterial(renderer, isOn ? materialWhite : materialBlack, time));
+                }
             }
         }
         foreach (var part in logoParts)
@@ -103,7 +106,7 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
     {
         
         yield return new WaitForSeconds(Random.Range(0.3f * time, 0.8f * time));
-        renderer.material = material;
+        renderer.material = material;   
     }
 
     private IEnumerator FlinkeringOfTriangle(SpriteRenderer triangle, float minTime, float maxTime, bool isWhite)
