@@ -14,8 +14,12 @@ public class MoveAndRotateScript : MonoBehaviour
     private void Start()
     {
         Destination targetGameobject = gameObject.GetComponentInChildren<Destination>();
-        target = targetGameobject.transform;
-        Invoke("ApplyImpulse", delay);
+        if (targetGameobject != null)
+        {
+            target = targetGameobject.transform;
+            Invoke(nameof(ApplyImpulse), delay);
+        }
+
     }
 
     private void ApplyImpulse()

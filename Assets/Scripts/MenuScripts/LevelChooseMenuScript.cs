@@ -8,21 +8,29 @@ public class LevelChooseMenuScript : MonoBehaviour
 {
     [SerializeField] GameObject holder;
     [SerializeField] private Button buttonСhoose;
+    [SerializeField] private TextMeshProUGUI textButtonСhoose;
     [SerializeField] private Button buttonBack;
     [SerializeField] private LevelButtonTransition LBT;
 
-    public Vector3 positionChosen;
-    public Vector3 positionUnchosen;
-    public RectTransform[] uiElements;
+    [SerializeField] private Vector3 positionChosen;
+    [SerializeField] private Vector3 positionUnchosen;
+    [SerializeField] private RectTransform bannerLevelDesc;
+    [SerializeField] private RectTransform[] uiElements;
+    [SerializeField] private GameObject wall;
     [SerializeField] private int[] scenes;
 
-    public float moveDuration = 1f; // Время плавного перемещения
-    public AnimationCurve movementCurve; // Кривая для движения объектов и UI-элементов
+    public float biasBanner = 700f;
+    public float biasUI = 400f;
+    public float moveDuration = 1f; 
+    public AnimationCurve movementCurve;
 
     private void Start()
     {
+        textButtonСhoose.text = "Choose";
         buttonСhoose.onClick.AddListener(OnFirstClick);
         buttonBack.onClick.AddListener(LoadMenuScene);
+        positionUnchosen = Vector3.zero;
+        wall.SetActive(false);
     }
 
     private void OnFirstClick()
@@ -33,6 +41,8 @@ public class LevelChooseMenuScript : MonoBehaviour
 
         buttonBack.onClick.RemoveAllListeners();
         buttonBack.onClick.AddListener(OnSecondClick);
+
+        textButtonСhoose.text = "Start";
     }
 
     private void OnSecondClick()
@@ -43,14 +53,17 @@ public class LevelChooseMenuScript : MonoBehaviour
 
         buttonBack.onClick.RemoveAllListeners();
         buttonBack.onClick.AddListener(LoadMenuScene);
+
+        textButtonСhoose.text = "Choose";
     }
 
     private IEnumerator MoveObjectAndUI(bool isChosen)
     {
+        wall.SetActive(true);
+
         float elapsedTime = 0f;
         Vector3 initialHolderPos = holder.transform.position;
-
-        Vector3 targetHolderPos = isChosen ? positionChosen : Vector3.zero;
+        Vector3 targetHolderPos = isChosen ? positionChosen : positionUnchosen;
 
         int positionMultiplier = isChosen ? 1 : -1;
 
@@ -60,30 +73,29 @@ public class LevelChooseMenuScript : MonoBehaviour
             initialUIPositions[i] = uiElements[i].anchoredPosition;
         }
 
+        Vector2 initialBannerPos = bannerLevelDesc.anchoredPosition;
+
         while (elapsedTime < moveDuration)
         {
-            // Используем кривую для определения прогресса движения
             float curveProgress = movementCurve.Evaluate(elapsedTime / moveDuration);
-
-            // Плавное перемещение объекта holder с учетом кривой
             holder.transform.position = Vector3.Lerp(initialHolderPos, targetHolderPos, curveProgress);
-
-            // Плавное перемещение UI-элементов с учетом кривой
             for (int i = 0; i < uiElements.Length; i++)
             {
-                uiElements[i].anchoredPosition = Vector2.Lerp(initialUIPositions[i], initialUIPositions[i] - new Vector2(400 * positionMultiplier, 0) , curveProgress);
+                uiElements[i].anchoredPosition = Vector2.Lerp(initialUIPositions[i], initialUIPositions[i] - new Vector2(biasUI * positionMultiplier, 0) , curveProgress);
             }
-
+            bannerLevelDesc.anchoredPosition = Vector2.Lerp(initialBannerPos, initialBannerPos - new Vector2(biasBanner * positionMultiplier, 0), curveProgress);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // Убедимся, что все объекты достигли точной позиции
         holder.transform.position = targetHolderPos;
         for (int i = 0; i < uiElements.Length; i++)
         {
-            uiElements[i].anchoredPosition = initialUIPositions[i] - new Vector2(400, 0) * positionMultiplier;
+            uiElements[i].anchoredPosition = initialUIPositions[i] - new Vector2(biasUI, 0) * positionMultiplier;
         }
+        bannerLevelDesc.anchoredPosition = initialBannerPos - new Vector2(biasBanner, 0) * positionMultiplier;
+
+        wall.SetActive(false);
     }
 
     private void LoadCorrespondingScene()
