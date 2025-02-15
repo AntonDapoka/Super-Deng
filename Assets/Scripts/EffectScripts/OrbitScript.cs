@@ -10,7 +10,7 @@ public class OrbitScript : MonoBehaviour
     [SerializeField] private GameObject torusPrefab; 
     [SerializeField] private GameObject mainCamera; 
     [SerializeField] private float smoothness = 0.1f; 
-    [SerializeField] private float duration = 3f; 
+    //[SerializeField] private float duration = 3f; 
     private int torusCount = 5; 
     private float minChangeIntervalTorus = 1f; 
     private float maxChangeIntervalTorus = 5f; 

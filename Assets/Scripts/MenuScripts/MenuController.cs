@@ -9,6 +9,7 @@ public class MenuController : MonoBehaviour
 {
     [SerializeField] private GameObject icosahedron;
     [SerializeField] private MenuLogoNeonFlinkeringScript MLNFS;
+    [SerializeField] private StartToSavingsTransitionScript STSTS;
 
     public bool isFlinkeringContinue;
     [Header("MainButtons")]
@@ -29,8 +30,10 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Image imageSavings;
     [SerializeField] private Image imageCredits;
     [SerializeField] private Image imageSettings;
-    [SerializeField] private float biasSettings = 400f;
-    [SerializeField] private float moveSettingsDuration = 2f;
+    //[SerializeField] private float biasSettings = 400f;
+    [SerializeField] private float moveImagesDuration = 2f;
+    [SerializeField] private float moveButtonsDuration = 1f;
+    [SerializeField] private float waitBetweenButtons = 1f;
     [SerializeField] private AnimationCurve moveSettingsCurve;
     [SerializeField] private Image panel;
     [SerializeField] private Image wall;
@@ -49,40 +52,24 @@ public class MenuController : MonoBehaviour
 
     private void OnStartClick()
     {
-        wall.gameObject.SetActive(true);
         buttonBack.onClick.RemoveAllListeners();
         buttonBack.onClick.AddListener(OnSavingsBackClick);
 
-        MLNFS.LogoTurningOnAndOff(moveSettingsDuration, false, true);
-
-        StartCoroutine(MoveObjectAndUI(imageSavings.gameObject, 900f, true, true));
-        StartCoroutine(MoveObjectAndUI(buttonStart.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonLevel.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonSettings.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonCredits.gameObject, 300f, false, true));
-
-        StartCoroutine(MoveObjectAndUI(buttonSavingsPlay.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonSavingsDelete.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonBack.gameObject, 300f, true, false));
+        STSTS.StartTransition();
+        /*
+        StartCoroutine(SetImageChangeButtons(imageSavings, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
+            waitBetweenButtons, new[] { buttonSavingsPlay, buttonSavingsDelete, buttonBack }, false));*/
     }
+
     private void OnSavingsBackClick()
     {
-        wall.gameObject.SetActive(true);
-        StartCoroutine(MoveObjectAndUI(imageSavings.gameObject, 900f, false, false));
-        StartCoroutine(MoveObjectAndUI(buttonStart.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonLevel.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonSettings.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonCredits.gameObject, 300f, true, false));
-        MLNFS.LogoTurningOnAndOff(moveSettingsDuration, true, true);
-
-        StartCoroutine(MoveObjectAndUI(buttonSavingsPlay.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonSavingsDelete.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonBack.gameObject, 300f, false, true));
+        StartCoroutine(SetImageChangeButtons(imageSavings, new[] { buttonSavingsPlay, buttonSavingsDelete, buttonBack },
+           waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true));
     }
 
     private void OnLevelClick()
     {
-        MLNFS.LogoTurningOnAndOff(moveSettingsDuration, false, false);
+        MLNFS.LogoTurningOnAndOff(moveImagesDuration, false, false);
     }
 
     private void OnSettingsClick()
@@ -90,90 +77,58 @@ public class MenuController : MonoBehaviour
         buttonBack.onClick.RemoveAllListeners();
         buttonBack.onClick.AddListener(OnSettingsBackClick);
 
-        wall.gameObject.SetActive(true);
-        MLNFS.LogoTurningOnAndOff(moveSettingsDuration, false, true);
-        StartCoroutine(MoveObjectAndUI(imageSettings.gameObject, 900f, true, true));
-        StartCoroutine(MoveObjectAndUI(buttonStart.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonLevel.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonSettings.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonCredits.gameObject, 300f, false, true));
+        StartCoroutine(SetImageChangeButtons(imageSettings, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
+            waitBetweenButtons, new[] { buttonSettingsSave, buttonSettingsCorrection, buttonBack }, false));
+    }
 
-        StartCoroutine(OnSettingsClickWait(moveSettingsDuration));
-    }
-    private IEnumerator OnSettingsClickWait(float time)
-    {
-        yield return new WaitForSeconds(time);
-        StartCoroutine(MoveObjectAndUI(buttonSettingsSave.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonSettingsCorrection.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonBack.gameObject, 300f, true, false));
-    }
     private void OnSettingsBackClick()
     {
-        wall.gameObject.SetActive(true);
-        StartCoroutine(MoveObjectAndUI(imageSettings.gameObject, 900f, false, false));
-        StartCoroutine(MoveObjectAndUI(buttonStart.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonLevel.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonSettings.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonCredits.gameObject, 300f, true, false));
-        MLNFS.LogoTurningOnAndOff(moveSettingsDuration, true, true);
+        StartCoroutine(SetImageChangeButtons(imageSettings, new[] { buttonSettingsSave, buttonSettingsCorrection, buttonBack },
+           waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true));
 
-        
-        StartCoroutine(OnSettingsBackClickWait(moveSettingsDuration));
     }
-    private IEnumerator OnSettingsBackClickWait(float time)
-    {
-        yield return new WaitForSeconds(time);
-        StartCoroutine(MoveObjectAndUI(buttonSettingsSave.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonSettingsCorrection.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonBack.gameObject, 300f, false, true));
-    }
+
     private void OnCreditsClick()
     {
         buttonBack.onClick.RemoveAllListeners();
         buttonBack.onClick.AddListener(OnCreditsBackClick);
 
-        wall.gameObject.SetActive(true);
-        MLNFS.LogoTurningOnAndOff(moveSettingsDuration, false, true);
-        StartCoroutine(MoveObjectAndUI(imageCredits.gameObject, 900f, true, true));
-        StartCoroutine(MoveObjectAndUI(buttonStart.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonLevel.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonSettings.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonCredits.gameObject, 300f, false, true));
-
-        StartCoroutine(OnCreditsClickWait(moveSettingsDuration));
-    }
-    private IEnumerator OnCreditsClickWait(float time)
-    {
-        yield return new WaitForSeconds(time);
-        StartCoroutine(MoveObjectAndUI(buttonCreditsContact.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonCreditsDonate.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonBack.gameObject, 300f, true, false));
+        StartCoroutine(SetImageChangeButtons(imageCredits, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
+           waitBetweenButtons, new[] { buttonCreditsContact, buttonCreditsDonate, buttonBack }, false));
     }
 
     private void OnCreditsBackClick()
     {
-        wall.gameObject.SetActive(true);
-        StartCoroutine(MoveObjectAndUI(imageCredits.gameObject, 900f, false, false));
-        StartCoroutine(MoveObjectAndUI(buttonStart.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonLevel.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonSettings.gameObject, 300f, true, false));
-        StartCoroutine(MoveObjectAndUI(buttonCredits.gameObject, 300f, true, false));
-        MLNFS.LogoTurningOnAndOff(moveSettingsDuration, true, true);
-
-        
-        StartCoroutine(OnCreditsBackClickWait(moveSettingsDuration));
-    }
-    private IEnumerator OnCreditsBackClickWait(float time)
-    {
-        yield return new WaitForSeconds(time);
-        StartCoroutine(MoveObjectAndUI(buttonCreditsContact.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonCreditsDonate.gameObject, 300f, false, true));
-        StartCoroutine(MoveObjectAndUI(buttonBack.gameObject, 300f, false, true));
+        StartCoroutine(SetImageChangeButtons(imageCredits, new[] { buttonCreditsContact, buttonCreditsDonate, buttonBack },
+           waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true));
     }
 
-    private IEnumerator MoveObjectAndUI(GameObject obj, float bias, bool isChosen, bool isDown)
+    private IEnumerator SetImageChangeButtons(Image image, Button[] buttonsMain, float timeWait, Button[] buttonsExtra, bool isImageUp)
     {
         wall.gameObject.SetActive(true);
+        MLNFS.LogoTurningOnAndOff(moveImagesDuration, isImageUp, true);
+
+        StartCoroutine(MoveObjectAndUI(image.gameObject, 900f * (isImageUp ? -1 : 1), moveImagesDuration, true, true));
+
+        foreach (Button button in buttonsMain)
+        {
+            StartCoroutine(MoveObjectAndUI(button.gameObject, 300f, moveButtonsDuration, false, true));
+        }
+        yield return new WaitForSeconds(timeWait);
+
+        foreach (Button button in buttonsExtra)
+        {
+            StartCoroutine(MoveObjectAndUI(button.gameObject, 300f, moveButtonsDuration, true, false));
+        }
+
+        float max = System.Math.Max(moveImagesDuration, 2* moveButtonsDuration);
+
+        yield return new WaitForSeconds(max - timeWait);
+        wall.gameObject.SetActive(false);
+    }
+
+    private IEnumerator MoveObjectAndUI(GameObject obj, float bias, float duration, bool isChosen, bool isDown)
+    {
 
         if (isChosen) obj.SetActive(true);
         
@@ -185,9 +140,9 @@ public class MenuController : MonoBehaviour
 
         Vector2 initialPos = rectTransform.anchoredPosition;
 
-        while (elapsedTime < moveSettingsDuration)
+        while (elapsedTime < duration)
         {
-            float curveProgress = moveSettingsCurve.Evaluate(elapsedTime / moveSettingsDuration);
+            float curveProgress = moveSettingsCurve.Evaluate(elapsedTime / duration);
 
             rectTransform.anchoredPosition = Vector2.Lerp(initialPos, initialPos - new Vector2(0, bias * positionMultiplier), curveProgress);
             elapsedTime += Time.deltaTime;
@@ -197,8 +152,6 @@ public class MenuController : MonoBehaviour
         rectTransform.anchoredPosition = initialPos - new Vector2(0, bias) * positionMultiplier;
         
         if (!isChosen) obj.SetActive(false);
-
-        wall.gameObject.SetActive(false);
     }
 
     private IEnumerator PanelFadingInAndOut(bool isIn, int indexScene)

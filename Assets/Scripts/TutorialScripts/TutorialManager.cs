@@ -28,7 +28,7 @@ public class TutorialManager : MonoBehaviour
     private float currentTypeSpeed;
     [SerializeField] private int currentMessageIndex = -1;
     private bool isTyping;
-    private bool isWaiting;
+    //private bool isWaiting;
     private Coroutine typingCoroutine;
 
     private void Start()
