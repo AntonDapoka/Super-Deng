@@ -147,7 +147,7 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator StartTutorialSequence()
     {
         currentMessageIndex++;
-        isWaiting = true;
+        //isWaiting = true;
 
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
@@ -165,7 +165,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(rhythmManager.beatInterval * 3);
-        isWaiting = false;
+        //isWaiting = false;
 
         if (currentMessageIndex < 4)
         {

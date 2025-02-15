@@ -10,6 +10,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject icosahedron;
     [SerializeField] private MenuLogoNeonFlinkeringScript MLNFS;
     [SerializeField] private StartToSavingsTransitionScript STSTS;
+    [SerializeField] private MenuCreditsScript MCS;
 
     public bool isFlinkeringContinue;
     [Header("MainButtons")]
@@ -64,12 +65,12 @@ public class MenuController : MonoBehaviour
     private void OnSavingsBackClick()
     {
         StartCoroutine(SetImageChangeButtons(imageSavings, new[] { buttonSavingsPlay, buttonSavingsDelete, buttonBack },
-           waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true));
+           waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true, true));
     }
 
     private void OnLevelClick()
     {
-        MLNFS.LogoTurningOnAndOff(moveImagesDuration, false, false);
+        MLNFS.LogoTurningOnAndOff(moveImagesDuration, 0.1f, 0.4f, false, false);
     }
 
     private void OnSettingsClick()
@@ -78,13 +79,13 @@ public class MenuController : MonoBehaviour
         buttonBack.onClick.AddListener(OnSettingsBackClick);
 
         StartCoroutine(SetImageChangeButtons(imageSettings, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
-            waitBetweenButtons, new[] { buttonSettingsSave, buttonSettingsCorrection, buttonBack }, false));
+            waitBetweenButtons, new[] { buttonSettingsSave, buttonSettingsCorrection, buttonBack }, false, true));
     }
 
     private void OnSettingsBackClick()
     {
         StartCoroutine(SetImageChangeButtons(imageSettings, new[] { buttonSettingsSave, buttonSettingsCorrection, buttonBack },
-           waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true));
+           waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true, true));
 
     }
 
@@ -93,22 +94,26 @@ public class MenuController : MonoBehaviour
         buttonBack.onClick.RemoveAllListeners();
         buttonBack.onClick.AddListener(OnCreditsBackClick);
 
-        StartCoroutine(SetImageChangeButtons(imageCredits, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
-           waitBetweenButtons, new[] { buttonCreditsContact, buttonCreditsDonate, buttonBack }, false));
+        MCS.StartCredits();
+
+        StartCoroutine(SetImageChangeButtons(null, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
+           waitBetweenButtons, new[] { buttonCreditsContact, buttonCreditsDonate, buttonBack }, false, false));
     }
 
     private void OnCreditsBackClick()
     {
         StartCoroutine(SetImageChangeButtons(imageCredits, new[] { buttonCreditsContact, buttonCreditsDonate, buttonBack },
-           waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true));
+           waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true, false));
     }
 
-    private IEnumerator SetImageChangeButtons(Image image, Button[] buttonsMain, float timeWait, Button[] buttonsExtra, bool isImageUp)
+    private IEnumerator SetImageChangeButtons(Image image, Button[] buttonsMain, float timeWait, Button[] buttonsExtra, bool isImageUp, bool isInteractWithLogo)
     {
         wall.gameObject.SetActive(true);
-        MLNFS.LogoTurningOnAndOff(moveImagesDuration, isImageUp, true);
 
-        StartCoroutine(MoveObjectAndUI(image.gameObject, 900f * (isImageUp ? -1 : 1), moveImagesDuration, true, true));
+        if (isInteractWithLogo) MLNFS.LogoTurningOnAndOff(moveImagesDuration, 0.1f, 0.4f, isImageUp, true);
+
+        if (image != null) 
+            StartCoroutine(MoveObjectAndUI(image.gameObject, 900f * (isImageUp ? -1 : 1), moveImagesDuration, true, true));
 
         foreach (Button button in buttonsMain)
         {

@@ -6,8 +6,20 @@ using UnityEngine;
 
 public class MenuCreditsScript : MonoBehaviour
 {
-    [SerializeField] private GameObject[] parentObjects; // Массив родительских объектов
-    private GameObject[][] sortedChildren; // Массив массивов отсортированных дочерних объектов
+    [SerializeField] private GameObject cam;
+    [SerializeField] private MenuLogoNeonFlinkeringScript MLNFS;
+    [SerializeField] private GameObject[] parentObjects;
+    [SerializeField] private float timeForLine;
+    [SerializeField] private float cameraSpeed;
+    [SerializeField] private float t = 0f; // Время интерполяции
+    [SerializeField] private float duration = 1.5f; // Длительность ускорения/замедления
+    [SerializeField] private float currentSpeed = 0f; // Текущая скорость
+    private GameObject[][] sortedChildren;
+    public AnimationCurve colorChangeCurveTurnOn;
+    public bool isStarted = false;
+    public bool isEnded = false;
+
+
 
     private void Start()
     {
@@ -25,10 +37,8 @@ public class MenuCreditsScript : MonoBehaviour
             }
         }
 
-        // Пример вывода в консоль
         for (int i = 0; i < sortedChildren.Length; i++)
         {
-            Debug.Log($"Parent {i}: {parentObjects[i].name}");
             foreach (var child in sortedChildren[i])
             {
                 TextMeshPro textMesh = child.GetComponent<TextMeshPro>();
@@ -37,26 +47,231 @@ public class MenuCreditsScript : MonoBehaviour
                 {
                     textMesh.color = Color.gray;
                 }
+                child.SetActive(false);
             }
         }
-        StartCoroutine(SettingMaterial(0.8f));
+    }
+    private void Update()
+    {
+        if (isStarted && !isEnded)
+        {
+            // Ускоряем камеру в начале
+            if (t < duration)
+            {
+                t += Time.deltaTime;
+                currentSpeed = Mathf.Lerp(0, cameraSpeed, t / duration);
+            }
+            else
+            {
+                currentSpeed = cameraSpeed;
+            }
+
+            cam.transform.position += Vector3.down * currentSpeed * Time.deltaTime;
+        }
+        else if (isEnded && currentSpeed > 0)
+        {
+            // Плавное замедление
+            t -= Time.deltaTime;
+            currentSpeed = Mathf.Lerp(0, cameraSpeed, t / duration);
+            cam.transform.position += Vector3.down * currentSpeed * Time.deltaTime;
+        }
     }
 
-    private IEnumerator SettingMaterial(float time)
+    public void StartCredits()
     {
 
+        StartCoroutine(SettingMaterial());
+        
+    }
+
+    
+
+    private IEnumerator SettingMaterial()
+    {
+        MLNFS.LogoTurningOnAndOff(0.75f, 3f, 4f, false, true);
+        yield return new WaitForSeconds(timeForLine);
         for (int i = 0; i < sortedChildren.Length; i++)
         {
-            Debug.Log($"Parent {i}: {parentObjects[i].name}");
-            foreach (var child in sortedChildren[i])
+            if (i == 1)
             {
-                TextMeshPro textMesh = child.GetComponent<TextMeshPro>();
-                yield return new WaitForSeconds(Random.Range(0.3f * time, 0.8f * time));
+                MLNFS.LogoTurningOnAndOff(timeForLine, 0.1f, 0.4f, true, true);
+                yield return new WaitForSeconds(timeForLine);
+                isStarted = true;
+                isEnded = false;
+
+            }else if (i == 13)
+            {
+                timeForLine *= 1.25f;
+            }
+            else if (i == 20)
+            {
+                timeForLine *= 1.5f;
+            }
+            float timeForWord = timeForLine / sortedChildren[i].Length;
+            for (int j = 0; j < sortedChildren[i].Length; j++)
+            {
+                TextMeshPro textMesh = sortedChildren[i][j].GetComponent<TextMeshPro>();
+
                 if (textMesh != null)
                 {
-                    textMesh.color = Color.white;
+                    textMesh.color = Color.gray;
+                }
+                sortedChildren[i][j].SetActive(true);
+
+                
+
+                if (j < sortedChildren[i].Length - 1)
+                {
+                    yield return new WaitForSeconds(Random.Range((i == 0 ? 2f : 1f) * 0.7f * timeForWord / 2,(i == 0 ? 3f : 1f) * timeForWord / 2));
+
+                    TextMeshPro textMeshNext = sortedChildren[i][j+1].GetComponent<TextMeshPro>();
+
+                    if (textMeshNext != null)
+                    {
+                        textMeshNext.color = Color.gray;
+                    }
+                    sortedChildren[i][j+1].SetActive(true);
+                }
+
+                yield return StartCoroutine(ChangingColorSmoothly(textMesh, timeForWord, Color.gray, Color.white));
+
+                if (i == sortedChildren.Length - 1 && j == sortedChildren[i].Length - 1)
+                {
+                    yield return new WaitForSeconds(timeForLine/2);
+                    isEnded = true;
                 }
             }
         }
+    }
+
+    /*private IEnumerator ChangingColorSmoothly(TextMeshPro text, float time, Color initialColor, Color targetColor)
+    {
+        float elapsedTime = 0f;
+        float randomTime = 0f;
+
+        randomTime = Random.Range(time * 0.4f, time * 0.8f);
+
+        Color initialColorSafer = initialColor;
+
+        while (elapsedTime < randomTime)
+        {
+            float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime);
+            Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
+            text.color = newColor;
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        elapsedTime = 0f;
+        while (elapsedTime < (time - randomTime))
+        {
+            float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTime));
+            Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
+            text.color = newColor;
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        text.color = targetColor;
+    }*/
+
+    private IEnumerator ChangingColorSmoothly(TextMeshPro text, float time, Color initialColor, Color targetColor)
+    {
+        float elapsedTime = 0f;
+        float randomTime = 0f;
+        float randomTimeExtra = 0f;
+        int randomNum = Random.Range(0, 100);
+        int interruptionCount = 0;
+        if (randomNum >= 40 && randomNum <= 87)
+        {
+            interruptionCount = 1;
+        } 
+        else if (randomNum > 87)
+        {
+            interruptionCount = 2;
+        }
+            
+        
+        //Debug.Log(interruptionCount);
+        Color initialColorSafer = initialColor;
+        if (interruptionCount == 0)
+        {
+            while (elapsedTime < time )
+            {
+                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTime - randomTimeExtra));
+                Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
+                text.color = newColor;
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            text.color = targetColor;
+        }
+        else if (interruptionCount == 1)
+        {
+            randomTime = Random.Range(time * 0.2f, time * 0.8f);
+
+            while (elapsedTime < randomTime)
+            {
+                float curveValue =  colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime);
+                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
+                text.color = newColor;
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            elapsedTime = 0f;
+
+            while (elapsedTime < (time - randomTime))
+            {
+                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTime - randomTimeExtra));
+                Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
+                text.color = newColor;
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            text.color = targetColor;
+        }
+        else if (interruptionCount == 2)
+        {
+
+            randomTime = Random.Range(time * 0.22f, time * 0.45f) ;
+            randomTimeExtra = Random.Range((time - randomTime)*1.0005f, time * 0.9f);
+            while (elapsedTime < randomTime)
+            {
+                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime) ;
+                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
+                text.color = newColor;
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            elapsedTime = 0f;
+
+            while (elapsedTime < randomTimeExtra - randomTime)
+            {
+                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (randomTimeExtra - randomTime));
+                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
+                text.color = newColor;
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            elapsedTime = 0f;
+
+            while (elapsedTime < (time -  randomTimeExtra))
+            {
+                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTimeExtra));
+                Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
+                text.color = newColor;
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            text.color = targetColor;
+        }
+
+        
     }
 }

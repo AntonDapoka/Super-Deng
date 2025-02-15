@@ -30,13 +30,14 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
         }
     }
 
-    public void LogoTurningOnAndOff(float time, bool isOn, bool isChangeIcosahedron)
+    public void LogoTurningOnAndOff(float time, float minTimeForTriangle, float maxTimeForTriangle, bool isOn, bool isChangeIcosahedron)
     {
-        wall.gameObject.SetActive(true);
-        if (!isOn) StartCoroutine(FlinkeringOfTriangle(triangle.GetComponent<SpriteRenderer>(), 0.1f, 0.4f, true));
+        //wall.gameObject.SetActive(true);
+        if (!isOn) StartCoroutine(FlinkeringOfTriangle(triangle.GetComponent<SpriteRenderer>(), minTimeForTriangle, maxTimeForTriangle, true));
         isFlinkeringContinue = !isOn;
         StartCoroutine(ChangeColorsWithAnimationCurve(time, isOn, isChangeIcosahedron));
     }
+
 
     private IEnumerator ChangeColorsWithAnimationCurve(float time, bool isOn, bool isChangeIcosahedron)
     {
@@ -70,26 +71,26 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
     {
         float elapsedTime = 0f;
         float randomTime = 0f;
-        if (isTurnOn)
-        {
-            randomTime = Random.Range(time * 0.4f, time * 0.8f);
-        }
-        else
-        {
-            randomTime = Random.Range(time * 0.2f, time * 0.6f);
-        }
+        int interruptionCount = Random.Range(0, 2);
+        
         Color initialColorSafer = initialColor;
 
-        while (elapsedTime < randomTime)
+        if (interruptionCount == 1)
         {
-            float curveValue = isTurnOn ? colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime) : colorChangeCurveTurnOff.Evaluate(elapsedTime / randomTime);  
-            Color newColor = Color.Lerp(initialColor, targetColor, curveValue);  
-            renderer.material.color = newColor;
+            randomTime = isTurnOn ? Random.Range(time * 0.4f, time * 0.8f) : Random.Range(time * 0.2f, time * 0.6f);
 
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        elapsedTime = 0f;
+            while (elapsedTime < randomTime)
+            {
+                float curveValue = isTurnOn ? colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime) : colorChangeCurveTurnOff.Evaluate(elapsedTime / randomTime);
+                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
+                renderer.material.color = newColor;
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            elapsedTime = 0f;
+        } 
+        
         while (elapsedTime < (time - randomTime))
         {
             float curveValue = isTurnOn ? colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTime)) : colorChangeCurveTurnOff.Evaluate(elapsedTime / (time - randomTime));
