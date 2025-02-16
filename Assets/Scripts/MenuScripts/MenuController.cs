@@ -102,6 +102,7 @@ public class MenuController : MonoBehaviour
 
     private void OnCreditsBackClick()
     {
+        MCS.EndCredits();
         StartCoroutine(SetImageChangeButtons(imageCredits, new[] { buttonCreditsContact, buttonCreditsDonate, buttonBack },
            waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true, false));
     }

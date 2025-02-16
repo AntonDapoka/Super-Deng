@@ -5757,6 +5757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6db2db0cc018d214db9057bdc95bb96a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTurnOn: 1
   icosahedron: {fileID: 1395335134}
   renderersGP: []
   materialWhite: {fileID: 2100000, guid: c3ae95193e217f840a963387ce4c275d, type: 2}
@@ -24265,6 +24266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 912186664}
+  camPos: {x: 0, y: 0, z: 0}
   MLNFS: {fileID: 440268912}
   parentObjects:
   - {fileID: 15887288}
@@ -24292,6 +24294,7 @@ MonoBehaviour:
   cameraSpeed: 0.57
   t: 0
   duration: 1.5
+  durationCameraReturn: 3
   currentSpeed: 0
   colorChangeCurveTurnOn:
     serializedVersion: 2
@@ -24317,6 +24320,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  wall: {fileID: 1779059788}
   isStarted: 0
   isEnded: 0
 --- !u!1 &1460766431

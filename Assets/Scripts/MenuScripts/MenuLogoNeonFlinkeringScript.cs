@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MenuLogoNeonFlinkeringScript : MonoBehaviour
 {
+    public bool isTurnOn = true;
     [SerializeField] private GameObject icosahedron;
     [SerializeField] private Renderer[] renderersGP;
     [SerializeField] private Material materialWhite;
@@ -32,6 +33,7 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
 
     public void LogoTurningOnAndOff(float time, float minTimeForTriangle, float maxTimeForTriangle, bool isOn, bool isChangeIcosahedron)
     {
+        isTurnOn = isOn;
         //wall.gameObject.SetActive(true);
         if (!isOn) StartCoroutine(FlinkeringOfTriangle(triangle.GetComponent<SpriteRenderer>(), minTimeForTriangle, maxTimeForTriangle, true));
         isFlinkeringContinue = !isOn;
