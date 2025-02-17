@@ -118,7 +118,8 @@ public class MenuCreditsScript : MonoBehaviour
     {
         if (!MLNFS.isTurnOn)
         {
-            MLNFS.LogoTurningOnAndOff(0.75f, 2f, 3f, true, true);
+            MLNFS.LogoTurningOnAndOff( 0.75f, 2f, 3f, true, true);
+            ///MLNFS.LogoTurningOnAndOff( Color.gray, Color.white, 0.75f, 2f, 3f, true, true);
         }
         
         for (int i = 0; i < sortedChildren.Length; i++)
