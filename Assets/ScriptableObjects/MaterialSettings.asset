@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa65bfece792e614d9feb3b37aa452c4, type: 3}
+  m_Name: MaterialSettings
+  m_EditorClassIdentifier: 
+  time: 0
+  isRedFaceTurnOn: 0
+  isRedFaceRandom: 0
+  arrayOfRedFaces: 
+  quantityOfRedFaces: 0
+  isRedWaveTurnOn: 0
+  isRedWaveRandom: 0
+  arrayOfRedWaves: 
+  lifeDurationOfRedWaves: 0
+  quantityOfRedWaves: 0
+  proximityLimitOfRedWaves: 0
+  isFallFaceTurnOn: 0
+  isFallFaceRandom: 0
+  arrayOfFallFaces: 
+  quantityOfFallFaces: 0
+  proximityLimitOfFallFaces: 0
+  isResetDelay: 0
+  resetDelayTime: 0
+  isResetFallFaceTurnOn: 0
+  isBonusTurnOn: 0
+  isBonusRandom: 0
+  arrayOfBonuses: 
+  quantityOfBonuses: 0
+  proximityLimitOfBonuses: 0
+  isBonusHealth: 0
+  isBonusCombo: 0
+  isPortalTurnOn: 0
+  isPortalRandom: 0
+  arrayOfPortals: 
+  quantityOfPortals: 0
+  proximityLimitOfPortals: 0
+  isFaceDanceTurnOn: 0
+  durationOfCycleFaceDance: 0
+  scaleFactorFaceDance: 0
+  isChangingFaceDance: 0
+  isIncreaseFaceDance: 0
+  durationChangingFaceDance: 0
+  isSphereDanceTurnOn: 0
+  angleSphereDance: 0
+  durationOfCycleSphereDance: 0
+  isCameraRotationTurnOn: 0
+  isCameraRotationClockwise: 0
+  speedCameraRotation: 0
+  isRGBTurnOn: 0
+  speedRGB: 0
+  targetValueRGB: 0
+  isSetRGBIncrease: 0
+  isSetRGBDecrease: 0
+  isOrbitsOn: 0
+  quantityOfOrbits: 0
+  sizesOfOrbits: []
+  speedsOfOrbits: []
+  materialsOfOrbits: []
+  minChangeIntervalOfOrbits: 0
+  maxChangeIntervalOfOrbits: 0

@@ -7,6 +7,7 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
 {
     public bool isTurnOn = true;
     [SerializeField] private GameObject icosahedron;
+    [SerializeField] private SparksParticleScript SPS;
     [SerializeField] private Renderer[] renderersGP;
     [SerializeField] private Material materialWhite;
     [SerializeField] private Material materialBlack;
@@ -38,6 +39,7 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
         if (!isOn) StartCoroutine(FlinkeringOfTriangle(triangle.GetComponent<SpriteRenderer>(), minTimeForTriangle, maxTimeForTriangle, true));
         isFlinkeringContinue = !isOn;
         StartCoroutine(ChangeColorsWithAnimationCurve(time, isOn, isChangeIcosahedron));
+        if (!isTurnOn) SPS.StartRandomParticles();
     }
 
 

@@ -10,6 +10,7 @@ public class IcosahedronBuilder : MonoBehaviour
     [SerializeField] private List<GameObject> faces; 
     [SerializeField] private GameObject prismPrefab; 
     [SerializeField] private GameObject facePrefab;
+    [SerializeField] private GameObject pentagonPrefab;
     [SerializeField] private int iter;
     [SerializeField] private float radiusIco;
     public float a;
@@ -77,8 +78,8 @@ public class IcosahedronBuilder : MonoBehaviour
             Debug.Log($"Iteration {i + 1}: {combined.Length} vertices with distance {distances[i]}");
 
         }
-        Debug.Log(distances[iterations]);
-        GenerateFaces(combined, distances[iterations]);
+        Debug.Log(iterations);
+        GenerateFaces(combined, distances[iterations], iterations);
 
     }
 
@@ -126,7 +127,7 @@ public class IcosahedronBuilder : MonoBehaviour
         return distances;
     }
 
-    public void GenerateFaces(Vector3[] vertices, float maxDistance)
+    public void GenerateFaces(Vector3[] vertices, float maxDistance, int iteration)
     {
 
         for (int i = 0; i < vertices.Length; i++)
@@ -135,37 +136,51 @@ public class IcosahedronBuilder : MonoBehaviour
             {
                 for (int k = j + 1; k < vertices.Length; k++)
                 {
+
                     if (Vector3.Distance(vertices[i], vertices[j]) <= maxDistance &&
                         Vector3.Distance(vertices[j], vertices[k]) <= maxDistance &&
                         Vector3.Distance(vertices[k], vertices[i]) <= maxDistance)
                     {
-                        Vector3 center = (vertices[i] + vertices[j] + vertices[k]) / 3f;
-
-                        GameObject face = Instantiate(facePrefab);
-
-                        GameObject shadow = face.GetComponentInChildren<Shadow>().gameObject;
-
-                        
-
-                        Vector3 normal = Vector3.Cross(vertices[j] - vertices[i], vertices[k] - vertices[i]).normalized;
-                        face.transform.position = center;
-
-                        Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
-                        face.transform.rotation = rotation;
-
-                        float distance = Vector3.Distance(shadow.transform.position, Vector3.zero); // Расстояние до (0,0,0)
-                        Debug.Log(distance);
-                        if (Mathf.Abs(distance - 1.332582f) < 0.01f) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        if (iteration == 1)
                         {
-                            face.transform.Rotate(0, 0, 180, Space.Self);
-                        }
+                            Vector3 center = (vertices[i] + vertices[j] + vertices[k]) / 3f;
 
-                        faces.Add(face);
+                            GameObject face = Instantiate(facePrefab);
+
+                            GameObject shadow = face.GetComponentInChildren<Shadow>().gameObject;
+
+
+
+                            Vector3 normal = Vector3.Cross(vertices[j] - vertices[i], vertices[k] - vertices[i]).normalized;
+                            face.transform.position = center;
+
+                            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
+                            face.transform.rotation = rotation;
+
+                            float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Расстояние до (0,0,0)
+                            float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Расстояние до (0,0,0)
+                                                                                                              //Debug.Log(distanceFace, distanceShadow);
+                            if (distanceFace < distanceShadow) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            {
+                                face.transform.Rotate(0, 0, 180, Space.Self);
+                                Debug.Log("ROTATED");
+                            }
+
+                            faces.Add(face);
+                        }
+                        else
+                        {
+                            GameObject pentagon = Instantiate(pentagonPrefab);
+                            Vector3 directionToTarget = (Vector3.zero - pentagon.transform.position).normalized;
+
+                            // Поворачиваем объект так, чтобы его ось X смотрела в сторону (0, 0, 0)
+                            transform.rotation = Quaternion.LookRotation(directionToTarget, pentagon.transform.up);
+                        }
                     }
                 }
             }
         }
-        GroupGameObjects(faces.ToArray());
+        if (iteration == 0) GroupGameObjects(faces.ToArray());
     }
 
     public void GroupGameObjects(GameObject[] gameObjects)
