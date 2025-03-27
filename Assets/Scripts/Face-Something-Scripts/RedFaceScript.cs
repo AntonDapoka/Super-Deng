@@ -12,7 +12,7 @@ public class RedFaceScript : MonoBehaviour
     private float waitDuration;
     private float scaleChangeDurationDown;
     [SerializeField] private float scaleChange = 25f;
-    [SerializeField] private float positionChange = -4.5f;
+    private float positionChange;
     [SerializeField] private Material materialWhite;
     [SerializeField] private Material materialRed;
     [SerializeField] private Material materialPlayer;
@@ -29,6 +29,7 @@ public class RedFaceScript : MonoBehaviour
     private void Start()
     {
         isTurnOn = false;
+        positionChange = scaleChange * -0.05f;
         faces = FAS.GetAllFaces();
         SetBPMSettings();
     }

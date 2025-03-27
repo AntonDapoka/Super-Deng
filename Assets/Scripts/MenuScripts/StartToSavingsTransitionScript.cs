@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEditor.Overlays;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StartToSavingsTransitionScript : MonoBehaviour
 {
@@ -73,6 +70,8 @@ public class StartToSavingsTransitionScript : MonoBehaviour
         }
 
         door.transform.localScale = targetScale;
+
+        SceneManager.LoadScene(1);
     }
     /*
     private IEnumerator ToggleAndResizeImage(bool expand)

@@ -29,14 +29,12 @@ public class PathCounterScript : MonoBehaviour
         }
         queue = new Queue<FaceScript>();
         queue.Enqueue(startface);
-        if (startface != null)
-            startface.pathObjectCount = 0;
-        else Debug.Log("No startface");
+        startface.pathObjectCount = 0;
         while (queue.Count > 0)
         {
             FaceScript current = queue.Dequeue();
 
-            FaceScript[] neighbors = { current, current.FS2, current.FS3 };
+            FaceScript[] neighbors = { current.FS1, current.FS2, current.FS3 };
             foreach (var neighbor in neighbors)
             {
                 if (neighbor != null && neighbor.pathObjectCount == -1)

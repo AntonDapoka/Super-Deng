@@ -19023,7 +19023,7 @@ GameObject:
   - component: {fileID: 334238746}
   - component: {fileID: 334238745}
   m_Layer: 5
-  m_Name: ButtonLevel
+  m_Name: ButtonLevels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20339,8 +20339,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTurnOn: 1
   icosahedron: {fileID: 1395335134}
+  renderersGlowingParts: []
   SPS: {fileID: 360713338}
-  renderersGP: []
   materialWhite: {fileID: 2100000, guid: c3ae95193e217f840a963387ce4c275d, type: 2}
   materialBlack: {fileID: 2100000, guid: aac61c929ee9eea4e931899401aea5e9, type: 2}
   triangle: {fileID: 118649725}
@@ -20399,7 +20399,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  wall: {fileID: 1779059788}
   isFlinkeringContinue: 0
 --- !u!1 &448242189
 GameObject:
@@ -68196,7 +68195,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level
+  m_text: Levels
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f72383560e3e22e44a1614d9d4c4767b, type: 2}
   m_sharedMaterial: {fileID: -1124023594989121902, guid: f72383560e3e22e44a1614d9d4c4767b, type: 2}
@@ -93713,7 +93712,6 @@ MonoBehaviour:
   MLNFS: {fileID: 440268912}
   STSTS: {fileID: 1722063831}
   MCS: {fileID: 1452105880}
-  isFlinkeringContinue: 0
   buttonStart: {fileID: 786519766}
   buttonLevel: {fileID: 334238745}
   buttonSettings: {fileID: 115956366}
@@ -93728,9 +93726,12 @@ MonoBehaviour:
   imageSavings: {fileID: 45338551}
   imageCredits: {fileID: 0}
   imageSettings: {fileID: 245620727}
+  panel: {fileID: 2085771483}
+  wall: {fileID: 1779059788}
   moveImagesDuration: 1
   moveButtonsDuration: 0.5
   waitBetweenButtons: 0.25
+  panelFadeDuration: 1
   moveSettingsCurve:
     serializedVersion: 2
     m_Curve:
@@ -93755,9 +93756,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  panel: {fileID: 2085771483}
-  wall: {fileID: 1779059788}
-  panelFadeDuration: 1
   panelFadeCurve:
     serializedVersion: 2
     m_Curve:
@@ -93782,6 +93780,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isFlinkeringContinue: 0
 --- !u!4 &1913332712
 Transform:
   m_ObjectHideFlags: 0

@@ -33,15 +33,21 @@ public class CameraZoom : MonoBehaviour
         if (isTurnOn)
         {
             targetFOV = originalFOV / zoomFactor;
+            
             float zoomSpeed = (targetFOV - mainCamera.orthographicSize) / (zoomTime * (RM.bpm / 60f));
             float elapsedTime = 0f;
-
+            /*
             while (elapsedTime < zoomTime)
             {
                 mainCamera.orthographicSize += zoomSpeed * Time.deltaTime;
                 elapsedTime += Time.deltaTime;
                 yield return null;
-            }
+            }*/
+            mainCamera.orthographicSize += zoomSpeed * 0.25f;
+
+
+
+
             float returnSpeed = (originalFOV - mainCamera.orthographicSize) / returnTime;
             elapsedTime = 0f;
 

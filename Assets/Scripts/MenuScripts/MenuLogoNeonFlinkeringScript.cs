@@ -6,69 +6,83 @@ using UnityEngine.UI;
 public class MenuLogoNeonFlinkeringScript : MonoBehaviour
 {
     public bool isTurnOn = true;
+    [Header("Main Objects")]
     [SerializeField] private GameObject icosahedron;
+    [SerializeField] private Renderer[] renderersGlowingParts;
     [SerializeField] private SparksParticleScript SPS;
-    [SerializeField] private Renderer[] renderersGP;
+    [Header("Materials")]
     [SerializeField] private Material materialWhite;
     [SerializeField] private Material materialBlack;
+    [Header("Sprite Renderers")]
     [SerializeField] private SpriteRenderer triangle;
     [SerializeField] private SpriteRenderer[] logoParts;
+    [Header("Animation Curves")]
     public AnimationCurve colorChangeCurveTurnOn;
     public AnimationCurve colorChangeCurveTurnOff;
-    [Header("UI Elements")]
-    [SerializeField] private Image wall;
     [Header("Bool Values")]
     [SerializeField] private bool isFlinkeringContinue = false;
 
     private void Start()
     {
         GlowingPart[] childGlowingParts = icosahedron.GetComponentsInChildren<GlowingPart>();
-
-        renderersGP = new Renderer[childGlowingParts.Length];
-
+        renderersGlowingParts = new Renderer[childGlowingParts.Length];
         for (int i = 0; i < childGlowingParts.Length; i++)
+            renderersGlowingParts[i] = childGlowingParts[i].GetComponent<Renderer>();
+    }
+
+    public void LogoTurningOnAndOff(float time, bool TurnOn, bool isChangeIcosahedron, bool isSetParticles, bool isFlickeringTriangle, float minTimeForTriangle = 0f, float maxTimeForTriangle = 0f)
+    {
+        isTurnOn = TurnOn;
+
+        ChangeColors(time, TurnOn, isChangeIcosahedron, isFlickeringTriangle);
+
+        if (isFlickeringTriangle && maxTimeForTriangle != 0f && time != 0f)
         {
-            renderersGP[i] = childGlowingParts[i].GetComponent<Renderer>();
+            StartCoroutine(FlinkeringOfTriangle(triangle, minTimeForTriangle, maxTimeForTriangle, true));
+            isFlinkeringContinue = true;
         }
+        else isFlinkeringContinue = false;
+
+        if (isSetParticles) SPS.StartRandomParticles();
     }
 
-    public void LogoTurningOnAndOff(float time, float minTimeForTriangle, float maxTimeForTriangle, bool isOn, bool isChangeIcosahedron)
+    private void ChangeColors(float time, bool isOn, bool isChangeIcosahedron, bool isFlickeringTriangle)
     {
-        isTurnOn = isOn;
-        //wall.gameObject.SetActive(true);
-        if (!isOn) StartCoroutine(FlinkeringOfTriangle(triangle.GetComponent<SpriteRenderer>(), minTimeForTriangle, maxTimeForTriangle, true));
-        isFlinkeringContinue = !isOn;
-        StartCoroutine(ChangeColorsWithAnimationCurve(time, isOn, isChangeIcosahedron));
-        if (!isTurnOn) SPS.StartRandomParticles();
-    }
-
-
-    private IEnumerator ChangeColorsWithAnimationCurve(float time, bool isOn, bool isChangeIcosahedron)
-    {
-        float elapsedTime = 0f;
-
         Color initialColor = isOn ? Color.gray : Color.white;
         Color targetColor = isOn ? Color.white : Color.gray;
 
         if (isChangeIcosahedron) 
         { 
-            foreach (var renderer in renderersGP)
+            foreach (var renderer in renderersGlowingParts)
             {
-                if (renderer != null)
-                {
+                if (time != 0)
                     StartCoroutine(SettingMaterial(renderer, isOn ? materialWhite : materialBlack, time));
+                else
+                {
+                    renderer.material = isOn ? materialWhite : materialBlack;
                 }
             }
         }
         foreach (var part in logoParts)
         {
-            StartCoroutine(ChangeColorSmoothly(part, time, initialColor, targetColor, isOn));
+            if (time != 0)
+                StartCoroutine(ChangeColorSmoothly(part, time, initialColor, targetColor, isOn));
+            else
+            {
+                part.material.color = targetColor;
+            }
         }
-        while (elapsedTime < time)
+
+        if (!isFlickeringTriangle)
         {
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            triangle.material.color = targetColor;
         }
+    }
+
+    private IEnumerator SettingMaterial(Renderer renderer, Material material, float time)
+    {
+        yield return new WaitForSeconds(Random.Range(0.25f * time, time)); //0.3f & 0.8f
+        renderer.material = material;
     }
 
     private IEnumerator ChangeColorSmoothly(Renderer renderer, float time, Color initialColor, Color targetColor, bool isTurnOn)
@@ -107,40 +121,21 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
         renderer.material.color = targetColor;
     }
 
-    private IEnumerator SettingMaterial(Renderer renderer, Material material, float time)
-    {
-        
-        yield return new WaitForSeconds(Random.Range(0.3f * time, 0.8f * time));
-        renderer.material = material;   
-    }
-
     private IEnumerator FlinkeringOfTriangle(SpriteRenderer triangle, float minTime, float maxTime, bool isWhite)
     {
+        
         float randomTime = Random.Range(minTime, maxTime);
-
-        if (isWhite)
-        {
-            triangle.color = Color.gray;
-            minTime *= 3;
-            maxTime *= 3;
-        }
-        else
-        {
-            triangle.color = Color.white;
-            minTime /= 3;
-            maxTime /= 3;
-        }
+        Debug.Log(randomTime);
+        triangle.color = isWhite ? Color.gray : Color.white;
+        minTime = isWhite ? minTime * 5 : minTime / 5;
+        maxTime = isWhite ? maxTime * 5 : maxTime / 5;
 
         yield return new WaitForSeconds(randomTime);
 
         if (isFlinkeringContinue)
-        {
             StartCoroutine(FlinkeringOfTriangle(triangle, minTime, maxTime, !isWhite));
-        }
         else
-        {
             triangle.color = Color.white;
-        }
     }
 
 }

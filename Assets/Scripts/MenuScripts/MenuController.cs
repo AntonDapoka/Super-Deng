@@ -1,18 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.WSA;
 
 public class MenuController : MonoBehaviour
 {
     [SerializeField] private GameObject icosahedron;
+    [Header("MenuScripts")]
     [SerializeField] private MenuLogoNeonFlinkeringScript MLNFS;
     [SerializeField] private StartToSavingsTransitionScript STSTS;
     [SerializeField] private MenuCreditsScript MCS;
-
-    public bool isFlinkeringContinue;
     [Header("MainButtons")]
     [SerializeField] private Button buttonStart;
     [SerializeField] private Button buttonLevel;
@@ -26,20 +23,23 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button buttonSavingsDelete;
     [SerializeField] private Button buttonCreditsDonate;
     [SerializeField] private Button buttonCreditsContact;
-
-    [Header("UI Elements")]
+    [Header("Images")]
     [SerializeField] private Image imageSavings;
     [SerializeField] private Image imageCredits;
     [SerializeField] private Image imageSettings;
+    [SerializeField] private Image panel;
+    [SerializeField] private Image wall;
+    [Header("Quantities")]
     //[SerializeField] private float biasSettings = 400f;
     [SerializeField] private float moveImagesDuration = 2f;
     [SerializeField] private float moveButtonsDuration = 1f;
     [SerializeField] private float waitBetweenButtons = 1f;
-    [SerializeField] private AnimationCurve moveSettingsCurve;
-    [SerializeField] private Image panel;
-    [SerializeField] private Image wall;
     [SerializeField] private float panelFadeDuration;
+    [Header("UI Curves")]
+    [SerializeField] private AnimationCurve moveSettingsCurve;
     [SerializeField] private AnimationCurve panelFadeCurve;
+    [Header("Bools")]
+    public bool isFlinkeringContinue;
 
     private void Start()
     {
@@ -49,6 +49,7 @@ public class MenuController : MonoBehaviour
         buttonCredits.onClick.AddListener(OnCreditsClick);
 
         StartCoroutine(PanelFadingInAndOut(false, 0));
+        
     }
 
     private void OnStartClick()
@@ -70,7 +71,7 @@ public class MenuController : MonoBehaviour
 
     private void OnLevelClick()
     {
-        MLNFS.LogoTurningOnAndOff(moveImagesDuration, 0.1f, 0.4f, false, false);
+        MLNFS.LogoTurningOnAndOff(moveImagesDuration, false, true, true, true, 0.1f, 0.4f);
     }
 
     private void OnSettingsClick()
@@ -111,8 +112,7 @@ public class MenuController : MonoBehaviour
     {
         wall.gameObject.SetActive(true);
 
-        if (isInteractWithLogo) MLNFS.LogoTurningOnAndOff(moveImagesDuration, 0.1f, 0.4f, isImageUp, true);
-
+        if (isInteractWithLogo) MLNFS.LogoTurningOnAndOff(moveImagesDuration, isImageUp, true, isImageUp, true, 0.1f, 0.4f);
         if (image != null) 
             StartCoroutine(MoveObjectAndUI(image.gameObject, 900f * (isImageUp ? -1 : 1), moveImagesDuration, true, true));
 
@@ -182,6 +182,10 @@ public class MenuController : MonoBehaviour
         panel.color = new Color(startColor.r, startColor.g, startColor.b, targetAplha);
 
         if (isIn) SceneManager.LoadScene(indexScene);
-        else panel.gameObject.SetActive(false);
+        else
+        {
+            panel.gameObject.SetActive(false);
+            ///¬ключить лого
+        }
     }
 }

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ddcebce76eba824c9a702683ba5b80c, type: 3}
+  m_Name: RedFaceSettings
+  m_EditorClassIdentifier: 
+  effectName: 333333333333
+  bpm: 90
+  timeStartSeconds: 10
+  timeStartBeats: 15
+  isTimeEnd: 0
+  timeEndSeconds: 200
+  timeEndBeats: 300
+  isRandom: 0
+  isArray: 0
+  isInterval: 1
+  quantityExact: 0
+  quantityMin: 0
+  quantityMax: 0
+  isCommonArray: 0
+  arrayOfFaces: 
+  isStripArray: 0
+  arrayOfStrips: 
+  isRelativeToThePlayerArray: 0
+  arrayOfEqualDistanceFaces: 
+  isTurnOnWayFinder: 0
+  colorDurationBeatsChange: 0
+  colorDurationSecondsChange: 0
+  scaleDurationBeatsChangeUp: 0
+  scaleDurationSecondsChangeUp: 0
+  waitDurationBeats: 0
+  waitDurationSeconds: 0
+  scaleDurationBeatsChangeDown: 0
+  scaleDurationSecondsChangeDown: 0
+  scaleChange: 0

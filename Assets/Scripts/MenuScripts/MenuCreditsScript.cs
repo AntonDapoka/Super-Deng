@@ -118,7 +118,7 @@ public class MenuCreditsScript : MonoBehaviour
     {
         if (!MLNFS.isTurnOn)
         {
-            MLNFS.LogoTurningOnAndOff( 0.75f, 2f, 3f, true, true);
+            MLNFS.LogoTurningOnAndOff(0.75f, true, true, true, false);
             ///MLNFS.LogoTurningOnAndOff( Color.gray, Color.white, 0.75f, 2f, 3f, true, true);
         }
         
@@ -150,13 +150,15 @@ public class MenuCreditsScript : MonoBehaviour
 
     private IEnumerator SettingMaterial()
     {
-        MLNFS.LogoTurningOnAndOff(0.75f, 3f, 4f, false, true);
+        MLNFS.LogoTurningOnAndOff(0.75f, false, true, false, false);
+
         yield return new WaitForSeconds(timeForLine);
         for (int i = 0; i < sortedChildren.Length; i++)
         {
             if (i == 1)
             {
-                MLNFS.LogoTurningOnAndOff(timeForLine, 0.1f, 0.4f, true, true);
+                MLNFS.LogoTurningOnAndOff(timeForLine, true, true, true, false);
+                
                 yield return new WaitForSeconds(timeForLine);
                 isStarted = true;
                 isEnded = false;

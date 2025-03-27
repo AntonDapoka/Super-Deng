@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
@@ -6,7 +6,6 @@ using UnityEngine;
 public class UnifiedFrameManagerScript : MonoBehaviour
 {
     public bool isTurnOn = false;
-    [SerializeField] private RhythmManager RM;
     [SerializeField] private TimerController TC;
     [SerializeField] private RedFaceScript RFS;
     [SerializeField] private RedWaveScript RWS;
@@ -32,16 +31,17 @@ public class UnifiedFrameManagerScript : MonoBehaviour
     {
         if (TC != null && TC.isTurnOn && isTurnOn)
         {
-            int currentBeat = RM.currentBeat; //Время таймера
+            float elapsedTime = TC.timeElapsed; //Г‚Г°ГҐГ¬Гї ГІГ Г©Г¬ГҐГ°Г 
 
-            //if (currentSpawnIndex < enemySpawnSettings.spawnTimes.Length)   //Если текущий фрейм настроек не последний. Не используется
+
+            //if (currentSpawnIndex < enemySpawnSettings.spawnTimes.Length)   //Р•СЃР»Рё С‚РµРєСѓС‰РёР№ С„СЂРµР№Рј РЅР°СЃС‚СЂРѕРµРє РЅРµ РїРѕСЃР»РµРґРЅРёР№. РќРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ
 
             var spawnTimeData = enemySpawnSettings.spawnTimes[currentSpawnIndex];
             var nextSpawnTimeData = currentSpawnIndex < enemySpawnSettings.spawnTimes.Length - 1
                 ? enemySpawnSettings.spawnTimes[currentSpawnIndex + 1]
-                : new SpawnTimeData { time = int.MaxValue }; //Если следующего фрейма нет, то создаем максимально далекий
+                : new SpawnTimeData { time = int.MaxValue }; //Р•СЃР»Рё СЃР»РµРґСѓСЋС‰РµРіРѕ С„СЂРµР№РјР° РЅРµС‚, С‚Рѕ СЃРѕР·РґР°РµРј РјР°РєСЃРёРјР°Р»СЊРЅРѕ РґР°Р»РµРєРёР№
 
-            if (currentBeat >= spawnTimeData.time && currentBeat <= nextSpawnTimeData.time && !spawnExecuted[currentSpawnIndex]) //Во время текущего фрейма применяем настройки
+            if (elapsedTime >= spawnTimeData.time && elapsedTime <= nextSpawnTimeData.time && !spawnExecuted[currentSpawnIndex])//Р’Рѕ РІСЂРµРјСЏ С‚РµРєСѓС‰РµРіРѕ С„СЂРµР№РјР° РїСЂРёРјРµРЅСЏРµРј РЅР°СЃС‚СЂРѕР№РєРё
             {
                 if (spawnTimeData.isRedFaceTurnOn)
                 {
@@ -248,7 +248,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
                     else
                     {
                         CRGBIS.isChanging = false;
-                        Debug.Log("Епт, Варя, ты не должна видеть это сообщение, переделывай Фрейм с РГБ");
+                        Debug.Log("Р•РїС‚, Р’Р°СЂСЏ, С‚С‹ РЅРµ РґРѕР»Р¶РЅР° РІРёРґРµС‚СЊ СЌС‚Рѕ СЃРѕРѕР±С‰РµРЅРёРµ, РїРµСЂРµРґРµР»С‹РІР°Р№ Р¤СЂРµР№Рј СЃ Р Р“Р‘");
                     }
                 }
                 else
@@ -272,7 +272,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
                 spawnExecuted[currentSpawnIndex] = true;
             }
 
-            if (currentBeat > nextSpawnTimeData.time)
+            if (elapsedTime > nextSpawnTimeData.time)
             {
                 currentSpawnIndex++;
             }

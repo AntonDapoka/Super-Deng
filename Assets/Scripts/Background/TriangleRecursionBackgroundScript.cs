@@ -8,7 +8,7 @@ public class TriangleRecursionBackgroundScript : MonoBehaviour
     public Transform laserShowHolder;
     private Color[] colors = { Color.white, Color.black };
     private int colorIndex = 0;
-    private int count = 0;
+    public int count = 0;
 
     private void Start()
     {
@@ -22,7 +22,8 @@ public class TriangleRecursionBackgroundScript : MonoBehaviour
         SpriteRenderer sr = triangle.GetComponent<SpriteRenderer>();
         sr.color = color;
 
-        triangle.transform.localPosition = new Vector3(0, 0, -count/100000000000);
+        triangle.transform.localPosition = new Vector3(0, 0, -count/10000f);
+        Debug.Log(triangle.transform.localPosition);
         triangle.transform.localRotation = Quaternion.identity;
         triangle.transform.localScale = Vector3.zero;
 

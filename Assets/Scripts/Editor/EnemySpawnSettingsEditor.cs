@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEditor;
 
@@ -44,7 +43,7 @@ public class EnemySpawnSettingsEditor : Editor
 
             EditorGUILayout.BeginVertical(GUI.skin.box);
             EditorGUILayout.LabelField("Frame ¹" + i.ToString(), headerStyle);
-            EditorGUILayout.PropertyField(time, new GUIContent("Time (beats)"));
+            EditorGUILayout.PropertyField(time, new GUIContent("Time (seconds)"));
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Red Face Settings:", labelStyle);
