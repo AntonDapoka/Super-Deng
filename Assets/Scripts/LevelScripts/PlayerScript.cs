@@ -108,6 +108,11 @@ public class PlayerScript : MonoBehaviour
         faceCurrentFS = face.GetComponent<FaceScript>();
     }
     
+    public GameObject GetCurrentFace()
+    {
+        return faceCurrent;
+    }
+
     public void TakeDamage()
     {
         if (hp > 1)

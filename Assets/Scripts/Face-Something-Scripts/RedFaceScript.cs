@@ -141,4 +141,9 @@ public class RedFaceScript : MonoBehaviour
         waitDuration = 0f;
         scaleChangeDurationDown = RM.beatInterval;
     }
+
+    public void SetExactRedFace(GameObject face)
+    {
+        StartCoroutine(SetRedFace(face));
+    }
 }

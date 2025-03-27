@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -74,6 +75,7 @@ public class FaceScript : MonoBehaviour
     [SerializeField] private PathCounterScript PCS;
     [SerializeField] private PortalSpawnerScript PSS;
     [SerializeField] private NavigationHintScript NHS;
+    [SerializeField] private KillYourselfScript KYSS;
 
     [Space]
     [Header("Questions")]
@@ -157,6 +159,7 @@ public class FaceScript : MonoBehaviour
 
     private void Update()
     {
+
         if (isTurnOn && havePlayer && !transferInProgress && BC.canPress)
         {
             HandleInput();
@@ -282,6 +285,7 @@ public class FaceScript : MonoBehaviour
         havePlayer = true;
         PS.ResetMaterials();
         PCS.SetPathCount();
+        KYSS.beatsNoMoving = 0;
         PS.SetCurrentFace(gameObject);
 
         newPlayer.transform.SetParent(gameObject.transform);

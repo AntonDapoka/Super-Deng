@@ -23,8 +23,6 @@ public class MenuCreditsScript : MonoBehaviour
     public bool isStarted = false;
     public bool isEnded = false;
 
-
-
     private void Start()
     {
         camPos = cam.transform.position;
