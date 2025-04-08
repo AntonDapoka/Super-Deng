@@ -54,12 +54,17 @@ public class IcosahedronBuilder : MonoBehaviour
 
         float[] distances = GenerateDistances(iterations+1, a);
 
+        List<GameObject> gameObjects = new List<GameObject>();
+
         foreach (var vertice in vertices)
         {
-            GameObject sphere = Instantiate(prismPrefab, vertice, Quaternion.identity);
+            GameObject sphere = Instantiate(pentagonPrefab, vertice, Quaternion.identity);
             sphere.transform.SetParent(gameObject.transform);
+            gameObjects.Add(sphere);
         }
 
+        GroupGameObjects(gameObjects.ToArray());
+        /*
         Debug.Log($"Iteration {0}: {combined.Length} vertices");
 
         for (int i = 0; i < iterations; i++)
@@ -80,7 +85,8 @@ public class IcosahedronBuilder : MonoBehaviour
         }
         Debug.Log(iterations);
         GenerateFaces(combined, distances[iterations], iterations);
-
+        */
+        yield return new WaitForSeconds(2f);
     }
 
     public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance)

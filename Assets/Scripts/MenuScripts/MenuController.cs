@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject icosahedron;
     [Header("MenuScripts")]
     [SerializeField] private MenuLogoNeonFlinkeringScript MLNFS;
     [SerializeField] private StartToSavingsTransitionScript STSTS;
     [SerializeField] private MenuCreditsScript MCS;
+    [SerializeField] private LevelChooseMenuScript LCMS;
     [Header("MainButtons")]
     [SerializeField] private Button buttonStart;
     [SerializeField] private Button buttonLevel;
@@ -25,8 +25,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button buttonCreditsContact;
     [Header("Images")]
     [SerializeField] private Image imageSavings;
-    [SerializeField] private Image imageCredits;
     [SerializeField] private Image imageSettings;
+    [SerializeField] private Image imageLevelDescription;
     [SerializeField] private Image panel;
     [SerializeField] private Image wall;
     [Header("Quantities")]
@@ -71,7 +71,9 @@ public class MenuController : MonoBehaviour
 
     private void OnLevelClick()
     {
-        MLNFS.LogoTurningOnAndOff(moveImagesDuration, false, true, true, true, 0.1f, 0.4f);
+        MLNFS.LogoTurningOnAndOff(moveImagesDuration, false, false, false, false, true, 0.1f, 0.4f);
+        StartCoroutine(SetImageChangeButtons(imageLevelDescription, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
+            waitBetweenButtons, new[] { buttonSettingsSave, buttonSettingsCorrection, buttonBack }, false, false));
     }
 
     private void OnSettingsClick()
@@ -104,7 +106,7 @@ public class MenuController : MonoBehaviour
     private void OnCreditsBackClick()
     {
         MCS.EndCredits();
-        StartCoroutine(SetImageChangeButtons(imageCredits, new[] { buttonCreditsContact, buttonCreditsDonate, buttonBack },
+        StartCoroutine(SetImageChangeButtons(null, new[] { buttonCreditsContact, buttonCreditsDonate, buttonBack },
            waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true, false));
     }
 
@@ -112,7 +114,7 @@ public class MenuController : MonoBehaviour
     {
         wall.gameObject.SetActive(true);
 
-        if (isInteractWithLogo) MLNFS.LogoTurningOnAndOff(moveImagesDuration, isImageUp, true, isImageUp, true, 0.1f, 0.4f);
+        if (isInteractWithLogo) MLNFS.LogoTurningOnAndOff(moveImagesDuration, isImageUp, true, isImageUp, true, false, 0.1f, 0.4f);
         if (image != null) 
             StartCoroutine(MoveObjectAndUI(image.gameObject, 900f * (isImageUp ? -1 : 1), moveImagesDuration, true, true));
 

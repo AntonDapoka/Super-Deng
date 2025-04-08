@@ -23,7 +23,7 @@ public class SparksParticleScript : MonoBehaviour
 
 
 
-        StartRandomParticles();
+        //StartRandomParticles();
     }
 
     public void StartRandomParticles()

@@ -30,11 +30,12 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
             renderersGlowingParts[i] = childGlowingParts[i].GetComponent<Renderer>();
     }
 
-    public void LogoTurningOnAndOff(float time, bool TurnOn, bool isChangeIcosahedron, bool isSetParticles, bool isFlickeringTriangle, float minTimeForTriangle = 0f, float maxTimeForTriangle = 0f)
+    public void LogoTurningOnAndOff(float time, bool TurnOn, bool isChangeIcosahedron, bool isSetParticles, bool isFlickeringTriangle, bool isDisappear = false, float minTimeForTriangle = 0f, float maxTimeForTriangle = 0f)
     {
+        Debug.Log(isChangeIcosahedron);
         isTurnOn = TurnOn;
 
-        ChangeColors(time, TurnOn, isChangeIcosahedron, isFlickeringTriangle);
+        ChangeColors(time, TurnOn, isChangeIcosahedron, isFlickeringTriangle, isDisappear);
 
         if (isFlickeringTriangle && maxTimeForTriangle != 0f && time != 0f)
         {
@@ -46,13 +47,23 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
         if (isSetParticles) SPS.StartRandomParticles();
     }
 
-    private void ChangeColors(float time, bool isOn, bool isChangeIcosahedron, bool isFlickeringTriangle)
+    private void ChangeColors(float time, bool isOn, bool isChangeIcosahedron, bool isFlickeringTriangle, bool isDisappear)
     {
-        Color initialColor = isOn ? Color.gray : Color.white;
-        Color targetColor = isOn ? Color.white : Color.gray;
+        Color initialColor;
+        Color targetColor;
+        if (isDisappear) 
+        {
+            initialColor = isOn ? Color.clear : Color.white;
+            targetColor = isOn ? Color.white : Color.clear;
+        }
+        else
+        {
+            initialColor = isOn ? Color.gray : Color.white;
+            targetColor = isOn ? Color.white : Color.gray;
+        }
 
-        if (isChangeIcosahedron) 
-        { 
+            if (isChangeIcosahedron)
+        {
             foreach (var renderer in renderersGlowingParts)
             {
                 if (time != 0)
@@ -62,6 +73,7 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
                     renderer.material = isOn ? materialWhite : materialBlack;
                 }
             }
+            //Debug.Log(isChangeIcosahedron);
         }
         foreach (var part in logoParts)
         {
@@ -125,7 +137,7 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
     {
         
         float randomTime = Random.Range(minTime, maxTime);
-        Debug.Log(randomTime);
+        //Debug.Log(randomTime);
         triangle.color = isWhite ? Color.gray : Color.white;
         minTime = isWhite ? minTime * 5 : minTime / 5;
         maxTime = isWhite ? maxTime * 5 : maxTime / 5;
