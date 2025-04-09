@@ -75,13 +75,17 @@ public class MenuController : MonoBehaviour
         buttonBack.onClick.RemoveAllListeners();
         buttonBack.onClick.AddListener(OnLevelBackClick);
 
-        MLNFS.LogoTurningOnAndOff(moveImagesDuration, false, false, false, false, true, 0.1f, 0.4f);
+        LCMS.TurnOnAndOff(false);
+
+        MLNFS.LogoTurningOnAndOff(moveImagesDuration/2, false, false, false, false, true, 0.1f, 0.4f);
         StartCoroutine(SetImageChangeButtons(imageLevelDescription, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
             waitBetweenButtons, new[] { buttonChoose, buttonBack }, false, false));
     }
 
     private void OnLevelBackClick()
     {
+        LCMS.TurnOnAndOff(true);
+
         MLNFS.LogoTurningOnAndOff(moveImagesDuration, true, false, false, false, true, 0.1f, 0.4f);
         StartCoroutine(SetImageChangeButtons(imageLevelDescription, new[] { buttonChoose, buttonBack },
             waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true, false));

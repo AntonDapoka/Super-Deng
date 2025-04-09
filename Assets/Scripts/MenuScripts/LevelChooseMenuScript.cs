@@ -7,9 +7,30 @@ using System.Collections;
 public class LevelChooseMenuScript : MonoBehaviour
 {
     [SerializeField] GameObject holder;
+    [SerializeField] private GameObject[] objects;
+    [SerializeField] private Transform[] points;
+    [SerializeField] private int[] scenes;
+    private int currentIndex = 2;
+
+    public float moveDuration = 1f;
+    public AnimationCurve movementCurve;
+    [Header("UI")]
+    [SerializeField] private Button buttonRight;
+    [SerializeField] private Button buttonLeft;
+    [SerializeField] private Button buttonChoose;
+    [SerializeField] private GameObject wall;
+
+    public void TurnOnAndOff(bool isTurn)
+    {
+        for (int i = 0; i < objects.Length; i++) 
+        {
+            objects[i].SetActive(!isTurn);
+        }
+        buttonLeft.gameObject.SetActive(!isTurn);
+        buttonRight.gameObject.SetActive(!isTurn);
+    }
+    /*
     [SerializeField] private Button buttonÑhoose;
-    [SerializeField] private TextMeshProUGUI textButtonÑhoose;
-    [SerializeField] private Button buttonBack;
     [SerializeField] private LevelButtonTransition LBT;
 
     [SerializeField] private Vector3 positionChosen;
@@ -23,88 +44,78 @@ public class LevelChooseMenuScript : MonoBehaviour
     public float biasUI = 400f;
     public float moveDuration = 1f; 
     public AnimationCurve movementCurve;
-
+    */
     private void Start()
     {
-        textButtonÑhoose.text = "Choose";
-        buttonÑhoose.onClick.AddListener(OnFirstClick);
-        buttonBack.onClick.AddListener(LoadMenuScene);
-        positionUnchosen = Vector3.zero;
-        wall.SetActive(false);
+        //buttonChoose.onClick.AddListener(LoadMenuScene);
+        buttonRight.onClick.AddListener(OnRightButtonClick);
+        buttonLeft.onClick.AddListener(OnLeftButtonClick);
+        //positionUnchosen = Vector3.zero;
+        //wall.SetActive(false);
+        
     }
 
-    private void OnFirstClick()
+    public void OnRightButtonClick()
     {
-        StartCoroutine(MoveObjectAndUI(true));
-        buttonÑhoose.onClick.RemoveAllListeners();
-        buttonÑhoose.onClick.AddListener(LoadCorrespondingScene);
 
-        buttonBack.onClick.RemoveAllListeners();
-        buttonBack.onClick.AddListener(OnSecondClick);
-
-        textButtonÑhoose.text = "Start";
+        if (currentIndex != objects.Length)
+        {
+            StartCoroutine(MoveObjectAndUI(currentIndex + 1));
+            
+        }
+        else
+        {
+            //Play sound
+        }
     }
 
-    private void OnSecondClick()
+    public void OnLeftButtonClick()
     {
-        StartCoroutine(MoveObjectAndUI(false));
-        buttonÑhoose.onClick.RemoveAllListeners();
-        buttonÑhoose.onClick.AddListener(OnFirstClick);
-
-        buttonBack.onClick.RemoveAllListeners();
-        buttonBack.onClick.AddListener(LoadMenuScene);
-
-        textButtonÑhoose.text = "Choose";
+        if (currentIndex != 0)
+        {
+            StartCoroutine(MoveObjectAndUI(currentIndex - 1));
+        }
+        else
+        {
+            //PlaySound
+        }
     }
 
-    private IEnumerator MoveObjectAndUI(bool isChosen)
+    private IEnumerator MoveObjectAndUI(int newIndex)
     {
         wall.SetActive(true);
-
         float elapsedTime = 0f;
-        Vector3 initialHolderPos = holder.transform.position;
-        Vector3 targetHolderPos = isChosen ? positionChosen : positionUnchosen;
+        int multiplier = newIndex > currentIndex ? 1 : -1;
 
-        int positionMultiplier = isChosen ? 1 : -1;
-
-        Vector2[] initialUIPositions = new Vector2[uiElements.Length];
-        for (int i = 0; i < uiElements.Length; i++)
-        {
-            initialUIPositions[i] = uiElements[i].anchoredPosition;
-        }
-
-        Vector2 initialBannerPos = bannerLevelDesc.anchoredPosition;
-
-        while (elapsedTime < moveDuration)
-        {
-            float curveProgress = movementCurve.Evaluate(elapsedTime / moveDuration);
-            holder.transform.position = Vector3.Lerp(initialHolderPos, targetHolderPos, curveProgress);
-            for (int i = 0; i < uiElements.Length; i++)
+        //while (currentIndex != newIndex)
+        //{
+            //Debug.Log(currentIndex.ToString() +  "âââ"  + newIndex.ToString());
+            while (elapsedTime < moveDuration / Mathf.Abs(newIndex - currentIndex))
             {
-                uiElements[i].anchoredPosition = Vector2.Lerp(initialUIPositions[i], initialUIPositions[i] - new Vector2(biasUI * positionMultiplier, 0) , curveProgress);
-            }
-            bannerLevelDesc.anchoredPosition = Vector2.Lerp(initialBannerPos, initialBannerPos - new Vector2(biasBanner * positionMultiplier, 0), curveProgress);
-            elapsedTime += Time.deltaTime;
+                float curveProgress = movementCurve.Evaluate(elapsedTime / (moveDuration / Mathf.Abs(newIndex - currentIndex)));
+                Debug.Log(multiplier);
+                objects[currentIndex].transform.position = Vector3.Lerp(points[2].position, points[2 + multiplier].position, curveProgress);
+
+                if (currentIndex > 0 && multiplier > 0)
+                    objects[currentIndex-1].transform.position = Vector3.Lerp(points[currentIndex-1].position, points[currentIndex].position, curveProgress);
+                if (currentIndex > 1 && multiplier > 0)
+                    objects[currentIndex - 2].transform.position = Vector3.Lerp(points[currentIndex - 2].position, points[currentIndex - 1].position, curveProgress);
+
+                if (currentIndex < objects.Length && multiplier > 0)
+                    objects[currentIndex + 1].transform.position = Vector3.Lerp(points[currentIndex + 1].position, points[currentIndex + 2].position, curveProgress);
+
+                if (currentIndex < objects.Length - 2 && multiplier > 0)
+                    objects[currentIndex + 2].transform.position = Vector3.Lerp(points[currentIndex + 2].position, points[currentIndex + 3].position, curveProgress);
+
+                elapsedTime += Time.deltaTime;
+                
             yield return null;
         }
 
-        holder.transform.position = targetHolderPos;
-        for (int i = 0; i < uiElements.Length; i++)
-        {
-            uiElements[i].anchoredPosition = initialUIPositions[i] - new Vector2(biasUI, 0) * positionMultiplier;
-        }
-        bannerLevelDesc.anchoredPosition = initialBannerPos - new Vector2(biasBanner, 0) * positionMultiplier;
+        //currentIndex+= multiplier;
+        //}
 
         wall.SetActive(false);
     }
 
-    private void LoadCorrespondingScene()
-    {
-        SceneManager.LoadScene(scenes[LBT._numberMenu]);
-    }
-
-    private void LoadMenuScene()
-    {
-        SceneManager.LoadScene(0);
-    }
 }
