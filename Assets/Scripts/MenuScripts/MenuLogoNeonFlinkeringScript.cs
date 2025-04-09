@@ -32,7 +32,7 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
 
     public void LogoTurningOnAndOff(float time, bool TurnOn, bool isChangeIcosahedron, bool isSetParticles, bool isFlickeringTriangle, bool isDisappear = false, float minTimeForTriangle = 0f, float maxTimeForTriangle = 0f)
     {
-        Debug.Log(isChangeIcosahedron);
+        //Debug.Log(isChangeIcosahedron);
         isTurnOn = TurnOn;
 
         ChangeColors(time, TurnOn, isChangeIcosahedron, isFlickeringTriangle, isDisappear);

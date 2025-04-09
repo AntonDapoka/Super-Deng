@@ -17,6 +17,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button buttonCredits;
     [Header("OtherButtons")]
     [SerializeField] private Button buttonBack;
+    [SerializeField] private Button buttonChoose;
     [SerializeField] private Button buttonSettingsSave;
     [SerializeField] private Button buttonSettingsCorrection;
     [SerializeField] private Button buttonSavingsPlay;
@@ -71,9 +72,21 @@ public class MenuController : MonoBehaviour
 
     private void OnLevelClick()
     {
+        buttonBack.onClick.RemoveAllListeners();
+        buttonBack.onClick.AddListener(OnLevelBackClick);
+
         MLNFS.LogoTurningOnAndOff(moveImagesDuration, false, false, false, false, true, 0.1f, 0.4f);
         StartCoroutine(SetImageChangeButtons(imageLevelDescription, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
-            waitBetweenButtons, new[] { buttonSettingsSave, buttonSettingsCorrection, buttonBack }, false, false));
+            waitBetweenButtons, new[] { buttonChoose, buttonBack }, false, false));
+    }
+
+    private void OnLevelBackClick()
+    {
+        MLNFS.LogoTurningOnAndOff(moveImagesDuration, true, false, false, false, true, 0.1f, 0.4f);
+        StartCoroutine(SetImageChangeButtons(imageLevelDescription, new[] { buttonChoose, buttonBack },
+            waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true, false));
+
+
     }
 
     private void OnSettingsClick()
