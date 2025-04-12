@@ -22,9 +22,16 @@ public class LevelChooseMenuScript : MonoBehaviour
 
     public void TurnOnAndOff(bool isTurn)
     {
-        for (int i = 0; i < objects.Length; i++) 
+        StartCoroutine(TurningOnAndOff(isTurn));
+    }
+
+    private IEnumerator TurningOnAndOff(bool isTurn)
+    {
+        yield return new WaitForSeconds(!isTurn ? 0.3f : 0f);
+        for (int i = 0; i < objects.Length; i++)
         {
-            objects[i].SetActive(!isTurn);
+            if (i != currentIndex)
+                objects[i].SetActive(!isTurn);
         }
         buttonLeft.gameObject.SetActive(!isTurn);
         buttonRight.gameObject.SetActive(!isTurn);
@@ -93,7 +100,7 @@ public class LevelChooseMenuScript : MonoBehaviour
             while (elapsedTime < moveDuration / Mathf.Abs(newIndex - currentIndex))
             {
                 float curveProgress = movementCurve.Evaluate(elapsedTime / (moveDuration / Mathf.Abs(newIndex - currentIndex)));
-                Debug.Log(multiplier);
+                //Debug.Log(multiplier);
                 objects[currentIndex].transform.position = Vector3.Lerp(points[2].position, points[2 + multiplier].position, curveProgress);
 
                 if (currentIndex > 0 && multiplier > 0)
@@ -112,7 +119,7 @@ public class LevelChooseMenuScript : MonoBehaviour
             yield return null;
         }
 
-        //currentIndex+= multiplier;
+        currentIndex -= multiplier;
         //}
 
         wall.SetActive(false);

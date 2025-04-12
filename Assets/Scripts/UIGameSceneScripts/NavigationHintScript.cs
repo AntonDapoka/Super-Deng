@@ -17,6 +17,7 @@ public class NavigationHintScript : MonoBehaviour
     [SerializeField] private TextMeshPro textNavigationHintLeft;
     [SerializeField] private TextMeshPro textNavigationHintRight;
     [SerializeField] private TextMeshPro textNavigationHintTop;
+    public bool isUpsideDown = false;
 
     private void Awake()
     {

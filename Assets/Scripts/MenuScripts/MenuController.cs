@@ -77,7 +77,7 @@ public class MenuController : MonoBehaviour
 
         LCMS.TurnOnAndOff(false);
 
-        MLNFS.LogoTurningOnAndOff(moveImagesDuration/2, false, false, false, false, true, 0.1f, 0.4f);
+        MLNFS.LogoTurningOnAndOff(moveImagesDuration*0.4f, false, false, false, false, true, false, 0.1f, 0.4f);
         StartCoroutine(SetImageChangeButtons(imageLevelDescription, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
             waitBetweenButtons, new[] { buttonChoose, buttonBack }, false, false));
     }
@@ -86,7 +86,7 @@ public class MenuController : MonoBehaviour
     {
         LCMS.TurnOnAndOff(true);
 
-        MLNFS.LogoTurningOnAndOff(moveImagesDuration, true, false, false, false, true, 0.1f, 0.4f);
+        MLNFS.LogoTurningOnAndOff(moveImagesDuration, true, false, false, false, true, true, 0.1f, 0.4f);
         StartCoroutine(SetImageChangeButtons(imageLevelDescription, new[] { buttonChoose, buttonBack },
             waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true, false));
 
@@ -131,7 +131,7 @@ public class MenuController : MonoBehaviour
     {
         wall.gameObject.SetActive(true);
 
-        if (isInteractWithLogo) MLNFS.LogoTurningOnAndOff(moveImagesDuration, isImageUp, true, isImageUp, true, false, 0.1f, 0.4f);
+        if (isInteractWithLogo) MLNFS.LogoTurningOnAndOff(moveImagesDuration, isImageUp, true, isImageUp, true, false, true, 0.1f, 0.4f);
         if (image != null) 
             StartCoroutine(MoveObjectAndUI(image.gameObject, 900f * (isImageUp ? -1 : 1), moveImagesDuration, true, true));
 

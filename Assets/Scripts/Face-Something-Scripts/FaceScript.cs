@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 // Обязательное уведомление: "Правые", "Левые" и "Верхние" указаны для треугольника с основанием, направленным ВНИЗ!!!
 // Обратите внимание, что "Правая" сторона раньше носила название "BlueSide", "Левая" - "OrangeSide", а "Верхняя" - "GreenSide"
 // Помимо прочих наименований, "Правая" сторона может записываться как "Side2", "Левая" - "Side1", а "Верхняя" - "Side3"
-public class FaceScript : MonoBehaviour 
+public class FaceScript : MonoBehaviour
 {
     /*                /\  
                      /  \
@@ -22,7 +22,7 @@ public class FaceScript : MonoBehaviour
     public bool isTurnOn = false;
     public GameObject player;
     public int pathObjectCount = -1;
-    [SerializeField] private PlayerScript PS;
+    private PlayerScript PS;
 
     [Space]
     [Header("Sides of the Face")]
@@ -88,6 +88,7 @@ public class FaceScript : MonoBehaviour
     public bool isPortal = false;
     public bool isBonus = false;
     public bool isTutorial = false;
+    public bool isUpsideDown = false;
     [HideInInspector] public bool isLeft = false;
     [HideInInspector] public bool isRight = false;
     [HideInInspector] public bool isTop = false;
@@ -96,13 +97,16 @@ public class FaceScript : MonoBehaviour
     private void OnEnable()
     {
         rend = glowingPart.GetComponent<MeshRenderer>();
+
+        PS = player.GetComponent<PlayerScript>();
+
         keyRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
         keyLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
         keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
 
         pathObjectCount = havePlayer ? 0 : -1;
 
-        if (!havePlayer && !isTutorial && FAS != null)
+        if (isTutorial || !havePlayer && FAS != null)
         {
             GameObject[] closestObjects = FindClosestObjectsFromArray(FAS.GetAllFaces(), 3);
             side1 = closestObjects[0];
@@ -268,29 +272,29 @@ public class FaceScript : MonoBehaviour
         isLeft = false;
 
         sides.Add($"{colorPrevious}Side", sidePrevious);
-        
+
         FaceScript faceScriptPrevious = sidePrevious.GetComponent<FaceScript>();
         SetSideMaterial(faceScriptPrevious, GetMaterialForSide(colorPrevious));
 
-        if (colorPrevious == "Right"){faceScriptPrevious.isRight = true;} 
-        else if (colorPrevious == "Left"){faceScriptPrevious.isLeft = true;}
-        else if (colorPrevious == "Top"){faceScriptPrevious.isTop = true;}
-        
-        if (side1 == sidePrevious){UpdateSidesBasedOnPrevious(side2, side3, sidesPreviousOther);} 
-        else if (side2 == sidePrevious){UpdateSidesBasedOnPrevious(side1, side3, sidesPreviousOther);} 
-        else if (side3 == sidePrevious){UpdateSidesBasedOnPrevious(side1, side2, sidesPreviousOther);}
+        if (colorPrevious == "Right") { faceScriptPrevious.isRight = true; }
+        else if (colorPrevious == "Left") { faceScriptPrevious.isLeft = true; }
+        else if (colorPrevious == "Top") { faceScriptPrevious.isTop = true; }
+
+        if (side1 == sidePrevious) { UpdateSidesBasedOnPrevious(side2, side3, sidesPreviousOther); }
+        else if (side2 == sidePrevious) { UpdateSidesBasedOnPrevious(side1, side3, sidesPreviousOther); }
+        else if (side3 == sidePrevious) { UpdateSidesBasedOnPrevious(side1, side2, sidesPreviousOther); }
 
         ResetOtherSides(sidesPreviousOther);
 
         havePlayer = true;
         PS.ResetMaterials();
-        PCS.SetPathCount();
-        KYSS.beatsNoMoving = 0;
+        if (PCS!= null) PCS.SetPathCount();
+        if (KYSS != null) KYSS.beatsNoMoving = 0;
         PS.SetCurrentFace(gameObject);
 
         newPlayer.transform.SetParent(gameObject.transform);
         newPlayer.transform.localPosition = Vector3.zero;
-        newPlayer.transform.localRotation = Quaternion.identity;
+        newPlayer.transform.localRotation = isUpsideDown ? Quaternion.identity : Quaternion.Euler(0, 180, 180);
 
         NHS.SetNavigationHint(FS1);
         NHS.SetNavigationHint(FS2);
@@ -412,9 +416,29 @@ public class FaceScript : MonoBehaviour
         var sortedObjects = objectsArray
             .OrderBy(obj => Vector3.Distance(this.transform.position, obj.transform.position))
             .Skip(1) // Пропускаем первый объект (потому что самый ближайший - это и есть сама грань)
-            .Take(count) 
+            .Take(count)
             .ToArray();
 
         return sortedObjects;
+    }
+
+    public void SetBC(BeatController bc)
+    {
+        BC = bc;
+    }
+
+    public void SetFAS(FaceArrayScript fas)
+    {
+        FAS = fas;
+    }
+
+    public void SetNHS(NavigationHintScript nhs)
+    {
+        NHS = nhs;
+    }
+
+    public void SetSS(SoundScript ss)
+    {
+        SS = ss;
     }
 }

@@ -30,12 +30,12 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
             renderersGlowingParts[i] = childGlowingParts[i].GetComponent<Renderer>();
     }
 
-    public void LogoTurningOnAndOff(float time, bool TurnOn, bool isChangeIcosahedron, bool isSetParticles, bool isFlickeringTriangle, bool isDisappear = false, float minTimeForTriangle = 0f, float maxTimeForTriangle = 0f)
+    public void LogoTurningOnAndOff(float time, bool TurnOn, bool isChangeIcosahedron, bool isSetParticles, bool isFlickeringTriangle, bool isDisappear = false, bool isBlinking = true, float minTimeForTriangle = 0f, float maxTimeForTriangle = 0f)
     {
         //Debug.Log(isChangeIcosahedron);
         isTurnOn = TurnOn;
 
-        ChangeColors(time, TurnOn, isChangeIcosahedron, isFlickeringTriangle, isDisappear);
+        ChangeColors(time, TurnOn, isChangeIcosahedron, isFlickeringTriangle, isDisappear, isBlinking);
 
         if (isFlickeringTriangle && maxTimeForTriangle != 0f && time != 0f)
         {
@@ -47,7 +47,7 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
         if (isSetParticles) SPS.StartRandomParticles();
     }
 
-    private void ChangeColors(float time, bool isOn, bool isChangeIcosahedron, bool isFlickeringTriangle, bool isDisappear)
+    private void ChangeColors(float time, bool isOn, bool isChangeIcosahedron, bool isFlickeringTriangle, bool isDisappear, bool isBlinking)
     {
         Color initialColor;
         Color targetColor;
@@ -78,7 +78,7 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
         foreach (var part in logoParts)
         {
             if (time != 0)
-                StartCoroutine(ChangeColorSmoothly(part, time, initialColor, targetColor, isOn));
+                StartCoroutine(ChangeColorSmoothly(part, time, initialColor, targetColor, isOn, isBlinking));
             else
             {
                 part.material.color = targetColor;
@@ -97,11 +97,11 @@ public class MenuLogoNeonFlinkeringScript : MonoBehaviour
         renderer.material = material;
     }
 
-    private IEnumerator ChangeColorSmoothly(Renderer renderer, float time, Color initialColor, Color targetColor, bool isTurnOn)
+    private IEnumerator ChangeColorSmoothly(Renderer renderer, float time, Color initialColor, Color targetColor, bool isTurnOn, bool IsBlinking)
     {
         float elapsedTime = 0f;
         float randomTime = 0f;
-        int interruptionCount = Random.Range(0, 2);
+        int interruptionCount = IsBlinking ? Random.Range(0, 2) : 0 ;
         
         Color initialColorSafer = initialColor;
 

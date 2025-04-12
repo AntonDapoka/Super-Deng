@@ -15,7 +15,7 @@ public class LaunchObstaclesScript : MonoBehaviour
 
     public void StartLaunchObstacles()
     {
-        UFMS.isTurnOn = true;
+        if (UFMS != null) UFMS.isTurnOn = true;
         RM.StartWithSync();  //Запускаем RhythmManager с синхронизацией с бпм музыки
         BC.isTurnOn = true;
         CZ.isTurnOn = true;
