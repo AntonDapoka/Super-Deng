@@ -72,10 +72,10 @@ MonoBehaviour:
     minChangeIntervalOfOrbits: 0
     maxChangeIntervalOfOrbits: 0
   - time: 4
-    isRedFaceTurnOn: 0
+    isRedFaceTurnOn: 1
     isRedFaceRandom: 1
     arrayOfRedFaces: 
-    quantityOfRedFaces: 5
+    quantityOfRedFaces: 4
     isRedWaveTurnOn: 0
     isRedWaveRandom: 0
     arrayOfRedWaves: 
@@ -135,22 +135,22 @@ MonoBehaviour:
     - {fileID: 2100000, guid: c11a02e573dd05145bd2f29b900363c6, type: 2}
     minChangeIntervalOfOrbits: 5
     maxChangeIntervalOfOrbits: 20
-  - time: 50
+  - time: 12
     isRedFaceTurnOn: 0
     isRedFaceRandom: 1
     arrayOfRedFaces: 
-    quantityOfRedFaces: 2
+    quantityOfRedFaces: 5
     isRedWaveTurnOn: 0
     isRedWaveRandom: 1
     arrayOfRedWaves: 
     lifeDurationOfRedWaves: 20
     quantityOfRedWaves: 1
     proximityLimitOfRedWaves: 8
-    isFallFaceTurnOn: 0
-    isFallFaceRandom: 0
+    isFallFaceTurnOn: 1
+    isFallFaceRandom: 1
     arrayOfFallFaces: 
-    quantityOfFallFaces: 0
-    proximityLimitOfFallFaces: 0
+    quantityOfFallFaces: 3
+    proximityLimitOfFallFaces: 3
     isResetDelay: 0
     resetDelayTime: 0
     isResetFallFaceTurnOn: 0
@@ -194,8 +194,8 @@ MonoBehaviour:
     - 120
     - 40
     materialsOfOrbits:
-    - {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
-    - {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
-    - {fileID: 2100000, guid: c11a02e573dd05145bd2f29b900363c6, type: 2}
+    - {fileID: 2100000, guid: 58f78dde3204a174db4c9037a8914c82, type: 2}
+    - {fileID: 2100000, guid: 58f78dde3204a174db4c9037a8914c82, type: 2}
+    - {fileID: 2100000, guid: 58f78dde3204a174db4c9037a8914c82, type: 2}
     minChangeIntervalOfOrbits: 5
     maxChangeIntervalOfOrbits: 20
