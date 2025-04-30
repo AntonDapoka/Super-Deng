@@ -6949,7 +6949,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTurnOn: 0
   mainCamera: {fileID: 729326020}
-  zoomFactor: 1.175
+  zoomFactor: 1.1
   zoomTime: 0.2
   returnTime: 0.12
   RM: {fileID: 603728928}
@@ -22000,6 +22000,10 @@ PrefabInstance:
       propertyPath: TC
       value: 
       objectReference: {fileID: 675810422}
+    - target: {fileID: 3305289229624041114, guid: 21c3181524f6d25489cc937470dc71fd, type: 3}
+      propertyPath: hp
+      value: 2188
+      objectReference: {fileID: 0}
     - target: {fileID: 3305289229624041114, guid: 21c3181524f6d25489cc937470dc71fd, type: 3}
       propertyPath: RFS
       value: 
