@@ -37,8 +37,6 @@ public class MovementButtonsChanger : MonoBehaviour
         buttonRight.onClick.AddListener(() => OnButtonClick(0));
         buttonLeft.onClick.AddListener(() => OnButtonClick(1));
         buttonTop.onClick.AddListener(() => OnButtonClick(2));
-
-        LoadSettings();
     }
 
     private void Update()
@@ -147,43 +145,30 @@ public class MovementButtonsChanger : MonoBehaviour
         buttonTop.interactable = interactable || currentButtonIndex == 2;
     }
 
-    public void SaveSettings()
+    public MovementBindsSettingsData GetSettings()
     {
-        PlayerPrefs.SetString("RightButtonSymbol", rightKey.ToString());
-        PlayerPrefs.SetString("LeftButtonSymbol", leftKey.ToString());
-        PlayerPrefs.SetString("TopButtonSymbol", topKey.ToString());
+        return new MovementBindsSettingsData
+        {
+            right = rightKey.ToString(),
+            left = leftKey.ToString(),
+            top = topKey.ToString()
+        };
     }
 
-    public void LoadSettings()
+    public void SetSettings(MovementBindsSettingsData movementData)
     {
-        if (PlayerPrefs.HasKey("RightButtonSymbol"))
-        {
-            KeyCode keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
-            UpdateButtonTextAndImage(0, keyCode);
-        }
-        else
-        {
-            UpdateButtonTextAndImage(0, KeyCode.D);
-        }
+        UpdateButtonTextAndImage(0, (KeyCode)System.Enum.Parse(typeof(KeyCode), movementData.right));
 
-        if (PlayerPrefs.HasKey("LeftButtonSymbol"))
-        {
-            KeyCode keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
-            UpdateButtonTextAndImage(1, keyCode);
-        }
-        else
-        {
-            UpdateButtonTextAndImage(1, KeyCode.A);
-        }
+        UpdateButtonTextAndImage(1, (KeyCode)System.Enum.Parse(typeof(KeyCode), movementData.left));
 
-        if (PlayerPrefs.HasKey("TopButtonSymbol"))
-        {
-            KeyCode keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
-            UpdateButtonTextAndImage(2, keyCode);
-        }
-        else
-        {
-            UpdateButtonTextAndImage(2, KeyCode.W);
-        }
+        UpdateButtonTextAndImage(2, (KeyCode)System.Enum.Parse(typeof(KeyCode), movementData.top));
     }
+}
+
+[System.Serializable]
+public class MovementBindsSettingsData
+{
+    public string right;
+    public string left;
+    public string top;
 }

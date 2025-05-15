@@ -5,42 +5,47 @@ using UnityEngine;
 public class PasswordHintScript : MonoBehaviour
 {
     public GameObject[] objects;
-    public Transform cameraTransform;
-    public float moveDuration = 3f;
-    public Vector3 offsetFromCamera;
+    public float scaleDuration = 3f;
+    public Vector3 targetScale = Vector3.one * 2f;
+
+    public AnimationCurve scaleCurve;
 
     private void Start()
     {
-        foreach (GameObject obj in objects)
+        for (int i = 0; i < objects.Length; i++)
         {
-            if (obj != null)
-                obj.SetActive(false);
+            if (objects[i] != null)
+                objects[i].SetActive(false);
         }
+
         StartCoroutine(ActivateSequence());
     }
 
     private IEnumerator ActivateSequence()
     {
-        foreach (GameObject obj in objects)
+        for (int i = 0; i < objects.Length; i++)
         {
+            GameObject obj = objects[i];
             if (obj == null) continue;
 
             obj.SetActive(true);
 
-            Vector3 targetPosition = offsetFromCamera;
-            Vector3 startPosition = obj.transform.position;
+            Vector3 startScale = obj.transform.localScale;
             float elapsed = 0f;
 
-            while (elapsed < moveDuration)
+            while (elapsed < scaleDuration)
             {
-                obj.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsed / moveDuration);
+                float t = elapsed / scaleDuration;
+                float curveValue = scaleCurve.Evaluate(t);
+                obj.transform.localScale = Vector3.LerpUnclamped(startScale, targetScale, curveValue);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
 
-            obj.transform.position = targetPosition;
-
+            obj.transform.localScale = targetScale;
+            objects[i].SetActive(true);
             obj.SetActive(false);
+            obj.transform.localScale = startScale;
         }
     }
 }
