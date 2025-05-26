@@ -16,11 +16,11 @@ public class LaunchObstaclesScript : MonoBehaviour
     public void StartLaunchObstacles()
     {
         if (UFMS != null) UFMS.isTurnOn = true;
-        RM.StartWithSync();  //Запускаем RhythmManager с синхронизацией с бпм музыки
-        BC.isTurnOn = true;
-        CZ.isTurnOn = true;
-        PTTB.isTurnOn = true;
-        BFS.isTurnOn = true;
+        if (RM != null) RM.StartWithSync();  //Запускаем RhythmManager с синхронизацией с бпм музыки
+        if (BC != null) BC.isTurnOn = true;
+        if (CZ != null) CZ.isTurnOn = true;
+        if (PTTB != null) PTTB.isTurnOn = true;
+        if (BFS != null) BFS.isTurnOn = true;
         TurnOnFaceScripts(); 
     }
 

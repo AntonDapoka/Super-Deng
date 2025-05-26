@@ -32,7 +32,7 @@ public class LoseScript : MonoBehaviour
     {
         DisableEverything();
 
-        LSDS.StartShutDown();
+        LSDS.StartFullShutDown();
         
         audioSourceGameOver.clip = sound;
         audioSourceGameOver.Play();

@@ -17,8 +17,8 @@ public class LightShutDownScript : MonoBehaviour
     [Space]
     public PostProcessVolume postProcessVolume;
     private Vignette vignette;
-    public float fadeDuration = 2f; 
-    private float targetIntensity = 1f;
+    public float fadeDuration = 2f;
+    public float targetIntensity = 1f;
 
     private AudioSource audioSource;
 
@@ -34,12 +34,16 @@ public class LightShutDownScript : MonoBehaviour
 
     }
 
-    public void StartShutDown()
+    public void StartFullShutDown()
     {
         audioSource = gameObject.AddComponent<AudioSource>();
         StartCoroutine(ShutDownLight());
         StartCoroutine(FadeInVignette());
-        
+    }
+
+    public void StartLocalShutDown()
+    {
+        StartCoroutine(ShutDownLight());
     }
 
     private IEnumerator ShutDownLight()
@@ -55,7 +59,7 @@ public class LightShutDownScript : MonoBehaviour
                 yield return new WaitForSeconds(delay);
             }
         }
-        LS.ShowImage();
+        if (LS != null) LS.ShowImage();
         StartCoroutine(ShutDownIcosahedron());
         
     }
