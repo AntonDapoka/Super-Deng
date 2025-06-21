@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using TMPro;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 
