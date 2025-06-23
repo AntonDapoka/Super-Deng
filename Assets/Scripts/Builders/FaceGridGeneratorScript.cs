@@ -80,6 +80,7 @@ public class FaceGridGeneratorScript : MonoBehaviour
                 FS.isTutorial = isTutorial;
                 FS.isTurnOn = true;
                 FS.enabled = true;
+                FS.enabled = true;
             }
         }
 

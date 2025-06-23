@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class IcosphereLikeHandler : ISphereFigureHandler<IcosahedronCoordinatesData>
 {
+
     public IcosahedronCoordinatesData CollectData(GameObject rootObject)
     {
+
         var data = new IcosahedronCoordinatesData();
         int stripCount = rootObject.transform.childCount;
         data.dataStrips = new StripHolderData[stripCount];
