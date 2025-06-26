@@ -12,32 +12,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddcebce76eba824c9a702683ba5b80c, type: 3}
   m_Name: RedFaceSettings
   m_EditorClassIdentifier: 
-  effectName: 333333333333
-  bpm: 90
-  timeStartSeconds: 10
-  timeStartBeats: 15
-  isTimeEnd: 0
-  timeEndSeconds: 200
-  timeEndBeats: 300
-  isRandom: 0
-  isArray: 0
-  isInterval: 1
+  effectName: 111111
+  bpm: 94.75
+  isHints: 0
+  timeStartSeconds: 34.7
+  timeStartBeats: 54.797085
+  isTimeEnd: 1
+  timeEndSeconds: 46.666668
+  timeEndBeats: 73.69444
+  isRandom: 1
+  isCertain: 1
+  isResetAfterDeath: 0
+  isStableQuantity: 0
   quantityExact: 0
   quantityMin: 0
   quantityMax: 0
-  isCommonArray: 0
-  arrayOfFaces: 
-  isStripArray: 0
-  arrayOfStrips: 
-  isRelativeToThePlayerArray: 0
-  arrayOfEqualDistanceFaces: 
-  isTurnOnWayFinder: 0
-  colorDurationBeatsChange: 0
-  colorDurationSecondsChange: 0
-  scaleDurationBeatsChangeUp: 0
-  scaleDurationSecondsChangeUp: 0
+  isRelativeToPlayer: 1
+  arrayOfFacesRelativeToPlayer: 
+  isRelativeToFigure: 1
+  arrayOfFacesRelativeToFigure: 
+  isProximityLimit: 0
+  proximityLimit: 175
+  isDistanceLimit: 0
+  distanceLimit: 104
+  isBasicSettingsChange: 1
+  isMaterialChange: 0
+  material: {fileID: 0}
+  isColorDurationBeatsChange: 0
+  colorDurationBeats: 0
+  colorDurationSeconds: 0
+  isScaleUpDurationChange: 0
+  scaleUpDurationBeats: 0
+  scaleUpDurationSeconds: 0
+  isWaitDurationChange: 0
   waitDurationBeats: 0
   waitDurationSeconds: 0
-  scaleDurationBeatsChangeDown: 0
-  scaleDurationSecondsChangeDown: 0
-  scaleChange: 0
+  isScaleDownDurationChange: 0
+  scaleDownDurationBeats: 92.93395
+  scaleDownDurationSeconds: 58.85
+  isHeightChange: 0
+  height: 0
+  isOffsetChange: 0
+  offset: 2.09

@@ -17845,6 +17845,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StrippedIcosphere
       objectReference: {fileID: 0}
+    - target: {fileID: 9039654227719974945, guid: 21c3181524f6d25489cc937470dc71fd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

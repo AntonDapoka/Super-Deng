@@ -4,36 +4,62 @@ using UnityEngine;
 public class RedFaceSettings : ScriptableObject
 {
     public string effectName;
-    public int bpm;
+
+    public float bpm;
+    public bool isHints;
     public float timeStartSeconds;
     public float timeStartBeats;
-    public bool isTimeEnd;
-    public float timeEndSeconds; //Only if isTimeEnd == true
-    public float timeEndBeats; //Only if isTimeEnd == true
+    public bool isTimeEnd; // Заканчивается ли эффект?
+    public float timeEndSeconds; 
+    public float timeEndBeats; 
+
     public bool isRandom;
-    public bool isArray;
-    public bool isInterval; //Only if isRandom == true
-    public int quantityExact; //Only if isRandom == true && isExactNumber == true
-    public int quantityMin; //Only if isRandom == true && isExactNumber == false
-    public int quantityMax; //Only if isRandom == true && isExactNumber == false
-    public bool isCommonArray;
-    public int[] arrayOfFaces;
-    public bool isStripArray;
-    public int[] arrayOfStrips;
-    public bool isRelativeToThePlayerArray;
-    public int[] arrayOfEqualDistanceFaces;
-    public bool isTurnOnWayFinder;
-    public float colorDurationBeatsChange;
-    public float colorDurationSecondsChange;
-    public float scaleDurationBeatsChangeUp;
-    public float scaleDurationSecondsChangeUp;
+    public bool isCertain; // Или активируются конкретные грани?
+    public bool isResetAfterDeath;
+
+    public bool isStableQuantity; 
+    public int quantityExact;
+    public int quantityMin;
+    public int quantityMax;
+
+    public bool isRelativeToPlayer;
+    public int[] arrayOfFacesRelativeToPlayer;
+    public bool isRelativeToFigure;
+    public int[] arrayOfFacesRelativeToFigure;
+
+    public bool isProximityLimit;
+    public int proximityLimit;
+    public bool isDistanceLimit;
+    public int distanceLimit;
+
+    /// <summary>
+    /// Часть ниже является необязательной и даже нежелательной, но к ней нужно проявить дотошное внимание
+    /// </summary>
+
+    public bool isBasicSettingsChange;
+
+    public bool isMaterialChange;
+    public Material material;
+
+    public bool isColorDurationBeatsChange;
+    public float colorDurationBeats;
+    public float colorDurationSeconds;
+
+    public bool isScaleUpDurationChange;
+    public float scaleUpDurationBeats;
+    public float scaleUpDurationSeconds;
+
+    public bool isWaitDurationChange;
     public float waitDurationBeats;
     public float waitDurationSeconds;
-    public float scaleDurationBeatsChangeDown;
-    public float scaleDurationSecondsChangeDown;
-    public float scaleChange;
 
-    
+    public bool isScaleDownDurationChange;
+    public float scaleDownDurationBeats;
+    public float scaleDownDurationSeconds;
 
-    
+    public bool isHeightChange;
+    public float height;
+
+    public bool isOffsetChange;
+    public float offset;
 }
