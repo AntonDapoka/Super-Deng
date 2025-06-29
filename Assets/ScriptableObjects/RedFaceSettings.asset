@@ -12,39 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddcebce76eba824c9a702683ba5b80c, type: 3}
   m_Name: RedFaceSettings
   m_EditorClassIdentifier: 
-  effectName: 111111
-  bpm: 94.75
+  effectName: exsdcrvtfgbyhnujm
+  isHint: 1
+  bpm: 90
   isHints: 0
-  timeStartSeconds: 34.7
-  timeStartBeats: 54.797085
+  timeStartSeconds: 6.286667
+  timeStartBeats: 9.43
   isTimeEnd: 1
-  timeEndSeconds: 46.666668
-  timeEndBeats: 73.69444
+  timeEndSeconds: 55.193333
+  timeEndBeats: 82.79
   isRandom: 1
   isCertain: 1
   isResetAfterDeath: 0
   isStableQuantity: 0
-  quantityExact: 0
-  quantityMin: 0
-  quantityMax: 0
+  quantityExact: 409
+  quantityMin: 69
+  quantityMax: 99
   isRelativeToPlayer: 1
   arrayOfFacesRelativeToPlayer: 
   isRelativeToFigure: 1
   arrayOfFacesRelativeToFigure: 
-  isProximityLimit: 0
-  proximityLimit: 175
-  isDistanceLimit: 0
-  distanceLimit: 104
+  isProximityLimit: 1
+  proximityLimit: 59
+  isDistanceLimit: 1
+  distanceLimit: 288
   isBasicSettingsChange: 1
-  isMaterialChange: 0
+  isMaterialChange: 1
   material: {fileID: 0}
-  isColorDurationBeatsChange: 0
+  isColorDurationBeatsChange: 1
   colorDurationBeats: 0
   colorDurationSeconds: 0
   isScaleUpDurationChange: 0
   scaleUpDurationBeats: 0
   scaleUpDurationSeconds: 0
-  isWaitDurationChange: 0
+  isWaitDurationChange: 1
   waitDurationBeats: 0
   waitDurationSeconds: 0
   isScaleDownDurationChange: 0

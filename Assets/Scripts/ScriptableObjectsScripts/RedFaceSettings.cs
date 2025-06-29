@@ -4,6 +4,7 @@ using UnityEngine;
 public class RedFaceSettings : ScriptableObject
 {
     public string effectName;
+    public bool isHint;
 
     public float bpm;
     public bool isHints;
