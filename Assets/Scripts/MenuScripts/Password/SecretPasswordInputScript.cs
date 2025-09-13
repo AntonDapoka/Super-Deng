@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class SecretPasswordInputScript : MonoBehaviour
 {
     [SerializeField] private GameObject holderDescriptionUI;
     [SerializeField] private GameObject holderPasswordUI;
-    [SerializeField] private bool isPasswordUnlocked = false;
+    //[SerializeField] private bool isPasswordUnlocked = false;
     public int currentIndex;
     public int amountOfLevels;
 

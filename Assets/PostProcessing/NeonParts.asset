@@ -65,6 +65,43 @@ MonoBehaviour:
   speedDown:
     overrideState: 0
     value: 1
+--- !u!114 &-3516686359604641859
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a34fa72bd4185749832024e9c8010bf, type: 3}
+  m_Name: ScreenSpaceReflections
+  m_EditorClassIdentifier: 
+  active: 0
+  enabled:
+    overrideState: 1
+    value: 1
+  preset:
+    overrideState: 0
+    value: 2
+  maximumIterationCount:
+    overrideState: 0
+    value: 16
+  resolution:
+    overrideState: 0
+    value: 0
+  thickness:
+    overrideState: 0
+    value: 8
+  maximumMarchDistance:
+    overrideState: 0
+    value: 100
+  distanceFade:
+    overrideState: 0
+    value: 0.5
+  vignette:
+    overrideState: 0
+    value: 0.5
 --- !u!114 &-1645817520144764789
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -133,6 +170,7 @@ MonoBehaviour:
   - {fileID: 8780979175948899739}
   - {fileID: 9131437160451945770}
   - {fileID: 2691564996145103002}
+  - {fileID: -3516686359604641859}
 --- !u!114 &2185904697058148500
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1478,7 +1516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ccac7a7b193e24b838948044c40846, type: 3}
   m_Name: RetroPostProcessEffect
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1

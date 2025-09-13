@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
+﻿
 using UnityEngine;
 
 
@@ -16,7 +15,6 @@ public class FaceTubeBuilderScript : MonoBehaviour
 
     [Header("Height Offsets")]
     [SerializeField] private float alternateHeightOffset = 0.5f;
-    [SerializeField] private float rowHeightOffset = 2f;
     [SerializeField] private float radius = 2f;
 
     public void GenerateGrid()

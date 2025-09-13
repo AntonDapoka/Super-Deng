@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StartMenu.unity
     guid: 6e79c7ab7141bd04a916e4d35ae1de51
+  - enabled: 1
+    path: Assets/Scenes/IcoScene 1.unity
+    guid: 128f14a14aed9d240bd7e14c1b7a0eda
   - enabled: 0
     path: Assets/Scenes/LevelsMenu.unity
     guid: 0a8788d7a6696524781f0c9db5aeeca2
@@ -20,8 +23,5 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/HitogataCutScene.unity
     guid: 015dd5770ac6ce64a9b7122f8a03bc00
-  - enabled: 1
-    path: Assets/Scenes/IcoScene 1.unity
-    guid: 128f14a14aed9d240bd7e14c1b7a0eda
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 8ce5c509d8d0b324d95179eb99026154, type: 2}
