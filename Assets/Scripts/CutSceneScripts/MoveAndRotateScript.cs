@@ -55,7 +55,7 @@ public class MoveAndRotateScript : MonoBehaviour
             yield return null; 
         }
         rb.MovePosition(targetPosition);
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
 }

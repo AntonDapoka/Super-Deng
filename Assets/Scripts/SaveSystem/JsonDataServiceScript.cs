@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using UnityEngine;
 
+public class JsonDataServiceScript : IDataServiceScript
 {
     public bool SaveData<T>(string RelativePath, T Data, bool Encrypted)
     {
