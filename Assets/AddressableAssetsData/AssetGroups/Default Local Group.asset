@@ -15,8 +15,8 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 535dd89d9cb7b9d439ae469735d29090
   m_SerializeEntries:
-  - m_GUID: 12dd50a048a6be443b95f8f761ba5061
-    m_Address: Assets/Prefabs/BackgroundPrefabs/LaserShow.prefab
+  - m_GUID: 1bb6747f58039f146905d702c2086cef
+    m_Address: Assets/Prefabs/BackgroundPrefabs/PeerHolder.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
