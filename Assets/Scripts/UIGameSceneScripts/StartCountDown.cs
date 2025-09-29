@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StartCountDown : MonoBehaviour // Скрипт отвечает за анимацию стартового отсчета 3..2..1..
 {

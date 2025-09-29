@@ -1,10 +1,6 @@
-using System.Collections;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.Audio;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
-using System.Linq;
 
 public class MovementButtonsChanger : MonoBehaviour
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class UnifiedFrameManagerScript : MonoBehaviour

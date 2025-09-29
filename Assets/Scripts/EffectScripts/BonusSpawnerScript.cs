@@ -15,7 +15,7 @@ public class BonusSpawnerScript : MonoBehaviour
     [SerializeField] private ComboManager CM;
     [SerializeField] private AnimationClip animClip;
     [SerializeField] private float delay;
-    private List<int> numbersOfBonusFaces = new List<int>();
+    //private List<int> numbersOfBonusFaces = new List<int>();
     public int proximityLimit = 0;
     public int colvo = 0;
     public bool isTurnOn = false;

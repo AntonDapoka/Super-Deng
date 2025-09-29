@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DragWindowManagerScript : MonoBehaviour
@@ -13,11 +11,5 @@ public class DragWindowManagerScript : MonoBehaviour
         { 
             window.SetCanvas(canvas);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
