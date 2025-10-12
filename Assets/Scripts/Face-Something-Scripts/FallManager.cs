@@ -162,7 +162,7 @@ public class FallManager : MonoBehaviour
             else renderer.enabled = false;
         }
 
-        rb.linearVelocity = Vector3.zero;
+        rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         //Debug.Log(fallDataList.Count);
         rb.transform.SetPositionAndRotation(fallDataList.First(data => data.FallFaceNumber == numb).InitialPosition, fallDataList.First(data => data.FallFaceNumber == numb).InitialLocalRotation);
