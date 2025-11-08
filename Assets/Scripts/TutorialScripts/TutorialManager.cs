@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -47,7 +48,7 @@ public class TutorialManager : MonoBehaviour
         musicManager.Play();
 
         LoadKeyBindings();
-        //DisableAllFaces();
+        DisableAllFaces();
         DisableRenderers(player);
 
         StartCoroutine(FadeInAudio(musicManager, fadeInDuration));
@@ -60,14 +61,14 @@ public class TutorialManager : MonoBehaviour
         keyLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
         keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
     }
-    /*
+
     private void DisableAllFaces()
     {
         foreach (var face in FindObjectsOfType<TutorialFaceScript>())
         {
             DisableRenderers(face.gameObject);
         }
-    }*/
+    }
 
     private void Update()
     {
@@ -100,7 +101,7 @@ public class TutorialManager : MonoBehaviour
             }
             else if (Input.GetKeyDown(keyTop) && currentMessageIndex == 4)
             {
-                //UnlockTopFaces();
+                UnlockTopFaces();
                 currentMessageIndex++;
                 DisplayMessage(currentMessageIndex);
             }
@@ -117,7 +118,7 @@ public class TutorialManager : MonoBehaviour
     {
         return Input.GetKeyDown(keyLeft) || Input.GetKeyDown(keyTop) || Input.GetKeyDown(keyRight);
     }
-    /*
+
     private void UnlockTopFaces()
     {
         foreach (var face in FindObjectsOfType<TutorialFaceScript>())
@@ -128,7 +129,7 @@ public class TutorialManager : MonoBehaviour
                 face.isBlocked = false;
             }
         }
-    }*/
+    }
 
     private void DisplayMessage(int messageIndex)
     {
@@ -160,7 +161,7 @@ public class TutorialManager : MonoBehaviour
         }
         else if (currentMessageIndex == 4)
         {
-            //UnlockTopFaces();
+            UnlockTopFaces();
         }
 
         yield return new WaitForSeconds(rhythmManager.beatInterval * 3);

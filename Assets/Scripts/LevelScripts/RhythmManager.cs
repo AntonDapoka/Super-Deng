@@ -16,11 +16,6 @@ public class RhythmManager : MonoBehaviour
         beatInterval = 60f / bpm;  //Вычисляем длительность одного такта в секундах
     }
 
-    public void SetAudioSource(AudioSource audioSource)
-    {
-        musicManager = audioSource;
-    }
-
     public void StartWithSync() //Стартовый запуск с синхронизацией
     {
         StartCoroutine(SynchronizeAndTurnOn());

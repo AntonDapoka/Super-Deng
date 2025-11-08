@@ -1,4 +1,6 @@
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 using UnityEngine;
 using System.Collections;
 

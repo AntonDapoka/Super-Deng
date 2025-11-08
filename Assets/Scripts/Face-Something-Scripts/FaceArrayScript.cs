@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -44,14 +46,9 @@ public class FaceArrayScript : MonoBehaviour
 
     public void FindAllFaceScript()
     {
-        faces = FindObjectsByType<FaceScript>(FindObjectsSortMode.None) 
-        .Select(faceScript => faceScript.gameObject)
-        .ToArray();
-
-        /*
-         FindObjectsSortMode.None - быстрее, но пор€док объектов неопределЄн.
-         FindObjectsSortMode.InstanceID Ч тот же пор€док, что у старого FindObjectsOfType.
-         */
+        faces = FindObjectsOfType<FaceScript>()
+            .Select(faceScript => faceScript.gameObject)
+            .ToArray();
     }
 
     public GameObject[] GetAllFaces()

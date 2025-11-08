@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,7 +7,7 @@ public class UndestroyableObjectScript : MonoBehaviour
 {
     private void Awake()
     {
-        UndestroyableObjectScript[] objects = FindObjectsByType<UndestroyableObjectScript>(FindObjectsSortMode.InstanceID);
+        UndestroyableObjectScript[] objects = FindObjectsOfType<UndestroyableObjectScript>();
 
         if (objects.Length > 1)
         {

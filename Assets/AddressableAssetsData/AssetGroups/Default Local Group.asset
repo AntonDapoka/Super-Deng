@@ -13,16 +13,13 @@ MonoBehaviour:
   m_Name: Default Local Group
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
   m_GUID: 535dd89d9cb7b9d439ae469735d29090
-  m_SerializeEntries:
-  - m_GUID: 1bb6747f58039f146905d702c2086cef
-    m_Address: Assets/Prefabs/BackgroundPrefabs/PeerHolder.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 226b25a9508d3ed4087a13f4a0cd4436, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 4ef76a298d3f35741906300a29281ca8, type: 2}
     - {fileID: 11400000, guid: bbaadd043bacdd34bb24ebdff19f4f36, type: 2}
+    - {fileID: 11400000, guid: 4ef76a298d3f35741906300a29281ca8, type: 2}

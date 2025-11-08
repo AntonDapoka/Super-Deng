@@ -19,7 +19,6 @@ public class RedFaceScript : MonoBehaviour
     [SerializeField] private RhythmManager RM;
     [SerializeField] private FaceArrayScript FAS;
     [SerializeField] private PlayerScript PS;
-    [SerializeField] private ComboManager CM;
 
     public List<int> faceIndices = new();
     public int colvo;
@@ -43,7 +42,7 @@ public class RedFaceScript : MonoBehaviour
             for (int i = 0; i < faces.Length; i++)
             {
                 FaceScript FS = faces[i].GetComponent<FaceScript>();
-                if (//!FS.havePlayer &&
+                if (!FS.havePlayer &&
                     !FS.isBlinking &&
                     !FS.isKilling &&
                     !FS.isBlocked &&

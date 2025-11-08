@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class controlScene : MonoBehaviour {
     public GameObject g1, g2, g3, g4;

@@ -1,27 +1,6 @@
 {
   "dependencies": {
     "com.glairedaggers.retrotvfx": "file:C:/Users/25022/Downloads/RetroTVFX-2.0.0/RetroTVFX-2.0.0",
-<<<<<<< HEAD
-    "com.unity.2d.aseprite": "2.0.2",
-    "com.unity.2d.pixel-perfect": "5.1.1",
-    "com.unity.addressables": "2.7.3",
-    "com.unity.burst": "1.8.25",
-    "com.unity.collab-proxy": "2.9.3",
-    "com.unity.editorcoroutines": "1.0.1",
-    "com.unity.feature.2d": "2.0.1",
-    "com.unity.feature.development": "1.0.2",
-    "com.unity.ide.rider": "3.0.38",
-    "com.unity.inputsystem": "1.14.2",
-    "com.unity.localization": "1.5.7",
-    "com.unity.multiplayer.center": "1.0.0",
-    "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.unity.postprocessing": "3.5.1",
-    "com.unity.testtools.codecoverage": "1.2.7",
-    "com.unity.timeline": "1.8.9",
-    "com.unity.ugui": "2.0.0",
-    "com.unity.visualscripting": "1.9.8",
-    "com.unity.modules.accessibility": "1.0.0",
-=======
     "com.unity.collab-proxy": "2.3.1",
     "com.unity.feature.2d": "2.0.0",
     "com.unity.feature.development": "1.0.1",
@@ -33,7 +12,6 @@
     "com.unity.timeline": "1.7.6",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.9.4",
->>>>>>> parent of 4aa682e (Updated Unity Version)
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
