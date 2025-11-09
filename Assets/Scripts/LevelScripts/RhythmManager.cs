@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RhythmManager : MonoBehaviour
+public class RhythmManager : MonoBehaviour, IRhythmableScript
 {
     public bool isTurnOn = false;
     public float bpm = 90f;
@@ -10,6 +10,8 @@ public class RhythmManager : MonoBehaviour
     public int currentBeat = 0;
     [SerializeField] private AudioSource musicManager;
     [SerializeField] private Intervals[] intervals;
+
+    public float CurrentBeat => currentBeat;
 
     private void Awake()
     {

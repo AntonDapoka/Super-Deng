@@ -1,18 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class IActionScript : MonoBehaviour
+public interface IActionScript
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    IRhythmableScript Rhythmable { get; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Initialize();
+
+    void Execute();
+
+    void Cancel();
 }
