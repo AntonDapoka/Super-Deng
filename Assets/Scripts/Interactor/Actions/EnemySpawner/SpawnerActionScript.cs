@@ -51,25 +51,31 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
 
     private List<int> GetAvailableFaces()
     {
-        faces = _fieldInteractor.GetAllFaces();
-        List<int> availableFaces = new List<int>(); //Составляем массив из доступных граней
+        faces = FieldInteractor.GetAllFaces();
+        List<int> availableFaces = new List<int>(); //Create an array of available faces
 
         for (int i = 0; i < faces.Length; i++)
         {
-            FaceScript FS = faces[i].GetComponent<FaceScript>();
-            if (!FS.havePlayer &&
-                !FS.isBlinking &&
-                !FS.isKilling &&
-                !FS.isBlocked &&
-                !FS.isColored &&
-                !FS.isPortal &&
-                !FS.isBonus)
+            FaceStateScript FSS = faces[i].GetComponent<FaceStateScript>();
+            if (CheckIsSuitableFace(FSS))
             {
                 availableFaces.Add(i);
             }
         }
 
         return availableFaces;
+    }
+
+    private bool CheckIsSuitableFace(FaceStateScript FSS)
+    {
+        bool res = !FSS.havePlayer &&
+                !FSS.isBlinking &&
+                !FSS.isKilling &&
+                !FSS.isBlocked &&
+                !FSS.isColored &&
+                !FSS.isPortal &&
+                !FSS.isBonus;
+        return res;
     }
 
     public void Cancel() { }
