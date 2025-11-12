@@ -34,7 +34,7 @@ public class PortalSpawnerScript : MonoBehaviour
         if (isTurnOn)
         {
             List<int> availableFaces = new List<int>();
-
+            /*
             for (int i = 0; i < faceScripts.Length; i++)
             {
                 if (!faceScripts[i].havePlayer &&
@@ -52,7 +52,7 @@ public class PortalSpawnerScript : MonoBehaviour
                     availableFaces.Add(i);
                 }
             }
-
+            */
             if (isRandomSpawnTime)
             {
                 for (int i = 0; i < colvo; i++)

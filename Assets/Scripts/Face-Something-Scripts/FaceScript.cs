@@ -18,16 +18,18 @@ public class FaceScript : MonoBehaviour, IFaceScript
                 /_____\/_____\
     */
     public bool isTurnOn = false;
-    public GameObject player;
+    //public GameObject player;
     public int pathObjectCount = -1;
-    private PlayerScript PS;
+    //private PlayerScript PS;
 
     [Space]
+
     [Header("Sides of the Face")]
-    [FormerlySerializedAs("sideBlue")]
     [SerializeField] private GameObject side1; // OrangeSide == Side1
     [SerializeField] private GameObject side2; // BlueSide == Side2
     [SerializeField] private GameObject side3; // GreenSide == Side3
+
+
     public Dictionary<string, GameObject> sides;
 
     [HideInInspector] public FaceScript FS1;
@@ -35,6 +37,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
     [HideInInspector] public FaceScript FS3;
 
     [Space]
+    /*
     [Header("Materials")]
     [FormerlySerializedAs("materialWhite")]
     [SerializeField] private Material materialBasicFace;
@@ -50,15 +53,17 @@ public class FaceScript : MonoBehaviour, IFaceScript
     public Material materialLeftFace;
     [FormerlySerializedAs("materialGreen")]
     public Material materialTopFace;
-
+    */
+    // “ут должен быть матриалсеттер или его интерфейс
     [Space]
     [Header("Glowing&Rendering")]
     public MeshRenderer rend;
     public GameObject glowingPart;
-    private Animator animator;
+    //private Animator animator;
 
     [Space]
     [Header("Scene ScriptManagers")]
+    /*
     [SerializeField] private FaceArrayScript FAS;
     [SerializeField] private StartCountDown SCD;
     [SerializeField] private RedFaceScript RFS;
@@ -68,11 +73,11 @@ public class FaceScript : MonoBehaviour, IFaceScript
     [SerializeField] private PathCounterScript PCS;
     [SerializeField] private PortalSpawnerScript PSS;
     [SerializeField] private NavigationHintScript NHS;
-    [SerializeField] private KillYourselfScript KYSS;
+    [SerializeField] private KillYourselfScript KYSS;*/
 
     [Space]
     [Header("Questions")]
-    public bool havePlayer = false;
+    /*public bool havePlayer = false;
     private bool transferInProgress = false;
     public bool isKilling = false;
     public bool isBlinking = false;
@@ -84,13 +89,13 @@ public class FaceScript : MonoBehaviour, IFaceScript
     public bool isUpsideDown = false;
     [HideInInspector] public bool isLeft = false;
     [HideInInspector] public bool isRight = false;
-    [HideInInspector] public bool isTop = false;
+    [HideInInspector] public bool isTop = false;*/
 
-    FaceStateScript faceState;
+    FaceStateScript faceState; //–≈јЋ»«ќ¬ј“№
 
     public FaceStateScript FaceState => faceState;
 
-    private void OnEnable()
+    /*private void OnEnable()
     {
         rend = glowingPart.GetComponent<MeshRenderer>();
 
@@ -198,7 +203,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
         }
         return "";
     }*/
-
+    /*
     private void HandleBonus()
     {
         HealthBonus bonusHealth = GetComponentInChildren<HealthBonus>(true);
@@ -325,7 +330,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
             Debug.LogError("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
-
+    
     private void UpdateSide(GameObject side, GameObject sidePrevious)
     {
         FaceScript faceScriptSide = side.GetComponent<FaceScript>();
@@ -360,14 +365,14 @@ public class FaceScript : MonoBehaviour, IFaceScript
             faceScript.isTop = false;
             faceScript.isLeft = false;
         }
-    }
-
+    }*/
+    /*
     public void ResetRightLeftTop()
     {
         if (isLeft) rend.material = materialLeftFace;
         else if (isRight) rend.material = materialRightFace;
         else if (isTop) rend.material = materialTopFace;
-    }
+    }*/
 
     public GameObject GetGameObject(string key)
     {
@@ -408,7 +413,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
 
         return sortedObjects;
     }
-
+    /*
     public void SetBC(BeatController bc)
     {
         BC = bc;
@@ -427,5 +432,5 @@ public class FaceScript : MonoBehaviour, IFaceScript
     public void SetSS(SoundScript ss)
     {
         SS = ss;
-    }
+    }*/
 }
