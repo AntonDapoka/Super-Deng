@@ -18,12 +18,13 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
     public FieldInteractorScript FieldInteractor => _fieldInteractor;
     public IRhythmableScript Rhythmable => _rhythmable as IRhythmableScript;
 
-    public void Initialize()
-    { }
-
+    public virtual void Initialize()
+    {
+        faces = FieldInteractor.GetAllFaces();
+    }
     
 
-    public void Execute() 
+    public virtual void Execute() 
     {
         List<int> availableFaces = GetAvailableFaces();
         if (isRandomSpawnTime)
@@ -34,8 +35,9 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
 
                 int randomIndex = Random.Range(0, availableFaces.Count);
                 int selectedFaceIndex = availableFaces[randomIndex];
-                //StartCoroutine(SetEnemy(faces[selectedFaceIndex])); //Запускаем рандомные из доступных
                 availableFaces.RemoveAt(randomIndex);
+
+                SetEnemy(faces[selectedFaceIndex]); //Launch random ones from the available ones
             }
         }
         else
@@ -43,15 +45,18 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
             var intersectedIndices = faceIndices.Intersect(availableFaces);
             foreach (int index in intersectedIndices)
             {
-                //StartCoroutine(SetEnemy(faces[index])); //Запускаем указанные из доступных
                 availableFaces.RemoveAt(index);
+
+                SetEnemy(faces[index]); //Launch the specified ones from the available ones
             }
         }
     }
 
-    private List<int> GetAvailableFaces()
+    public abstract void SetEnemy(GameObject gameObject);
+
+    public virtual List<int> GetAvailableFaces()
     {
-        faces = FieldInteractor.GetAllFaces();
+        
         List<int> availableFaces = new List<int>(); //Create an array of available faces
 
         for (int i = 0; i < faces.Length; i++)
@@ -66,17 +71,17 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
         return availableFaces;
     }
 
-    private bool CheckIsSuitableFace(FaceStateScript FSS)
+    public virtual bool CheckIsSuitableFace(FaceStateScript FSS)
     {
-        bool res = !FSS.havePlayer &&
-                !FSS.isBlinking &&
-                !FSS.isKilling &&
-                !FSS.isBlocked &&
-                !FSS.isColored &&
-                !FSS.isPortal &&
-                !FSS.isBonus;
+        bool res = !FSS.HavePlayer &&
+                !FSS.IsBlinking &&
+                !FSS.IsKilling &&
+                !FSS.IsBlocked &&
+                !FSS.IsColored &&
+                !FSS.IsPortal &&
+                !FSS.IsBonus;
         return res;
     }
 
-    public void Cancel() { }
+    public virtual void Cancel() { }
 }

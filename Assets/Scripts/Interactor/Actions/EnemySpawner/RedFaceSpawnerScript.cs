@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class RedFaceSpawnerScript : SpawnerActionScript
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void SetEnemy(GameObject gameObject)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        throw new System.NotImplementedException();
     }
 }

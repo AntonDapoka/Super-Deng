@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 // Обязательное уведомление: "Правые", "Левые" и "Верхние" указаны для треугольника с основанием, направленным ВНИЗ!!!
 // Обратите внимание, что "Правая" сторона раньше носила название "BlueSide", "Левая" - "OrangeSide", а "Верхняя" - "GreenSide"
 // Помимо прочих наименований, "Правая" сторона может записываться как "Side2", "Левая" - "Side1", а "Верхняя" - "Side3"
-public class FaceScript : MonoBehaviour
+public class FaceScript : MonoBehaviour, IFaceScript
 {
     /*                /\  
                      /  \
@@ -57,11 +57,6 @@ public class FaceScript : MonoBehaviour
     public GameObject glowingPart;
     private Animator animator;
 
-    [Header("Key Bindings")]
-    public KeyCode keyLeft = KeyCode.A;
-    public KeyCode keyTop = KeyCode.W;
-    public KeyCode keyRight = KeyCode.D;
-
     [Space]
     [Header("Scene ScriptManagers")]
     [SerializeField] private FaceArrayScript FAS;
@@ -91,16 +86,15 @@ public class FaceScript : MonoBehaviour
     [HideInInspector] public bool isRight = false;
     [HideInInspector] public bool isTop = false;
 
+    FaceStateScript faceState;
+
+    public FaceStateScript FaceState => faceState;
 
     private void OnEnable()
     {
         rend = glowingPart.GetComponent<MeshRenderer>();
 
         PS = player.GetComponent<PlayerScript>();
-
-        keyRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
-        keyLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
-        keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
 
         pathObjectCount = havePlayer ? 0 : -1;
 
@@ -161,12 +155,6 @@ public class FaceScript : MonoBehaviour
 
     private void Update()
     {
-
-        if (isTurnOn && havePlayer && !transferInProgress && BC.canPress)
-        {
-            HandleInput();
-        }
-
         if (havePlayer && isBonus && BSS != null)
         {
             HandleBonus();
@@ -178,11 +166,12 @@ public class FaceScript : MonoBehaviour
         }
     }
 
-    private void HandleInput()
+
+    public void HandleInput(KeyCode keyCode)
     {
-        if (Input.GetKeyDown(keyLeft) || Input.GetKeyDown(keyTop) || Input.GetKeyDown(keyRight))
+        if (isTurnOn && havePlayer && !transferInProgress && BC.canPress)
         {
-            string direction = GetDirectionFromInput();
+            string direction = "";// GetDirectionFromInput(keyCode);
             if (!string.IsNullOrEmpty(direction))
             {
                 StartTransfer(GetGameObject($"{direction}Side"), direction);
@@ -192,7 +181,7 @@ public class FaceScript : MonoBehaviour
             }
         }
     }
-
+    /*
     private string GetDirectionFromInput()
     {
         if (Input.GetKeyDown(keyLeft) && !GetGameObject("LeftSide").GetComponent<FaceScript>().isBlocked)
@@ -208,7 +197,7 @@ public class FaceScript : MonoBehaviour
             return "Right";
         }
         return "";
-    }
+    }*/
 
     private void HandleBonus()
     {
