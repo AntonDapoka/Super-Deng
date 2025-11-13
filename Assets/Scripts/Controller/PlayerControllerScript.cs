@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerControllerScript : MonoBehaviour, IInputHandlerScript
 {
     [SerializeField] private KeyBindingDataScript keyBindings;
-    [SerializeField] private PlayerInteractorScript playerInteractorScript;
+    [SerializeField] private PlayerMovementInteractorScript playerMovementInteractorScript;
 
-    public PlayerInteractorScript PlayerInteractorScript => playerInteractorScript;
+    public PlayerMovementInteractorScript PlayerMovementInteractorScript => playerMovementInteractorScript;
 
     public void HandleInput(KeyCode key)
     {
@@ -21,6 +21,6 @@ public class PlayerControllerScript : MonoBehaviour, IInputHandlerScript
 
     private void MovePlayer(string direction)
     {
-        PlayerInteractorScript.MovePlayer(direction);
+        PlayerMovementInteractorScript.MovePlayer(direction);
     }
 }

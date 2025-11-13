@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -104,9 +105,17 @@ public class FaceScript : MonoBehaviour, IFaceScript
     public FaceArrayScript FaceArray => faceArray; //interface
     public FacePresenterScript FacePresenter => facePresenter; //interface
 
+    private void Start()
+    {
+        isTurnOn = true;
+        Initialize();
+    }
+
     public void Initialize()
     {
         rend = glowingPart.GetComponent<MeshRenderer>();
+        faceState = gameObject.GetComponent<FaceStateScript>();
+        
 
         pathObjectCount = FaceState.HavePlayer ? 0 : -1;
 
@@ -122,8 +131,8 @@ public class FaceScript : MonoBehaviour, IFaceScript
         FS2 = side2.GetComponent<FaceScript>();
         FS3 = side3.GetComponent<FaceScript>();
     }
-    
-    private void Start()
+    /*
+    private void S t art()
     {
         //sides = new Dictionary<string, GameObject>();
 
@@ -133,7 +142,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
         {
             animator.enabled = false;
         }*/
-    }
+    //}
 
     /*
     private void SetSideMaterial(FaceScript face, Material material)
@@ -213,7 +222,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
         portal.DestroyMe();
         PSS.LoadSecretScene();
     }
-    */
+    *//*
     private void StartTransfer(GameObject targetSide, string color)
     {
         transferInProgress = true;
@@ -356,7 +365,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
         else if (isRight) rend.material = materialRightFace;
         else if (isTop) rend.material = materialTopFace;
     }*/
-
+    /*
     public GameObject GetGameObject(string key)
     {
         GameObject gameObject;
@@ -384,7 +393,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
             }
         }
         return otherObjects;
-    }
+    }*/
 
     GameObject[] FindClosestObjectsFromArray(GameObject[] objectsArray, int count)
     {

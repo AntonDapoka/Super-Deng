@@ -5,17 +5,30 @@ using Unity.VisualScripting;
 using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
-public class PlayerInteractorScript : MonoBehaviour
+public class PlayerMovementInteractorScript : MonoBehaviour
 {
-    public GameObject player;
-    public BeatController BC;
-    public FaceScript playerFace;
-    public FaceStateScript playerFaceState;
-    public Dictionary<string, GameObject> sides;
+    [SerializeField] private GameObject player;
+
+    [SerializeField] private BeatController beatController;
+    [SerializeField] private PathCounterScript pathCounter;
+
+    [SerializeField] private FaceScript playerFace;
+    private FaceStateScript playerFaceState;
+
+    private Dictionary<string, GameObject> sides = new();
+
+    private bool IsUpsideDown = true;
+
+    private void Start()
+    {
+        InitializePlayerFace();
+    }
 
     private void InitializePlayerFace()
     {
         playerFaceState = playerFace.FaceState;
+        playerFaceState.HavePlayer = true;
+
         playerFace.FaceState.IsRight = false;
         playerFace.FaceState.IsTop = false;
         playerFace.FaceState.IsLeft = false;
@@ -28,8 +41,6 @@ public class PlayerInteractorScript : MonoBehaviour
         sides.Add("LeftSide", playerFace.side1);
         sides.Add("RightSide", playerFace.side2);
         sides.Add("TopSide", playerFace.side3);
-
-
 
         /*
         PS.SetCurrentFace(gameObject);
@@ -45,16 +56,17 @@ public class PlayerInteractorScript : MonoBehaviour
 
     public void MovePlayer(string direction)
     {
-        Debug.Log("Key: " + direction);
+        Debug.Log(playerFaceState.HavePlayer);
 
         if (playerFace.isTurnOn == true
             && playerFaceState.HavePlayer == true
             && playerFaceState.TransferInProgress == false
-            && BC.canPress == true)
+            //&& beatController.canPress == true
+            )
         {
             StartTransferPlayer(GetGameObject($"{direction}Side"), direction);
-            BC.isAlreadyPressed = true;
-            BC.isAlreadyPressedIsAlreadyPressed = false;
+            beatController.isAlreadyPressed = true;
+            beatController.isAlreadyPressedIsAlreadyPressed = false;
             //SS.TurnOnSoundStep();
         }
     }
@@ -79,6 +91,7 @@ public class PlayerInteractorScript : MonoBehaviour
 
     public void ReceivePlayer(GameObject newPlayer, GameObject sideCurrent, GameObject sidePrevious, string directionPrevious, GameObject[] sidesPreviousOther)
     {
+
         playerFace = sideCurrent.GetComponent<FaceScript>();
         playerFaceState = playerFace.FaceState;
 
@@ -86,9 +99,9 @@ public class PlayerInteractorScript : MonoBehaviour
         playerFaceState.IsTop = false;
         playerFaceState.IsLeft = false;
 
-        playerFace.FS1.FaceState.IsLeft = true;
-        playerFace.FS2.FaceState.IsRight = true;
-        playerFace.FS3.FaceState.IsTop = true;
+        //playerFace.FS1.FaceState.IsLeft = true;
+        //playerFace.FS2.FaceState.IsRight = true;
+        //playerFace.FS3.FaceState.IsTop = true;
 
         sides.Clear();
 
@@ -109,13 +122,14 @@ public class PlayerInteractorScript : MonoBehaviour
 
         playerFaceState.HavePlayer = true;
         //PS.ResetMaterials();
-        if (PCS != null) PCS.SetPathCount();
+        if (pathCounter != null) pathCounter.SetPathCount();
         //if (KYSS != null) KYSS.beatsNoMoving = 0;
         //PS.SetCurrentFace(gameObject);
 
-        newPlayer.transform.SetParent(gameObject.transform);
+        newPlayer.transform.SetParent(sideCurrent.transform);
         newPlayer.transform.localPosition = Vector3.zero;
-        newPlayer.transform.localRotation = playerFaceState.IsUpsideDown ? Quaternion.identity : Quaternion.Euler(0, 180, 180);
+        IsUpsideDown = !IsUpsideDown;
+        newPlayer.transform.localRotation = IsUpsideDown ? Quaternion.identity : Quaternion.Euler(0, 180, 0);
 
         //NHS.SetNavigationHint(FS1);
         //NHS.SetNavigationHint(FS2);

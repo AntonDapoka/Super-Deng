@@ -18,6 +18,6 @@ public class LevelLaunchScript : MonoBehaviour
         musicManager.Play();
         TC.StartTimerController(musicTrack.length); //Запускаем таймер на продолжительность трека
         //SCD.StartStartCountDown(); //Запускаем анимацию отсчета
-        LOS.StartLaunchObstacles();
+        //LOS.StartLaunchObstacles();
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IInputHandlerScript
 {
-    PlayerInteractorScript PlayerInteractorScript { get; }
+    PlayerMovementInteractorScript PlayerMovementInteractorScript { get; }
 
     void HandleInput(KeyCode key);
 }

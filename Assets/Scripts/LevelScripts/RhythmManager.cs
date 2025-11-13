@@ -18,7 +18,7 @@ public class RhythmManager : MonoBehaviour, IRhythmableScript
         beatInterval = 60f / bpm;  //Вычисляем длительность одного такта в секундах
     }
 
-    public void StartWithSync() //Стартовый запуск с синхронизацией
+    public void StartWithSync()
     {
         StartCoroutine(SynchronizeAndTurnOn());
     }

@@ -10,11 +10,11 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
     private int colvo;
     private bool isRandomSpawnTime = false;
 
-    [SerializeField] private PlayerInteractorScript _playerInteractor;
+    [SerializeField] private PlayerStateInteractorScript _playerStateInteractor;
     [SerializeField] private FieldInteractorScript _fieldInteractor;
     [SerializeField] private MonoBehaviour _rhythmable;
 
-    public PlayerInteractorScript PlayerInteractor => _playerInteractor;
+    public PlayerStateInteractorScript PlayerStatetInteractor => _playerStateInteractor;
     public FieldInteractorScript FieldInteractor => _fieldInteractor;
     public IRhythmableScript Rhythmable => _rhythmable as IRhythmableScript;
 

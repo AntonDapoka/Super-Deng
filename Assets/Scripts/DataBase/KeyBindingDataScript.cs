@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "KeyBindings", menuName = "Config/Key Bindings")]
+[CreateAssetMenu(fileName = "KeyBindings", menuName = "ScriptableObjects/Key Bindings")]
 public class KeyBindingDataScript : ScriptableObject
 {
     public KeyCode moveLeft = KeyCode.A;
