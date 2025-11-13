@@ -7,8 +7,8 @@ public class RandomObjectSpawnerScript : MonoBehaviour
     public GameObject sphere;
     public GameObject[] sourceObjects;
     public FaceArrayScript FAS;
-    public Vector2 distanceRange = new Vector2(1f, 5f); // Минимум и максимум расстояния вдоль Y
-    public float offsetRatio = 0.2f; // 20% отклонение
+    public Vector2 distanceRange = new Vector2(1f, 5f); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Y
+    public float offsetRatio = 0.2f; // 20% пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     void Start()
     {
@@ -16,7 +16,9 @@ public class RandomObjectSpawnerScript : MonoBehaviour
 
         foreach (GameObject source in sourceObjects)
         {
-            if (source == null || source.GetComponent<FaceScript>().havePlayer) continue;
+            // Commented out - field is commented in FaceScript
+            //if (source == null || source.GetComponent<FaceScript>().havePlayer) continue;
+            if (source == null) continue;
 
             float distance = Random.Range(distanceRange.x, distanceRange.y);
 
@@ -24,7 +26,7 @@ public class RandomObjectSpawnerScript : MonoBehaviour
 
             Vector3 basePosition = source.transform.position + localY * distance;
 
-            Vector3 randomDir = Random.insideUnitCircle.normalized; // в 2D
+            Vector3 randomDir = Random.insideUnitCircle.normalized; // пїЅ 2D
             Vector3 right = source.transform.right;
             Vector3 forward = source.transform.forward;
             Vector3 offset = (right * randomDir.x + forward * randomDir.y) * distance * offsetRatio;

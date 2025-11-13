@@ -25,9 +25,9 @@ public class FaceScript : MonoBehaviour, IFaceScript
     [Space]
 
     [Header("Sides of the Face")]
-    [SerializeField] private GameObject side1; // OrangeSide == Side1
-    [SerializeField] private GameObject side2; // BlueSide == Side2
-    [SerializeField] private GameObject side3; // GreenSide == Side3
+    public GameObject side1; // OrangeSide == Side1
+    public GameObject side2; // BlueSide == Side2
+    public GameObject side3; // GreenSide == Side3
 
 
     public Dictionary<string, GameObject> sides;
@@ -61,10 +61,10 @@ public class FaceScript : MonoBehaviour, IFaceScript
     public GameObject glowingPart;
     //private Animator animator;
 
-    [Space]
-    [Header("Scene ScriptManagers")]
+
+
     /*
-    [SerializeField] private FaceArrayScript FAS;
+    
     [SerializeField] private StartCountDown SCD;
     [SerializeField] private RedFaceScript RFS;
     [SerializeField] private BeatController BC;
@@ -77,8 +77,11 @@ public class FaceScript : MonoBehaviour, IFaceScript
 
     [Space]
     [Header("Questions")]
-    /*public bool havePlayer = false;
+    //public bool havePlayer = false;
+
+    /*
     private bool transferInProgress = false;
+
     public bool isKilling = false;
     public bool isBlinking = false;
     public bool isColored = false;
@@ -91,21 +94,25 @@ public class FaceScript : MonoBehaviour, IFaceScript
     [HideInInspector] public bool isRight = false;
     [HideInInspector] public bool isTop = false;*/
 
-    FaceStateScript faceState; //ÐÅÀËÈÇÎÂÀÒÜ
+    [Space]
+    [Header("Scene ScriptManagers")]
+    [SerializeField] private FaceStateScript faceState; //ÐÅÀËÈÇÎÂÀÒÜ
+    [SerializeField] private FacePresenterScript facePresenter;
+    [SerializeField] private FaceArrayScript faceArray;
 
-    public FaceStateScript FaceState => faceState;
+    public FaceStateScript FaceState => faceState; //interface
+    public FaceArrayScript FaceArray => faceArray; //interface
+    public FacePresenterScript FacePresenter => facePresenter; //interface
 
-    /*private void OnEnable()
+    public void Initialize()
     {
         rend = glowingPart.GetComponent<MeshRenderer>();
 
-        PS = player.GetComponent<PlayerScript>();
+        pathObjectCount = FaceState.HavePlayer ? 0 : -1;
 
-        pathObjectCount = havePlayer ? 0 : -1;
-
-        if (isTutorial || !havePlayer && FAS != null)
+        //if (!FaceState.HavePlayer)
         {
-            GameObject[] closestObjects = FindClosestObjectsFromArray(FAS.GetAllFaces(), 3);
+            GameObject[] closestObjects = FindClosestObjectsFromArray(FaceArray.GetAllFaces(), 3);
             side1 = closestObjects[0];
             side2 = closestObjects[1];
             side3 = closestObjects[2];
@@ -115,49 +122,25 @@ public class FaceScript : MonoBehaviour, IFaceScript
         FS2 = side2.GetComponent<FaceScript>();
         FS3 = side3.GetComponent<FaceScript>();
     }
-
+    
     private void Start()
     {
-        sides = new Dictionary<string, GameObject>();
+        //sides = new Dictionary<string, GameObject>();
 
-        animator = GetComponent<Animator>();
+        //FacePresenter //SomethingSomething
+        /*animator = GetComponent<Animator>();
         if (animator != null)
         {
             animator.enabled = false;
-        }
-
-        if (havePlayer)
-        {
-            InitializePlayerFace();
-        }
+        }*/
     }
 
-    private void InitializePlayerFace()
-    {
-        sides.Add("LeftSide", side1);
-        sides.Add("RightSide", side2);
-        sides.Add("TopSide", side3);
-
-        FS1.isLeft = true;
-        FS2.isRight = true;
-        FS3.isTop = true;
-
-        PS.SetCurrentFace(gameObject);
-
-        SetSideMaterial(FS1, materialLeftFace);
-        SetSideMaterial(FS2, materialRightFace);
-        SetSideMaterial(FS3, materialTopFace);
-
-        NHS.SetNavigationHint(FS1);
-        NHS.SetNavigationHint(FS2);
-        NHS.SetNavigationHint(FS3);
-    }
-
+    /*
     private void SetSideMaterial(FaceScript face, Material material)
     {
         if (!face.isKilling) face.rend.material = material;
-    }
-
+    }*/
+    /*
     private void Update()
     {
         if (havePlayer && isBonus && BSS != null)
@@ -169,10 +152,10 @@ public class FaceScript : MonoBehaviour, IFaceScript
         {
             HandlePortal();
         }
-    }
+    }*/
 
-
-    public void HandleInput(KeyCode keyCode)
+    /*
+    public void HandleInput(KeyCode keyCode, string direction)
     {
         if (isTurnOn && havePlayer && !transferInProgress && BC.canPress)
         {
@@ -185,7 +168,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
                 SS.TurnOnSoundStep();
             }
         }
-    }
+    }*/
     /*
     private string GetDirectionFromInput()
     {
@@ -230,7 +213,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
         portal.DestroyMe();
         PSS.LoadSecretScene();
     }
-
+    */
     private void StartTransfer(GameObject targetSide, string color)
     {
         transferInProgress = true;
@@ -288,9 +271,9 @@ public class FaceScript : MonoBehaviour, IFaceScript
         newPlayer.transform.localPosition = Vector3.zero;
         newPlayer.transform.localRotation = isUpsideDown ? Quaternion.identity : Quaternion.Euler(0, 180, 180);
 
-        NHS.SetNavigationHint(FS1);
-        NHS.SetNavigationHint(FS2);
-        NHS.SetNavigationHint(FS3);
+        //NHS.SetNavigationHint(FS1);
+        //NHS.SetNavigationHint(FS2);
+        //NHS.SetNavigationHint(FS3);
     }
 
     private Material GetMaterialForSide(string side)

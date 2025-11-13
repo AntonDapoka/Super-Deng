@@ -79,7 +79,7 @@ public class PortalSpawnerScript : MonoBehaviour
     private void SetPortal(FaceScript face)
     {
         FaceScript FS = face.GetComponent<FaceScript>();
-        FS.isPortal = true;
+        //FS.isPortal = true; // Commented out - field is commented in FaceScript
         FS.rend.material = materialPortal;
 
         GameObject instance = Instantiate(prefab, face.transform);
@@ -90,7 +90,7 @@ public class PortalSpawnerScript : MonoBehaviour
     private IEnumerator DestroyPortal(FaceScript face, GameObject portal, float delay)
     {
         yield return new WaitForSeconds(delay);
-        face.isPortal = false;
+        //face.isPortal = false; // Commented out - field is commented in FaceScript
         Destroy(portal);
     }
 

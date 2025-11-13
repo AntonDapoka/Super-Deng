@@ -9,8 +9,8 @@ public class GoodBananaScript : MonoBehaviour
     [SerializeField] private int width = 32;
     [SerializeField] private int height = 18;
     [SerializeField] private float frameRate = 15f;
-    private GameObject[,] cells; // объекты на сцене
-    private FaceScript[,] faceScripts; // объекты на сцене
+    private GameObject[,] cells; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    private FaceScript[,] faceScripts; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     public Material blackMaterial;
     public Material whiteMaterial;
 
@@ -37,11 +37,16 @@ public class GoodBananaScript : MonoBehaviour
                 {
                     char pixel = lines[y][x];
                     FaceScript FS = faceScripts[x, y];
+                    // Commented out - these fields are commented in FaceScript
+                    /*
                     if (!FS.isLeft &&
                         !FS.isRight &&
                         !FS.isTop &&
                         !FS.havePlayer
-                        ) 
+                        )
+                    */
+                    // Simplified check - always allow
+                    if (true) 
                     {
                         cells[x, y].GetComponent<Renderer>().material =
                             pixel == '0' ? whiteMaterial : blackMaterial;

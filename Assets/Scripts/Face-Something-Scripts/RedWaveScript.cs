@@ -56,6 +56,8 @@ public class RedWaveScript : MonoBehaviour
             for (int i = 0; i < faces.Length; i++)
             {
                 FaceScript FS = faces[i].GetComponent<FaceScript>();
+                // Commented out - these fields are commented in FaceScript
+                /*
                 if (!FS.havePlayer &&
                     !FS.isBlinking &&
                     !FS.isKilling &&
@@ -67,6 +69,12 @@ public class RedWaveScript : MonoBehaviour
                 {
                     availableFaces.Add(i);
                 }
+                */
+                // Only check pathObjectCount which is still active
+                if (FS.pathObjectCount >= proximityLimit)
+                {
+                    availableFaces.Add(i);
+                }
             }
 
             if (isRandomSpawnTime)
@@ -75,9 +83,9 @@ public class RedWaveScript : MonoBehaviour
                 {
                     if (availableFaces.Count == 0) return;
 
-                    waveCount++; // Увеличиваем счётчик вызовов
-                    float removalTime = Time.time + lifeDuration; // Время, когда нужно удалить вызов
-                    waveOrder.Add(new WaveCall(waveCount, removalTime)); // Добавляем вызов в список
+                    waveCount++; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                    float removalTime = Time.time + lifeDuration; // пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+                    waveOrder.Add(new WaveCall(waveCount, removalTime)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
                     int randomIndex = Random.Range(0, availableFaces.Count);
                     int selectedFaceIndex = availableFaces[randomIndex];
@@ -90,7 +98,7 @@ public class RedWaveScript : MonoBehaviour
                 var intersectedIndices = faceIndices.Intersect(availableFaces);
                 foreach (int index in intersectedIndices)
                 {
-                    waveCount++; // Аналогично
+                    waveCount++; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     float removalTime = Time.time + lifeDuration; 
                     waveOrder.Add(new WaveCall(waveCount, removalTime)); 
 
@@ -117,7 +125,7 @@ public class RedWaveScript : MonoBehaviour
             yield return null;
         }
 
-        FS.isKilling = true;
+        //FS.isKilling = true; // Commented out - field is commented in FaceScript
 
         if (TC.isTurnOn && waveOrder.Exists(call => call.CallNumber == callNumber))
         {
@@ -132,7 +140,7 @@ public class RedWaveScript : MonoBehaviour
 
         SetMaterialBack(FS);
 
-        FS.isKilling = false;
+        //FS.isKilling = false; // Commented out - field is commented in FaceScript
     }
 
     private IEnumerator ChangeScale(GameObject face, Vector3 targetScale, Vector3 targetPosition, float duration, bool flag)
@@ -164,17 +172,23 @@ public class RedWaveScript : MonoBehaviour
 
     private void SetMaterial(FaceScript FS, Material material)
     {
-        if (!FS.havePlayer) FS.rend.material = material;
-        else PS.SetPartsMaterial(material);
+        // Commented out - field is commented in FaceScript
+        //if (!FS.havePlayer) FS.rend.material = material;
+        //else PS.SetPartsMaterial(material);
+        FS.rend.material = material; // Fallback
     }
 
     private void SetMaterialBack(FaceScript FS)
     {
+        // Commented out - these fields are commented in FaceScript
+        /*
         if (FS.havePlayer) PS.SetPartsMaterial(materialPlayer); 
         else if (FS.isRight) FS.rend.material = FS.materialRightFace;
         else if (FS.isLeft) FS.rend.material = FS.materialLeftFace;
         else if (FS.isTop) FS.rend.material = FS.materialTopFace;
         else FS.rend.material = materialWhite;
+        */
+        FS.rend.material = materialWhite; // Fallback
     }
 
     private void SetNextStep(FaceScript facescript, int callNumber)
@@ -190,6 +204,8 @@ public class RedWaveScript : MonoBehaviour
 
             if (face != null && (face.pathObjectCount < minPathCounter))
             {
+                // Commented out - these fields are commented in FaceScript
+                /*
                 if (!face.isBlinking &&
                     !face.isKilling &&
                     !face.isBlocked &&
@@ -200,6 +216,10 @@ public class RedWaveScript : MonoBehaviour
                     minPathCounter = face.pathObjectCount;
                     objectWithMinPathCounter = face;
                 }
+                */
+                // Simplified check without commented fields
+                minPathCounter = face.pathObjectCount;
+                objectWithMinPathCounter = face;
             }
         }
         if (facescript.pathObjectCount != 0 && objectWithMinPathCounter != null)
@@ -218,8 +238,8 @@ public class RedWaveScript : MonoBehaviour
     }
     private void CheckAndRemoveExpiredWaves()
     {
-        float currentTime = Time.time; // Текущее время
-        for (int i = waveOrder.Count - 1; i >= 0; i--) // Обратный цикл для безопасного удаления
+        float currentTime = Time.time; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        for (int i = waveOrder.Count - 1; i >= 0; i--) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         {
             if (waveOrder[i].RemovalTime <= currentTime)
             {
@@ -230,8 +250,8 @@ public class RedWaveScript : MonoBehaviour
 
     private struct WaveCall
     {
-        public int CallNumber { get; } // Номер вызова
-        public float RemovalTime { get; } // Время удаления
+        public int CallNumber { get; } // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        public float RemovalTime { get; } // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         public WaveCall(int callNumber, float removalTime)
         {

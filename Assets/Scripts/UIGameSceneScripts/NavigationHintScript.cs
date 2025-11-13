@@ -36,6 +36,8 @@ public class NavigationHintScript : MonoBehaviour
 
         TextMeshPro textNavigationHint = null;
 
+        // Commented out - these fields are commented in FaceScript
+        /*
         if (FS.isLeft)
             textNavigationHint = textNavigationHintLeft;
         else if (FS.isRight)
@@ -46,6 +48,11 @@ public class NavigationHintScript : MonoBehaviour
         if (FS.isBlocked)
             textNavigationHint.GetComponent<MeshRenderer>().enabled = false;
         else
+            textNavigationHint.GetComponent<MeshRenderer>().enabled = true;
+        */
+        // Default behavior when fields are commented
+        textNavigationHint = textNavigationHintLeft;
+        if (textNavigationHint != null)
             textNavigationHint.GetComponent<MeshRenderer>().enabled = true;
 
         if (textNavigationHint != null)

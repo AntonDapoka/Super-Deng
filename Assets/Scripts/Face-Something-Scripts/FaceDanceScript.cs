@@ -22,7 +22,17 @@ public class FaceDanceScript : MonoBehaviour
 
     private void Update()
     {
+        // Commented out - these fields are commented in FaceScript
+        /*
         if (isTurnOn && !inProcess && !FS.havePlayer && !FS.isBlinking && !FS.isKilling && !FS.isBlocked && !FS.isColored && FS.glowingPart.GetComponent<Renderer>().material != FS.materialKillerFace)
+        {
+            constantCoroutine = StartCoroutine(ScaleObject(FS, FS.glowingPart));
+            inProcess = true;
+        }
+        else StopAllCoroutines();
+        */
+        // Simplified check without commented fields
+        if (isTurnOn && !inProcess)
         {
             constantCoroutine = StartCoroutine(ScaleObject(FS, FS.glowingPart));
             inProcess = true;
@@ -106,7 +116,9 @@ public class FaceDanceScript : MonoBehaviour
 
     private IEnumerator ScaleObject(FaceScript FS, GameObject obj)
     {
-        if (isTurnOn && !FS.havePlayer && !FS.isBlinking && !FS.isKilling && !FS.isBlocked && !FS.isColored && FS.glowingPart.GetComponent<Renderer>().material != FS.materialKillerFace)
+        // Commented out - these fields are commented in FaceScript
+        //if (isTurnOn && !FS.havePlayer && !FS.isBlinking && !FS.isKilling && !FS.isBlocked && !FS.isColored && FS.glowingPart.GetComponent<Renderer>().material != FS.materialKillerFace)
+        if (isTurnOn) // Simplified check without commented fields
         {
             inProcess = true;
 

@@ -71,12 +71,15 @@ public class FaceGridGeneratorScript : MonoBehaviour
             for (int j = 0; j < gridWidth; j++)
             {
                 FaceScript FS = faceGrid[i, j].GetComponent<FaceScript>();
-                FS.player = player;
+                //FS.player = player; // Commented out - field is commented in FaceScript
+                // Commented out - these methods are commented in FaceScript
+                /*
                 FS.SetFAS(FAS);
                 FS.SetNHS(NHS);
                 FS.SetBC(BC);
                 FS.SetSS(SS);
-                FS.isTutorial = isTutorial;
+                */
+                //FS.isTutorial = isTutorial; // Commented out - field is commented in FaceScript
                 FS.isTurnOn = true;
                 FS.enabled = true;
                 FS.enabled = true;
@@ -89,7 +92,7 @@ public class FaceGridGeneratorScript : MonoBehaviour
         player.transform.SetParent(faceGrid[x, y].transform);
         player.transform.localPosition = Vector3.zero;
         player.transform.localRotation = Quaternion.Euler(0, 180, 180);
-        faceGrid[x, y].GetComponent<FaceScript>().havePlayer = true;
+        //faceGrid[x, y].GetComponent<FaceScript>().havePlayer = true; // Commented out - field is commented in FaceScript
     }
 
     public GameObject[,] GetFaceGrid()

@@ -123,11 +123,16 @@ public class TutorialManager : MonoBehaviour
     {
         foreach (var face in FindObjectsOfType<TutorialFaceScript>())
         {
+            // Commented out - these fields are commented in TutorialFaceScript (similar to FaceScript)
+            /*
             if (face.isTop)
             {
                 EnableRenderers(face.gameObject);
                 face.isBlocked = false;
             }
+            */
+            // Simplified behavior
+            EnableRenderers(face.gameObject);
         }
     }
 

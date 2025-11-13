@@ -37,11 +37,13 @@ public class RedFaceScript : MonoBehaviour
     {
         if (isTurnOn)
         {
-            List<int> availableFaces = new List<int>(); //Составляем массив из доступных граней
+            List<int> availableFaces = new List<int>(); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
             for (int i = 0; i < faces.Length; i++)
             {
                 FaceScript FS = faces[i].GetComponent<FaceScript>();
+                // Commented out - these fields are commented in FaceScript
+                /*
                 if (!FS.havePlayer &&
                     !FS.isBlinking &&
                     !FS.isKilling &&
@@ -52,6 +54,7 @@ public class RedFaceScript : MonoBehaviour
                 {
                     availableFaces.Add(i);
                 }
+                */
             }
 
             if (isRandomSpawnTime)
@@ -63,7 +66,7 @@ public class RedFaceScript : MonoBehaviour
 
                     int randomIndex = Random.Range(0, availableFaces.Count);
                     int selectedFaceIndex = availableFaces[randomIndex];
-                    StartCoroutine(SetRedFace(faces[selectedFaceIndex])); //Запускаем рандомные из доступных
+                    StartCoroutine(SetRedFace(faces[selectedFaceIndex])); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     availableFaces.RemoveAt(randomIndex);
                 }
             }
@@ -72,7 +75,7 @@ public class RedFaceScript : MonoBehaviour
                 var intersectedIndices = faceIndices.Intersect(availableFaces);
                 foreach (int index in intersectedIndices)
                 {
-                    StartCoroutine(SetRedFace(faces[index])); //Запускаем указанные из доступных
+                    StartCoroutine(SetRedFace(faces[index])); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     availableFaces.RemoveAt(index);
                 }
             }
@@ -85,30 +88,33 @@ public class RedFaceScript : MonoBehaviour
         FaceDanceScript FDC = face.GetComponent<FaceDanceScript>();
         
         FDC.isTurnOn = false;
-        FS.isColored = true;
+        //FS.isColored = true; // Commented out - field is commented in FaceScript
         float timer = 0f;
         while (timer < colorChangeDuration)
         {
             FS.rend.material = materialRed;
-            if (FS.havePlayer) PS.SetPartsMaterial(materialRed);
+            //if (FS.havePlayer) PS.SetPartsMaterial(materialRed); // Commented out - field is commented in FaceScript
             timer += Time.deltaTime;
             yield return null;
         }
-        FS.isKilling = true;
-        FS.isColored = false;
+        //FS.isKilling = true; // Commented out - field is commented in FaceScript
+        //FS.isColored = false; // Commented out - field is commented in FaceScript
         yield return StartCoroutine(ChangeScale(face, new Vector3(1f, 1f, scaleChange), new Vector3(0f, positionChange, 0f), scaleChangeDurationUp));
 
         yield return new WaitForSeconds(waitDuration);
 
         yield return StartCoroutine(ChangeScale(face, new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 0f), scaleChangeDurationDown)); 
 
+        // Commented out - these fields are commented in FaceScript
+        /*
         if (FS.havePlayer) { PS.SetPartsMaterial(materialPlayer); }
         else if (FS.isRight) FS.rend.material = FS.materialRightFace;
         else if (FS.isLeft) FS.rend.material = FS.materialLeftFace;
         else if (FS.isTop) FS.rend.material = FS.materialTopFace;
         else FS.rend.material = materialWhite;
-
-        FS.isKilling = false;
+        */
+        FS.rend.material = materialWhite; // Fallback
+        //FS.isKilling = false; // Commented out - field is commented in FaceScript
 
     }
 
@@ -122,7 +128,7 @@ public class RedFaceScript : MonoBehaviour
         while (timer < duration)
         {
             FS.rend.material = materialRed;
-            if (FS.havePlayer) PS.SetPartsMaterial(materialRed);
+            //if (FS.havePlayer) PS.SetPartsMaterial(materialRed); // Commented out - field is commented in FaceScript
 
             FS.glowingPart.transform.localScale = Vector3.Lerp(startScale, targetScale, timer / duration);
             FS.glowingPart.transform.localPosition = Vector3.Lerp(startPosition, targetPosition, timer / duration);

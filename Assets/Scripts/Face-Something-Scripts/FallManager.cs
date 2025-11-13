@@ -57,6 +57,8 @@ public class FallManager : MonoBehaviour
             for (int i = 0; i < faces.Length; i++)
             {
                 FaceScript FS = faces[i].GetComponent<FaceScript>();
+                // Commented out - these fields are commented in FaceScript
+                /*
                 if (//!FS.havePlayer &&
                     !FS.isBlinking &&
                     !FS.isKilling &&
@@ -65,6 +67,12 @@ public class FallManager : MonoBehaviour
                     !FS.isPortal &&
                     !FS.isBonus &&
                     FS.pathObjectCount >= proximityLimit)
+                {
+                    availableFaces.Add(i);
+                }
+                */
+                // Only check pathObjectCount which is still active
+                if (FS.pathObjectCount >= proximityLimit)
                 {
                     availableFaces.Add(i);
                 }
@@ -113,13 +121,13 @@ public class FallManager : MonoBehaviour
         if (animator != null && animClipFall != null)
         {
             animator.enabled = true;
-            FS.isBlinking = true;
+            //FS.isBlinking = true; // Commented out - field is commented in FaceScript
             animator.Play(animClipFall.name);
             yield return new WaitForSeconds(animClipFall.length);
-            FS.isBlinking = false;
+            //FS.isBlinking = false; // Commented out - field is commented in FaceScript
             animator.enabled = false;
         }
-        FS.isBlocked = true;
+        //FS.isBlocked = true; // Commented out - field is commented in FaceScript
         ApplyImpulse(face, numb);
     }
 
@@ -127,11 +135,14 @@ public class FallManager : MonoBehaviour
     {
         Rigidbody rb = face.GetComponent<Rigidbody>();
 
+        // Commented out - field is commented in FaceScript
+        /*
         if (face.GetComponent<FaceScript>().havePlayer) 
         {
             face.GetComponent<FaceScript>().havePlayer = false;
             waitForDeath = true;
         }
+        */
 
         Vector3 direction = (rb.transform.position - centerPoint).normalized;
         rb.AddForce(direction * impulseForce, ForceMode.Impulse);
@@ -190,16 +201,19 @@ public class FallManager : MonoBehaviour
         {
             //Debug.Log(fallDataList[i].FallFaceNumber);
             StartCoroutine(ResetAfterDelay(faces[fallDataList[i].FallFaceNumber], 0f, fallDataList[i].FallFaceNumber, true));
-            faces[fallDataList[i].FallFaceNumber].GetComponent<FaceScript>().isBlinking = false;
+            //faces[fallDataList[i].FallFaceNumber].GetComponent<FaceScript>().isBlinking = false; // Commented out - field is commented in FaceScript
         }
     }
 
     private IEnumerator PlayAnimationReset(GameObject face, int numb)
     {
+        // Commented out - method is commented in FaceScript
+        /*
         foreach (FaceScript FS in faceScripts)
         {
             FS.ResetRightLeftTop();
         }
+        */
         Animator animator = face.GetComponent<Animator>();
         animator.enabled = true;
         if (animator != null && animClipReset != null)
@@ -208,14 +222,17 @@ public class FallManager : MonoBehaviour
             animator.Play(animClipReset.name);
             yield return new WaitForSeconds(animClipReset.length);
         }
+        // Commented out - method is commented in FaceScript
+        /*
         foreach (FaceScript FS in faceScripts)
         {
             FS.ResetRightLeftTop();
         }
+        */
         animator.enabled = false;
 
         fallDataList.RemoveAll(f => f.FallFaceNumber == numb);
-        face.GetComponent<FaceScript>().isBlocked = false;
+        //face.GetComponent<FaceScript>().isBlocked = false; // Commented out - field is commented in FaceScript
     }
 
 

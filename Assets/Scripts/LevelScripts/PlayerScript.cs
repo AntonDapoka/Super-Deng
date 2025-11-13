@@ -56,6 +56,8 @@ public class PlayerScript : MonoBehaviour
         
         if (!isTutorial)
         {
+            // Commented out - these fields are commented in FaceScript
+            /*
             if (faceCurrentFS != null && faceCurrentFS.isKilling && !inTakingDamage)
             {
                 inTakingDamage = true;
@@ -77,13 +79,17 @@ public class PlayerScript : MonoBehaviour
                 animator.enabled = false;
                 ResetMaterials();
             }
+            */
         }
+        // Commented out - field is commented in TutorialFaceScript
+        /*
         else if (faceCurrentFST.isKilling && !inTakingDamage)
         {
             inTakingDamage = true;
             TakeDamage();
             StartCoroutine(PlayAnimationTakeDamage());
         }
+        */
     }
 
     public void ResetMaterials()

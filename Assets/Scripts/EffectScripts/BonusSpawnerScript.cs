@@ -37,6 +37,8 @@ public class BonusSpawnerScript : MonoBehaviour
 
             for (int i = 0; i < faceScripts.Length; i++)
             {
+                // Commented out - these fields are commented in FaceScript
+                /*
                 if (!faceScripts[i].havePlayer &&
                     !faceScripts[i].isRight &&
                     !faceScripts[i].isLeft &&
@@ -48,6 +50,12 @@ public class BonusSpawnerScript : MonoBehaviour
                     !faceScripts[i].isPortal &&
                     !faceScripts[i].isBonus &&
                     faceScripts[i].pathObjectCount >= proximityLimit)
+                {
+                    availableFaces.Add(i);
+                }
+                */
+                // Only check pathObjectCount which is still active
+                if (faceScripts[i].pathObjectCount >= proximityLimit)
                 {
                     availableFaces.Add(i);
                 }
@@ -94,7 +102,7 @@ public class BonusSpawnerScript : MonoBehaviour
         else
         {
             type = Random.Range(0, 2);
-            Debug.Log("ОШИБКА, ВАРЯ, ОШИБКА. Сколько я говорил обращать внимание на красные надписи?!");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ?!");
         }
         return type;
     }
@@ -102,7 +110,7 @@ public class BonusSpawnerScript : MonoBehaviour
     private void SetBonus(GameObject face, int type) //0 - Health, 1 - Combo
     {
         FaceScript FS = face.GetComponent<FaceScript>();
-        FS.isBonus = true;
+        //FS.isBonus = true; // Commented out - field is commented in FaceScript
         FS.rend.material = materialPlayer;
 
         GameObject selectedPrefab = type == 0 ? prefabBonusCombo : prefabBonusHealth;
@@ -115,7 +123,7 @@ public class BonusSpawnerScript : MonoBehaviour
 
     public void GetComboBonus()
     {
-        CM.Double(); //Потом переделаю
+        CM.Double(); //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
     private IEnumerator DestroyBonus(GameObject face, GameObject bonus, float delay)
@@ -132,7 +140,7 @@ public class BonusSpawnerScript : MonoBehaviour
             }
             FaceScript FS = face.GetComponent<FaceScript>();
             FS.rend.material = materialBasic;
-            FS.isBonus = false;
+            //FS.isBonus = false; // Commented out - field is commented in FaceScript
             animator.enabled = false;
         }
         Destroy(bonus);

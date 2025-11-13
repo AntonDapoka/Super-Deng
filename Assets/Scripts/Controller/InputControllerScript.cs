@@ -1,33 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputControllerScript : MonoBehaviour
 {
-    [SerializeField] private PlayerInteractorScript interactor;
+    [SerializeField] private MonoBehaviour inputHandler;
+    private IInputHandlerScript InputHandler;
 
-    [Header("Key Bindings")]
-    private KeyCode[] keys;
-    public KeyCode keyLeft = KeyCode.A;
-    public KeyCode keyTop = KeyCode.W;
-    public KeyCode keyRight = KeyCode.D;
-
-
-    private void Start()
+    private void Awake()
     {
-        keyRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
-        keyLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
-        keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
-
-        keys = new[] { keyLeft, keyTop, keyRight };
+        InputHandler = inputHandler as IInputHandlerScript;
+        if (InputHandler == null)
+            Debug.LogError("InputControllerScript: inputHandlerBehaviour do NOT realise IInputHandler!");
     }
 
     private void Update()
     {
-        foreach (var key in keys)
+        foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKeyDown(key))
-                interactor.HandleInput(key);
+                InputHandler?.HandleInput(key);
         }
     }
 }

@@ -20,16 +20,23 @@ public class PathCounterScript : MonoBehaviour
         FaceScript startface = null;
         foreach (var face in faces)
         {
+            // Commented out - field is commented in FaceScript
+            /*
             if (face.havePlayer)
             {
                 startface = face;
                 //Debug.Log(face.name);
             }
+            */
             face.pathObjectCount = -1;
         }
         queue = new Queue<FaceScript>();
-        queue.Enqueue(startface);
-        startface.pathObjectCount = 0;
+        // Commented out - startface may be null if havePlayer is commented
+        if (startface != null)
+        {
+            queue.Enqueue(startface);
+            startface.pathObjectCount = 0;
+        }
         while (queue.Count > 0)
         {
             FaceScript current = queue.Dequeue();
