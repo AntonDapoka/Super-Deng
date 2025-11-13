@@ -49,13 +49,13 @@ public class BonusSpawnerScript : MonoBehaviour
                     !faceScripts[i].isColored &&
                     !faceScripts[i].isPortal &&
                     !faceScripts[i].isBonus &&
-                    faceScripts[i].pathObjectCount >= proximityLimit)
+                    faceScripts[i].PathObjectCount >= proximityLimit)
                 {
                     availableFaces.Add(i);
                 }
                 */
-                // Only check pathObjectCount which is still active
-                if (faceScripts[i].pathObjectCount >= proximityLimit)
+                // Only check PathObjectCount which is still active
+                if (faceScripts[i].PathObjectCount >= proximityLimit)
                 {
                     availableFaces.Add(i);
                 }

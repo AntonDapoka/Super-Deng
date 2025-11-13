@@ -73,13 +73,13 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
 
     public virtual bool CheckIsSuitableFace(FaceStateScript FSS)
     {
-        bool res = !FSS.HavePlayer &&
-                !FSS.IsBlinking &&
-                !FSS.IsKilling &&
-                !FSS.IsBlocked &&
-                !FSS.IsColored &&
-                !FSS.IsPortal &&
-                !FSS.IsBonus;
+        bool res = !FSS.Get(FaceProperty.HavePlayer) &&
+                !FSS.Get(FaceProperty.IsBlinking) &&
+                !FSS.Get(FaceProperty.IsKilling) &&
+                !FSS.Get(FaceProperty.IsBlocked) &&
+                !FSS.Get(FaceProperty.IsColored) &&
+                !FSS.Get(FaceProperty.IsPortal) &&
+                !FSS.Get(FaceProperty.IsBonus);
         return res;
     }
 

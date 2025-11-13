@@ -29,7 +29,7 @@ public class LaunchObstaclesScript : MonoBehaviour
         faces = FAS.GetAllFaceScripts();
         for (int i = 0; i < faces.Length; i++)
         {
-            faces[i].isTurnOn = true;  
+            //faces[i].isTurnOn = true;  
         }
     }
 }

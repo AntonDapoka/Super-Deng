@@ -85,7 +85,7 @@ public class LightShutDownScript : MonoBehaviour
         {
             if (faces[i] != null)
             {
-                faces[i].GetComponent<FaceScript>().rend.material = material;
+                //faces[i].GetComponent<FaceScript>().rend.material = material;
                 yield return new WaitForSeconds(delay/10);
             }
         }

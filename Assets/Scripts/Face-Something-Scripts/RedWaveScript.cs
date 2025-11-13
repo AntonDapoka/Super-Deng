@@ -65,13 +65,13 @@ public class RedWaveScript : MonoBehaviour
                     !FS.isColored &&
                     !FS.isPortal &&
                     !FS.isBonus &&
-                    FS.pathObjectCount >= proximityLimit)
+                    FS.PathObjectCount >= proximityLimit)
                 {
                     availableFaces.Add(i);
                 }
                 */
-                // Only check pathObjectCount which is still active
-                if (FS.pathObjectCount >= proximityLimit)
+                // Only check PathObjectCount which is still active
+                if (FS.PathObjectCount >= proximityLimit)
                 {
                     availableFaces.Add(i);
                 }
@@ -202,7 +202,7 @@ public class RedWaveScript : MonoBehaviour
         {
             if (face == null) continue;
 
-            if (face != null && (face.pathObjectCount < minPathCounter))
+            if (face != null && (face.PathObjectCount < minPathCounter))
             {
                 // Commented out - these fields are commented in FaceScript
                 /*
@@ -213,16 +213,16 @@ public class RedWaveScript : MonoBehaviour
                     !face.isPortal &&
                     !face.isBonus)
                 {
-                    minPathCounter = face.pathObjectCount;
+                    minPathCounter = face.PathObjectCount;
                     objectWithMinPathCounter = face;
                 }
                 */
                 // Simplified check without commented fields
-                minPathCounter = face.pathObjectCount;
+                minPathCounter = face.PathObjectCount;
                 objectWithMinPathCounter = face;
             }
         }
-        if (facescript.pathObjectCount != 0 && objectWithMinPathCounter != null)
+        if (facescript.PathObjectCount != 0 && objectWithMinPathCounter != null)
         {
             StartCoroutine(SetRedWave(objectWithMinPathCounter.gameObject, callNumber));
         }

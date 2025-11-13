@@ -28,14 +28,14 @@ public class PathCounterScript : MonoBehaviour
                 //Debug.Log(face.name);
             }
             */
-            face.pathObjectCount = -1;
+            face.PathObjectCount = -1;
         }
         queue = new Queue<FaceScript>();
         // Commented out - startface may be null if havePlayer is commented
         if (startface != null)
         {
             queue.Enqueue(startface);
-            startface.pathObjectCount = 0;
+            startface.PathObjectCount = 0;
         }
         while (queue.Count > 0)
         {
@@ -44,9 +44,9 @@ public class PathCounterScript : MonoBehaviour
             FaceScript[] neighbors = { current.FS1, current.FS2, current.FS3 };
             foreach (var neighbor in neighbors)
             {
-                if (neighbor != null && neighbor.pathObjectCount == -1)
+                if (neighbor != null && neighbor.PathObjectCount == -1)
                 {
-                    neighbor.pathObjectCount = current.pathObjectCount + 1;
+                    neighbor.PathObjectCount = current.PathObjectCount + 1;
                     queue.Enqueue(neighbor);
                 }
             }

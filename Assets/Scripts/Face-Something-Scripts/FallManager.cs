@@ -66,13 +66,13 @@ public class FallManager : MonoBehaviour
                     !FS.isColored &&
                     !FS.isPortal &&
                     !FS.isBonus &&
-                    FS.pathObjectCount >= proximityLimit)
+                    FS.PathObjectCount >= proximityLimit)
                 {
                     availableFaces.Add(i);
                 }
                 */
-                // Only check pathObjectCount which is still active
-                if (FS.pathObjectCount >= proximityLimit)
+                // Only check PathObjectCount which is still active
+                if (FS.PathObjectCount >= proximityLimit)
                 {
                     availableFaces.Add(i);
                 }

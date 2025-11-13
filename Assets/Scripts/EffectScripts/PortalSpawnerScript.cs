@@ -47,7 +47,7 @@ public class PortalSpawnerScript : MonoBehaviour
                     !faceScripts[i].isColored &&
                     !faceScripts[i].isPortal &&
                     !faceScripts[i].isBonus &&
-                    faceScripts[i].pathObjectCount >= proximityLimit)
+                    faceScripts[i].PathObjectCount >= proximityLimit)
                 {
                     availableFaces.Add(i);
                 }

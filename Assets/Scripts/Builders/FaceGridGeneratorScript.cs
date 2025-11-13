@@ -80,7 +80,7 @@ public class FaceGridGeneratorScript : MonoBehaviour
                 FS.SetSS(SS);
                 */
                 //FS.isTutorial = isTutorial; // Commented out - field is commented in FaceScript
-                FS.isTurnOn = true;
+                //FS.isTurnOn = true;
                 FS.enabled = true;
                 FS.enabled = true;
             }
