@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class InputControllerScript : MonoBehaviour
+public class InputKeyBoardControllerScript : MonoBehaviour, IInputSourceScript
 {
-    [SerializeField] private MonoBehaviour inputHandler;
-    private IInputHandlerScript InputHandler;
+    [SerializeField] private InputHandlerScript inputHandler;
+    public InputHandlerScript InputHandler => inputHandler;
 
     // List of standard keyboard keys you want to support
     private static readonly KeyCode[] KeyboardKeys =
@@ -15,9 +15,10 @@ public class InputControllerScript : MonoBehaviour
         KeyCode.V, KeyCode.W, KeyCode.X, KeyCode.Y, KeyCode.Z,
     };
 
+    //InputHandlerScript IInputSourceScript.InputHandler => throw new System.NotImplementedException();
+
     private void Awake()
     {
-        InputHandler = inputHandler as IInputHandlerScript;
         if (InputHandler == null)
             Debug.LogError("InputControllerScript: inputHandlerBehaviour does NOT implement IInputHandlerScript!");
     }

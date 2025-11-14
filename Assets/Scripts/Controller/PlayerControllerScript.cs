@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControllerScript : MonoBehaviour, IInputHandlerScript
+public class PlayerControllerScript : InputHandlerScript
 {
     [SerializeField] private KeyBindingDataScript keyBindings;
     [SerializeField] private PlayerMovementInteractorScript playerMovementInteractorScript;
 
     public PlayerMovementInteractorScript PlayerMovementInteractorScript => playerMovementInteractorScript;
 
-    public void HandleInput(KeyCode key)
+    public override void HandleInput(KeyCode key)
     {
         if (key == keyBindings.moveLeft)
             MovePlayer("Left");
