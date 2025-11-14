@@ -8,7 +8,6 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private int hp = 4;
     [SerializeField] private GameObject faceCurrent;
     private FaceScript faceCurrentFS;
-    private TutorialFaceScript faceCurrentFST;
     [Space]
     [SerializeField] private GameObject glowingPartTop;
     [SerializeField] private GameObject glowingPartMiddle;
@@ -44,11 +43,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
-        if (!isTutorial)
-        {
-            faceCurrentFS = faceCurrent.GetComponent<FaceScript>();
-        }
-        else faceCurrentFST = faceCurrent.GetComponent<TutorialFaceScript>();
+        faceCurrentFS = faceCurrent.GetComponent<FaceScript>();
     }
 
     private void Update()

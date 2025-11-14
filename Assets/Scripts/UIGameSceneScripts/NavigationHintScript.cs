@@ -66,36 +66,6 @@ public class NavigationHintScript : MonoBehaviour
         }
     }
 
-    public void SetNavigationHintTutorial(TutorialFaceScript TFS)
-    {
-        Transform faceTransform = TFS.gameObject.transform;
-
-        TextMeshPro textNavigationHint = null;
-
-        if (TFS.isLeft)
-            textNavigationHint = textNavigationHintLeft;
-        else if (TFS.isRight)
-            textNavigationHint = textNavigationHintRight;
-        else if (TFS.isTop)
-            textNavigationHint = textNavigationHintTop;
-
-        if (TFS.isBlocked)
-        {
-            textNavigationHint.GetComponent<MeshRenderer>().enabled = false;
-        }
-        else
-            textNavigationHint.GetComponent<MeshRenderer>().enabled = true;
-
-        if (textNavigationHint != null)
-        {
-            textNavigationHint.transform.SetParent(faceTransform);
-            textNavigationHint.transform.localPosition = new Vector3(0, extraHeight, 0);
-            textNavigationHint.transform.localRotation = Quaternion.Euler(-90f, 90f, 0);
-            //textNavigationHint.transform.SetParent(player);
-            TurnToThePlayer(textNavigationHint.transform);
-        }
-    }
-
     private void TurnToThePlayer(Transform obj)
     {
         Vector3 Look = obj.InverseTransformPoint(player.position);

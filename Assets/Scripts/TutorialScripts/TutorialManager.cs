@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
-{
+{/*
     [Header("Key Bindings")]
     public KeyCode keyLeft = KeyCode.A;
     public KeyCode keyTop = KeyCode.W;
@@ -130,7 +130,7 @@ public class TutorialManager : MonoBehaviour
                 EnableRenderers(face.gameObject);
                 face.isBlocked = false;
             }
-            */
+            
             // Simplified behavior
             EnableRenderers(face.gameObject);
         }
@@ -229,5 +229,5 @@ public class TutorialManager : MonoBehaviour
         }
 
         audioSource.volume = targetVolume;
-    }
+    }*/
 }
