@@ -14,7 +14,7 @@ public class FaceArrayScript : MonoBehaviour
     [SerializeField] private Transform Strip_D;
     [SerializeField] private Transform Strip_E;
     [SerializeField] private Transform Strip_F;
-    [Space]
+    /*[Space]
     [Header("Y-axis (original)")]
     [SerializeField] private GameObject[] facesStripY_A;
     [SerializeField] private GameObject[] facesStripY_B;
@@ -22,7 +22,7 @@ public class FaceArrayScript : MonoBehaviour
     [SerializeField] private GameObject[] facesStripY_D;
     [SerializeField] private GameObject[] facesStripY_E;
     [SerializeField] private GameObject[] facesStripY_F;
-    /*[Space]
+    [Space]
     [Header("X-axis")]
     [SerializeField] private GameObject[] facesStripX_A;
     [SerializeField] private GameObject[] facesStripX_B;
@@ -44,6 +44,7 @@ public class FaceArrayScript : MonoBehaviour
         if (findOnAwake) FindAllFaceScript();
     }
 
+    //We Shouldn't have this type of searching, everything must be obtained from the Interactors
     public void FindAllFaceScript()
     {
         faces = FindObjectsOfType<FaceScript>()

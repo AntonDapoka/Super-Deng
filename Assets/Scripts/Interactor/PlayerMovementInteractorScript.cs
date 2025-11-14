@@ -1,8 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public class PlayerMovementInteractorScript : MonoBehaviour

@@ -79,9 +79,12 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
                 !FSS.Get(FaceProperty.IsBlocked) &&
                 !FSS.Get(FaceProperty.IsColored) &&
                 !FSS.Get(FaceProperty.IsPortal) &&
-                !FSS.Get(FaceProperty.IsBonus);
+                !FSS.Get(FaceProperty.IsBonus) &&
+                IsSuitableSpecialRequirements();
         return res;
     }
+
+    public abstract bool IsSuitableSpecialRequirements();
 
     public virtual void Cancel() { }
 }
