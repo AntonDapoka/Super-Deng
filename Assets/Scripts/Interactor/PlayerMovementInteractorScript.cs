@@ -30,9 +30,9 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         playerFace.FaceState.Set(FaceProperty.IsTop, false);
         playerFace.FaceState.Set(FaceProperty.IsLeft, false);
 
-        playerFace.FS1.FaceState.Set(FaceProperty.IsLeft, true);
-        playerFace.FS2.FaceState.Set(FaceProperty.IsRight, true);
-        playerFace.FS3.FaceState.Set(FaceProperty.IsTop, true);
+        playerFace.side1.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsLeft, true);
+        playerFace.side2.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsRight, true);
+        playerFace.side3.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsTop, true);
 
         sides.Clear();
         sides.Add("LeftSide", playerFace.side1);

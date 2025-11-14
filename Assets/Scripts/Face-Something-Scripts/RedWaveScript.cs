@@ -196,7 +196,7 @@ public class RedWaveScript : MonoBehaviour
         FaceScript objectWithMinPathCounter = null;
         int minPathCounter = int.MaxValue;
 
-        FaceScript[] faces = { facescript.FS1, facescript.FS2, facescript.FS3 };
+        FaceScript[] faces = { facescript.side1.GetComponent<FaceScript>(), facescript.side2.GetComponent<FaceScript>(), facescript.side3.GetComponent<FaceScript>() };
 
         foreach (FaceScript face in faces)
         {

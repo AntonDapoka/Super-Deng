@@ -19,6 +19,10 @@ public class FaceSetterScript : MonoBehaviour
     [SerializeField] private GameObject[] faces;
     [SerializeField] private FaceArrayScript faceArrayScript;
 
+    private void Start()
+    {
+        InitializeAllFaces();
+    }
 
     public void InitializeAllFaces()
     {
@@ -35,7 +39,7 @@ public class FaceSetterScript : MonoBehaviour
     {
         return objectsArray
             .OrderBy(obj => Vector3.Distance(from.position, obj.transform.position))
-            .Skip(1) // пропуск "самого себя", если он есть в массиве
+            .Skip(1) // skip "itself" if it is in the array
             .Take(count)
             .ToArray();
     }

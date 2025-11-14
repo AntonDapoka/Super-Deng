@@ -41,7 +41,9 @@ public class PathCounterScript : MonoBehaviour
         {
             FaceScript current = queue.Dequeue();
 
-            FaceScript[] neighbors = { current.FS1, current.FS2, current.FS3 };
+            FaceScript[] neighbors = { current.side1.GetComponent<FaceScript>(), 
+                current.side2.GetComponent<FaceScript>(),
+                current.side3.GetComponent<FaceScript>() };
             foreach (var neighbor in neighbors)
             {
                 if (neighbor != null && neighbor.PathObjectCount == -1)
