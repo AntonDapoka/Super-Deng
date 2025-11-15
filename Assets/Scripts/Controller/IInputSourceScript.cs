@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IInputSourceScript
 {
-    InputHandlerScript InputHandler {  get; }
+    InputHandlerScript[] InputHandler {  get; }
 
 }

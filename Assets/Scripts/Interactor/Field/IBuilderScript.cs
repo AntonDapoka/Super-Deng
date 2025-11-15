@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputGamePadControllerScript : IInputSourceScript
+public class IBuilderScript : MonoBehaviour
 {
-
-    InputHandlerScript[] IInputSourceScript.InputHandler => throw new System.NotImplementedException();
-
+    // Start is called before the first frame update
     void Start()
     {
         

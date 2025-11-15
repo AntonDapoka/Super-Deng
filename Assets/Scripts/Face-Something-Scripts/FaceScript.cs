@@ -34,22 +34,39 @@ public class FaceScript : MonoBehaviour, IFaceScript
     public MeshRenderer rend;
     public GameObject glowingPart;
 
-    public bool IsTurnOn { get => isTurnOn; set => isTurnOn = value; }
-    public int PathObjectCount { get => pathObjectCount; set => pathObjectCount = value; }
+    public bool IsTurnOn { get => isTurnOn; set => isTurnOn = value; } //interface
+    public int PathObjectCount { get => pathObjectCount; set => pathObjectCount = value; } //interface
     public FaceStateScript FaceState => faceState; //interface
 
-    private void Awake()
+    private void Enable()
     {
         faceState = GetComponent<FaceStateScript>();
+
         if (glowingPart != null)
+        {
             rend = glowingPart.GetComponent<MeshRenderer>();
+            return;
+        }
+
+        GlowingPart foundPart = GetComponentInChildren<GlowingPart>();
+
+        if (foundPart != null)
+        {
+            glowingPart = foundPart.gameObject;
+            if (!glowingPart.TryGetComponent(out rend))
+            {
+                Debug.LogWarning($"{name}: GlowingPart was found, but there is no MeshRenderer.");
+            }
+            return;
+        }
+
+        Debug.LogWarning($"{name}: No GlowingPart found in children!");
     }
 
     public void Initialize(GameObject[] closestObjects, bool havePlayer)
     {
         faceState.Set(FaceProperty.HavePlayer, havePlayer);
         pathObjectCount = havePlayer ? 0 : -1;
-        //Add code to specify the direction for the Player Face
 
         if (closestObjects.Length < 3)
         {
