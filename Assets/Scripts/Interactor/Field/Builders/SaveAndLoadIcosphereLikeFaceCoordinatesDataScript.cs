@@ -7,8 +7,8 @@ public class SaveAndLoadIcosphereLikeFaceCoordinatesDataScript : MonoBehaviour
     [SerializeField] private int gradation;
     [SerializeField] private GameObject prefabFace;
     [SerializeField] private GameObject icosahedron;
-    private SphereFigureDataService dataService = new SphereFigureDataService();
-    private ISphereFigureHandler<IcosahedronCoordinatesData> icosahedronHandler = new IcosphereLikeHandler();
+    //private SphereFigureDataService dataService = new SphereFigureDataService();
+    //private ISphereFigureHandler<IcosahedronCoordinatesData> icosahedronHandler = new IcosphereLikeHandler();
 
     private const string IcosahedronPath = "/icosahedroncoordinates-datafile.json";
     private const string Icosphere80Path = "/icosphere80coordinates-datafile.json";
@@ -16,17 +16,17 @@ public class SaveAndLoadIcosphereLikeFaceCoordinatesDataScript : MonoBehaviour
 
     public void SaveIcosphereLike() ///int gradation
     {
-        var data = icosahedronHandler.CollectData(icosahedron);
+        //var data = icosahedronHandler.CollectData(icosahedron);
         string path = GetPath(gradation);
-        dataService.Save(path, data);
+        //dataService.Save(path, data);
     }
 
     public void LoadIcosphereLike() ///int gradation
     {
         string path = GetPath(gradation);
-        var data = dataService.Load<IcosahedronCoordinatesData>(path);
+        //var data = dataService.Load<IcosahedronCoordinatesData>(path);
         Transform parent = new GameObject("parent").transform;
-        icosahedronHandler.ApplyData(prefabFace, data, parent);
+        //icosahedronHandler.ApplyData(prefabFace, data, parent);
     }
 
     private string GetPath(int gradation)
@@ -52,7 +52,7 @@ public class SaveAndLoadIcosphereLikeFaceCoordinatesDataScript : MonoBehaviour
 }
 
 [System.Serializable]
-public class IcosahedronCoordinatesData : ISphereFigureData
+public class IcosahedronCoordinatesData 
 {
     public StripHolderData[] dataStrips;
 }

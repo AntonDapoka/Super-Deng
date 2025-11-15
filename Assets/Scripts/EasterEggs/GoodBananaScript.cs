@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GoodBananaScript : MonoBehaviour
 {
-    [SerializeField] private FaceGridGeneratorScript FGGS;
+    //[SerializeField] private FaceGridGeneratorScript FGGS;
     [SerializeField] private int width = 32;
     [SerializeField] private int height = 18;
     [SerializeField] private float frameRate = 15f;
@@ -16,8 +16,8 @@ public class GoodBananaScript : MonoBehaviour
 
     private void Start()
     {
-        cells = FGGS.GetFaceGlowingPartGrid();
-        faceScripts = FGGS.GetFaceScriptGrid();
+        //cells = FGGS.GetFaceGlowingPartGrid();
+        //faceScripts = FGGS.GetFaceScriptGrid();
         StartCoroutine(PlayAnimation());
     }
 

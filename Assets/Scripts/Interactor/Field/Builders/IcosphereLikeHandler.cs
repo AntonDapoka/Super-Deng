@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IcosphereLikeHandler : ISphereFigureHandler<IcosahedronCoordinatesData>
+public class IcosphereLikeHandler //: ISphereFigureHandler<IcosahedronCoordinatesData>
 {
 
     public IcosahedronCoordinatesData CollectData(GameObject rootObject)
