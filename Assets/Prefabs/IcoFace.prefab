@@ -41,54 +41,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3684105087820857248}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8982b84b108a02d41bd90fc972d45f90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isTurnOn: 0
-  player: {fileID: 0}
   pathObjectCount: -1
+  faceState: {fileID: 0}
   side1: {fileID: 0}
   side2: {fileID: 0}
   side3: {fileID: 0}
-  FS1: {fileID: 0}
-  FS2: {fileID: 0}
-  FS3: {fileID: 0}
-  materialBasicFace: {fileID: 2100000, guid: 9ae1bc24c5ec1b8419106d9a9960710e, type: 2}
-  materialKillerFace: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
-  materialPlayerFace: {fileID: 2100000, guid: c11a02e573dd05145bd2f29b900363c6, type: 2}
-  materialSecretFace: {fileID: 0}
-  materialRightFace: {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
-  materialLeftFace: {fileID: 2100000, guid: 59989691223971d4f80f5f257faa22f4, type: 2}
-  materialTopFace: {fileID: 2100000, guid: 58f78dde3204a174db4c9037a8914c82, type: 2}
   rend: {fileID: 5946493059742440397}
   glowingPart: {fileID: 6546850780690612807}
-  keyLeft: 97
-  keyTop: 119
-  keyRight: 100
-  FAS: {fileID: 0}
-  SCD: {fileID: 0}
-  RFS: {fileID: 0}
-  BC: {fileID: 0}
-  SS: {fileID: 0}
-  BSS: {fileID: 0}
-  PCS: {fileID: 0}
-  PSS: {fileID: 0}
-  NHS: {fileID: 0}
-  KYSS: {fileID: 0}
-  havePlayer: 0
-  isKilling: 0
-  isBlinking: 0
-  isColored: 0
-  isBlocked: 0
-  isPortal: 0
-  isBonus: 0
-  isTutorial: 0
-  isUpsideDown: 0
-  isLeft: 0
-  isRight: 0
-  isTop: 0
+  shadow: {fileID: 1339446687287294089}
 --- !u!95 &1417846836748218765
 Animator:
   serializedVersion: 5

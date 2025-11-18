@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
 {
-    
+    [SerializeField] private int iter;
     [SerializeField] private GameObject prismPrefab;
 
     // Start is called before the first frame update

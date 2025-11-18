@@ -33,34 +33,56 @@ public class FaceScript : MonoBehaviour, IFaceScript
     [Header("Glowing&Rendering")]
     public MeshRenderer rend;
     public GameObject glowingPart;
+    public GameObject shadow;
 
     public bool IsTurnOn { get => isTurnOn; set => isTurnOn = value; } //interface
     public int PathObjectCount { get => pathObjectCount; set => pathObjectCount = value; } //interface
     public FaceStateScript FaceState => faceState; //interface
 
-    private void Enable()
+    private void OnEnable()
     {
+        Debug.Log("I ENABLED");
         faceState = GetComponent<FaceStateScript>();
 
-        if (glowingPart != null)
+        if (glowingPart != null && shadow != null)
         {
             rend = glowingPart.GetComponent<MeshRenderer>();
             return;
         }
 
-        GlowingPart foundPart = GetComponentInChildren<GlowingPart>();
-
-        if (foundPart != null)
+        if (glowingPart == null)
         {
-            glowingPart = foundPart.gameObject;
-            if (!glowingPart.TryGetComponent(out rend))
+            GlowingPart foundGlowingPart = GetComponentInChildren<GlowingPart>();
+
+            if (foundGlowingPart != null)
             {
-                Debug.LogWarning($"{name}: GlowingPart was found, but there is no MeshRenderer.");
+                glowingPart = foundGlowingPart.gameObject;
+                if (!glowingPart.TryGetComponent(out rend))
+                {
+                    Debug.LogWarning($"{name}: GlowingPart was found, but there is no MeshRenderer.");
+                }
+                return;
             }
-            return;
+            else
+            {
+                Debug.LogWarning($"{name}: No GlowingPart found in children!");
+            }
         }
 
-        Debug.LogWarning($"{name}: No GlowingPart found in children!");
+        if (shadow == null)
+        {
+            Shadow foundShadow = GetComponentInChildren<Shadow>();
+
+            if (foundShadow != null)
+            {
+                shadow = foundShadow.gameObject;
+            }
+            else
+            {
+                Debug.LogWarning($"{name}: No Shadow found in children!");
+            }
+        }
+
     }
 
     public void Initialize(GameObject[] closestObjects, bool havePlayer)

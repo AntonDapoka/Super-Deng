@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
@@ -7,8 +8,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
     [SerializeField] private List<GameObject> faces;
     [SerializeField] private GameObject prismPrefab;
     [SerializeField] private GameObject facePrefab;
-    //[SerializeField] private GameObject pentagonPrefab;
-    //[SerializeField] private int iter;
+
     [SerializeField] protected float radiusIco;
     public float sideLength;
     protected float epsilon = 0.001f;
@@ -72,46 +72,52 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                 GameObject sphere = Instantiate(prismPrefab, vertice, Quaternion.identity);
                 sphere.transform.SetParent(gameObject.transform);
                 gameObjects.Add(sphere);
-                yield return new WaitForSeconds(0.02f);
+                yield return new WaitForSeconds(0.1f);
             }
         }
 
         //GroupGameObjects(gameObjects.ToArray());
 
-        GenerateFaces(vertices, distance);
+
 
         yield return new WaitForSeconds(1f);
+        GenerateFaces(vertices, distance);
     }
 
     public void GenerateFaces(Vector3[] vertices, float maxDistance)
     {
-        Debug.Log(vertices.Length);
+        int count = 0;
         for (int i = 0; i < vertices.Length; i++)
         {
             for (int j = i + 1; j < vertices.Length; j++)
             {
                 for (int k = j + 1; k < vertices.Length; k++)
                 {
-                    Debug.Log(maxDistance.ToString() + "  " + Vector3.Distance(vertices[i], vertices[j]).ToString());
-                    if (Mathf.Abs(maxDistance - Vector3.Distance(vertices[i], vertices[j])) <= epsilon &&
-                        Mathf.Abs(maxDistance - Vector3.Distance(vertices[j], vertices[k])) <= epsilon &&
-                        Mathf.Abs(maxDistance - Vector3.Distance(vertices[k], vertices[i])) <= epsilon)
+                    Vector3 a = vertices[i];    
+                    Vector3 b = vertices[j];
+                    Vector3 c = vertices[k];
+
+                    if (Mathf.Abs(maxDistance - Vector3.Distance(a, b)) <= epsilon &&
+                        Mathf.Abs(maxDistance - Vector3.Distance(b, c)) <= epsilon &&
+                        Mathf.Abs(maxDistance - Vector3.Distance(c, a)) <= epsilon)
                     {
-                        Debug.Log("I passed");
-                        Vector3 center = (vertices[i] + vertices[j] + vertices[k]) / 3f;
+                        count++;
+                        Vector3 center = (a + b + c) / 3f;
 
                         GameObject face = Instantiate(facePrefab);
-                        
-                        GameObject shadow = face.GetComponentInChildren<Shadow>().gameObject;
-
-                        Vector3 normal = Vector3.Cross(vertices[j] - vertices[i], vertices[k] - vertices[i]).normalized;
                         face.transform.position = center;
 
+
+
+                        Vector3 normal = Vector3.Cross(b - a, c - a).normalized;
                         Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
                         face.transform.rotation = rotation;
-                        Debug.Log(center);
-                                                /*
+
+
+                        
+
                         float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Расстояние до (0,0,0)
+                        GameObject shadow = face.GetComponent<FaceScript>().shadow;
                         float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Расстояние до (0,0,0)
                         //Debug.Log(distanceFace, distanceShadow);
                         if (distanceFace < distanceShadow) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -119,7 +125,30 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                             face.transform.Rotate(0, 0, 180, Space.Self);
                             Debug.Log("ROTATED");
                         }
-                        */
+
+                        bool AB = Mathf.Abs(a.y - b.y) < epsilon;
+                        bool AC = Mathf.Abs(a.y - c.y) < epsilon;
+                        bool BC = Mathf.Abs(b.y - c.y) < epsilon;
+
+                        void Align(bool isHigher)
+                        {
+                            if (isHigher) AlignLocalZDown(face);
+                            else AlignLocalZUp(face);
+                        }
+
+                        if (AB)
+                        {
+                            Align(c.y > a.y);
+                        }
+                        else if (AC)
+                        {
+                            Align(b.y > a.y);
+                        }
+                        else if (BC)
+                        {
+                            Align(a.y > b.y);
+                        }
+
                         faces.Add(face);
                         
                     }
@@ -128,6 +157,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         }
         //GroupGameObjects(faces.ToArray());
     }
+
 
     public void GroupGameObjects(GameObject[] gameObjects)
     {
