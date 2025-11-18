@@ -12,6 +12,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
     [SerializeField] protected float radiusIco;
     public float sideLength;
     protected float epsilon = 0.001f;
+    [SerializeField] protected bool isTest = false;
     //[SerializeField] private float prismScaleFactor = 0.9f;
 
     private void Start()
@@ -64,16 +65,19 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
         List<GameObject> gameObjects = new List<GameObject>();
 
-        foreach (var vertice in vertices)
+        if (isTest)
         {
-            GameObject sphere = Instantiate(prismPrefab, vertice, Quaternion.identity);
-            sphere.transform.SetParent(gameObject.transform);
-            gameObjects.Add(sphere);
-            yield return new WaitForSeconds(0.02f);
+            foreach (var vertice in vertices)
+            {
+                GameObject sphere = Instantiate(prismPrefab, vertice, Quaternion.identity);
+                sphere.transform.SetParent(gameObject.transform);
+                gameObjects.Add(sphere);
+                yield return new WaitForSeconds(0.02f);
+            }
         }
 
         //GroupGameObjects(gameObjects.ToArray());
-        
+
         GenerateFaces(vertices, distance);
 
         yield return new WaitForSeconds(1f);
