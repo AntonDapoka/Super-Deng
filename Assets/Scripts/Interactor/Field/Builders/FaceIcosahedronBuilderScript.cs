@@ -9,26 +9,35 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
     [SerializeField] private GameObject facePrefab;
     //[SerializeField] private GameObject pentagonPrefab;
     //[SerializeField] private int iter;
-    [SerializeField] private float radiusIco;
+    [SerializeField] protected float radiusIco;
     public float sideLength;
+    protected float epsilon = 0.001f;
     //[SerializeField] private float prismScaleFactor = 0.9f;
 
     private void Start()
     {
-        BuildIcosahedron();
+        BuildField();
     }
 
-    private void BuildIcosahedron()
+    public void BuildField() //interface
     {
-        radiusIco = sideLength * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
-        float radiusPenta = sideLength * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
+        //dataStructure.GetData unique class data blablabla
+        //sideLength = x 
+
+        BuildIcosahedron(sideLength);
+    }
+
+    protected void BuildIcosahedron(float sideLen)
+    {
+        radiusIco = sideLen * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
+        float radiusPenta = sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
 
-        StartCoroutine(GenerateIcosahedron(verticesIcosahedron, radiusIco));
+        StartCoroutine(GenerateIcosahedron(verticesIcosahedron, sideLen));//Change to void after completion
     }
 
-    private Vector3[] GetIcosahedronVertices(float radiusIco, float radiusPenta)
+    protected Vector3[] GetIcosahedronVertices(float radiusIco, float radiusPenta)
     {
         Vector3[] vertices = new Vector3[]
         {
@@ -49,11 +58,9 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         return vertices;
     }
 
-    public IEnumerator GenerateIcosahedron(Vector3[] vertices, float radiusIco)
+    public IEnumerator GenerateIcosahedron(Vector3[] vertices, float radiusIco) //Change to void after completion
     {
-        //Vector3[] combined = vertices;
-
-       // float[] distances = GenerateDistances(iterations + 1, sideLength);
+        float distance = radiusIco;
 
         List<GameObject> gameObjects = new List<GameObject>();
 
@@ -62,132 +69,60 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
             GameObject sphere = Instantiate(prismPrefab, vertice, Quaternion.identity);
             sphere.transform.SetParent(gameObject.transform);
             gameObjects.Add(sphere);
+            yield return new WaitForSeconds(0.02f);
         }
 
         //GroupGameObjects(gameObjects.ToArray());
-        /*
-        Debug.Log($"Iteration {0}: {combined.Length} vertices");
+        
+        GenerateFaces(vertices, distance);
 
-        for (int i = 0; i < iterations; i++)
-        {
-            yield return new WaitForSeconds(2f);
-
-            Vector3[] midPoints = GetEdgeMidpoints(combined, distances[i]);
-            Vector3[] extraVertices = AdjustMidpointsToRadius(midPoints, radiusIco);
-
-            foreach (var vertice in extraVertices)
-            {
-                Instantiate(prismPrefab, vertice, Quaternion.identity);
-            }
-
-            combined = combined.Concat(extraVertices).ToArray();
-            Debug.Log($"Iteration {i + 1}: {combined.Length} vertices with distance {distances[i]}");
-
-        }
-        Debug.Log(iterations);
-        GenerateFaces(combined, distances[iterations], iterations);
-        */
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
     }
 
-    public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance)
+    public void GenerateFaces(Vector3[] vertices, float maxDistance)
     {
-        HashSet<(int, int)> edges = new HashSet<(int, int)>();
-        List<Vector3> midpoints = new List<Vector3>();
-
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            for (int j = i + 1; j < vertices.Length; j++)
-            {
-                float distance = Vector3.Distance(vertices[i], vertices[j]);
-                if (distance < maxDistance)
-                {
-                    edges.Add((i, j));
-                    midpoints.Add((vertices[i] + vertices[j]) / 2);
-                }
-            }
-        }
-        return midpoints.ToArray();
-    }
-
-    public static Vector3[] AdjustMidpointsToRadius(Vector3[] midpoints, float radius)
-    {
-        for (int i = 0; i < midpoints.Length; i++)
-        {
-            midpoints[i] = midpoints[i].normalized * radius;
-        }
-        return midpoints;
-    }
-
-    public static float[] GenerateDistances(int iterations, float a)
-    {
-        float[] distances = new float[iterations];
-        float currentDistance = a;
-
-        for (int i = 0; i < iterations; i++)
-        {
-            distances[i] = currentDistance * 1.25f;
-            currentDistance /= 2f;
-
-        }
-
-        return distances;
-    }
-
-    public void GenerateFaces(Vector3[] vertices, float maxDistance, int iteration)
-    {
-
+        Debug.Log(vertices.Length);
         for (int i = 0; i < vertices.Length; i++)
         {
             for (int j = i + 1; j < vertices.Length; j++)
             {
                 for (int k = j + 1; k < vertices.Length; k++)
                 {
-
-                    if (Vector3.Distance(vertices[i], vertices[j]) <= maxDistance &&
-                        Vector3.Distance(vertices[j], vertices[k]) <= maxDistance &&
-                        Vector3.Distance(vertices[k], vertices[i]) <= maxDistance)
+                    Debug.Log(maxDistance.ToString() + "  " + Vector3.Distance(vertices[i], vertices[j]).ToString());
+                    if (Mathf.Abs(maxDistance - Vector3.Distance(vertices[i], vertices[j])) <= epsilon &&
+                        Mathf.Abs(maxDistance - Vector3.Distance(vertices[j], vertices[k])) <= epsilon &&
+                        Mathf.Abs(maxDistance - Vector3.Distance(vertices[k], vertices[i])) <= epsilon)
                     {
-                        if (iteration == 1)
+                        Debug.Log("I passed");
+                        Vector3 center = (vertices[i] + vertices[j] + vertices[k]) / 3f;
+
+                        GameObject face = Instantiate(facePrefab);
+                        
+                        GameObject shadow = face.GetComponentInChildren<Shadow>().gameObject;
+
+                        Vector3 normal = Vector3.Cross(vertices[j] - vertices[i], vertices[k] - vertices[i]).normalized;
+                        face.transform.position = center;
+
+                        Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
+                        face.transform.rotation = rotation;
+                        Debug.Log(center);
+                                                /*
+                        float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Расстояние до (0,0,0)
+                        float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Расстояние до (0,0,0)
+                        //Debug.Log(distanceFace, distanceShadow);
+                        if (distanceFace < distanceShadow) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         {
-                            Vector3 center = (vertices[i] + vertices[j] + vertices[k]) / 3f;
-
-                            GameObject face = Instantiate(facePrefab);
-
-                            GameObject shadow = face.GetComponentInChildren<Shadow>().gameObject;
-
-
-
-                            Vector3 normal = Vector3.Cross(vertices[j] - vertices[i], vertices[k] - vertices[i]).normalized;
-                            face.transform.position = center;
-
-                            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
-                            face.transform.rotation = rotation;
-
-                            float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Расстояние до (0,0,0)
-                            float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Расстояние до (0,0,0)
-                                                                                                              //Debug.Log(distanceFace, distanceShadow);
-                            if (distanceFace < distanceShadow) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            {
-                                face.transform.Rotate(0, 0, 180, Space.Self);
-                                Debug.Log("ROTATED");
-                            }
-
-                            faces.Add(face);
+                            face.transform.Rotate(0, 0, 180, Space.Self);
+                            Debug.Log("ROTATED");
                         }
-                        else
-                        {
-                            //GameObject pentagon = Instantiate(pentagonPrefab);
-                            //Vector3 directionToTarget = (Vector3.zero - pentagon.transform.position).normalized;
-
-                            // Поворачиваем объект так, чтобы его ось X смотрела в сторону (0, 0, 0)
-                            //transform.rotation = Quaternion.LookRotation(directionToTarget, pentagon.transform.up);
-                        }
+                        */
+                        faces.Add(face);
+                        
                     }
                 }
             }
         }
-        if (iteration == 0) GroupGameObjects(faces.ToArray());
+        //GroupGameObjects(faces.ToArray());
     }
 
     public void GroupGameObjects(GameObject[] gameObjects)
