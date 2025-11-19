@@ -1,19 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 {
-    [SerializeField] private List<GameObject> faces;
-    [SerializeField] private GameObject prismPrefab;
-    [SerializeField] private GameObject facePrefab;
-
-    [SerializeField] protected float radiusIco;
-    public float sideLength;
-    protected float epsilon = 0.001f;
     [SerializeField] protected bool isTest = false;
-    //[SerializeField] private float prismScaleFactor = 0.9f;
+
+    //[SerializeField] private List<GameObject> faces;
+    [SerializeField] private GameObject facePrefab;
+    [SerializeField] private GameObject verticePrefab;
+
+    [SerializeField] protected float sideLength = 1;
+    [SerializeField] protected float radiusIco; //Radius of Icosahedorn
+
+    protected float epsilon = 0.001f;
 
     private void Start()
     {
@@ -35,7 +35,11 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
 
-        StartCoroutine(GenerateIcosahedron(verticesIcosahedron, sideLen));//Change to void after completion
+
+        //if (isTest) 
+        GenerateInitialVerticies(verticesIcosahedron);
+
+        //GenerateFaces(verticesIcosahedron, radiusIco);
     }
 
     protected Vector3[] GetIcosahedronVertices(float radiusIco, float radiusPenta)
@@ -59,34 +63,19 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         return vertices;
     }
 
-    public IEnumerator GenerateIcosahedron(Vector3[] vertices, float radiusIco) //Change to void after completion
+    protected void GenerateInitialVerticies(Vector3[] vertices)
     {
-        float distance = radiusIco;
+        GameObject verticeHolder = new GameObject("VerticeHolder");
+        verticeHolder.transform.position = Vector3.zero;
 
-        List<GameObject> gameObjects = new List<GameObject>();
-
-        if (isTest)
+        foreach (var vertice in vertices)
         {
-            foreach (var vertice in vertices)
-            {
-                GameObject sphere = Instantiate(prismPrefab, vertice, Quaternion.identity);
-                sphere.transform.SetParent(gameObject.transform);
-                gameObjects.Add(sphere);
-                yield return new WaitForSeconds(0.1f);
-            }
+            Instantiate(verticePrefab, vertice, Quaternion.identity, verticeHolder.transform);
         }
-
-        //GroupGameObjects(gameObjects.ToArray());
-
-
-
-        yield return new WaitForSeconds(1f);
-        GenerateFaces(vertices, distance);
     }
 
-    public void GenerateFaces(Vector3[] vertices, float maxDistance)
+    protected void GenerateFaces(Vector3[] vertices, float maxDistance)
     {
-        int count = 0;
         for (int i = 0; i < vertices.Length; i++)
         {
             for (int j = i + 1; j < vertices.Length; j++)
@@ -101,29 +90,19 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                         Mathf.Abs(maxDistance - Vector3.Distance(b, c)) <= epsilon &&
                         Mathf.Abs(maxDistance - Vector3.Distance(c, a)) <= epsilon)
                     {
-                        count++;
                         Vector3 center = (a + b + c) / 3f;
-
-                        GameObject face = Instantiate(facePrefab);
-                        face.transform.position = center;
-
-
-
                         Vector3 normal = Vector3.Cross(b - a, c - a).normalized;
                         Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
-                        face.transform.rotation = rotation;
 
-
-                        
-
-                        float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Расстояние до (0,0,0)
+                        GameObject face = Instantiate(facePrefab, center, rotation);
                         GameObject shadow = face.GetComponent<FaceScript>().shadow;
-                        float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Расстояние до (0,0,0)
-                        //Debug.Log(distanceFace, distanceShadow);
-                        if (distanceFace < distanceShadow) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                        float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Distance to (0,0,0)
+                        float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Distance to (0,0,0)
+
+                        if (distanceFace < distanceShadow) //If shadow is futher away from the center, we need to Rotate our Face
                         {
                             face.transform.Rotate(0, 0, 180, Space.Self);
-                            Debug.Log("ROTATED");
                         }
 
                         bool AB = Mathf.Abs(a.y - b.y) < epsilon;
@@ -149,8 +128,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                             Align(a.y > b.y);
                         }
 
-                        faces.Add(face);
-                        
+                        //faces.Add(face);
                     }
                 }
             }
@@ -158,7 +136,31 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         //GroupGameObjects(faces.ToArray());
     }
 
+    protected void AlignLocalZDown(GameObject face)
+    {
+        Vector3 globalDown = Vector3.down;
+        Vector3 projectedDown = Vector3.ProjectOnPlane(globalDown, face.transform.up);
 
+        if (projectedDown.sqrMagnitude > 0.0001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(projectedDown, face.transform.up);
+            face.transform.rotation = targetRotation;
+        }
+    }
+
+    protected void AlignLocalZUp(GameObject face)
+    {
+        Vector3 globalUp = Vector3.up;
+        Vector3 projectedUp = Vector3.ProjectOnPlane(globalUp, face.transform.up);
+
+        if (projectedUp.sqrMagnitude > 0.0001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(projectedUp, face.transform.up);
+            face.transform.rotation = targetRotation;
+        }
+    }
+
+    /*
     public void GroupGameObjects(GameObject[] gameObjects)
     {
         List<List<GameObject>> stripes = new List<List<GameObject>>();
@@ -206,30 +208,5 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
             }
             k++;
         }
-    }
-
-    private void AlignLocalZDown(GameObject face)
-    {
-        Vector3 globalDown = Vector3.down;
-        Vector3 projectedDown = Vector3.ProjectOnPlane(globalDown, face.transform.up);
-
-        if (projectedDown.sqrMagnitude > 0.0001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(projectedDown, face.transform.up);
-            face.transform.rotation = targetRotation;
-        }
-    }
-
-    private void AlignLocalZUp(GameObject face)
-    {
-
-        Vector3 globalUp = Vector3.up;
-        Vector3 projectedUp = Vector3.ProjectOnPlane(globalUp, face.transform.up);
-
-        if (projectedUp.sqrMagnitude > 0.0001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(projectedUp, face.transform.up);
-            face.transform.rotation = targetRotation;
-        }
-    }
+    }*/
 }
