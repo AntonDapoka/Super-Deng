@@ -39,7 +39,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         //if (isTest) 
         GenerateInitialVerticies(verticesIcosahedron);
 
-        GenerateFaces(verticesIcosahedron, 1.29375f, radiusIco);
+        GenerateFaces(verticesIcosahedron, sideLength, radiusIco);
     }
 
     protected Vector3[] GetIcosahedronVertices(float radiusIco, float radiusPenta)
