@@ -1,36 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
 {
-    [SerializeField] private int iter;
-    [SerializeField] private GameObject prismPrefab;
-
-    // Start is called before the first frame update
+    protected float epsilon = 0.001f;
     private void Start()
     {
-        radiusIco = sideLength * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
-        float radiusPenta = sideLength * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
-
-        Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
+        BuildIcosphere(sideLength, 2);
     }
 
-    protected void BuildIcosphere(float sideLen)
+    protected void BuildIcosphere(float sideLen, int iteration)
     {
-        radiusIco = sideLen * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
-        float radiusPenta = sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
+
+        radiusIco = iteration * sideLen * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
+        float radiusPenta = iteration * sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
+        Vector3[] combined = verticesIcosahedron;
 
-        //GetEdgeMidpoints
+        combined = combined.Concat(GetEdgeMidpoints(verticesIcosahedron, sideLen * iteration, radiusIco)).ToArray();
         //if (isTest) 
-        GenerateInitialVerticies(verticesIcosahedron);
+        GenerateInitialVerticies(combined);
 
-        GenerateFaces(verticesIcosahedron, sideLength);
+        //GenerateFaces(verticesIcosahedron, sideLength);
+        GenerateFaces(combined, sideLength, radiusIco);
     }
 
-    public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance)
+    public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance, float radius)
     {
         HashSet<(int, int)> edges = new();
         List<Vector3> midpoints = new();
@@ -40,7 +38,7 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
             for (int j = i + 1; j < vertices.Length; j++)
             {
                 float distance = Vector3.Distance(vertices[i], vertices[j]);
-                if (distance < maxDistance)
+                if (Mathf.Abs(maxDistance - distance) <= 0.01f)
                 {
                     edges.Add((i, j));
                     midpoints.Add((vertices[i] + vertices[j]) / 2);
@@ -50,15 +48,8 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         return midpoints.ToArray();
     }
 
-    public static Vector3[] AdjustMidpointsToRadius(Vector3[] midpoints, float radius)
-    {
-        for (int i = 0; i < midpoints.Length; i++)
-        {
-            midpoints[i] = midpoints[i].normalized * radius;
-        }
-        return midpoints;
-    }
 
+    /*s
 
 
     public static float[] GenerateDistances(int iterations, float a)
@@ -74,5 +65,5 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         }
 
         return distances;
-    }
+    }*/
 }

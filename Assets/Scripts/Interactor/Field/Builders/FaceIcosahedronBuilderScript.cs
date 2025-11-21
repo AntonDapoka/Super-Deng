@@ -39,7 +39,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         //if (isTest) 
         GenerateInitialVerticies(verticesIcosahedron);
 
-        GenerateFaces(verticesIcosahedron, sideLength);
+        GenerateFaces(verticesIcosahedron, sideLength, radiusIco);
     }
 
     protected Vector3[] GetIcosahedronVertices(float radiusIco, float radiusPenta)
@@ -74,7 +74,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         }
     }
 
-    protected void GenerateFaces(Vector3[] vertices, float maxDistance)
+    protected void GenerateFaces(Vector3[] vertices, float maxDistance, float radius)
     {
         int w = 0;
         for (int i = 0; i < vertices.Length; i++)
@@ -95,7 +95,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                         Mathf.Abs(maxDistance - acDistance) <= epsilon)
                     {
                         w++;
-                        Vector3[] verticesABC = new Vector3[3] { a, b, c };
+                        Vector3[] verticesABC = AdjustVerticesToRadius(new Vector3[3] { a, b, c }, radius);
                         GameObject face = SetFace(verticesABC);
                         //faces.Add(face);
                     }
@@ -144,8 +144,15 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
         return rotation;
     }
-    
-    
+
+    protected static Vector3[] AdjustVerticesToRadius(Vector3[] vertices, float radius)
+    {
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] = vertices[i].normalized * radius;
+        }
+        return vertices;
+    }
 
     /*
     public void GroupGameObjects(GameObject[] gameObjects)

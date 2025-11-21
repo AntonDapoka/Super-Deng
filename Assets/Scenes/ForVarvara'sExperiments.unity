@@ -1046,7 +1046,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 10
+  field of view: 21
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2682,6 +2682,56 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &821049928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 821049929}
+  - component: {fileID: 821049930}
+  m_Layer: 0
+  m_Name: IcosahedronBuilder (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &821049929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821049928}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1990778113}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &821049930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821049928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92bee6514bc84b241add2b3cc96e1411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTest: 0
+  facePrefab: {fileID: 3684105087820857248, guid: ee0c6848608046f4c9dbc86b69b0e9d0, type: 3}
+  verticePrefab: {fileID: 8621958319103481344, guid: f183aed9516f7bd4ba48608542eb2f0b, type: 3}
+  sideLength: 1.725
+  radiusIco: 0
+  epsilon: 0.1
 --- !u!1001 &825568305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4081,7 +4131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1195504876
 Transform:
   m_ObjectHideFlags: 0
@@ -4114,6 +4164,7 @@ MonoBehaviour:
   verticePrefab: {fileID: 8621958319103481344, guid: f183aed9516f7bd4ba48608542eb2f0b, type: 3}
   sideLength: 1.725
   radiusIco: 0
+  epsilon: 0.1
 --- !u!4 &1213165972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4991919055938238, guid: 3e2160b1dcecd83409b36d2111626a21, type: 3}
@@ -6483,6 +6534,7 @@ Transform:
   - {fileID: 1702491552}
   - {fileID: 1799361565}
   - {fileID: 1195504876}
+  - {fileID: 821049929}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2021528930
