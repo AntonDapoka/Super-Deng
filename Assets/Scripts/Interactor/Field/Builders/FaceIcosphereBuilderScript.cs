@@ -16,45 +16,18 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
     }
 
-    public IEnumerator GenerateIcosphere(Vector3[] vertices, float radiusIco) //Change to void after completion
+    protected void BuildIcosphere(float sideLen)
     {
-        Vector3[] combined = vertices;
+        radiusIco = sideLen * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
+        float radiusPenta = sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
-        // float[] distances = GenerateDistances(iterations + 1, sideLength);
+        Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
 
-        List<GameObject> gameObjects = new List<GameObject>();
+        //GetEdgeMidpoints
+        //if (isTest) 
+        GenerateInitialVerticies(verticesIcosahedron);
 
-        foreach (var vertice in vertices)
-        {
-            GameObject sphere = Instantiate(prismPrefab, vertice, Quaternion.identity);
-            sphere.transform.SetParent(gameObject.transform);
-            gameObjects.Add(sphere);
-        }
-
-        //GroupGameObjects(gameObjects.ToArray());
-        /*
-        Debug.Log($"Iteration {0}: {combined.Length} vertices");
-
-        for (int i = 0; i < iterations; i++)
-        {
-            yield return new WaitForSeconds(2f);
-
-            Vector3[] midPoints = GetEdgeMidpoints(combined, distances[i]);
-            //Vector3[] extraVertices = AdjustMidpointsToRadius(midPoints, radiusIco);
-
-            foreach (var vertice in extraVertices)
-            {
-                Instantiate(prismPrefab, vertice, Quaternion.identity);
-            }
-
-            combined = combined.Concat(extraVertices).ToArray();
-            Debug.Log($"Iteration {i + 1}: {combined.Length} vertices with distance {distances[i]}");
-
-        }
-        Debug.Log(iterations);        */
-        //GenerateFaces(combined, distances[iterations], iterations);
-
-        yield return new WaitForSeconds(2f);
+        GenerateFaces(verticesIcosahedron, sideLength);
     }
 
     public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance)

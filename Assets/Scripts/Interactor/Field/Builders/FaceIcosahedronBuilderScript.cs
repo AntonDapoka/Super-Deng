@@ -133,7 +133,6 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
     private Quaternion SetFaceRightRotation(Vector3 vertexOnZAxis, Vector3[] verticesABC, Vector3 centerTriangle, Vector3 zero)
     {
-
         Vector3 A = verticesABC[0];
         Vector3 B = verticesABC[1];
         Vector3 C = verticesABC[2];
