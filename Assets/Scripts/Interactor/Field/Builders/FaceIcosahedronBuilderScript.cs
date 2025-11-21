@@ -30,8 +30,8 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
     protected void BuildIcosahedron(float sideLen)
     {
-        radiusIco = sideLen * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
-        float radiusPenta = sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
+        radiusIco = sideLength * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
+        float radiusPenta = sideLength * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
 
@@ -39,7 +39,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         //if (isTest) 
         GenerateInitialVerticies(verticesIcosahedron);
 
-        //GenerateFaces(verticesIcosahedron, radiusIco);
+        GenerateFaces(verticesIcosahedron, sideLength);
     }
 
     protected Vector3[] GetIcosahedronVertices(float radiusIco, float radiusPenta)
@@ -82,13 +82,18 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
             {
                 for (int k = j + 1; k < vertices.Length; k++)
                 {
+
                     Vector3 a = vertices[i];    
                     Vector3 b = vertices[j];
                     Vector3 c = vertices[k];
+                    Vector3[] verticiesABC = new Vector3[3] { a, b, c };
+                    float abDistance = Vector3.Distance(a, b);
+                    float bcDistance = Vector3.Distance(b, c);
+                    float acDistance = Vector3.Distance(b, c);
 
-                    if (Mathf.Abs(maxDistance - Vector3.Distance(a, b)) <= epsilon &&
-                        Mathf.Abs(maxDistance - Vector3.Distance(b, c)) <= epsilon &&
-                        Mathf.Abs(maxDistance - Vector3.Distance(c, a)) <= epsilon)
+                    if (Mathf.Abs(maxDistance - abDistance) <= epsilon &&
+                        Mathf.Abs(maxDistance - bcDistance) <= epsilon &&
+                        Mathf.Abs(maxDistance - acDistance) <= epsilon)
                     {
                         Vector3 center = (a + b + c) / 3f;
                         Vector3 normal = Vector3.Cross(b - a, c - a).normalized;
@@ -105,6 +110,11 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                             face.transform.Rotate(0, 0, 180, Space.Self);
                         }
 
+                        if (abDistance == bcDistance && bcDistance == acDistance)
+                        {
+                            Vector3 chosen = verticiesABC[Random.Range(0, 3)];
+                        }
+                        /*
                         bool AB = Mathf.Abs(a.y - b.y) < epsilon;
                         bool AC = Mathf.Abs(a.y - c.y) < epsilon;
                         bool BC = Mathf.Abs(b.y - c.y) < epsilon;
@@ -126,7 +136,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                         else if (BC)
                         {
                             Align(a.y > b.y);
-                        }
+                        }*/
 
                         //faces.Add(face);
                     }
