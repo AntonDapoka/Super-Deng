@@ -30,8 +30,8 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
     protected void BuildIcosahedron(float sideLen)
     {
-        radiusIco = sideLength * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
-        float radiusPenta = sideLength * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
+        radiusIco = sideLen * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
+        float radiusPenta = sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
 
@@ -76,99 +76,77 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
     protected void GenerateFaces(Vector3[] vertices, float maxDistance)
     {
+        int w = 0;
         for (int i = 0; i < vertices.Length; i++)
         {
             for (int j = i + 1; j < vertices.Length; j++)
             {
                 for (int k = j + 1; k < vertices.Length; k++)
                 {
-
                     Vector3 a = vertices[i];    
                     Vector3 b = vertices[j];
                     Vector3 c = vertices[k];
-                    Vector3[] verticiesABC = new Vector3[3] { a, b, c };
                     float abDistance = Vector3.Distance(a, b);
                     float bcDistance = Vector3.Distance(b, c);
-                    float acDistance = Vector3.Distance(b, c);
+                    float acDistance = Vector3.Distance(c, a);
 
                     if (Mathf.Abs(maxDistance - abDistance) <= epsilon &&
                         Mathf.Abs(maxDistance - bcDistance) <= epsilon &&
                         Mathf.Abs(maxDistance - acDistance) <= epsilon)
                     {
-                        Vector3 center = (a + b + c) / 3f;
-                        Vector3 normal = Vector3.Cross(b - a, c - a).normalized;
-                        Quaternion rotation = Quaternion.FromToRotation(Vector3.up, normal);
-
-                        GameObject face = Instantiate(facePrefab, center, rotation);
-                        GameObject shadow = face.GetComponent<FaceScript>().shadow;
-
-                        float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Distance to (0,0,0)
-                        float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Distance to (0,0,0)
-
-                        if (distanceFace < distanceShadow) //If shadow is futher away from the center, we need to Rotate our Face
-                        {
-                            face.transform.Rotate(0, 0, 180, Space.Self);
-                        }
-
-                        if (abDistance == bcDistance && bcDistance == acDistance)
-                        {
-                            Vector3 chosen = verticiesABC[Random.Range(0, 3)];
-                        }
-                        /*
-                        bool AB = Mathf.Abs(a.y - b.y) < epsilon;
-                        bool AC = Mathf.Abs(a.y - c.y) < epsilon;
-                        bool BC = Mathf.Abs(b.y - c.y) < epsilon;
-
-                        void Align(bool isHigher)
-                        {
-                            if (isHigher) AlignLocalZDown(face);
-                            else AlignLocalZUp(face);
-                        }
-
-                        if (AB)
-                        {
-                            Align(c.y > a.y);
-                        }
-                        else if (AC)
-                        {
-                            Align(b.y > a.y);
-                        }
-                        else if (BC)
-                        {
-                            Align(a.y > b.y);
-                        }*/
-
+                        w++;
+                        Vector3[] verticesABC = new Vector3[3] { a, b, c };
+                        GameObject face = SetFace(verticesABC);
                         //faces.Add(face);
                     }
                 }
             }
         }
+        Debug.Log(w);
         //GroupGameObjects(faces.ToArray());
     }
 
-    protected void AlignLocalZDown(GameObject face)
+    protected GameObject SetFace(Vector3[] verticesABC)
     {
-        Vector3 globalDown = Vector3.down;
-        Vector3 projectedDown = Vector3.ProjectOnPlane(globalDown, face.transform.up);
-
-        if (projectedDown.sqrMagnitude > 0.0001f)
+        if (verticesABC.Length != 3)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(projectedDown, face.transform.up);
-            face.transform.rotation = targetRotation;
+            Debug.LogError("Are you eblan??? There is something wrong with vertices");
         }
+        Vector3 center = (verticesABC[0] + verticesABC[1] + verticesABC[2]) / 3f;
+
+        Vector3 vertexOnXAxis = verticesABC[Random.Range(0, 3)]; //CHANGE IT
+        Quaternion rotation = SetFaceRightRotation(vertexOnXAxis, verticesABC, center, Vector3.zero);
+
+        GameObject face = Instantiate(facePrefab, center, rotation);
+        GameObject shadow = face.GetComponent<FaceScript>().shadow;
+
+        float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Distance to (0,0,0)
+        float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Distance to (0,0,0)
+
+        if (distanceFace < distanceShadow) //If shadow is futher away from the center, we need to Rotate our Face
+        {
+            face.transform.Rotate(0, 0, 180, Space.Self);
+        }
+
+        return face;
     }
 
-    protected void AlignLocalZUp(GameObject face)
+    private Quaternion SetFaceRightRotation(Vector3 vertexOnZAxis, Vector3[] verticesABC, Vector3 centerTriangle, Vector3 zero)
     {
-        Vector3 globalUp = Vector3.up;
-        Vector3 projectedUp = Vector3.ProjectOnPlane(globalUp, face.transform.up);
 
-        if (projectedUp.sqrMagnitude > 0.0001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(projectedUp, face.transform.up);
-            face.transform.rotation = targetRotation;
-        }
+        Vector3 A = verticesABC[0];
+        Vector3 B = verticesABC[1];
+        Vector3 C = verticesABC[2];
+
+        Vector3 normal = Vector3.Cross(B - A, C - A).normalized;
+
+        Vector3 forward = (centerTriangle - vertexOnZAxis).normalized;
+        Quaternion rotation = Quaternion.LookRotation(forward, normal);
+
+        return rotation;
     }
+    
+    
 
     /*
     public void GroupGameObjects(GameObject[] gameObjects)
