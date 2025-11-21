@@ -39,7 +39,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         //if (isTest) 
         GenerateInitialVerticies(verticesIcosahedron);
 
-        GenerateFaces(verticesIcosahedron, sideLength, radiusIco);
+        GenerateFaces(verticesIcosahedron, 1.29375f, radiusIco);
     }
 
     protected Vector3[] GetIcosahedronVertices(float radiusIco, float radiusPenta)
@@ -89,7 +89,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                     float abDistance = Vector3.Distance(a, b);
                     float bcDistance = Vector3.Distance(b, c);
                     float acDistance = Vector3.Distance(c, a);
-
+                    Debug.Log(abDistance.ToString() + " " + maxDistance);
                     if (Mathf.Abs(maxDistance - abDistance) <= epsilon &&
                         Mathf.Abs(maxDistance - bcDistance) <= epsilon &&
                         Mathf.Abs(maxDistance - acDistance) <= epsilon)

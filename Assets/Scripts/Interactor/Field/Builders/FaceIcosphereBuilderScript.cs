@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
 {
-    protected float epsilon = 0.001f;
+    [SerializeField] private int interation;
     private void Start()
     {
-        BuildIcosphere(sideLength, 2);
+        BuildIcosphere(sideLength, interation);
     }
 
     protected void BuildIcosphere(float sideLen, int iteration)
@@ -20,30 +20,35 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
         Vector3[] combined = verticesIcosahedron;
 
-        combined = combined.Concat(GetEdgeMidpoints(verticesIcosahedron, sideLen * iteration, radiusIco)).ToArray();
+        combined = GetEdgeMidpoints(verticesIcosahedron, sideLen * iteration, iteration, radiusIco);
         //if (isTest) 
         GenerateInitialVerticies(combined);
 
         //GenerateFaces(verticesIcosahedron, sideLength);
-        GenerateFaces(combined, sideLength, radiusIco);
+        GenerateFaces(combined, 1.29375f, radiusIco);
     }
 
-    public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance, float radius)
+    public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance, int iteration, float radius)
     {
-        HashSet<(int, int)> edges = new();
         List<Vector3> midpoints = new();
-
-        for (int i = 0; i < vertices.Length; i++)
+        int x = 0;
+        for (int abc = 0; abc < iteration-1; abc++)
         {
-            for (int j = i + 1; j < vertices.Length; j++)
+            x++;
+            for (int i = 0; i < vertices.Length; i++)
             {
-                float distance = Vector3.Distance(vertices[i], vertices[j]);
-                if (Mathf.Abs(maxDistance - distance) <= 0.01f)
+                for (int j = i + 1; j < vertices.Length; j++)
                 {
-                    edges.Add((i, j));
-                    midpoints.Add((vertices[i] + vertices[j]) / 2);
+                    float distance = Vector3.Distance(vertices[i], vertices[j]);
+                    if (Mathf.Abs(maxDistance - distance) <= 0.01f)
+                    {
+                        midpoints.Add((vertices[i] + vertices[j]) / 2);
+                    }
                 }
             }
+            vertices = vertices.Concat(midpoints).ToArray();
+            maxDistance /= 2f;
+            
         }
         return midpoints.ToArray();
     }

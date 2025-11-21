@@ -2726,12 +2726,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92bee6514bc84b241add2b3cc96e1411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTest: 0
+  isTest: 1
   facePrefab: {fileID: 3684105087820857248, guid: ee0c6848608046f4c9dbc86b69b0e9d0, type: 3}
   verticePrefab: {fileID: 8621958319103481344, guid: f183aed9516f7bd4ba48608542eb2f0b, type: 3}
   sideLength: 1.725
   radiusIco: 0
-  epsilon: 0.1
+  interation: 3
 --- !u!1001 &825568305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4164,7 +4164,6 @@ MonoBehaviour:
   verticePrefab: {fileID: 8621958319103481344, guid: f183aed9516f7bd4ba48608542eb2f0b, type: 3}
   sideLength: 1.725
   radiusIco: 0
-  epsilon: 0.1
 --- !u!4 &1213165972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4991919055938238, guid: 3e2160b1dcecd83409b36d2111626a21, type: 3}
