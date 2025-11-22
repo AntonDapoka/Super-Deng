@@ -2692,6 +2692,7 @@ GameObject:
   m_Component:
   - component: {fileID: 821049929}
   - component: {fileID: 821049930}
+  - component: {fileID: 821049931}
   m_Layer: 0
   m_Name: IcosahedronBuilder (1)
   m_TagString: Untagged
@@ -2732,6 +2733,20 @@ MonoBehaviour:
   sideLength: 1.725
   radiusIco: 0
   interation: 3
+--- !u!114 &821049931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821049928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb49a7f6d9e86e44ba938f56a34040a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
 --- !u!1001 &825568305
 PrefabInstance:
   m_ObjectHideFlags: 0

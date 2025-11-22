@@ -18,14 +18,15 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         float radiusPenta = iteration * sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
-        Vector3[] combined = verticesIcosahedron;
 
-        combined = GetEdgeMidpoints(verticesIcosahedron, sideLen * iteration, iteration, radiusIco);
+        Vector3[] combined = GetEdgeMidpoints(verticesIcosahedron, sideLen * iteration, iteration, radiusIco);
+
+        combined = combined.Concat(verticesIcosahedron).ToArray();
         //if (isTest) 
-        GenerateInitialVerticies(combined);
+        GenerateInitialVertices(combined);
 
-        //GenerateFaces(verticesIcosahedron, sideLength);
         GenerateFaces(combined, 1.29375f, radiusIco);
+
     }
 
     public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance, int iteration, float radius)

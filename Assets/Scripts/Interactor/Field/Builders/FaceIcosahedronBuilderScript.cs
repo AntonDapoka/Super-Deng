@@ -37,7 +37,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
 
         //if (isTest) 
-        GenerateInitialVerticies(verticesIcosahedron);
+        GenerateInitialVertices(verticesIcosahedron);
 
         GenerateFaces(verticesIcosahedron, sideLength, radiusIco);
     }
@@ -63,7 +63,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         return vertices;
     }
 
-    protected void GenerateInitialVerticies(Vector3[] vertices)
+    protected void GenerateInitialVertices(Vector3[] vertices)
     {
         GameObject verticeHolder = new GameObject("VerticeHolder");
         verticeHolder.transform.position = Vector3.zero;
