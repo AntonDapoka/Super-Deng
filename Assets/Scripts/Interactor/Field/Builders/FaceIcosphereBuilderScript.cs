@@ -8,10 +8,10 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
     [SerializeField] private int interation;
     private void Start()
     {
-        BuildIcosphere(sideLength, interation);
+        StartCoroutine(BuildIcosphere(sideLength, interation));
     }
 
-    protected void BuildIcosphere(float sideLen, int iteration)
+    protected IEnumerator BuildIcosphere(float sideLen, int iteration)
     {
 
         radiusIco = iteration * sideLen * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
@@ -23,8 +23,9 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
 
         combined = combined.Concat(verticesIcosahedron).ToArray();
         //if (isTest) 
-        GenerateInitialVertices(combined);
-
+        GenerateInitialVertices(AdjustVerticesToRadius(combined,radiusIco));
+        Debug.Log("You have 10f");
+        yield return new WaitForSeconds(10f);
         GenerateFaces(combined, 1.29375f, radiusIco);
 
     }
