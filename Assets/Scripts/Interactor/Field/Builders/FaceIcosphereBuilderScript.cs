@@ -24,8 +24,8 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         combined = combined.Concat(verticesIcosahedron).ToArray();
         //if (isTest) 
         GenerateInitialVertices(AdjustVerticesToRadius(combined,radiusIco));
-        Debug.Log("You have 10f");
-        yield return new WaitForSeconds(10f);
+        Debug.Log("You have 1f");
+        yield return new WaitForSeconds(1f);
         GenerateFaces(combined, 1.29375f, radiusIco);
 
     }

@@ -6,7 +6,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 {
     [SerializeField] protected bool isTest = false;
 
-    //[SerializeField] private List<GameObject> faces;
+    [SerializeField] private List<GameObject> faces;
     [SerializeField] private GameObject facePrefab;
     [SerializeField] private GameObject verticePrefab;
 
@@ -24,7 +24,6 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
     {
         //dataStructure.GetData unique class data blablabla
         //sideLength = x 
-
         BuildIcosahedron(sideLength);
     }
 
@@ -34,7 +33,6 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         float radiusPenta = sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
-
 
         //if (isTest) 
         GenerateInitialVertices(verticesIcosahedron);
@@ -152,6 +150,11 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
             vertices[i] = vertices[i].normalized * radius;
         }
         return vertices;
+    }
+
+    public GameObject[] GetField()
+    {
+        return faces.ToArray();
     }
 
     /*

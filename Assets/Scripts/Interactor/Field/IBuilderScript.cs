@@ -5,4 +5,6 @@ using UnityEngine;
 public interface IBuilderScript 
 {
     void BuildField();
+
+    GameObject[] GetField();
 }

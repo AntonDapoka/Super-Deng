@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class FieldInitializerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private FieldInteractorScript fieldInteractor;
 
-    // Update is called once per frame
-    void Update()
+    public void InitializeField() //AddData
     {
-        
+        //fieldInteractor.InitializeField();
     }
 }
