@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface IPlayerMovementPresenterScript 
 {
-    void PresentMove(GameObject face, string direction);
+    void UpdateSides(GameObject side);
 }

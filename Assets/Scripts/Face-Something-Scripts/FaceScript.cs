@@ -44,7 +44,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
         Debug.Log("I ENABLED");
         faceState = GetComponent<FaceStateScript>();
 
-        if (glowingPart != null && shadow != null)
+        if (glowingPart != null)
         {
             rend = glowingPart.GetComponent<MeshRenderer>();
             return;

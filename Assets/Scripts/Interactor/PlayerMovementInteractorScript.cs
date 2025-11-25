@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMovementInteractorScript : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-
+    [SerializeField] private MonoBehaviour movementPresenter;
+    public IPlayerMovementPresenterScript presenter => movementPresenter as IPlayerMovementPresenterScript;
     [SerializeField] private BeatController beatController;
     [SerializeField] private PathCounterScript pathCounter;
 
@@ -13,8 +15,6 @@ public class PlayerMovementInteractorScript : MonoBehaviour
     private FaceStateScript playerFaceState;
 
     private Dictionary<string, GameObject> sides = new();
-
-    private bool IsUpsideDown = true;
 
     private void Start()
     {
@@ -117,6 +117,8 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         ResetOtherSides(sidesPreviousOther);
 
+        presenter.UpdateSides(sidePrevious);
+
         playerFaceState.Set(FaceProperty.HavePlayer, true);
         //PS.ResetMaterials();
         if (pathCounter != null) pathCounter.SetPathCount();
@@ -125,8 +127,8 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         newPlayer.transform.SetParent(sideCurrent.transform);
         newPlayer.transform.localPosition = Vector3.zero;
-        IsUpsideDown = !IsUpsideDown;
-        newPlayer.transform.localRotation = IsUpsideDown ? Quaternion.identity : Quaternion.Euler(0, 180, 0);
+        //IsUpsideDown = !IsUpsideDown;
+        newPlayer.transform.localRotation =  Quaternion.identity;
 
         //NHS.SetNavigationHint(FS1);
         //NHS.SetNavigationHint(FS2);
@@ -206,7 +208,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         return null;
     }
 
-    public GameObject[] GetOtherGameObjects(string key)
+    private GameObject[] GetOtherGameObjects(string key)
     {
         GameObject[] otherObjects = new GameObject[2];
         int index = 0;
