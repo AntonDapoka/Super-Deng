@@ -7,7 +7,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
     [SerializeField] protected bool isTest = false;
 
     [SerializeField] private List<GameObject> faces;
-    [SerializeField] private GameObject fieldHolder;
+    private GameObject fieldHolder;
     private GameObject facePrefab;
     [SerializeField] private GameObject verticePrefab;
 
