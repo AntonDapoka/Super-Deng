@@ -7,7 +7,7 @@ public class FaceArrayScript : MonoBehaviour
 {
     [SerializeField] private bool findOnAwake = true;
     [SerializeField] private GameObject[] faces;
-
+    /*
     [SerializeField] private Transform Strip_A;
     [SerializeField] private Transform Strip_B;
     [SerializeField] private Transform Strip_C;

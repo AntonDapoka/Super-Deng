@@ -7,37 +7,42 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
     [SerializeField] protected bool isTest = false;
 
     [SerializeField] private List<GameObject> faces;
-    [SerializeField] private GameObject facePrefab;
+    [SerializeField] private GameObject fieldHolder;
+    private GameObject facePrefab;
     [SerializeField] private GameObject verticePrefab;
 
-    [SerializeField] protected float sideLength = 1;
-    [SerializeField] protected float radiusIco; //Radius of Icosahedorn
+    protected float sideLength;
+    protected float faceScale;
+    protected float radiusIco; //Radius of Icosahedorn
 
     protected float epsilon = 0.001f;
 
-    private void Start()
-    {
-        BuildField();
-    }
+    public GameObject Holder => fieldHolder;
 
-    public void BuildField() //interface
+    public void BuildField(GameObject newFacePrefab, float newSideLength, float newFaceScale) //interface
     {
         //dataStructure.GetData unique class data blablabla
         //sideLength = x 
-        BuildIcosahedron(sideLength);
+        facePrefab = newFacePrefab;
+        sideLength = newSideLength;
+        faceScale = newFaceScale;
+        BuildIcosahedron();
     }
 
-    protected void BuildIcosahedron(float sideLen)
+    protected void BuildIcosahedron()
     {
-        radiusIco = sideLen * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
-        float radiusPenta = sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
+        radiusIco = sideLength * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
+        float radiusPenta = sideLength * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
 
-        //if (isTest) 
-        GenerateInitialVertices(verticesIcosahedron);
+        if (isTest) 
+            GenerateInitialVertices(verticesIcosahedron);
 
-        GenerateFaces(verticesIcosahedron, sideLength, radiusIco);
+        fieldHolder = new GameObject("FieldHolder");
+        fieldHolder.transform.position = Vector3.zero;
+
+        GenerateFaces(verticesIcosahedron, sideLength, radiusIco, fieldHolder.transform);
     }
 
     protected Vector3[] GetIcosahedronVertices(float radiusIco, float radiusPenta)
@@ -72,7 +77,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         }
     }
 
-    protected void GenerateFaces(Vector3[] vertices, float maxDistance, float radius)
+    protected void GenerateFaces(Vector3[] vertices, float maxDistance, float radius, Transform parent)
     {
         int w = 0;
         for (int i = 0; i < vertices.Length; i++)
@@ -87,14 +92,14 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                     float abDistance = Vector3.Distance(a, b);
                     float bcDistance = Vector3.Distance(b, c);
                     float acDistance = Vector3.Distance(c, a);
-                    Debug.Log(abDistance.ToString() + " " + maxDistance);
+                    //Debug.Log(abDistance.ToString() + " " + maxDistance);
                     if (Mathf.Abs(maxDistance - abDistance) <= epsilon &&
                         Mathf.Abs(maxDistance - bcDistance) <= epsilon &&
                         Mathf.Abs(maxDistance - acDistance) <= epsilon)
                     {
                         w++;
                         Vector3[] verticesABC = AdjustVerticesToRadius(new Vector3[3] { a, b, c }, radius);
-                        GameObject face = SetFace(verticesABC);
+                        GameObject face = SetFace(verticesABC, parent);
                         //faces.Add(face);
                     }
                 }
@@ -104,7 +109,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         //GroupGameObjects(faces.ToArray());
     }
 
-    protected GameObject SetFace(Vector3[] verticesABC)
+    protected GameObject SetFace(Vector3[] verticesABC, Transform parent)
     {
         if (verticesABC.Length != 3)
         {
@@ -115,7 +120,8 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         Vector3 vertexOnXAxis = verticesABC[Random.Range(0, 3)]; //CHANGE IT
         Quaternion rotation = SetFaceRightRotation(vertexOnXAxis, verticesABC, center, Vector3.zero);
 
-        GameObject face = Instantiate(facePrefab, center, rotation);
+        GameObject face = Instantiate(facePrefab, center, rotation, parent);
+        face.transform.localScale = new Vector3(faceScale, faceScale, faceScale); 
         GameObject shadow = face.GetComponent<FaceScript>().shadow;
 
         float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Distance to (0,0,0)

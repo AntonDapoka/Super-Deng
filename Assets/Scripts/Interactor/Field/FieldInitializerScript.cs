@@ -5,9 +5,18 @@ using UnityEngine;
 public class FieldInitializerScript : MonoBehaviour
 {
     [SerializeField] private FieldInteractorScript fieldInteractor;
+    [SerializeField] private GameObject facePrefab;
+    [SerializeField] private float faceSideLength;
+    [SerializeField] private float faceScale;
+    //[SerializeField] private FieldData fieldData;
+
+    private void Start() //REWRITE
+    {
+        InitializeField();
+    }
 
     public void InitializeField() //AddData
     {
-        //fieldInteractor.InitializeField();
+        fieldInteractor.SetStartField(facePrefab, faceSideLength, faceScale);
     }
 }

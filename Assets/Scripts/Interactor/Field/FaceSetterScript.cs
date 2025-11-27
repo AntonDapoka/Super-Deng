@@ -18,11 +18,11 @@ public class FaceSetterScript : MonoBehaviour
 
     [SerializeField] private GameObject[] faces;
     [SerializeField] private FaceArrayScript faceArrayScript;
-
+    /*
     private void Start()
     {
         InitializeAllFaces();
-    }
+    }*/
 
     public void InitializeAllFaces()
     {

@@ -41,7 +41,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
 
     private void OnEnable()
     {
-        Debug.Log("I ENABLED");
+        //Debug.Log("I ENABLED");
         faceState = GetComponent<FaceStateScript>();
 
         if (glowingPart != null)
@@ -87,7 +87,8 @@ public class FaceScript : MonoBehaviour, IFaceScript
 
     public void Initialize(GameObject[] closestObjects, bool havePlayer)
     {
-        faceState.Set(FaceProperty.HavePlayer, havePlayer);
+        gameObject.GetComponent<FaceStateScript>().Set(FaceProperty.HavePlayer, havePlayer);
+
         pathObjectCount = havePlayer ? 0 : -1;
 
         if (closestObjects.Length < 3)

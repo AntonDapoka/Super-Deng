@@ -26,9 +26,9 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] private LoseScript LS;
 
-    private bool inBlinking = false;
+    //private bool inBlinking = false;
     private bool isLosing = false;
-    private bool inTakingDamage = false;
+    //private bool inTakingDamage = false;
 
 
     private void Awake()
@@ -171,7 +171,7 @@ public class PlayerScript : MonoBehaviour
         }
         ResetMaterials();
         animator.enabled = false;
-        inTakingDamage = false;
+        //inTakingDamage = false;
     }
 
     public void StartLosing()

@@ -18,16 +18,44 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
 
-        Vector3[] combined = GetEdgeMidpoints(verticesIcosahedron, sideLen * iteration, iteration, radiusIco);
+        //Vector3[] combined = GetEdgeMidpoints(verticesIcosahedron, sideLen * iteration, iteration, radiusIco);
 
 
         //if (isTest) 
-        GenerateInitialVertices(combined);
-        Debug.Log("You have 1f");
+        //GenerateInitialVertices(combined);
+        //GenerateInitialVertices(AdjustVerticesToRadius(combined, radiusIco));
+        //Debug.Log("You have 1f");
         yield return new WaitForSeconds(1f);
-        StartCoroutine(GeneratingFaces(combined, sideLen, radiusIco));
+        //StartCoroutine(GeneratingFaces(combined, sideLen, radiusIco));
 
     }
+    /*
+    public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance, int iteration, float radius)
+    {
+        List<Vector3> midpoints = new();
+        int x = 0;
+        for (int abc = 0; abc < iteration - 1; abc++)
+        {
+            x++;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                for (int j = i + 1; j < vertices.Length; j++)
+                {
+                    float distance = Vector3.Distance(vertices[i], vertices[j]);
+                    if (Mathf.Abs(maxDistance - distance) <= 0.01f)
+                    {
+                        midpoints.Add((vertices[i] + vertices[j]) / 2);
+                    }
+                }
+            }
+            //vertices = vertices.Concat(midpoints).ToArray();
+            maxDistance /= 2f;
+
+        }
+
+        Vector3[] combined = midpoints.Concat(vertices).ToArray();
+        return combined;
+    }*/
 
     protected IEnumerator GeneratingFaces(Vector3[] vertices, float maxDistance, float radius)
     {
@@ -44,51 +72,23 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
                     float abDistance = Vector3.Distance(a, b);
                     float bcDistance = Vector3.Distance(b, c);
                     float acDistance = Vector3.Distance(c, a);
-                    Debug.Log(abDistance.ToString() + " " + maxDistance);
+                    //Debug.Log(abDistance.ToString() + " " + maxDistance);
                     if (Mathf.Abs(maxDistance - abDistance) <= epsilon &&
                         Mathf.Abs(maxDistance - bcDistance) <= epsilon &&
                         Mathf.Abs(maxDistance - acDistance) <= epsilon)
                     {
                         w++;
                         Vector3[] verticesABC = AdjustVerticesToRadius(new Vector3[3] { a, b, c }, radius);
-                        GameObject face = SetFace(verticesABC);
+                        //GameObject face = SetFace(verticesABC);
                         yield return new WaitForSeconds(0.5f);
                         //faces.Add(face);
                     }
                 }
             }
         }
-        Debug.Log(w);
+        //Debug.Log(w);
         //GroupGameObjects(faces.ToArray());
     }
-
-    public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance, int iteration, float radius)
-    {
-        List<Vector3> midpoints = new();
-        int x = 0;
-        for (int abc = 0; abc < iteration-1; abc++)
-        {
-            x++;
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                for (int j = i + 1; j < vertices.Length; j++)
-                {
-                    float distance = Vector3.Distance(vertices[i], vertices[j]);
-                    if (Mathf.Abs(maxDistance - distance) <= 0.01f)
-                    {
-                        midpoints.Add((vertices[i] + vertices[j]) / 2);
-                    }
-                }
-            }
-            //vertices = vertices.Concat(midpoints).ToArray();
-            maxDistance /= 2f;
-            
-        }
-
-        Vector3[] combined = midpoints.Concat(vertices).ToArray();
-        return combined;
-    }
-
 
     /*s
 

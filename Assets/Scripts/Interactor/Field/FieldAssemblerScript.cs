@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 
 public class FieldAssemblerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private MonoBehaviour builder;
+    [SerializeField] private FaceSetterScript faceSetter;
+    [SerializeField] private FaceArrayScript faceArray;
 
-    // Update is called once per frame
-    void Update()
+
+
+    public IBuilderScript Builder => builder as IBuilderScript;
+
+    public void SetStartField(GameObject facePrefab, float faceSideLength, float faceScale)
     {
-        
+        Builder.BuildField(facePrefab, faceSideLength, faceScale);
+        faceArray.FindAllFaceScript();
+        faceSetter.InitializeAllFaces();
     }
 }

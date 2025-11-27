@@ -4,7 +4,8 @@ using UnityEngine;
 
 public interface IBuilderScript 
 {
-    void BuildField();
+    GameObject Holder { get; }
 
+    void BuildField(GameObject facePrefab, float sideLength, float faceScale);
     GameObject[] GetField();
 }
