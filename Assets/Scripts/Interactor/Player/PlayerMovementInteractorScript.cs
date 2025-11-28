@@ -23,9 +23,11 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         player.transform.SetParent(playerFace.transform);
         player.transform.localPosition = Vector3.zero;
-        player.transform.localRotation = Quaternion.Euler(0f, 180f, 180f);
+        player.transform.localRotation = Quaternion.identity;
 
         SetPlayerFace();
+
+
     }
 
     private void SetPlayerFace()
@@ -55,6 +57,8 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         NHS.SetNavigationHint(FS1);
         NHS.SetNavigationHint(FS2);
         NHS.SetNavigationHint(FS3);*/
+
+        presenter.UpdatePlayerSides(sides);
     }
 
     public void MovePlayer(string direction)
@@ -123,7 +127,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         ResetOtherSides(sidesPreviousOther);
 
-        //presenter.UpdateSides(sidePrevious);
+        presenter.UpdatePlayerSides(sides);
 
         playerFaceState.Set(FaceProperty.HavePlayer, true);
         //PS.ResetMaterials();
@@ -134,7 +138,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         newPlayer.transform.SetParent(sideCurrent.transform);
         newPlayer.transform.localPosition = Vector3.zero;
         //IsUpsideDown = !IsUpsideDown;
-        newPlayer.transform.localRotation = Quaternion.Euler(0f, 180f, 180f);
+        newPlayer.transform.localRotation =  Quaternion.identity;
 
         //NHS.SetNavigationHint(FS1);
         //NHS.SetNavigationHint(FS2);
@@ -201,6 +205,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
             faceScript.FaceState.Set(FaceProperty.IsRight, false);
             faceScript.FaceState.Set(FaceProperty.IsTop, false);
             faceScript.FaceState.Set(FaceProperty.IsLeft, false);
+            presenter.UpdateNonPlayerSide(side);
         }
     }
 

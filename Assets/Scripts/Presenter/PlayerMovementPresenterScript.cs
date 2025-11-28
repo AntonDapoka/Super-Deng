@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovementPresenterScript : MonoBehaviour //, IPlayerMovementPresenterScript
+public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPresenterScript
 {
     //[SerializeField] private PlayerMovementInteractorScript playerMovementInteractor;
-    //public Dictionary<string, Material> materials = new();
-    [SerializeField] private Material material;
+    public Dictionary<string, Material> materials = new();
+    [SerializeField] private Material materialRight;
+    [SerializeField] private Material materialLeft;
+    [SerializeField] private Material materialTop;
+    [SerializeField] private Material materialBasic;
     [SerializeField] private Renderer face;
 
-    /*
     private void Start()
     {
         materials.Add("RightSide", materialRight);
@@ -17,33 +19,35 @@ public class PlayerMovementPresenterScript : MonoBehaviour //, IPlayerMovementPr
         materials.Add("TopSide", materialTop);
     }
 
-    public void UpdateSides(GameObject side)
+    public void UpdatePlayerSides(Dictionary<string, GameObject> sides)
     {
-        /*
-    if (sides.Count != 3)
-    {
-    Debug.LogError("More than three sides!!!!");
-    return;
+        
+        if (sides.Count != 3)
+        {
+        Debug.LogError("More than three sides!!!!");
+        return;
+        }
+
+        foreach (var pair in sides)
+        {
+
+            if (materials.TryGetValue(pair.Key, out var mat))
+            {
+                Debug.Log(pair.Key);
+                pair.Value.GetComponent<FaceScript>().rend.material = mat;
+
+                //Debug.LogError(pair.Value.GetComponent<FaceScript>().rend.material);
+            }
+            /*
+            pair.Value.GetComponent<FaceScript>().rend.material = materialLeft;
+            
+                Debug.Log("Here");
+                pair.Value.GetComponent<FaceScript>().rend.material = materialTop;*/
+        }
     }
 
-    foreach (var pair in sides)
+    public void UpdateNonPlayerSide(GameObject side)
     {
-    /*
-    if (materials.TryGetValue(pair.Key, out var mat))
-    {
-        Debug.Log(pair.Key);
-        pair.Value.GetComponent<FaceScript>().rend.material = mat;
-
-        Debug.LogError(pair.Value.GetComponent<FaceScript>().rend.material);
-    }
-    pair.Value.GetComponent<FaceScript>().rend.material = materialLeft;
-    }
-        Debug.Log("Here");
-        side.GetComponent<FaceScript>().rend.material = materialTop;
-    }*/
-
-    private void Update()
-    {
-        face.material = material;
+        side.GetComponent<FaceScript>().rend.material = materialBasic;
     }
 }
