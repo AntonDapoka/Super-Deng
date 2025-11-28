@@ -23,7 +23,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         player.transform.SetParent(playerFace.transform);
         player.transform.localPosition = Vector3.zero;
-        player.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
+        player.transform.localRotation = Quaternion.Euler(0f, 180f, 180f);
 
         SetPlayerFace();
     }
@@ -123,7 +123,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         ResetOtherSides(sidesPreviousOther);
 
-        presenter.UpdateSides(sidePrevious);
+        //presenter.UpdateSides(sidePrevious);
 
         playerFaceState.Set(FaceProperty.HavePlayer, true);
         //PS.ResetMaterials();
@@ -134,7 +134,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         newPlayer.transform.SetParent(sideCurrent.transform);
         newPlayer.transform.localPosition = Vector3.zero;
         //IsUpsideDown = !IsUpsideDown;
-        newPlayer.transform.localRotation =  Quaternion.identity;
+        newPlayer.transform.localRotation = Quaternion.Euler(0f, 180f, 180f);
 
         //NHS.SetNavigationHint(FS1);
         //NHS.SetNavigationHint(FS2);
