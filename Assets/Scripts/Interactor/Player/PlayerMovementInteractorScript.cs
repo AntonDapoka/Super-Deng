@@ -16,14 +16,20 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
     private Dictionary<string, GameObject> sides = new();
 
-    private void Start()
+    public void InitializePlayerFace(FaceScript face)
     {
-        InitializePlayerFace();
+        playerFace = face;
+        playerFaceState = playerFace.FaceState;
+
+        player.transform.SetParent(playerFace.transform);
+        player.transform.localPosition = Vector3.zero;
+        player.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
+
+        SetPlayerFace();
     }
 
-    private void InitializePlayerFace()
+    private void SetPlayerFace()
     {
-        playerFaceState = playerFace.FaceState;
         playerFaceState.Set(FaceProperty.HavePlayer, true);
 
         playerFace.FaceState.Set(FaceProperty.IsRight, false);

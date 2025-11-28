@@ -18,24 +18,21 @@ public class FaceSetterScript : MonoBehaviour
 
     [SerializeField] private GameObject[] faces;
     [SerializeField] private FaceArrayScript faceArrayScript;
-    /*
-    private void Start()
-    {
-        InitializeAllFaces();
-    }*/
 
     public void InitializeAllFaces()
     {
         faces = faceArrayScript.GetAllFaces();
+        Debug.Log(faces.Length);
         foreach (GameObject face in faces)
         {
+
             FaceScript faceScript = face.GetComponent<FaceScript>();
             GameObject[] closestObjects = FindClosestObjectsFromArray(faces, face.transform, 3);
             faceScript.Initialize(closestObjects, false);
         }
     }
 
-    GameObject[] FindClosestObjectsFromArray(GameObject[] objectsArray, Transform from, int count)
+    private GameObject[] FindClosestObjectsFromArray(GameObject[] objectsArray, Transform from, int count)
     {
         return objectsArray
             .OrderBy(obj => Vector3.Distance(from.position, obj.transform.position))

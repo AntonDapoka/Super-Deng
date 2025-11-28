@@ -56,7 +56,7 @@ public class GoodBananaScript : MonoBehaviour
                     }
                     else 
                     {
-                        FS.glowingPart.transform.localScale = new Vector3(1f, 1f, 1f);//
+                        //FS.glowingPart.transform.localScale = new Vector3(1f, 1f, 1f);//
                     }
 
                 }

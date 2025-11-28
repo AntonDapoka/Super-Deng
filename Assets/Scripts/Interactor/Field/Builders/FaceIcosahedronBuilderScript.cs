@@ -22,7 +22,6 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
     public void BuildField(GameObject newFacePrefab, float newSideLength, float newFaceScale) //interface
     {
         //dataStructure.GetData unique class data blablabla
-        //sideLength = x 
         facePrefab = newFacePrefab;
         sideLength = newSideLength;
         faceScale = newFaceScale;
@@ -100,7 +99,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                         w++;
                         Vector3[] verticesABC = AdjustVerticesToRadius(new Vector3[3] { a, b, c }, radius);
                         GameObject face = SetFace(verticesABC, parent);
-                        //faces.Add(face);
+                        faces.Add(face);
                     }
                 }
             }

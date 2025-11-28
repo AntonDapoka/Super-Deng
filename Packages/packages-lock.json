@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.glairedaggers.retrotvfx": {
-      "version": "file:D:/Games that I'm trying to make/Super 灯/RetroTVFX-2.0.0",
+      "version": "file:C:/Users/25022/Downloads/RetroTVFX-master/RetroTVFX-master",
       "depth": 0,
       "source": "local",
       "dependencies": {}

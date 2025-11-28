@@ -16,7 +16,7 @@ public class FieldAssemblerScript : MonoBehaviour
     public void SetStartField(GameObject facePrefab, float faceSideLength, float faceScale)
     {
         Builder.BuildField(facePrefab, faceSideLength, faceScale);
-        faceArray.FindAllFaceScript();
+        faceArray.SetAllFaces(Builder.GetField());
         faceSetter.InitializeAllFaces();
     }
 }

@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class LevelInitializerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private FieldInitializerScript fieldInitializer;
+    [SerializeField] private BackgroundInitializerScript backgroundInitializer;
+    [SerializeField] private PlayerInitializerScript playerInitializer;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        fieldInitializer.InitializeField();
+        playerInitializer.InitializePlayer();
     }
 }

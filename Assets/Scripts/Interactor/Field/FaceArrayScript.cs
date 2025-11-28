@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FaceArrayScript : MonoBehaviour
 {
-    [SerializeField] private bool findOnAwake = true;
+    //[SerializeField] private bool findOnAwake = true;
     [SerializeField] private GameObject[] faces;
     /*
     [SerializeField] private Transform Strip_A;
@@ -38,23 +38,34 @@ public class FaceArrayScript : MonoBehaviour
     [SerializeField] private GameObject[] facesStripZ_D;
     [SerializeField] private GameObject[] facesStripZ_E;
     [SerializeField] private GameObject[] facesStripZ_F;*/
-
+    /*
     private void Awake()
     {
         if (findOnAwake) FindAllFaceScript();
     }
-
+    */
     //We Shouldn't have this type of searching, everything must be obtained from the Interactors
+    /*
     public void FindAllFaceScript()
     {
         faces = FindObjectsOfType<FaceScript>()
             .Select(faceScript => faceScript.gameObject)
             .ToArray();
+    }*/
+
+    public void SetAllFaces(GameObject[] newFaces)
+    {
+        faces = newFaces;
     }
 
     public GameObject[] GetAllFaces()
     {
         return faces;
+    }
+
+    public GameObject GetRandomFace()
+    {
+        return faces[Random.Range(0, faces.Length)];
     }
 
     public FaceScript[] GetAllFaceScripts()
