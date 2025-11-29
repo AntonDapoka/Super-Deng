@@ -7,6 +7,7 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private FieldInitializerScript fieldInitializer;
     [SerializeField] private BackgroundInitializerScript backgroundInitializer;
     [SerializeField] private PlayerInitializerScript playerInitializer;
+    [SerializeField] private ActionInitializerScript actionInitializer;
     //[SerializeField] private InputControllerInitializerScript inputControllerInitializer; ????
 
     private void Start()

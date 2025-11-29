@@ -17,6 +17,6 @@ public class FieldAssemblerScript : MonoBehaviour
     {
         Builder.BuildField(facePrefab, faceSideLength, faceScale);
         faceArray.SetAllFaces(Builder.GetField());
-        faceSetter.InitializeAllFaces();
+        faceSetter.InitializeAllFaces(Builder.GetField());
     }
 }

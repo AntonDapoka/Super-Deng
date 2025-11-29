@@ -20,7 +20,7 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
 
     public virtual void Initialize()
     {
-        faces = FieldInteractor.GetAllFaces();
+        //faces = FieldInteractor.GetAllFaces();
     }
     
 

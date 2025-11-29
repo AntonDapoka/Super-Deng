@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPresenterScript
 {
-    //[SerializeField] private PlayerMovementInteractorScript playerMovementInteractor;
+    //[SerializeField] private PlayerMovementMaterialChangerScript materialChanger; //Change to Interface
     public Dictionary<string, Material> materials = new();
     [SerializeField] private Material materialRight;
     [SerializeField] private Material materialLeft;
     [SerializeField] private Material materialTop;
     [SerializeField] private Material materialBasic;
-    [SerializeField] private Renderer face;
 
-    private void Start()
+    private void Awake()
     {
         materials.Add("RightSide", materialRight);
         materials.Add("LeftSide", materialLeft);
@@ -24,8 +23,8 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
         
         if (sides.Count != 3)
         {
-        Debug.LogError("More than three sides!!!!");
-        return;
+            Debug.LogError("More than three sides!!!!");
+            return;
         }
 
         foreach (var pair in sides)

@@ -26,8 +26,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         player.transform.localRotation = Quaternion.identity;
 
         SetPlayerFace();
-
-
+        presenter.UpdatePlayerSides(sides);
     }
 
     private void SetPlayerFace()
@@ -46,7 +45,6 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         sides.Add("LeftSide", playerFace.side1);
         sides.Add("RightSide", playerFace.side2);
         sides.Add("TopSide", playerFace.side3);
-
         /*
         PS.SetCurrentFace(gameObject);
 
@@ -58,7 +56,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         NHS.SetNavigationHint(FS2);
         NHS.SetNavigationHint(FS3);*/
 
-        presenter.UpdatePlayerSides(sides);
+        //presenter.UpdatePlayerSides(sides);
     }
 
     public void MovePlayer(string direction)

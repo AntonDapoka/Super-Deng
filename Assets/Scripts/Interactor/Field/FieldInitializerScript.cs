@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FieldInitializerScript : MonoBehaviour
+//Receives data structure, analyzes it and creates a field based on the information received
 {
     [SerializeField] private FieldInteractorScript fieldInteractor;
     [SerializeField] private GameObject facePrefab;

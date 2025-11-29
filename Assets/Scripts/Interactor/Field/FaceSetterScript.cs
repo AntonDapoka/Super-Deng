@@ -16,12 +16,9 @@ public class FaceSetterScript : MonoBehaviour
                 /_____\/_____\
     */
 
-    [SerializeField] private GameObject[] faces;
-    [SerializeField] private FaceArrayScript faceArrayScript;
 
-    public void InitializeAllFaces()
+    public void InitializeAllFaces(GameObject[] faces)
     {
-        faces = faceArrayScript.GetAllFaces();
         Debug.Log(faces.Length);
         foreach (GameObject face in faces)
         {
