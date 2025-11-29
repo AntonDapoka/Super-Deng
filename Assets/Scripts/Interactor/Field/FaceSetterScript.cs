@@ -19,7 +19,6 @@ public class FaceSetterScript : MonoBehaviour
 
     public void InitializeAllFaces(GameObject[] faces)
     {
-        Debug.Log(faces.Length);
         foreach (GameObject face in faces)
         {
 

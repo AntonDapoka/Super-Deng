@@ -4,23 +4,19 @@ using UnityEngine;
 
 public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPresenterScript
 {
-    //[SerializeField] private PlayerMovementMaterialChangerScript materialChanger; //Change to Interface
-    public Dictionary<string, Material> materials = new();
-    [SerializeField] private Material materialRight;
-    [SerializeField] private Material materialLeft;
-    [SerializeField] private Material materialTop;
-    [SerializeField] private Material materialBasic;
+    [SerializeField] private MonoBehaviour faceMaterialView;
+    private IFaceMaterialViewScript FaceMaterialView => faceMaterialView as IFaceMaterialViewScript;
+    public Dictionary<string, MaterialType> materials = new();
 
     private void Awake()
     {
-        materials.Add("RightSide", materialRight);
-        materials.Add("LeftSide", materialLeft);
-        materials.Add("TopSide", materialTop);
+        materials.Add("RightSide", MaterialType.Right);
+        materials.Add("LeftSide", MaterialType.Left);
+        materials.Add("TopSide", MaterialType.Top);
     }
 
     public void UpdatePlayerSides(Dictionary<string, GameObject> sides)
     {
-        
         if (sides.Count != 3)
         {
             Debug.LogError("More than three sides!!!!");
@@ -32,10 +28,7 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
 
             if (materials.TryGetValue(pair.Key, out var mat))
             {
-                Debug.Log(pair.Key);
-                pair.Value.GetComponent<FaceScript>().rend.material = mat;
-
-                //Debug.LogError(pair.Value.GetComponent<FaceScript>().rend.material);
+                FaceMaterialView.SetMaterial(pair.Value.GetComponent<FaceScript>().rend, mat);
             }
             /*
             pair.Value.GetComponent<FaceScript>().rend.material = materialLeft;
@@ -47,6 +40,6 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
 
     public void UpdateNonPlayerSide(GameObject side)
     {
-        side.GetComponent<FaceScript>().rend.material = materialBasic;
+        FaceMaterialView.SetMaterial(side.GetComponent<FaceScript>().rend, MaterialType.Default);
     }
 }
