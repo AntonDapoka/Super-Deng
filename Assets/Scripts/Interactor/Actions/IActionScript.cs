@@ -5,7 +5,7 @@ public interface IActionScript
 
     void Initialize();
 
-    void Execute();
+    void Execute(object definition);
 
-    void Cancel();
+    void Cancel(object definition); //, ScenarioContext context
 }

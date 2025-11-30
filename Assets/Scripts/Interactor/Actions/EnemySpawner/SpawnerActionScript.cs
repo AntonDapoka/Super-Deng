@@ -24,7 +24,7 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
     }
     
 
-    public virtual void Execute() 
+    public virtual void Execute(object definition) 
     {
         List<int> availableFaces = GetAvailableFaces();
         if (isRandomSpawnTime)
@@ -86,5 +86,5 @@ public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFie
 
     public abstract bool IsSuitableSpecialRequirements();
 
-    public virtual void Cancel() { }
+    public virtual void Cancel(object definition) { }
 }
