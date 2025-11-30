@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControllerScript : InputHandlerScript
+public class PlayerMovementControllerScript : InputHandlerScript
 {
     [SerializeField] private KeyBindingDataScript keyBindings;
     [SerializeField] private PlayerMovementInteractorScript playerMovementInteractorScript;
 
-    public PlayerMovementInteractorScript PlayerMovementInteractorScript => playerMovementInteractorScript;
+    //public PlayerMovementInteractorScript PlayerMovementInteractorScript => playerMovementInteractorScript;
 
     public override void HandleInput(KeyCode key)
     {
@@ -21,6 +21,6 @@ public class PlayerControllerScript : InputHandlerScript
 
     private void MovePlayer(string direction)
     {
-        PlayerMovementInteractorScript.MovePlayer(direction);
+        playerMovementInteractorScript.MovePlayer(direction);
     }
 }

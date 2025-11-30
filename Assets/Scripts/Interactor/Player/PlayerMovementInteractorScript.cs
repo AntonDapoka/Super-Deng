@@ -207,7 +207,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         }
     }
 
-    public GameObject GetGameObject(string key)
+    private GameObject GetGameObject(string key)
     {
         GameObject gameObject;
         if (sides.TryGetValue(key, out gameObject))
@@ -234,5 +234,10 @@ public class PlayerMovementInteractorScript : MonoBehaviour
             }
         }
         return otherObjects;
+    }
+
+    public GameObject GetCurrentFace()
+    {
+        return playerFace.gameObject;
     }
 }
