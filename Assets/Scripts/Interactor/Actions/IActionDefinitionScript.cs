@@ -2,6 +2,6 @@
 
 public interface IActionDefinitionScript 
 {
-    float startTime { get; }
-    float endTime { get; }
+    float TimeStartSeconds { get; }
+    float TimeEndSeconds { get; }
 }

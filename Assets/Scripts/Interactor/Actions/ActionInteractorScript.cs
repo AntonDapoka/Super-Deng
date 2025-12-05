@@ -4,22 +4,35 @@ using UnityEngine;
 
 public class ActionInteractorScript : MonoBehaviour
 {
-    public List<ScenarioEntry> entries;
+    public ScenarioEntry[] entries;
     private float time;
+    private bool[] spawnExecuted;
 
-    void Update()
+    private void Awake()
+    {
+        spawnExecuted = new bool[entries.Length];
+    }
+
+    public void SetScenario(ScenarioEntry[] newEntries)
+    {
+        entries = newEntries;
+    }
+
+    private void Update()
     {
         time += Time.deltaTime;
 
         foreach (var entry in entries)
         {
-            if (time >= entry.definition.startTime && time < entry.definition.endTime)
+            if (time >= entry.definition.TimeStartSeconds && time < entry.definition.TimeEndSeconds)
             {
-                entry.action.Execute(entry.definition);
+                Debug.Log(entry.definition.TimeStartSeconds.ToString());
+                //entry.action.Execute(entry.definition);
             }
-            else if (time >= entry.definition.endTime)
+            else if (time >= entry.definition.TimeEndSeconds)
             {
-                entry.action.Cancel(entry.definition);
+                Debug.Log(entry.definition.TimeEndSeconds.ToString());
+                //entry.action.Cancel(entry.definition);
             }
         }
     }

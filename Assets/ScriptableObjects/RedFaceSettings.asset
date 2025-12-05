@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: RedFaceSettings
   m_EditorClassIdentifier: 
   effectName: exsdcrvtfgbyhnujm
-  isHint: 1
+  isHint: 0
   bpm: 90
   isHints: 0
   timeStartSeconds: 6.286667
   timeStartBeats: 9.43
   isTimeEnd: 1
-  timeEndSeconds: 55.193333
-  timeEndBeats: 82.79
-  isRandom: 1
-  isCertain: 1
+  timeEndSeconds: 19.51
+  timeEndBeats: 29.265
+  isRandom: 0
+  isCertain: 0
   isResetAfterDeath: 0
   isStableQuantity: 0
   quantityExact: 409
@@ -32,11 +32,11 @@ MonoBehaviour:
   arrayOfFacesRelativeToPlayer: 
   isRelativeToFigure: 1
   arrayOfFacesRelativeToFigure: 
-  isProximityLimit: 1
+  isProximityLimit: 0
   proximityLimit: 59
-  isDistanceLimit: 1
+  isDistanceLimit: 0
   distanceLimit: 288
-  isBasicSettingsChange: 1
+  isBasicSettingsChange: 0
   isMaterialChange: 1
   material: {fileID: 0}
   isColorDurationBeatsChange: 1

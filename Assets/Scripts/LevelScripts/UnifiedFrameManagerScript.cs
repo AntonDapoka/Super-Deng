@@ -31,8 +31,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
     {
         if (TC != null && TC.isTurnOn && isTurnOn)
         {
-            float elapsedTime = TC.timeElapsed; //Âðåìÿ òàéìåðà
-
+            float elapsedTime = TC.timeElapsed; 
 
             //if (currentSpawnIndex < enemySpawnSettings.spawnTimes.Length)   //Если текущий фрейм настроек не последний. Не используется
 

@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class ActionInitializerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private ActionInteractorScript actionInteractor;
+    [SerializeField] private RedFaceSpawnerScript redFaceSpawner;
+    [SerializeField] private RedFaceSettings redFaceSettings;
+    private List<ScenarioEntry> entries;
+
+    private void Awake()
     {
-        
+        //There we should read files
+        entries = new List<ScenarioEntry>
+        {
+            new ScenarioEntry
+            {
+                action = redFaceSpawner,
+                definition = redFaceSettings
+            }
+        };
+        SetScenario();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SetScenario()
     {
-        
+        actionInteractor.SetScenario(entries.ToArray());
     }
+
 }

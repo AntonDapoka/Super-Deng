@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RedFaceSettings", menuName = "ScriptableObjects/RedFaceSettings", order = 2)]
-public class RedFaceSettings : ScriptableObject
+public class RedFaceSettings : ScriptableObject, IActionDefinitionScript
 {
     public string effectName;
     public bool isHint;
@@ -12,7 +12,11 @@ public class RedFaceSettings : ScriptableObject
     public float timeStartBeats;
     public bool isTimeEnd; // Заканчивается ли эффект?
     public float timeEndSeconds; 
-    public float timeEndBeats; 
+    public float timeEndBeats;
+
+    float IActionDefinitionScript.TimeStartSeconds => timeStartSeconds;
+
+    float IActionDefinitionScript.TimeEndSeconds => timeEndSeconds;
 
     public bool isRandom;
     public bool isCertain; // Или активируются конкретные грани?
@@ -63,4 +67,6 @@ public class RedFaceSettings : ScriptableObject
 
     public bool isOffsetChange;
     public float offset;
+
+
 }

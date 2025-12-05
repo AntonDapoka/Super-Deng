@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class SpawnerActionScript : IPlayerInteractiveActionScript, IFieldInteractiveActionScript
+public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
 {
     private GameObject[] faces;
     public List<int> faceIndices = new();
