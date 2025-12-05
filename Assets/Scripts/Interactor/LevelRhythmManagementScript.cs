@@ -1,8 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RhythmManager : MonoBehaviour, IRhythmableScript
+public class LevelRhythmManagementScript : MonoBehaviour, IRhythmableScript
 {
     public bool isTurnOn = false;
     public float bpm = 90f;
@@ -16,6 +17,16 @@ public class RhythmManager : MonoBehaviour, IRhythmableScript
     private void Awake()
     {
         beatInterval = 60f / bpm;  //Вычисляем длительность одного такта в секундах
+    }
+
+    public float GetBPM()
+    {
+        return bpm;
+    }
+
+    public void SetBPM(float newBPM)
+    {
+        bpm = newBPM;
     }
 
     public void StartWithSync()
@@ -41,11 +52,33 @@ public class RhythmManager : MonoBehaviour, IRhythmableScript
          * */
         if (isTurnOn)
         {
-            foreach (Intervals interval in intervals) 
+            foreach (Intervals interval in intervals)
             {
                 float sampledTime = (musicManager.timeSamples / (musicManager.clip.frequency * interval.GetIntervalLength(bpm)));
                 interval.CheckForNewInterval(sampledTime);
             }
         }
     }
-} 
+}
+
+[System.Serializable]
+public class Intervals
+{
+    [SerializeField] private float steps; //Сколько раз за бит нужно вызвать функцию
+    [SerializeField] private UnityEvent trigger;
+    private int lastInterval;
+
+    public float GetIntervalLength(float bpm)
+    {
+        return 60f / (bpm * steps);
+    }
+
+    public void CheckForNewInterval(float interval)
+    {
+        if (Mathf.FloorToInt(interval) != lastInterval)
+        {
+            lastInterval = Mathf.FloorToInt(interval);
+            trigger?.Invoke();
+        }
+    }
+}

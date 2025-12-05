@@ -10,6 +10,12 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private ActionInitializerScript actionInitializer;
     //[SerializeField] private InputControllerInitializerScript inputControllerInitializer; ????
 
+
+    [SerializeField] private AudioSource musicManager;
+    [SerializeField] private AudioClip musicTrack;
+    [SerializeField] private TimerController TC;
+    [SerializeField] private StartCountDown SCD;
+
     private void Start()
     {
         fieldInitializer.InitializeField();
