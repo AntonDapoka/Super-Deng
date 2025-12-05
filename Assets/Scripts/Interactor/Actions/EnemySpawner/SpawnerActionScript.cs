@@ -5,10 +5,10 @@ using System.Linq;
 
 public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
 {
-    private GameObject[] faces;
+    protected GameObject[] faces;
     public List<int> faceIndices = new();
-    private int colvo;
-    private bool isRandomSpawnTime = false;
+    protected int colvo;
+    protected bool isRandomSpawnTime = false;
 
     [SerializeField] private PlayerStateInteractorScript _playerStateInteractor;
     [SerializeField] private FieldInteractorScript _fieldInteractor;
@@ -37,7 +37,7 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
                 int selectedFaceIndex = availableFaces[randomIndex];
                 availableFaces.RemoveAt(randomIndex);
 
-                SetEnemy(faces[selectedFaceIndex]); //Launch random ones from the available ones
+                SetActionFace(faces[selectedFaceIndex]); //Launch random ones from the available ones
             }
         }
         else
@@ -47,17 +47,16 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
             {
                 availableFaces.RemoveAt(index);
 
-                SetEnemy(faces[index]); //Launch the specified ones from the available ones
+                SetActionFace(faces[index]); //Launch the specified ones from the available ones
             }
         }
     }
 
-    public abstract void SetEnemy(GameObject gameObject);
+    public abstract void SetActionFace(GameObject gameObject);
 
     public virtual List<int> GetAvailableFaces()
     {
-        
-        List<int> availableFaces = new List<int>(); //Create an array of available faces
+        List<int> availableFaces = new(); 
 
         for (int i = 0; i < faces.Length; i++)
         {
