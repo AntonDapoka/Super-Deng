@@ -1,22 +1,22 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RedFaceSettings", menuName = "ScriptableObjects/RedFaceSettings", order = 2)]
-public class RedFaceSettings : ScriptableObject, IActionDefinitionScript
+public class RedFaceSettings : ActionSettingsScript
 {
     public string effectName;
     public bool isHint;
 
     public float bpm;
     public bool isHints;
-    public float timeStartSeconds;
+    //public new float timeStartSeconds;
     public float timeStartBeats;
     public bool isTimeEnd; // Заканчивается ли эффект?
-    public float timeEndSeconds; 
+    //public new float timeEndSeconds; 
     public float timeEndBeats;
-
+    /*
     float IActionDefinitionScript.TimeStartSeconds => timeStartSeconds;
 
-    float IActionDefinitionScript.TimeEndSeconds => timeEndSeconds;
+    float IActionDefinitionScript.TimeEndSeconds => timeEndSeconds;*/
 
     public bool isRandom;
     public bool isCertain; // Или активируются конкретные грани?

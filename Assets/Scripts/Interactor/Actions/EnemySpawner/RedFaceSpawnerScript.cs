@@ -24,7 +24,9 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     private void Start()
     {
-        isTurnOn = false;
+        isTurnOn = true;
+        colvo = 3;
+        isRandomSpawnTime = true;
         positionChange = scaleChange * -0.05f; // Rewrite
         faces = FAS.GetAllFaces();
         SetBPMSettings(); //DELETE IT!!!!

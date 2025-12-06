@@ -28,20 +28,20 @@ public class ActionInteractorScript : MonoBehaviour
 
         for (int i = 0; i < entries.Length; i++)
         {
-            if (time >= entries[i].definition.TimeStartSeconds && time < entries[i].definition.TimeEndSeconds && !spawnExecuted[currentSpawnIndex])
+            if (time >= entries[i].settings.TimeStartSeconds && time < entries[i].settings.TimeEndSeconds && !spawnExecuted[currentSpawnIndex])
             {
-                Debug.Log(entries[i].definition.TimeStartSeconds.ToString());
+                Debug.Log(entries[i].settings.TimeStartSeconds.ToString());
                 //entry.action.Execute(entry.definition);
                 spawnExecuted[currentSpawnIndex] = true;
             }
-            else if (time >= entries[i].definition.TimeEndSeconds && !spawnCanceled[currentSpawnIndex])
+            else if (time >= entries[i].settings.TimeEndSeconds && !spawnCanceled[currentSpawnIndex])
             {
-                Debug.Log(entries[i].definition.TimeEndSeconds.ToString());
+                Debug.Log(entries[i].settings.TimeEndSeconds.ToString());
                 //entry.action.Cancel(entry.definition);
                 spawnCanceled[currentSpawnIndex] = true;
             }
 
-            if (i + 1 < entries.Length && time > entries[i + 1].definition.TimeStartSeconds)
+            if (i + 1 < entries.Length && time > entries[i + 1].settings.TimeStartSeconds)
             {
                 currentSpawnIndex++;
             }
@@ -52,5 +52,5 @@ public class ActionInteractorScript : MonoBehaviour
 public class ScenarioEntry
 {
     public IActionScript action;     
-    public IActionDefinitionScript definition;        
+    public IActionSettingsScript settings;        
 }

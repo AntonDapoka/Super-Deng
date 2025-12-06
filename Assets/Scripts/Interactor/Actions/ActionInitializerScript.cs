@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ActionInitializerScript : MonoBehaviour
 {
+    [SerializeField] private ActionScenarioDataBase scenarioData;
     [SerializeField] private ActionInteractorScript actionInteractor;
     [SerializeField] private RedFaceSpawnerScript redFaceSpawner;
-    [SerializeField] private RedFaceSettings redFaceSettings;
     private List<ScenarioEntry> entries;
 
     private void Awake()
@@ -17,7 +17,7 @@ public class ActionInitializerScript : MonoBehaviour
             new ScenarioEntry
             {
                 action = redFaceSpawner,
-                definition = redFaceSettings
+                settings = scenarioData.Actions[0]
             }
         };
         SetScenario();
@@ -27,5 +27,5 @@ public class ActionInitializerScript : MonoBehaviour
     {
         actionInteractor.SetScenario(entries.ToArray());
     }
-
+    
 }

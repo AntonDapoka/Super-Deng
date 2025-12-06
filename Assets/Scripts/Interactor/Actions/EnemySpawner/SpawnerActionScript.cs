@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
+public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveActionScript //, IFieldInteractiveActionScript 
 {
     protected GameObject[] faces;
     public List<int> faceIndices = new();
@@ -22,9 +22,13 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
     {
         //faces = FieldInteractor.GetAllFaces();
     }
-    
 
-    public virtual void Execute(object definition) 
+    public virtual void SetDefinition(object definition)
+    {
+
+    }
+
+    public virtual void Execute() 
     {
         List<int> availableFaces = GetAvailableFaces();
         if (isRandomSpawnTime)
@@ -85,5 +89,5 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
 
     public abstract bool IsSuitableSpecialRequirements();
 
-    public virtual void Cancel(object definition) { }
+    public virtual void Cancel() { }
 }

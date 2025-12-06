@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddcebce76eba824c9a702683ba5b80c, type: 3}
   m_Name: RedFaceSettings
   m_EditorClassIdentifier: 
+  timeStartSeconds: 1.13
+  timeEndSeconds: 19.51
   effectName: exsdcrvtfgbyhnujm
   isHint: 0
   bpm: 90
   isHints: 0
-  timeStartSeconds: 6.286667
-  timeStartBeats: 9.43
+  timeStartBeats: 1.6949999
   isTimeEnd: 1
-  timeEndSeconds: 19.51
   timeEndBeats: 29.265
   isRandom: 0
   isCertain: 0
