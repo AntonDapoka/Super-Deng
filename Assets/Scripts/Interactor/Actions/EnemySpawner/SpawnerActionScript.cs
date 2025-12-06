@@ -23,7 +23,7 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
         //faces = FieldInteractor.GetAllFaces();
     }
 
-    public virtual void SetSettings<T>(T settings) where T : Component
+    public virtual void SetSettings<T>(T settings)
     {
         
 

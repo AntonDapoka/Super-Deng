@@ -15,7 +15,6 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     [SerializeField] private Material materialWhite;
     [SerializeField] private Material materialRed;
     [SerializeField] private Material materialPlayer;
-    [SerializeField] private RhythmManager RM;
     [SerializeField] private FaceArrayScript FAS;
     [SerializeField] private PlayerScript PS;
 
@@ -29,27 +28,24 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         isRandomSpawnTime = true;
         //positionChange = scaleChange * -0.05f; // Rewrite
         faces = FAS.GetAllFaces();
-        SetBPMSettings(); //DELETE IT!!!!
+
     }
 
-    private void SetBPMSettings()
+    public override void SetSettings<T>(T settings)
     {
-        colorChangeDuration = RM.beatInterval * 3;
-        scaleChangeDurationUp = RM.beatInterval / 2;
-        waitDuration = 0f;
-        scaleChangeDurationDown = RM.beatInterval;
-    }
-
-    public override void SetSettings<T>(T settings) 
-    {
-        RedFaceSettings redSettings = settings.GetComponent<RedFaceSettings>();
-
-        if (redSettings == null)
+        if (settings is not RedFaceSettings redSettings)
         {
             Debug.LogError("WRONG SETTINGS FOR RED FACE SPAWNER");
             return;
         }
         isRandomSpawnTime = redSettings.isRandom;
+
+        colorChangeDuration = 60f / redSettings.bpm * 3;
+        scaleChangeDurationUp = 60f / redSettings.bpm / 2;
+        waitDuration = 0f;
+        scaleChangeDurationDown = 60f / redSettings.bpm;
+
+        isTurnOn = true;
     }
 
     public override bool IsSuitableSpecialRequirements()
@@ -59,11 +55,13 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     public override void SetActionFace(GameObject gameObject)
     {
-        StartCoroutine(SetRedFace(gameObject));
+        if (isTurnOn)
+            StartCoroutine(SetRedFace(gameObject));
     }
 
     private IEnumerator SetRedFace(GameObject face)
     {
+        Debug.Log("Here");
         FaceScript FS = face.GetComponent<FaceScript>();
         FaceStateScript faceState = face.GetComponent<FaceStateScript>();
         faceState.Set(FaceProperty.IsColored, true); 
@@ -103,7 +101,6 @@ public class RedFaceSpawnerScript : SpawnerActionScript
             FS.rend.material = materialRed;
             FS.glowingPart.transform.localScale = Vector3.Lerp(startScale, targetScale, timer / duration);
             FS.glowingPart.transform.localPosition = Vector3.Lerp(startPosition, targetPosition, timer / duration);
-            Debug.Log(FS.glowingPart.transform.localPosition);
             timer += Time.deltaTime;
             yield return null;
         }

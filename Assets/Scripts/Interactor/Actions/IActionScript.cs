@@ -4,7 +4,7 @@ public interface IActionScript
 {
     void Initialize();
 
-    void SetSettings<T>(T settings) where T : Component;
+    void SetSettings<T>(T settings);
 
     void Execute();
 

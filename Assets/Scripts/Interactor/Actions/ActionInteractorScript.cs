@@ -31,7 +31,7 @@ public class ActionInteractorScript : MonoBehaviour
             if (time >= entries[i].settings.TimeStartSeconds && time < entries[i].settings.TimeEndSeconds && !spawnExecuted[currentSpawnIndex])
             {
                 Debug.Log(entries[i].settings.TimeStartSeconds.ToString());
-                //entry.action.Execute(entry.definition);
+                entries[i].action.SetSettings(entries[i].settings);
                 spawnExecuted[currentSpawnIndex] = true;
             }
             else if (time >= entries[i].settings.TimeEndSeconds && !spawnCanceled[currentSpawnIndex])
