@@ -3,21 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "RedFaceSettings", menuName = "ScriptableObjects/RedFaceSettings", order = 2)]
 public class RedFaceSettings : ActionSettingsScript
 {
-    public string effectName;
-    public bool isHint;
-
-    public float bpm;
-    public bool isHints;
-    //public new float timeStartSeconds;
-    public float timeStartBeats;
-    public bool isTimeEnd; // Заканчивается ли эффект?
-    //public new float timeEndSeconds; 
-    public float timeEndBeats;
-    /*
-    float IActionDefinitionScript.TimeStartSeconds => timeStartSeconds;
-
-    float IActionDefinitionScript.TimeEndSeconds => timeEndSeconds;*/
-
     public bool isRandom;
     public bool isCertain; // Или активируются конкретные грани?
     public bool isResetAfterDeath;
@@ -67,6 +52,4 @@ public class RedFaceSettings : ActionSettingsScript
 
     public bool isOffsetChange;
     public float offset;
-
-
 }

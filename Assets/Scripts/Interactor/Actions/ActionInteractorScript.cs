@@ -6,10 +6,10 @@ public class ActionInteractorScript : MonoBehaviour
 {
     public ScenarioEntry[] entries;
     private float time;
+    [SerializeField] private LevelTimeManagementScript levelTimeManagement;
     private bool[] spawnExecuted;
     private bool[] spawnCanceled;
     public int currentSpawnIndex = 0;
-
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class ActionInteractorScript : MonoBehaviour
 
     private void Update()
     {
-        time += Time.deltaTime;
+        time = levelTimeManagement.GetCurrentTime();
 
         for (int i = 0; i < entries.Length; i++)
         {

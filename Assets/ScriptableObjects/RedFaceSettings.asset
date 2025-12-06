@@ -17,7 +17,6 @@ MonoBehaviour:
   effectName: exsdcrvtfgbyhnujm
   isHint: 0
   bpm: 90
-  isHints: 0
   timeStartBeats: 4.5
   isTimeEnd: 1
   timeEndBeats: 29.265

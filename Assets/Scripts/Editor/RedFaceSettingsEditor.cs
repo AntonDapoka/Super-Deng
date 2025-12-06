@@ -14,10 +14,6 @@ public class RedFaceSettingsEditor : Editor
 
     private void InitStyles()
     {
-
-
-
-
         headerStyle = new GUIStyle(EditorStyles.label)
         {
             fontSize = 20,
