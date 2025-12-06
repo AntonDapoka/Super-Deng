@@ -18,9 +18,6 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     [SerializeField] private FaceArrayScript FAS;
     [SerializeField] private PlayerScript PS;
 
-
-
-
     private void Start()
     {
         isTurnOn = false;

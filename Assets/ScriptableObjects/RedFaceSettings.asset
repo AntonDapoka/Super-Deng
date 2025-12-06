@@ -36,7 +36,7 @@ MonoBehaviour:
   proximityLimit: 59
   isDistanceLimit: 0
   distanceLimit: 288
-  isBasicSettingsChange: 1
+  isBasicSettingsChange: 0
   isMaterialChange: 1
   material: {fileID: 0}
   isColorDurationBeatsChange: 1
