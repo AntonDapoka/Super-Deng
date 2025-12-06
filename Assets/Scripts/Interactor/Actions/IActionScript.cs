@@ -1,9 +1,10 @@
+using UnityEngine;
 
 public interface IActionScript
 {
     void Initialize();
 
-    void SetDefinition(object definition);
+    void SetSettings<T>(T settings) where T : Component;
 
     void Execute();
 

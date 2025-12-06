@@ -11,7 +11,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     private float waitDuration;
     private float scaleChangeDurationDown;
     [SerializeField] private float scaleChange = 25f;
-    private float positionChange;
+    [SerializeField] private float positionChange;
     [SerializeField] private Material materialWhite;
     [SerializeField] private Material materialRed;
     [SerializeField] private Material materialPlayer;
@@ -24,10 +24,10 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     private void Start()
     {
-        isTurnOn = true;
+        isTurnOn = false;
         colvo = 3;
         isRandomSpawnTime = true;
-        positionChange = scaleChange * -0.05f; // Rewrite
+        //positionChange = scaleChange * -0.05f; // Rewrite
         faces = FAS.GetAllFaces();
         SetBPMSettings(); //DELETE IT!!!!
     }
@@ -38,6 +38,18 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         scaleChangeDurationUp = RM.beatInterval / 2;
         waitDuration = 0f;
         scaleChangeDurationDown = RM.beatInterval;
+    }
+
+    public override void SetSettings<T>(T settings) 
+    {
+        RedFaceSettings redSettings = settings.GetComponent<RedFaceSettings>();
+
+        if (redSettings == null)
+        {
+            Debug.LogError("WRONG SETTINGS FOR RED FACE SPAWNER");
+            return;
+        }
+        isRandomSpawnTime = redSettings.isRandom;
     }
 
     public override bool IsSuitableSpecialRequirements()
@@ -71,12 +83,8 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
         yield return StartCoroutine(ChangeScale(face, new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 0f), scaleChangeDurationDown));
 
-        /*
         if (faceState.Get(FaceProperty.HavePlayer)) { PS.SetPartsMaterial(materialPlayer); }
-        else if (FS.isRight) FS.rend.material = FS.materialRightFace;
-        else if (FS.isLeft) FS.rend.material = FS.materialLeftFace;
-        else if (FS.isTop) FS.rend.material = FS.materialTopFace;
-        else FS.rend.material = materialWhite;*/
+        else FS.rend.material = materialWhite;
 
         FS.rend.material = materialWhite; // Fallback
         faceState.Set(FaceProperty.IsKilling, false);
@@ -93,14 +101,13 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         while (timer < duration)
         {
             FS.rend.material = materialRed;
-            //if (FS.havePlayer) PS.SetPartsMaterial(materialRed); // Commented out - field is commented in FaceScript
-
             FS.glowingPart.transform.localScale = Vector3.Lerp(startScale, targetScale, timer / duration);
             FS.glowingPart.transform.localPosition = Vector3.Lerp(startPosition, targetPosition, timer / duration);
-
+            Debug.Log(FS.glowingPart.transform.localPosition);
             timer += Time.deltaTime;
             yield return null;
         }
         FS.glowingPart.transform.localScale = targetScale;
+        FS.glowingPart.transform.localPosition = targetPosition;
     }
 }
