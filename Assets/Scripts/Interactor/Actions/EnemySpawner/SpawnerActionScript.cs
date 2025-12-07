@@ -3,38 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveActionScript //, IFieldInteractiveActionScript 
+public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
 {
     protected GameObject[] faces;
-    public List<int> faceIndices = new();
-    protected int colvo;
-    protected bool isRandomSpawnTime = false;
+    protected List<int> faceIndices = new();
+    protected float bpm;
+    protected int quantity;
+    protected bool isTurnOn = false;
+    protected bool isRandomSpawn = false;
 
-    [SerializeField] private PlayerStateInteractorScript _playerStateInteractor;
-    [SerializeField] private FieldInteractorScript _fieldInteractor;
-    [SerializeField] private MonoBehaviour _rhythmable;
+    [SerializeField] private PlayerStateInteractorScript playerStateInteractor;
+    [SerializeField] private FieldInteractorScript fieldInteractor;
+    [SerializeField] private FaceArrayScript faceArray;
 
-    public PlayerStateInteractorScript PlayerStatetInteractor => _playerStateInteractor;
-    public FieldInteractorScript FieldInteractor => _fieldInteractor;
-    public IRhythmableScript Rhythmable => _rhythmable as IRhythmableScript;
+    public PlayerStateInteractorScript PlayerStatetInteractor => playerStateInteractor;
+    public FieldInteractorScript FieldInteractor => fieldInteractor;
+    public FaceArrayScript FaceArray => faceArray;
+
+    public void TurnOn()
+    {
+        isTurnOn = true;    
+    }
+
+    public void TurnOff()
+    {
+        isTurnOn = false;
+    }
 
     public virtual void Initialize()
     {
-        //faces = FieldInteractor.GetAllFaces();
+        faces = FaceArray.GetAllFaces();
     }
 
-    public virtual void SetSettings<T>(T settings)
-    {
-        
-
-    }
+    public abstract void SetSettings<T>(T settings);
 
     public virtual void Execute() 
     {
         List<int> availableFaces = GetAvailableFaces();
-        if (isRandomSpawnTime)
+        if (isRandomSpawn)
         {
-            for (int i = 0; i < colvo; i++)
+            for (int i = 0; i < quantity; i++)
             {
                 if (availableFaces.Count == 0) return;
 
@@ -57,8 +65,6 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
         }
     }
 
-    public abstract void SetActionFace(GameObject gameObject);
-
     public virtual List<int> GetAvailableFaces()
     {
         List<int> availableFaces = new(); 
@@ -74,9 +80,9 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
         return availableFaces;
     }
 
-    public virtual bool CheckIsSuitableFace(FaceStateScript FSS)
+    protected virtual bool CheckIsSuitableFace(FaceStateScript FSS)
     {
-        bool res = !FSS.Get(FaceProperty.HavePlayer) &&
+        bool res = //!FSS.Get(FaceProperty.HavePlayer) &&
                 !FSS.Get(FaceProperty.IsBlinking) &&
                 !FSS.Get(FaceProperty.IsKilling) &&
                 !FSS.Get(FaceProperty.IsBlocked) &&
@@ -88,6 +94,8 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
     }
 
     public abstract bool IsSuitableSpecialRequirements();
+
+    public abstract void SetActionFace(GameObject gameObject);
 
     public virtual void Cancel() { }
 }

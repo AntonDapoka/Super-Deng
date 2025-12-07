@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class ActionInteractorScript : MonoBehaviour
 {
-    public ScenarioEntry[] entries;
-    private float time;
     [SerializeField] private LevelTimeManagementScript levelTimeManagement;
+
+    public ScenarioEntry[] entries; //!!!!!!!!!!!!
     private bool[] spawnExecuted;
     private bool[] spawnCanceled;
-    public int currentSpawnIndex = 0;
+
+    private float time;
+    private int currentSpawnIndex = 0;
 
     private void Awake()
     {
@@ -22,7 +24,7 @@ public class ActionInteractorScript : MonoBehaviour
         entries = newEntries;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         time = levelTimeManagement.GetCurrentTime();
 
@@ -37,7 +39,7 @@ public class ActionInteractorScript : MonoBehaviour
             else if (time >= entries[i].settings.TimeEndSeconds && !spawnCanceled[currentSpawnIndex])
             {
                 Debug.Log(entries[i].settings.TimeEndSeconds.ToString());
-                //entry.action.Cancel(entry.definition);
+                entries[i].action.Cancel();
                 spawnCanceled[currentSpawnIndex] = true;
             }
 

@@ -8,6 +8,7 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private BackgroundInitializerScript backgroundInitializer;
     [SerializeField] private PlayerInitializerScript playerInitializer;
     [SerializeField] private ActionInitializerScript actionInitializer;
+    [SerializeField] private LevelTimeManagementScript timeIntializer;
     //[SerializeField] private InputControllerInitializerScript inputControllerInitializer; ????
 
 
@@ -18,6 +19,7 @@ public class LevelInitializerScript : MonoBehaviour
 
     private void Start()
     {
+        timeIntializer.TurnOn();
         fieldInitializer.InitializeField();
         playerInitializer.InitializePlayer();
     }
