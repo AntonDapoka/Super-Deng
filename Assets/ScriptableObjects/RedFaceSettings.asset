@@ -12,27 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddcebce76eba824c9a702683ba5b80c, type: 3}
   m_Name: RedFaceSettings
   m_EditorClassIdentifier: 
-  timeStartSeconds: 3
-  timeEndSeconds: 19.51
   effectName: exsdcrvtfgbyhnujm
   isHint: 0
   bpm: 90
+  timeStartSeconds: 3
   timeStartBeats: 4.5
   isTimeEnd: 1
-  timeEndBeats: 29.265
+  timeEndSeconds: 20.82
+  timeEndBeats: 31.23
   isRandom: 1
-  isCertain: 0
-  isResetAfterDeath: 0
+  isCertain: 1
   isStableQuantity: 0
   quantityExact: 409
-  quantityMin: 69
-  quantityMax: 99
+  quantityMin: 63
+  quantityMax: 148
   isRelativeToPlayer: 1
   arrayOfFacesRelativeToPlayer: 
   isRelativeToFigure: 1
   arrayOfFacesRelativeToFigure: 
-  isProximityLimit: 0
-  proximityLimit: 59
+  isProximityLimit: 1
+  proximityLimit: 150
   isDistanceLimit: 0
   distanceLimit: 288
   isBasicSettingsChange: 0
