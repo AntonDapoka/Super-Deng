@@ -31,7 +31,7 @@ public class RedFaceSettings : ActionSettingsScript
     public bool isMaterialChange;
     public Material material;
 
-    public bool isColorDurationBeatsChange;
+    public bool isColorDurationChange;
     public float colorDurationBeats;
     public float colorDurationSeconds;
 

@@ -27,7 +27,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     private bool isMaterialChange;
     private Material material;
 
-    private bool isColorDurationBeatsChange;
+    private bool isColorDurationChange;
     private float colorDurationBeats;
     private float colorDurationSeconds;
 
@@ -49,16 +49,17 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     private bool isOffsetChange;
     private float offset;
 
-    private float colorChangeDuration;
-    private float scaleChangeDurationUp;
-    private float waitDuration;
-    private float scaleChangeDurationDown;
     [SerializeField] private float scaleChange = 25f;
     [SerializeField] private float positionChange;
     [SerializeField] private Material materialWhite;
     [SerializeField] private Material materialRed;
     [SerializeField] private Material materialPlayer;
     [SerializeField] private RedFaceSpawnerPresenterScript presenter;
+
+    private void Start()
+    {
+        Initialize();
+    }
 
     public override void Initialize()
     {
@@ -80,11 +81,12 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         bpm = redFaceSettings.bpm;
 
         isRandomSpawn = redFaceSettings.isRandom;
-        isCertainSpawn = redFaceSettings.isCertain;
+
         //isResetAfterDeath  = redFaceSettings.isResetAfterDeath;
 
         if (isRandomSpawn)
         {
+
             isStableQuantity = redFaceSettings.isStableQuantity;
             if (isStableQuantity)
             {
@@ -97,15 +99,99 @@ public class RedFaceSpawnerScript : SpawnerActionScript
             }
         }
 
+        isCertainSpawn = redFaceSettings.isCertain;
+
         if (isCertainSpawn)
         {
+            isRelativeToFigure = redFaceSettings.isRelativeToFigure;
+            isRelativeToPlayer = redFaceSettings.isRelativeToPlayer;
 
+            if (isRelativeToFigure)
+            {
+                arrayOfFacesRelativeToFigure = redFaceSettings.arrayOfFacesRelativeToFigure;
+            }
+
+            if (isRelativeToPlayer)
+            {
+                arrayOfFacesRelativeToPlayer = redFaceSettings.arrayOfFacesRelativeToPlayer;
+            }
         }
 
-        colorChangeDuration = 60f / bpm * 3;
-        scaleChangeDurationUp = 60f / bpm / 2;
-        waitDuration = 0f;
-        scaleChangeDurationDown = 60f / bpm;
+        isProximityLimit = redFaceSettings.isProximityLimit;
+
+        if (isProximityLimit)
+        {
+            proximityLimit = redFaceSettings.proximityLimit;
+        }
+
+        isDistanceLimit = redFaceSettings.isDistanceLimit;
+
+        if (isDistanceLimit)
+        {
+            distanceLimit = redFaceSettings.distanceLimit;
+        }
+
+        isBasicSettingsChange = redFaceSettings.isBasicSettingsChange;
+
+        if (isBasicSettingsChange)
+        {
+            isMaterialChange = redFaceSettings.isMaterialChange;
+
+            if (isMaterialChange)
+            {
+                //PRESENTER
+            }
+
+            isColorDurationChange = redFaceSettings.isColorDurationChange;
+
+            if (isColorDurationChange)
+            {
+                colorDurationSeconds = redFaceSettings.colorDurationSeconds;
+            }
+
+            isScaleUpDurationChange = redFaceSettings.isScaleUpDurationChange;
+
+            if (isScaleUpDurationChange)
+            {
+                scaleUpDurationSeconds = redFaceSettings.scaleUpDurationSeconds;
+            }
+
+            isWaitDurationChange = redFaceSettings.isWaitDurationChange;
+
+            if (isWaitDurationChange)
+            {
+                waitDurationSeconds = redFaceSettings.waitDurationSeconds;
+            }
+
+            isScaleDownDurationChange = redFaceSettings.isScaleDownDurationChange;
+
+            if (isScaleDownDurationChange)
+            {
+                scaleDownDurationSeconds = redFaceSettings.scaleDownDurationSeconds;
+            }
+
+            isHeightChange = redFaceSettings.isHeightChange;
+
+            if (isHeightChange)
+            {
+                height = redFaceSettings.height;
+            }
+
+            isOffsetChange = redFaceSettings.isOffsetChange;
+
+            if (isOffsetChange)
+            {
+                offset = redFaceSettings.offset;
+            }
+        }
+        else
+        {
+            colorDurationSeconds = 60f / bpm * 3;
+            scaleUpDurationSeconds = 60f / bpm / 2;
+            waitDurationSeconds = 0f;
+            scaleDownDurationSeconds = 60f / bpm;
+        }
+
 
         isTurnOn = true;
     }
@@ -127,7 +213,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         FaceStateScript faceState = face.GetComponent<FaceStateScript>();
         faceState.Set(FaceProperty.IsColored, true); 
         float timer = 0f;
-        while (timer < colorChangeDuration)
+        while (timer < colorDurationSeconds)
         {
             FS.rend.material = materialRed;
             //if (faceState.havePlayer) PS.SetPartsMaterial(materialRed); // Commented out - field is commented in FaceScript
@@ -136,11 +222,11 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         }
         faceState.Set(FaceProperty.IsKilling, true); 
         faceState.Set(FaceProperty.IsColored, false); 
-        yield return StartCoroutine(ChangeScale(face, new Vector3(1f, 1f, scaleChange), new Vector3(0f, positionChange, 0f), scaleChangeDurationUp));
+        yield return StartCoroutine(ChangeScale(face, new Vector3(1f, 1f, scaleChange), new Vector3(0f, positionChange, 0f), scaleUpDurationSeconds));
 
-        yield return new WaitForSeconds(waitDuration);
+        yield return new WaitForSeconds(waitDurationSeconds);
 
-        yield return StartCoroutine(ChangeScale(face, new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 0f), scaleChangeDurationDown));
+        yield return StartCoroutine(ChangeScale(face, new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 0f), scaleDownDurationSeconds));
 
         FS.rend.material = materialWhite;
 

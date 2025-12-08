@@ -10,7 +10,7 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
     protected List<int> faceIndices = new();
     protected float bpm;
     protected int quantity;
-    protected bool isTurnOn = false;
+    [SerializeField] protected bool isTurnOn = false;
     protected bool isRandomSpawn = false;
 
     [SerializeField] private PlayerStateInteractorScript playerStateInteractor;

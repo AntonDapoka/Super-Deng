@@ -344,7 +344,7 @@ public class RedFaceSettingsEditor : Editor
         SerializedProperty isMaterialChange = serializedObject.FindProperty("isMaterialChange");
         SerializedProperty material = serializedObject.FindProperty("material");
 
-        SerializedProperty isColorDurationBeatsChange = serializedObject.FindProperty("isColorDurationBeatsChange");
+        SerializedProperty isColorDurationChange = serializedObject.FindProperty("isColorDurationChange");
         SerializedProperty colorDurationBeats = serializedObject.FindProperty("colorDurationBeats");
         SerializedProperty colorDurationSeconds = serializedObject.FindProperty("colorDurationSeconds");
 
@@ -377,8 +377,8 @@ public class RedFaceSettingsEditor : Editor
             }
             EditorGUILayout.Space();
 
-            EditorGUILayout.PropertyField(isColorDurationBeatsChange, new GUIContent("isScaleUpDurationChange?"));
-            if (isColorDurationBeatsChange.boolValue)
+            EditorGUILayout.PropertyField(isColorDurationChange, new GUIContent("isColorDurationChange?"));
+            if (isColorDurationChange.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
                 EditorGUILayout.PropertyField(colorDurationSeconds, new GUIContent("colorDurationSeconds (seconds)"));
