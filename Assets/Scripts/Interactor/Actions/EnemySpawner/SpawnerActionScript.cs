@@ -5,6 +5,7 @@ using System.Linq;
 
 public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
 {
+    [SerializeField] private ActionType type;
     protected GameObject[] faces;
     protected List<int> faceIndices = new();
     protected float bpm;
@@ -19,6 +20,7 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
     public PlayerStateInteractorScript PlayerStatetInteractor => playerStateInteractor;
     public FieldInteractorScript FieldInteractor => fieldInteractor;
     public FaceArrayScript FaceArray => faceArray;
+    public ActionType Type => type;
 
     public void TurnOn()
     {

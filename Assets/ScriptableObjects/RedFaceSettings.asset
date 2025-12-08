@@ -20,6 +20,7 @@ MonoBehaviour:
   isTimeEnd: 1
   timeEndSeconds: 20.82
   timeEndBeats: 31.23
+  type: 0
   isRandom: 1
   isCertain: 1
   isStableQuantity: 0

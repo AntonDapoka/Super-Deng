@@ -12,6 +12,10 @@ public abstract class ActionSettingsScript : ScriptableObject, IActionSettingsSc
     public float timeEndSeconds; 
     public float timeEndBeats;
 
+    public ActionType type;
+
+    public ActionType Type => type;
+
     float IActionSettingsScript.TimeStartSeconds => timeStartSeconds;
     float IActionSettingsScript.TimeEndSeconds => timeEndSeconds;
 }

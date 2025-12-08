@@ -2,6 +2,8 @@ using UnityEngine;
 
 public interface IActionScript
 {
+    ActionType Type { get; }
+
     void Initialize();
 
     void SetSettings<T>(T settings);

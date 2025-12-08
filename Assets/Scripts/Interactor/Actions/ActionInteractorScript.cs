@@ -13,15 +13,12 @@ public class ActionInteractorScript : MonoBehaviour
     private float time;
     private int currentSpawnIndex = 0;
 
-    private void Awake()
-    {
-        spawnExecuted = new bool[entries.Length];
-        spawnCanceled = new bool[entries.Length];
-    }
 
     public void SetScenario(ScenarioEntry[] newEntries)
     {
         entries = newEntries;
+        spawnExecuted = new bool[entries.Length];
+        spawnCanceled = new bool[entries.Length];
     }
 
     private void FixedUpdate()

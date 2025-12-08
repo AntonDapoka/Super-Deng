@@ -62,6 +62,9 @@ public class RedFaceSettingsEditor : Editor
         EditorGUILayout.LabelField("Red Face Effect \"" + effectName.stringValue + "\"", headerStyle);
         EditorGUILayout.PropertyField(effectName, new GUIContent("Name of the effect:"));
 
+        SerializedProperty type = serializedObject.FindProperty("type");
+        EditorGUILayout.PropertyField(type, new GUIContent("Action Type"));
+
         SetRedFaces();
 
         serializedObject.ApplyModifiedProperties();
@@ -71,6 +74,7 @@ public class RedFaceSettingsEditor : Editor
     {
         SerializedProperty bpm = serializedObject.FindProperty("bpm");
         SerializedProperty isHint = serializedObject.FindProperty("isHint");
+
 
         EditorGUILayout.Space();
 
