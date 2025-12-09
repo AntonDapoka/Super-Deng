@@ -190,6 +190,8 @@ public class RedFaceSpawnerScript : SpawnerActionScript
             scaleUpDurationSeconds = 60f / bpm / 2;
             waitDurationSeconds = 0f;
             scaleDownDurationSeconds = 60f / bpm;
+            height = 60f;
+            offset = height * 0.0009f;
         }
 
 
@@ -213,15 +215,17 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         FaceStateScript faceState = face.GetComponent<FaceStateScript>();
         faceState.Set(FaceProperty.IsColored, true); 
         float timer = 0f;
+
         while (timer < colorDurationSeconds)
         {
             FS.rend.material = materialRed;
-            //if (faceState.havePlayer) PS.SetPartsMaterial(materialRed); // Commented out - field is commented in FaceScript
             timer += Time.deltaTime;
             yield return null;
         }
+
         faceState.Set(FaceProperty.IsKilling, true); 
         faceState.Set(FaceProperty.IsColored, false); 
+
         yield return StartCoroutine(ChangeScale(face, new Vector3(1f, 1f, scaleChange), new Vector3(0f, positionChange, 0f), scaleUpDurationSeconds));
 
         yield return new WaitForSeconds(waitDurationSeconds);
@@ -230,7 +234,6 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
         FS.rend.material = materialWhite;
 
-        FS.rend.material = materialWhite; // Fallback
         faceState.Set(FaceProperty.IsKilling, false);
 
     }
