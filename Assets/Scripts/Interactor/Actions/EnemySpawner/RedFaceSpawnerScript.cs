@@ -174,7 +174,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
             if (isHeightChange)
             {
-                height = redFaceSettings.height;
+                scaleChange = redFaceSettings.height;
             }
 
             isOffsetChange = redFaceSettings.isOffsetChange;
