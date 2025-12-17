@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class RedFaceSpawnerScript : SpawnerActionScript
 {
+    private List<RedFaceScript> redFaces = new();
+
     private bool isCertainSpawn;
     private bool isResetAfterDeath;
     private bool isStableQuantity;
@@ -55,6 +58,20 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     [SerializeField] private Material materialRed;
     [SerializeField] private Material materialPlayer;
     [SerializeField] private RedFaceSpawnerPresenterScript presenter;
+
+    private FaceScript currentFaceScript;
+    private FaceStateScript currentFaceState;
+
+    State state = State.Idle;
+
+    enum State
+    {
+        Idle,
+        Coloring,
+        ScaleUp,
+        Waiting,
+        ScaleDown
+    }
 
     private void Start()
     {
@@ -198,6 +215,8 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         isTurnOn = true;
     }
 
+
+
     public override bool IsSuitableSpecialRequirements()
     {
         return true;
@@ -206,7 +225,25 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     public override void SetActionFace(GameObject gameObject)
     {
         if (isTurnOn)
-            StartCoroutine(SetRedFace(gameObject));
+        {
+            FaceScript faceScript = gameObject.GetComponent<FaceScript>();
+            FaceStateScript faceState = faceScript.FaceState;
+            faceState.Set(FaceProperty.IsColored, true);
+            //timer = 0f;
+            state = State.Coloring;
+        }
+        //StartCoroutine(SetRedFace(gameObject));
+    }
+
+    public void Update()
+    {
+        switch (state)
+        {
+            case State.Coloring: UpdateColoring(); break;
+            case State.ScaleUp: UpdateScaleUp(); break;
+            case State.Waiting: UpdateWait(); break;
+            case State.ScaleDown: UpdateScaleDown(); break;
+        }
     }
 
     private IEnumerator SetRedFace(GameObject face)
@@ -257,3 +294,5 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         FS.glowingPart.transform.localPosition = targetPosition;
     }
 }
+
+
