@@ -18,8 +18,8 @@ MonoBehaviour:
   timeStartSeconds: 1.3333334
   timeStartBeats: 2
   isTimeEnd: 1
-  timeEndSeconds: 26.43
-  timeEndBeats: 39.645
+  timeEndSeconds: 8
+  timeEndBeats: 12
   type: 0
   isRandom: 1
   isCertain: 0
@@ -35,22 +35,22 @@ MonoBehaviour:
   proximityLimit: 63
   isDistanceLimit: 0
   distanceLimit: 288
-  isBasicSettingsChange: 0
-  isMaterialChange: 0
-  material: {fileID: 0}
-  isColorDurationChange: 0
-  colorDurationBeats: -11.985
-  colorDurationSeconds: -7.99
-  isScaleUpDurationChange: 0
-  scaleUpDurationBeats: 12.210001
-  scaleUpDurationSeconds: 8.14
-  isWaitDurationChange: 0
-  waitDurationBeats: 17.414999
-  waitDurationSeconds: 11.61
-  isScaleDownDurationChange: 0
-  scaleDownDurationBeats: 103.33
-  scaleDownDurationSeconds: 68.886665
+  isBasicSettingsChange: 1
+  isMaterialChange: 1
+  material: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
+  isColorDurationChange: 1
+  colorDurationBeats: 1
+  colorDurationSeconds: 0.6666667
+  isScaleUpDurationChange: 1
+  scaleUpDurationBeats: 1
+  scaleUpDurationSeconds: 0.6666667
+  isWaitDurationChange: 1
+  waitDurationBeats: 1
+  waitDurationSeconds: 0.6666667
+  isScaleDownDurationChange: 1
+  scaleDownDurationBeats: 1
+  scaleDownDurationSeconds: 0.6666667
   isHeightChange: 1
-  height: 126.5
-  isOffsetChange: 0
-  offset: 5.24
+  height: 100
+  isOffsetChange: 1
+  offset: 0.1

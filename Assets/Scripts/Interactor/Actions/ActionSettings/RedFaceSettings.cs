@@ -5,7 +5,6 @@ public class RedFaceSettings : ActionSettingsScript
 {
     public bool isRandom;
     public bool isCertain; // Или активируются конкретные грани?
-    //public bool isResetAfterDeath;
 
     public bool isStableQuantity; 
     public int quantityExact;

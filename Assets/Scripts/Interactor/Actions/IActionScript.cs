@@ -1,4 +1,4 @@
-using UnityEngine;
+
 
 public interface IActionScript
 {
@@ -10,5 +10,9 @@ public interface IActionScript
 
     void Execute();
 
-    void Cancel(); //, ScenarioContext context
+    void Cancel();
+
+    void TurnOn();
+
+    void TurnOff();
 }

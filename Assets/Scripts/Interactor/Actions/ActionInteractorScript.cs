@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 public class ActionInteractorScript : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class ActionInteractorScript : MonoBehaviour
             if (time >= entries[i].settings.TimeStartSeconds && time < entries[i].settings.TimeEndSeconds && !spawnExecuted[currentSpawnIndex])
             {
                 Debug.Log(entries[i].settings.TimeStartSeconds.ToString());
+                entries[i].action.TurnOn();
                 entries[i].action.SetSettings(entries[i].settings);
                 spawnExecuted[currentSpawnIndex] = true;
             }

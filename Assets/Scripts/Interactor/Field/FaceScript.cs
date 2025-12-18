@@ -103,4 +103,9 @@ public class FaceScript : MonoBehaviour, IFaceScript
 
         isTurnOn = true;
     }
+
+    public int GetPathObjectCount()
+    {
+        return pathObjectCount;
+    }
 }

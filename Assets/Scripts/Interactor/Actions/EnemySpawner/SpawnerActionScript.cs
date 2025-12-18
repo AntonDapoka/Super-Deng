@@ -2,16 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using static UnityEngine.Rendering.PostProcessing.SubpixelMorphologicalAntialiasing;
 
 public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
 {
     [SerializeField] private ActionType type;
-    protected GameObject[] faces;
-    protected List<int> faceIndices = new();
-    protected float bpm;
-    protected int quantity;
+    [SerializeField] protected GameObject[] faces;
     [SerializeField] protected bool isTurnOn = false;
-    protected bool isRandomSpawn = false;
+    [SerializeField] protected bool isRandomSpawn = false;
+    protected bool isCertainSpawn = false;
+    protected bool isStableQuantity;
+    protected int quantityExact;
+    protected int quantityMin;
+    protected int quantityMax;
+
+    protected bool isRelativeToPlayer = false;
+    protected int[] arrayOfFacesRelativeToPlayer;
+    protected bool isRelativeToFigure = false;
+    protected int[] arrayOfFacesRelativeToFigure;
+
+
+    protected bool isProximityLimit = false;
+    protected int proximityLimit;
+    protected bool isDistanceLimit = false;
+    protected int distanceLimit;
 
     [SerializeField] private PlayerStateInteractorScript playerStateInteractor;
     [SerializeField] private FieldInteractorScript fieldInteractor;
@@ -22,15 +36,6 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
     public FaceArrayScript FaceArray => faceArray;
     public ActionType Type => type;
 
-    public void TurnOn()
-    {
-        isTurnOn = true;    
-    }
-
-    public void TurnOff()
-    {
-        isTurnOn = false;
-    }
 
     public virtual void Initialize()
     {
@@ -41,9 +46,12 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
 
     public virtual void Execute() 
     {
+
         List<int> availableFaces = GetAvailableFaces();
         if (isRandomSpawn)
         {
+            int quantity = isStableQuantity ? quantityExact : Random.Range(quantityMin, quantityMax);
+
             for (int i = 0; i < quantity; i++)
             {
                 if (availableFaces.Count == 0) return;
@@ -53,11 +61,27 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
                 availableFaces.RemoveAt(randomIndex);
 
                 SetActionFace(faces[selectedFaceIndex]); //Launch random ones from the available ones
+
             }
         }
-        else
+        if (isCertainSpawn) 
         {
-            var intersectedIndices = faceIndices.Intersect(availableFaces);
+            if (!isRelativeToPlayer && !isRelativeToFigure)
+                return;
+
+            IEnumerable<int> source = Enumerable.Empty<int>();
+
+            if (isRelativeToPlayer)
+                source = source.Concat(arrayOfFacesRelativeToPlayer);
+
+            if (isRelativeToFigure)
+                source = source.Concat(arrayOfFacesRelativeToFigure);
+
+            var intersectedIndices = source
+            .Distinct()
+            .Intersect(availableFaces)
+            .ToList();
+
             foreach (int index in intersectedIndices)
             {
                 availableFaces.RemoveAt(index);
@@ -73,8 +97,9 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
 
         for (int i = 0; i < faces.Length; i++)
         {
+            FaceScript FS = faces[i].GetComponent<FaceScript>();
             FaceStateScript FSS = faces[i].GetComponent<FaceStateScript>();
-            if (CheckIsSuitableFace(FSS))
+            if (CheckIsSuitableFace(FS, FSS))
             {
                 availableFaces.Add(i);
             }
@@ -82,7 +107,7 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
         return availableFaces;
     }
 
-    protected virtual bool CheckIsSuitableFace(FaceStateScript FSS)
+    protected virtual bool CheckIsSuitableFace(FaceScript FS, FaceStateScript FSS)
     {
         bool res = //!FSS.Get(FaceProperty.HavePlayer) &&
                 !FSS.Get(FaceProperty.IsBlinking) &&
@@ -91,6 +116,8 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
                 !FSS.Get(FaceProperty.IsColored) &&
                 !FSS.Get(FaceProperty.IsPortal) &&
                 !FSS.Get(FaceProperty.IsBonus) &&
+                //(isProximityLimit && FS.GetPathObjectCount() >= proximityLimit) &&
+                //(isDistanceLimit && FS.GetPathObjectCount() <= distanceLimit) &&
                 IsSuitableSpecialRequirements();
         return res;
     }
@@ -100,4 +127,14 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
     public abstract void SetActionFace(GameObject gameObject);
 
     public virtual void Cancel() { }
+
+    public void TurnOn()
+    {
+        isTurnOn = true;
+    }
+
+    public void TurnOff()
+    {
+        isTurnOn = false;
+    }
 }
