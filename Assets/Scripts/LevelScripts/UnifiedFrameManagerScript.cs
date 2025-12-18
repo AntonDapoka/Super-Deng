@@ -42,7 +42,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
 
             if (elapsedTime >= spawnTimeData.time && elapsedTime <= nextSpawnTimeData.time && !spawnExecuted[currentSpawnIndex])//Во время текущего фрейма применяем настройки
             {
-                if (spawnTimeData.isRedFaceTurnOn)
+                /*if (spawnTimeData.isRedFaceTurnOn)
                 {
                     RFS.isTurnOn = true;
                     if (spawnTimeData.isRedFaceRandom)
@@ -63,7 +63,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
                     RFS.faceIndices.Clear();
                     RFS.isRandomSpawnTime = false;
                     RFS.isTurnOn = false;
-                }
+                }*/
 
                 if (spawnTimeData.isRedWaveTurnOn)
                 {

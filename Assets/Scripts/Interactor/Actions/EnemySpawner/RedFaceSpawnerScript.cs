@@ -237,12 +237,12 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     public void Update()
     {
-        switch (state)
+        //switch (state)
         {
-            case State.Coloring: UpdateColoring(); break;
-            case State.ScaleUp: UpdateScaleUp(); break;
-            case State.Waiting: UpdateWait(); break;
-            case State.ScaleDown: UpdateScaleDown(); break;
+            //case State.Coloring: UpdateColoring(); break;
+            //case State.ScaleUp: UpdateScaleUp(); break;
+            //case State.Waiting: UpdateWait(); break;
+            //case State.ScaleDown: UpdateScaleDown(); break;
         }
     }
 

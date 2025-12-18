@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class KillYourselfScript : MonoBehaviour
-{
+{/*
     public int beatsNoMoving = 0;
     [SerializeField] private int beatsUntilSuicide = 3;
     [SerializeField] private RedFaceScript RFS;
@@ -15,5 +15,5 @@ public class KillYourselfScript : MonoBehaviour
         {
             RFS.SetExactRedFace(PS.GetCurrentFace());
         }
-    }
+    }*/
 }

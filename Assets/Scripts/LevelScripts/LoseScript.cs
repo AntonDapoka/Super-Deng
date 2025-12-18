@@ -41,7 +41,7 @@ public class LoseScript : MonoBehaviour
     }
 
     private void DisableEverything()
-    {
+    {/*
         TC.isTurnOn = false;
         UFMS.isTurnOn = false;
         RM.isTurnOn = false;
@@ -52,7 +52,7 @@ public class LoseScript : MonoBehaviour
         PSS.isTurnOn = false;
         CZ.isTurnOn = false;
         PTTB.isTurnOn = false;
-        ISDS.isTurnOn = false;
+        ISDS.isTurnOn = false;*/
     }
 
     private IEnumerator FadeOutCoroutine()

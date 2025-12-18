@@ -39,7 +39,7 @@ public class WinScript : MonoBehaviour
 
     private void DisableEverything()
     {
-        TC.isTurnOn = false;
+        /*TC.isTurnOn = false;
         UFMS.isTurnOn = false;
         RM.isTurnOn = false;
         RFS.isTurnOn = false;
@@ -49,6 +49,6 @@ public class WinScript : MonoBehaviour
         PSS.isTurnOn = false;
         CZ.isTurnOn = false;
         PTTB.isTurnOn = false;
-        ISDS.isTurnOn = false;
+        ISDS.isTurnOn = false;*/
     }
 }
