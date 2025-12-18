@@ -73,9 +73,24 @@ public class RedFaceScript
 
             height = settings.height;
             offset = settings.offset;
+
+            material = settings.material;
+        }
+        else
+        {
+            float bpm = settings.bpm;
+            colorDuration = presenter.GetColorDurationSeconds(bpm);
+            scaleUpDuration = presenter.GetScaleUpDurationSeconds(bpm);
+            waitDuration = presenter.GetWaitDurationSeconds(bpm);
+            scaleDownDuration = presenter.GetScaleDownDurationSeconds(bpm);
+
+            height = presenter.GetHeight();
+            offset = presenter.GetOffset();
+
+            material = presenter.GetMaterial();
         }
 
-        faceScript = face.GetComponent<FaceScript>();
+            faceScript = face.GetComponent<FaceScript>();
         faceState = face.GetComponent<FaceStateScript>();
 
         startScale = faceScript.glowingPart.transform.localScale;

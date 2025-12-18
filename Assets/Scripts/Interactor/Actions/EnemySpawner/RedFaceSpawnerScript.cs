@@ -54,7 +54,6 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     public override void SetActionFace(GameObject face)
     {
-        Debug.Log("Here");
         if (isTurnOn) redFaces.Add(CreateRedFace(face));
     }
 
