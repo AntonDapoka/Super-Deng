@@ -14,6 +14,8 @@ public class PlayerMovementInteractorScript : MonoBehaviour
     [SerializeField] private FaceScript playerFace;
     private FaceStateScript playerFaceState;
 
+    [SerializeField] private PlayerStateInteractorScript playerStateInteractor;
+
     private Dictionary<string, GameObject> sides = new();
 
     public void InitializePlayerFace(FaceScript face)
@@ -141,6 +143,8 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         //NHS.SetNavigationHint(FS1);
         //NHS.SetNavigationHint(FS2);
         //NHS.SetNavigationHint(FS3);
+
+        playerStateInteractor.SetCurrentFace(sideCurrent);
     }
 
     private void UpdateSidesBasedOnPrevious(GameObject sideOne, GameObject sideTwo, GameObject[] sidesPreviousOther)
