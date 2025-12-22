@@ -3,16 +3,15 @@ using System.Collections.Generic;
 
 public class MenuKeyboardInputControllerScript : MonoBehaviour
 {
-    [SerializeField] private MonoBehaviour[] inputInteractor;
-
+    [SerializeField] private MonoBehaviour[] interactors;
     private readonly List<IMenuKeyboardInputInteractorScript> Interactors = new();
 
-    private readonly Queue<char> buffer = new Queue<char>(20);
-    private const int BufferSize = 20;
+    private readonly Queue<KeyCode> buffer = new();
+    private const int bufferSize = 20;
 
     private void Awake()
     {
-        foreach (var behaviour in inputInteractor)
+        foreach (var behaviour in interactors)
         {
             if (behaviour is IMenuKeyboardInputInteractorScript interactor)
             {
@@ -27,28 +26,26 @@ public class MenuKeyboardInputControllerScript : MonoBehaviour
 
     private void Update()
     {
-        var input = Input.inputString;
-        if (string.IsNullOrEmpty(input))
-            return;
-
-        foreach (char c in input)
+        foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
         {
-            AddCharToBuffer(c);
+            if (Input.GetKeyDown(key))
+            {
+                AddKeyToBuffer(key);
+                NotifyInteractors();
+            }
         }
-
-        NotifyInteractors();
     }
 
-    private void AddCharToBuffer(char character)
+    private void AddKeyToBuffer(KeyCode key)
     {
-        if (buffer.Count >= BufferSize) buffer.Dequeue();
+        if (buffer.Count >= bufferSize) buffer.Dequeue();
 
-        buffer.Enqueue(character);
+        buffer.Enqueue(key);
     }
 
     private void NotifyInteractors()
     {
-        char[] snapshot = buffer.ToArray();
+        KeyCode[] snapshot = buffer.ToArray();
 
         foreach (var interactor in Interactors)
         {

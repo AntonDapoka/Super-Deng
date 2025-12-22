@@ -1,11 +1,9 @@
 using UnityEngine;
 
-public class KonamiCodeInteractorScript : MonoBehaviour, IMenuKeyboardInputInteractorScript
+public class KonamiCodeInteractorScript : MenuKeyboardInputInteractorScript
 {
-    public void HandleKeyboardBuffer(char[] buffer)
+    protected override void HandleCode()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("KonamiCode");
     }
-
-
 }
