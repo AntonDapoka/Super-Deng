@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: exsdcrvtfgbyhnujm
   isHint: 0
-  bpm: 90
-  timeStartSeconds: 1.3333334
-  timeStartBeats: 2
+  bpm: 155
+  timeStartSeconds: 58.60645
+  timeStartBeats: 151.4
   isTimeEnd: 1
   timeEndSeconds: 8
-  timeEndBeats: 12
+  timeEndBeats: 20.666666
   type: 0
   isRandom: 1
   isCertain: 0
@@ -39,16 +39,16 @@ MonoBehaviour:
   isMaterialChange: 1
   material: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
   isColorDurationChange: 1
-  colorDurationBeats: 1
+  colorDurationBeats: 1.7222223
   colorDurationSeconds: 0.6666667
   isScaleUpDurationChange: 1
-  scaleUpDurationBeats: 1
+  scaleUpDurationBeats: 1.7222223
   scaleUpDurationSeconds: 0.6666667
   isWaitDurationChange: 1
-  waitDurationBeats: 1
+  waitDurationBeats: 1.7222223
   waitDurationSeconds: 0.6666667
   isScaleDownDurationChange: 1
-  scaleDownDurationBeats: 1
+  scaleDownDurationBeats: 1.7222223
   scaleDownDurationSeconds: 0.6666667
   isHeightChange: 1
   height: 100
