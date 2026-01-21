@@ -377,15 +377,15 @@ public class RedFaceSettingsEditor : Editor
             }
             EditorGUILayout.Space();
 
-            EditorGUILayout.PropertyField(isColorDurationChange, new GUIContent("isColorDurationChange?"));
+            EditorGUILayout.PropertyField(isColorDurationChange, new GUIContent("Is Color Duration Change?"));
             if (isColorDurationChange.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(colorDurationSeconds, new GUIContent("colorDurationSeconds (seconds)"));
+                EditorGUILayout.PropertyField(colorDurationSeconds, new GUIContent("Color Duration (seconds)"));
                 bool changedEndSeconds = EditorGUI.EndChangeCheck();
 
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(colorDurationBeats, new GUIContent("colorDurationBeats (Beats)"));
+                EditorGUILayout.PropertyField(colorDurationBeats, new GUIContent("Color Duration (Beats)"));
                 bool changedEndBeats = EditorGUI.EndChangeCheck();
 
                 if (changedEndSeconds || changedBPM)
@@ -401,7 +401,7 @@ public class RedFaceSettingsEditor : Editor
 
 
             EditorGUILayout.Space();
-            EditorGUILayout.PropertyField(isScaleUpDurationChange, new GUIContent("isScaleUpDurationChange?"));
+            EditorGUILayout.PropertyField(isScaleUpDurationChange, new GUIContent("Is Scale Up Duration Change?"));
             if (isScaleUpDurationChange.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
@@ -432,11 +432,11 @@ public class RedFaceSettingsEditor : Editor
             if (isWaitDurationChange.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(waitDurationSeconds, new GUIContent("scaleDownDuration (seconds)"));
+                EditorGUILayout.PropertyField(waitDurationSeconds, new GUIContent("Scale Down Duration (seconds)"));
                 bool changedEndSeconds = EditorGUI.EndChangeCheck();
 
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(waitDurationBeats, new GUIContent("scaleDownDuration (Beats)"));
+                EditorGUILayout.PropertyField(waitDurationBeats, new GUIContent("Scale Down Duration (Beats)"));
                 bool changedEndBeats = EditorGUI.EndChangeCheck();
 
                 if (changedEndSeconds || changedBPM)
@@ -453,11 +453,11 @@ public class RedFaceSettingsEditor : Editor
             if (isScaleDownDurationChange.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(scaleDownDurationSeconds, new GUIContent("scaleDownDuration (seconds)"));
+                EditorGUILayout.PropertyField(scaleDownDurationSeconds, new GUIContent("Scale Down Duration (Seconds)"));
                 bool changedEndSeconds = EditorGUI.EndChangeCheck();
 
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(scaleDownDurationBeats, new GUIContent("scaleDownDuration (Beats)"));
+                EditorGUILayout.PropertyField(scaleDownDurationBeats, new GUIContent("Scale Down Duration (Beats)"));
                 bool changedEndBeats = EditorGUI.EndChangeCheck();
 
                 if (changedEndSeconds || changedBPM)

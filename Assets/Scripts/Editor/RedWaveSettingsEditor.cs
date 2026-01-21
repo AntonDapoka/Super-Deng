@@ -357,11 +357,17 @@ public class RedWaveSettingsEditor : Editor
         SerializedProperty isBuddingAfterWaiting = serializedObject.FindProperty("isBuddingAfterWaiting");
         SerializedProperty isBuddingAfterScalingDown = serializedObject.FindProperty("isBuddingAfterScalingDown");
 
-        EditorGUILayout.PropertyField(isChasingPlayer, new GUIContent("is Chasing Player?"));
+        EditorGUILayout.PropertyField(isChasingPlayer, new GUIContent("Is Chasing Player?"));
+
+        if (isHint)
+            EditorGUILayout.HelpBox("Если true, волна будет перемещаться в сторону игрока, если false, то она будет двигаться РАНДОМНО!", MessageType.Info);
 
         EditorGUILayout.Space();
 
-        EditorGUILayout.PropertyField(isLifeDuration, new GUIContent("is Life Duration?"));
+        EditorGUILayout.PropertyField(isLifeDuration, new GUIContent("Is Life Duration?"));
+
+        if (isHint)
+            EditorGUILayout.HelpBox("Время жизни волны, по истечении которого она перестанет почковаться", MessageType.Info);
 
         EditorGUILayout.Space();
 
@@ -387,20 +393,22 @@ public class RedWaveSettingsEditor : Editor
             EditorGUILayout.Space();
         }
 
+        
+
         EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(isBuddingAfterColoring, new GUIContent("is Budding After Coloring"));
+        EditorGUILayout.PropertyField(isBuddingAfterColoring, new GUIContent("Is Budding After Coloring?"));
         bool changedIsBuddingAfterColoring = EditorGUI.EndChangeCheck();
 
         EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(isBuddingAfterScalingUp, new GUIContent("is Budding After Scaling Up"));
+        EditorGUILayout.PropertyField(isBuddingAfterScalingUp, new GUIContent("Is Budding After Scaling Up?"));
         bool changedIsBuddingAfterScalingUp = EditorGUI.EndChangeCheck();
 
         EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(isBuddingAfterWaiting, new GUIContent("is Budding After Coloring"));
+        EditorGUILayout.PropertyField(isBuddingAfterWaiting, new GUIContent("Is Budding After Coloring?"));
         bool changedIsBuddingAfterWaiting = EditorGUI.EndChangeCheck();
 
         EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(isBuddingAfterScalingDown, new GUIContent("is Budding After Scaling Down"));
+        EditorGUILayout.PropertyField(isBuddingAfterScalingDown, new GUIContent("Is Budding After Scaling Down?"));
         bool changedIsBuddingAfterScalingDown = EditorGUI.EndChangeCheck();
 
         SerializedProperty[] props =
@@ -430,6 +438,9 @@ public class RedWaveSettingsEditor : Editor
                 break;
             }
         }
+
+        if (isHint)
+            EditorGUILayout.HelpBox("Этап, после которого волна создаст свой следующий фрагмент. Можно выбрать только один из них.", MessageType.Warning);
     }
 
     private void SetBasicSettings(float bpm, bool changedBPM, bool isHint)
@@ -472,15 +483,15 @@ public class RedWaveSettingsEditor : Editor
             }
             EditorGUILayout.Space();
 
-            EditorGUILayout.PropertyField(isColorDurationChange, new GUIContent("isColorDurationChange?"));
+            EditorGUILayout.PropertyField(isColorDurationChange, new GUIContent("Is Color Duration Change?"));
             if (isColorDurationChange.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(colorDurationSeconds, new GUIContent("colorDuration (seconds)"));
+                EditorGUILayout.PropertyField(colorDurationSeconds, new GUIContent("Color Duration (Seconds)"));
                 bool changedEndSeconds = EditorGUI.EndChangeCheck();
 
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(colorDurationBeats, new GUIContent("colorDuration (Beats)"));
+                EditorGUILayout.PropertyField(colorDurationBeats, new GUIContent("Color Duration (Beats)"));
                 bool changedEndBeats = EditorGUI.EndChangeCheck();
 
                 if (changedEndSeconds || changedBPM)
@@ -493,18 +504,17 @@ public class RedWaveSettingsEditor : Editor
                 }
             }
 
-
-
             EditorGUILayout.Space();
-            EditorGUILayout.PropertyField(isScaleUpDurationChange, new GUIContent("isScaleUpDurationChange?"));
+            
+            EditorGUILayout.PropertyField(isScaleUpDurationChange, new GUIContent("Is Scale Up Duration Change?"));
             if (isScaleUpDurationChange.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(scaleUpDurationSeconds, new GUIContent("scaleUpDuration (seconds)"));
+                EditorGUILayout.PropertyField(scaleUpDurationSeconds, new GUIContent("Scale Up Duration (Seconds)"));
                 bool changedEndSeconds = EditorGUI.EndChangeCheck();
 
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(scaleUpDurationBeats, new GUIContent("scaleUpDuration (Beats)"));
+                EditorGUILayout.PropertyField(scaleUpDurationBeats, new GUIContent("Scale Up Duration (Beats)"));
                 bool changedEndBeats = EditorGUI.EndChangeCheck();
 
                 if (changedEndSeconds || changedBPM)
@@ -517,21 +527,17 @@ public class RedWaveSettingsEditor : Editor
                 }
             }
 
-
-
-
-
             EditorGUILayout.Space();
 
             EditorGUILayout.PropertyField(isWaitDurationChange, new GUIContent("Is Wait Duration Change?"));
             if (isWaitDurationChange.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(waitDurationSeconds, new GUIContent("scaleDownDuration (seconds)"));
+                EditorGUILayout.PropertyField(waitDurationSeconds, new GUIContent("Scale Down Duration (Seconds)"));
                 bool changedEndSeconds = EditorGUI.EndChangeCheck();
 
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(waitDurationBeats, new GUIContent("scaleDownDuration (Beats)"));
+                EditorGUILayout.PropertyField(waitDurationBeats, new GUIContent("Scale Down Duration (Beats)"));
                 bool changedEndBeats = EditorGUI.EndChangeCheck();
 
                 if (changedEndSeconds || changedBPM)
@@ -544,15 +550,16 @@ public class RedWaveSettingsEditor : Editor
                 }
             }
             EditorGUILayout.Space();
+
             EditorGUILayout.PropertyField(isScaleDownDurationChange, new GUIContent("Is Scale Down Duration Change?"));
             if (isScaleDownDurationChange.boolValue)
             {
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(scaleDownDurationSeconds, new GUIContent("scaleDownDuration (seconds)"));
+                EditorGUILayout.PropertyField(scaleDownDurationSeconds, new GUIContent("Scale Down Duration (Seconds)"));
                 bool changedEndSeconds = EditorGUI.EndChangeCheck();
 
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(scaleDownDurationBeats, new GUIContent("scaleDownDuration (Beats)"));
+                EditorGUILayout.PropertyField(scaleDownDurationBeats, new GUIContent("Scale Down Duration (Beats)"));
                 bool changedEndBeats = EditorGUI.EndChangeCheck();
 
                 if (changedEndSeconds || changedBPM)
@@ -565,6 +572,7 @@ public class RedWaveSettingsEditor : Editor
                 }
             }
             EditorGUILayout.Space();
+
             EditorGUILayout.PropertyField(isHeightChange, new GUIContent("Is Height Change?"));
             if (isHeightChange.boolValue)
             {
