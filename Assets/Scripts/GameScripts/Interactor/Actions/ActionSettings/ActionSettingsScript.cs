@@ -8,9 +8,14 @@ public abstract class ActionSettingsScript : ScriptableObject, IActionSettingsSc
     public float bpm;
     public float timeStartSeconds;
     public float timeStartBeats;
+
     public bool isTimeEnd; // Заканчивается ли эффект?
     public float timeEndSeconds; 
     public float timeEndBeats;
+
+    public bool isTimeForcedBreak; 
+    public float timeForcedBreakSeconds;
+    public float timeForcedBreakBeats;
 
     public ActionType type;
 

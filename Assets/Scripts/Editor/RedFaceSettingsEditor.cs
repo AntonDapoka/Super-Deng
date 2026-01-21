@@ -88,6 +88,7 @@ public class RedFaceSettingsEditor : Editor
         {
             SetStartTime(bpm.floatValue, changedBPM, isHint.boolValue);
             SetEndTime(bpm.floatValue, changedBPM, isHint.boolValue);
+            SetForcedBreakTime(bpm.floatValue, changedBPM, isHint.boolValue);
         });
 
         AddSettingsSection("Face Settings:", Color.red, () =>
@@ -183,6 +184,42 @@ public class RedFaceSettingsEditor : Editor
             else if ((changedEndBeats || changedBPM) && bpm != 0f)
             {
                 timeEndSeconds.floatValue = timeEndBeats.floatValue * 60f / bpm;
+            }
+        }
+    }
+
+    private void SetForcedBreakTime(float bpm, bool changedBPM, bool isHint)
+    {
+        SerializedProperty isTimeForcedBreak = serializedObject.FindProperty("isTimeForcedBreak");
+        SerializedProperty timeForcedBreakSeconds = serializedObject.FindProperty("timeForcedBreakSeconds");
+        SerializedProperty timeForcedBreakBeats = serializedObject.FindProperty("timeForcedBreakBeats");
+
+        EditorGUILayout.PropertyField(isTimeForcedBreak, new GUIContent("Does Effect have a Forced Break?"));
+        //if (isHint)
+            //EditorGUILayout.HelpBox("Если данный эффект не имеет конца, то в случае указания конкретных граней он сработает единоразово, в случае рандомного спавна он будет активным до истечения таймера. Если конец указан, то и рандомные, и конкретные грани будут вызываться до указанного времени", MessageType.Info);
+        if (isTimeForcedBreak.boolValue)
+        {
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(timeForcedBreakSeconds, new GUIContent("End Time (seconds)"));
+            bool changedForcedBreakSeconds = EditorGUI.EndChangeCheck();
+
+            //if (isHint)
+              //  EditorGUILayout.HelpBox("Время конца этого эффекта, указывается в секундах. После назначенного времени эффект вызываться не будет", MessageType.Info);
+
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(timeForcedBreakBeats, new GUIContent("End Time (beats)"));
+            bool changedForcedBreakBeats = EditorGUI.EndChangeCheck();
+
+            //if (isHint)
+              //  EditorGUILayout.HelpBox("Время конца этого эффекта, указывается в битах. После конкретного бита эффект вызываться не будет", MessageType.Info);
+
+            if (changedForcedBreakSeconds || changedBPM)
+            {
+                    timeForcedBreakBeats.floatValue = timeForcedBreakSeconds.floatValue * bpm / 60f;
+            }
+            else if ((changedForcedBreakBeats || changedBPM) && bpm != 0f)
+            {
+                timeForcedBreakSeconds.floatValue = timeForcedBreakBeats.floatValue * 60f / bpm;
             }
         }
     }
@@ -398,8 +435,6 @@ public class RedFaceSettingsEditor : Editor
                 }
             }
 
-
-
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(isScaleUpDurationChange, new GUIContent("Is Scale Up Duration Change?"));
             if (isScaleUpDurationChange.boolValue)
@@ -421,10 +456,6 @@ public class RedFaceSettingsEditor : Editor
                     scaleUpDurationSeconds.floatValue = scaleUpDurationBeats.floatValue * 60f / bpm;
                 }
             }
-
-
-
-
 
             EditorGUILayout.Space();
 
