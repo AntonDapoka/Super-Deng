@@ -1,18 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "FallSettings", menuName = "ScriptableObjects/FallSettings", order = 4)]
 public class FallFaceSettings : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool isRandom;
+    public bool isCertain; // Or are specific facets activated?
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool isStableQuantity;
+    public int quantityExact;
+    public int quantityMin;
+    public int quantityMax;
+
+    public bool isRelativeToPlayer;
+    public int[] arrayOfFacesRelativeToPlayer;
+    public bool isRelativeToFigure;
+    public int[] arrayOfFacesRelativeToFigure;
+
+    public bool isProximityLimit;
+    public int proximityLimit;
+    public bool isDistanceLimit;
+    public int distanceLimit;
+
+    /// <summary>
+    /// Часть ниже является необязательной и даже нежелательной, но к ней нужно проявить дотошное внимание
+    /// </summary>
+
+    public bool isBasicSettingsChange;
+
+    public bool isMaterialChange;
+    public Material material;
+
+    public bool isBlinkingDurationChange;
+    public float blinkingDurationBeats;
+    public float blinkingDurationSeconds;
+
+    public bool isReturningDurationChange;
+    public float returningDurationBeats;
+    public float returningDurationSeconds;
+
+    public bool isImpulseChange;
+    public float impulse;
 }

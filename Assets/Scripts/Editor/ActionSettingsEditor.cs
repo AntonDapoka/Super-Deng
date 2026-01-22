@@ -59,7 +59,7 @@ public abstract class ActionSettingsEditor : Editor
 
         string name = GetActionStringName();
 
-        EditorGUILayout.LabelField(name + " \"" + effectName.stringValue + "\"", headerStyle);
+        EditorGUILayout.LabelField(name + " Effect \"" + effectName.stringValue + "\"", headerStyle);
         EditorGUILayout.Space();
         EditorGUILayout.PropertyField(effectName, new GUIContent("Name of the effect:"));
 
