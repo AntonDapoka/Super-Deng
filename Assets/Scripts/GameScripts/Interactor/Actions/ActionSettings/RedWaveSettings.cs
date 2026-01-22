@@ -27,10 +27,7 @@ public class RedWaveSettings : ActionSettingsScript
     public float lifeDurationSeconds;
     public float lifeDurationBeats;
 
-    public bool isBuddingAfterColoring;
-    public bool isBuddingAfterScalingUp;
-    public bool isBuddingAfterWaiting;
-    public bool isBuddingAfterScalingDown;
+    public RedWaveBuddingType typeRedWaveBudding;
 
     /// <summary>
     /// Часть ниже является необязательной и даже нежелательной, но к ней нужно проявить дотошное внимание

@@ -12,18 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ddcebce76eba824c9a702683ba5b80c, type: 3}
   m_Name: RedFaceSettings
   m_EditorClassIdentifier: 
-  effectName: exsdcrvtfgbyhnujm
+  effectName: dfsdfsdfsdf
   isHint: 0
   bpm: 155
   timeStartSeconds: 58.60645
   timeStartBeats: 151.4
-  isTimeEnd: 1
+  isTimeEnd: 0
   timeEndSeconds: 8
   timeEndBeats: 20.666666
+  isTimeForcedBreak: 0
+  timeForcedBreakSeconds: 11.4
+  timeForcedBreakBeats: 29.449999
   type: 0
-  isRandom: 1
+  isRandom: 0
   isCertain: 0
-  isStableQuantity: 1
+  isStableQuantity: 0
   quantityExact: 3
   quantityMin: 63
   quantityMax: 148
@@ -35,7 +38,7 @@ MonoBehaviour:
   proximityLimit: 63
   isDistanceLimit: 0
   distanceLimit: 288
-  isBasicSettingsChange: 1
+  isBasicSettingsChange: 0
   isMaterialChange: 1
   material: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
   isColorDurationChange: 1

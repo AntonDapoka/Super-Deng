@@ -57,7 +57,10 @@ public abstract class ActionSettingsEditor : Editor
         serializedObject.Update();
         SerializedProperty effectName = serializedObject.FindProperty("effectName");
 
-        EditorGUILayout.LabelField("Red Face Effect \"" + effectName.stringValue + "\"", headerStyle);
+        string name = GetActionStringName();
+
+        EditorGUILayout.LabelField(name + " \"" + effectName.stringValue + "\"", headerStyle);
+        EditorGUILayout.Space();
         EditorGUILayout.PropertyField(effectName, new GUIContent("Name of the effect:"));
 
         SerializedProperty type = serializedObject.FindProperty("type");
@@ -67,6 +70,8 @@ public abstract class ActionSettingsEditor : Editor
 
         serializedObject.ApplyModifiedProperties();
     }
+
+    public abstract string GetActionStringName();
 
     private void SetActionStandardSettings()
     {
@@ -93,7 +98,7 @@ public abstract class ActionSettingsEditor : Editor
 
     public abstract void SetActionSpecialSettings(float bpm, bool changedBPM, bool isHint);
 
-    private void AddSettingsSection(string title, Color color, Action content)
+    protected void AddSettingsSection(string title, Color color, Action content)
     {
         EditorGUILayout.LabelField(title, labelStyle);
         BeginColoredBox(color);
@@ -177,23 +182,25 @@ public abstract class ActionSettingsEditor : Editor
         SerializedProperty timeForcedBreakBeats = serializedObject.FindProperty("timeForcedBreakBeats");
 
         EditorGUILayout.PropertyField(isTimeForcedBreak, new GUIContent("Does Effect have a Forced Break?"));
-        //if (isHint)
-        //EditorGUILayout.HelpBox("Если данный эффект не имеет конца, то в случае указания конкретных граней он сработает единоразово, в случае рандомного спавна он будет активным до истечения таймера. Если конец указан, то и рандомные, и конкретные грани будут вызываться до указанного времени", MessageType.Info);
+
+        if (isHint)
+            EditorGUILayout.HelpBox("Форсированный брейк отличается от обычного заканчивания тем, что отключает все Action в любой фазе, то есть на следующий бит на поле от них не останется следа", MessageType.Info);
+
         if (isTimeForcedBreak.boolValue)
         {
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(timeForcedBreakSeconds, new GUIContent("End Time (seconds)"));
             bool changedForcedBreakSeconds = EditorGUI.EndChangeCheck();
 
-            //if (isHint)
-            //  EditorGUILayout.HelpBox("Время конца этого эффекта, указывается в секундах. После назначенного времени эффект вызываться не будет", MessageType.Info);
+            if (isHint)
+                EditorGUILayout.HelpBox("Время форсированной остановки этого эффекта, указывается в секундах. После назначенного времени эффект исчезнет в течение одного бита в независимости от любоых обстоятельств", MessageType.Info);
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(timeForcedBreakBeats, new GUIContent("End Time (beats)"));
             bool changedForcedBreakBeats = EditorGUI.EndChangeCheck();
 
-            //if (isHint)
-            //  EditorGUILayout.HelpBox("Время конца этого эффекта, указывается в битах. После конкретного бита эффект вызываться не будет", MessageType.Info);
+            if (isHint)
+                EditorGUILayout.HelpBox("Время форсированной остановки этого эффекта, указывается в битах. После назначенного времени эффект исчезнет в течение одного бита в независимости от любоых обстоятельств", MessageType.Info);
 
             if (changedForcedBreakSeconds || changedBPM)
             {
@@ -205,8 +212,6 @@ public abstract class ActionSettingsEditor : Editor
             }
         }
     }
-
-
 
     private void DrawSeparator(float thickness = 1, float padding = 10)
     {

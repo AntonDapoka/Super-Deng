@@ -1,383 +1,25 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(RedWaveSettings))]
-public class RedWaveSettingsEditor : Editor
+public class RedWaveSettingsEditor : ActionFaceSettingsEditor
 {
-    private GUIStyle headerStyle;
-    private GUIStyle labelStyle;
-    private GUIStyle attentionStyle;
-    private GUIStyle hintStyle;
-
-    private bool stylesInitialized = false;
-
-    private void InitStyles()
+    public override string GetActionStringName()
     {
-        headerStyle = new GUIStyle(EditorStyles.label)
-        {
-            fontSize = 20,
-            fontStyle = FontStyle.Bold
-        };
-        headerStyle.normal.textColor = Color.white;
-
-        labelStyle = new GUIStyle(EditorStyles.label)
-        {
-            fontSize = 16,
-            fontStyle = FontStyle.Bold
-        };
-        labelStyle.normal.textColor = Color.white;
-
-        attentionStyle = new GUIStyle(EditorStyles.label)
-        {
-            fontSize = 10,
-            fontStyle = FontStyle.Italic
-        };
-        attentionStyle.normal.textColor = Color.red;
-
-        hintStyle = new(EditorStyles.label)
-        {
-            fontSize = 10,
-            fontStyle = FontStyle.Italic,
-            wordWrap = true
-        };
-        hintStyle.normal.textColor = Color.green;
-
-        headerStyle.normal.textColor = Color.white;
-        labelStyle.normal.textColor = Color.white;
-        attentionStyle.normal.textColor = Color.red;
-        hintStyle.normal.textColor = Color.green;
-
-        stylesInitialized = true;
+        return "Red Wave";
     }
 
-    public override void OnInspectorGUI()
+    public override void SetActionFaceSpecialSettings(float bpm, bool changedBPM, bool isHint)
     {
-        if (!stylesInitialized) InitStyles();
-
-
-        serializedObject.Update();
-        SerializedProperty effectName = serializedObject.FindProperty("effectName");
-
-        EditorGUILayout.LabelField("Red Wace Effect \"" + effectName.stringValue + "\"", headerStyle);
-        EditorGUILayout.PropertyField(effectName, new GUIContent("Name of the effect:"));
-
-        SerializedProperty type = serializedObject.FindProperty("type");
-        EditorGUILayout.PropertyField(type, new GUIContent("Action Type"));
-
-        SetRedWaves();
-
-        serializedObject.ApplyModifiedProperties();
-    }
-
-    private void SetRedWaves()
-    {
-        SerializedProperty bpm = serializedObject.FindProperty("bpm");
-        SerializedProperty isHint = serializedObject.FindProperty("isHint");
-
-
-        EditorGUILayout.Space();
-
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(bpm, new GUIContent("Track BPM"));
-        bool changedBPM = EditorGUI.EndChangeCheck();
-
-        EditorGUILayout.PropertyField(isHint, new GUIContent("Turn On Hints?"));
-
-        AddSettingsSection("Time Settings:", Color.black, () =>
-        {
-            SetStartTime(bpm.floatValue, changedBPM, isHint.boolValue);
-            SetEndTime(bpm.floatValue, changedBPM, isHint.boolValue);
-            SetForcedBreakTime(bpm.floatValue, changedBPM, isHint.boolValue);
-        });
-
-        AddSettingsSection("Face Settings:", Color.red, () =>
-        {
-            SetRandom(isHint.boolValue);
-            SetCertain(isHint.boolValue);
-        });
-        if (isHint.boolValue)
-            EditorGUILayout.HelpBox("Не забывайте, что параметр рандомности и параметр конкретности могут вызываться ОДНОВРЕМЕННО. Не забывайте вовремя удалять лишние данные", MessageType.Warning);
-
-        AddSettingsSection("Limit Settings:", Color.blue, () =>
-        {
-            SetProximityAndDistanceLimit(isHint.boolValue);
-        });
-
         AddSettingsSection("Red Wave Special Settings:", Color.clear, () =>
         {
-            SetRedWaveSpecialSettings(bpm.floatValue, changedBPM, isHint.boolValue);
+            SetRedWaveSpecialSettings(bpm, changedBPM, isHint);
         });
 
         AddSettingsSection("Basic Settings:", Color.cyan, () =>
         {
-            SetBasicSettings(bpm.floatValue, changedBPM, isHint.boolValue);
+            SetBasicSettings(bpm, changedBPM, isHint);
         });
-
-
-
-    }
-
-    private void AddSettingsSection(string title, Color color, Action content)
-    {
-        EditorGUILayout.LabelField(title, labelStyle);
-        BeginColoredBox(color);
-
-        content?.Invoke();
-
-        DrawSeparator();
-        EndColoredBox();
-        EditorGUILayout.Space();
-    }
-
-    private void SetStartTime(float bpm, bool changedBPM, bool isHint)
-    {
-        SerializedProperty timeStartSeconds = serializedObject.FindProperty("timeStartSeconds");
-        SerializedProperty timeStartBeats = serializedObject.FindProperty("timeStartBeats");
-
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(timeStartSeconds, new GUIContent("Start Time (seconds)"));
-        bool changedStartSeconds = EditorGUI.EndChangeCheck();
-
-        if (isHint)
-            EditorGUILayout.HelpBox("Время начала этого эффекта, указывается в секундах. Эффект станет активным на следующем бите трека после указанного времени.", MessageType.Info);
-
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(timeStartBeats, new GUIContent("Start Time (beats)"));
-        bool changedStartBeats = EditorGUI.EndChangeCheck();
-
-        if (isHint)
-            EditorGUILayout.HelpBox("Время начала этого эффекта, указывается в битах. Эффект станет активным на этом конкретном бите трека.", MessageType.Info);
-
-        if (changedStartSeconds || changedBPM)
-        {
-            timeStartBeats.floatValue = timeStartSeconds.floatValue * bpm / 60f;
-        }
-        else if ((changedStartBeats || changedBPM) && bpm != 0f)
-        {
-            timeStartSeconds.floatValue = timeStartBeats.floatValue * 60f / bpm;
-        }
-    }
-
-    private void SetEndTime(float bpm, bool changedBPM, bool isHint)
-    {
-        SerializedProperty isTimeEnd = serializedObject.FindProperty("isTimeEnd");
-        SerializedProperty timeEndSeconds = serializedObject.FindProperty("timeEndSeconds");
-        SerializedProperty timeEndBeats = serializedObject.FindProperty("timeEndBeats");
-
-        EditorGUILayout.PropertyField(isTimeEnd, new GUIContent("Does Effect have an End?"));
-        if (isHint)
-            EditorGUILayout.HelpBox("Если данный эффект не имеет конца, то в случае указания конкретных граней он сработает единоразово, в случае рандомного спавна он будет активным до истечения таймера. Если конец указан, то и рандомные, и конкретные грани будут вызываться до указанного времени", MessageType.Info);
-        if (isTimeEnd.boolValue)
-        {
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(timeEndSeconds, new GUIContent("End Time (seconds)"));
-            bool changedEndSeconds = EditorGUI.EndChangeCheck();
-
-            if (isHint)
-                EditorGUILayout.HelpBox("Время конца этого эффекта, указывается в секундах. После назначенного времени эффект вызываться не будет", MessageType.Info);
-
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(timeEndBeats, new GUIContent("End Time (beats)"));
-            bool changedEndBeats = EditorGUI.EndChangeCheck();
-
-            if (isHint)
-                EditorGUILayout.HelpBox("Время конца этого эффекта, указывается в битах. После конкретного бита эффект вызываться не будет", MessageType.Info);
-
-            if (changedEndSeconds || changedBPM)
-            {
-                timeEndBeats.floatValue = timeEndSeconds.floatValue * bpm / 60f;
-            }
-            else if ((changedEndBeats || changedBPM) && bpm != 0f)
-            {
-                timeEndSeconds.floatValue = timeEndBeats.floatValue * 60f / bpm;
-            }
-        }
-    }
-
-    private void SetForcedBreakTime(float bpm, bool changedBPM, bool isHint)
-    {
-        SerializedProperty isTimeForcedBreak = serializedObject.FindProperty("isTimeForcedBreak");
-        SerializedProperty timeForcedBreakSeconds = serializedObject.FindProperty("timeForcedBreakSeconds");
-        SerializedProperty timeForcedBreakBeats = serializedObject.FindProperty("timeForcedBreakBeats");
-
-        EditorGUILayout.PropertyField(isTimeForcedBreak, new GUIContent("Does Effect have a Forced Break?"));
-        //if (isHint)
-        //EditorGUILayout.HelpBox("Если данный эффект не имеет конца, то в случае указания конкретных граней он сработает единоразово, в случае рандомного спавна он будет активным до истечения таймера. Если конец указан, то и рандомные, и конкретные грани будут вызываться до указанного времени", MessageType.Info);
-        if (isTimeForcedBreak.boolValue)
-        {
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(timeForcedBreakSeconds, new GUIContent("End Time (seconds)"));
-            bool changedForcedBreakSeconds = EditorGUI.EndChangeCheck();
-
-            //if (isHint)
-            //  EditorGUILayout.HelpBox("Время конца этого эффекта, указывается в секундах. После назначенного времени эффект вызываться не будет", MessageType.Info);
-
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(timeForcedBreakBeats, new GUIContent("End Time (beats)"));
-            bool changedForcedBreakBeats = EditorGUI.EndChangeCheck();
-
-            //if (isHint)
-            //  EditorGUILayout.HelpBox("Время конца этого эффекта, указывается в битах. После конкретного бита эффект вызываться не будет", MessageType.Info);
-
-            if (changedForcedBreakSeconds || changedBPM)
-            {
-                timeForcedBreakBeats.floatValue = timeForcedBreakSeconds.floatValue * bpm / 60f;
-            }
-            else if ((changedForcedBreakBeats || changedBPM) && bpm != 0f)
-            {
-                timeForcedBreakSeconds.floatValue = timeForcedBreakBeats.floatValue * 60f / bpm;
-            }
-        }
-    }
-
-    private void SetRandom(bool isHint)
-    {
-        SerializedProperty isRandom = serializedObject.FindProperty("isRandom");
-        SerializedProperty isStableQuantity = serializedObject.FindProperty("isStableQuantity");
-        SerializedProperty quantityExact = serializedObject.FindProperty("quantityExact");
-        SerializedProperty quantityMin = serializedObject.FindProperty("quantityMin");
-        SerializedProperty quantityMax = serializedObject.FindProperty("quantityMax");
-
-        EditorGUILayout.PropertyField(isRandom, new GUIContent("Is It Random?"));
-
-        if (isHint)
-            EditorGUILayout.HelpBox("В случае наличия параметр рандомности предполагает вызов случайных плит из всех возможных", MessageType.Info);
-
-
-        if (isRandom.boolValue)
-        {
-            EditorGUILayout.PropertyField(isStableQuantity, new GUIContent("Is Quantity Always Stable?"));
-
-            if (isHint)
-                EditorGUILayout.HelpBox("Если поле имеет значение true, то количество вызываемых плит будет одинаково каждый бит, если оно равно false, то оно будет рандомно выбираться между двух величин", MessageType.Info);
-
-            if (isStableQuantity.boolValue)
-            {
-                EditorGUILayout.PropertyField(quantityExact, new GUIContent("Exact Quantity"));
-
-                if (isHint)
-                    EditorGUILayout.HelpBox("Постоянное количество рандомно вызываемых плит. Каждый бит будет вызываться " + quantityExact.intValue + " плит", MessageType.Info);
-            }
-            else
-            {
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(quantityMin, new GUIContent("Minimum Quantity"));
-                bool changedQuantityMin = EditorGUI.EndChangeCheck();
-
-                if (isHint)
-                    EditorGUILayout.HelpBox("Минимальное количество вызываемых плит. Число вызываемых плит будет выбираться рандомно между " + quantityMin.intValue + " и " + quantityMax.intValue, MessageType.Info);
-
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(quantityMax, new GUIContent("Maximum Quantity"));
-                bool changedQuantityMax = EditorGUI.EndChangeCheck();
-
-                if (isHint)
-                    EditorGUILayout.HelpBox("Максимальное количество вызываемых плит.", MessageType.Info);
-
-
-                if (changedQuantityMin && quantityMin.intValue > quantityMax.intValue)
-                {
-                    quantityMax.intValue = quantityMin.intValue;
-                }
-                else if (changedQuantityMax && quantityMin.intValue > quantityMax.intValue)
-                {
-                    quantityMin.intValue = quantityMax.intValue;
-                }
-
-                if ((changedQuantityMin || changedQuantityMax) && quantityMin.intValue < 0)
-                {
-                    quantityMin.intValue = 0;
-                }
-
-                if ((changedQuantityMin || changedQuantityMax) && quantityMax.intValue < 0)
-                {
-                    quantityMax.intValue = 0;
-                }
-
-                if ((changedQuantityMin || changedQuantityMax) && quantityMin.intValue > 321)
-                {
-                    quantityMin.intValue = 321;
-                }
-
-                if ((changedQuantityMin || changedQuantityMax) && quantityMax.intValue > 321)
-                {
-                    quantityMax.intValue = 321;
-                }
-            }
-        }
-    }
-
-    private void SetCertain(bool isHint)
-    {
-        SerializedProperty isCertain = serializedObject.FindProperty("isCertain");
-        SerializedProperty isRelativeToPlayer = serializedObject.FindProperty("isRelativeToPlayer");
-        SerializedProperty arrayOfFacesRelativeToPlayer = serializedObject.FindProperty("arrayOfFacesRelativeToPlayer");
-        SerializedProperty isRelativeToFigure = serializedObject.FindProperty("isRelativeToFigure");
-        SerializedProperty arrayOfFacesRelativeToFigure = serializedObject.FindProperty("arrayOfFacesRelativeToFigure");
-
-        EditorGUILayout.PropertyField(isCertain, new GUIContent("Is It Certain?"));
-
-        if (isHint)
-            EditorGUILayout.HelpBox("Конкретные вызываемые плиты указываются вручную.", MessageType.Info);
-
-        if (isCertain.boolValue)
-        {
-            EditorGUILayout.PropertyField(isRelativeToFigure, new GUIContent("Is It Relative To Figure?"));
-
-            if (isHint)
-                EditorGUILayout.HelpBox("Плиты относительно фигуры, иными словами поверхности, по которой перемещается игрок, не меняются с течением времени и перемещением игрока.", MessageType.Info);
-
-            if (isRelativeToFigure.boolValue)
-            {
-                EditorGUILayout.PropertyField(arrayOfFacesRelativeToFigure, new GUIContent("Array Of Faces Relative To Figure"));
-
-                if (isHint)
-                    EditorGUILayout.HelpBox("Для указания точных индексов смотрите на специализированные схемы.", MessageType.Info);
-            }
-
-            EditorGUILayout.PropertyField(isRelativeToPlayer, new GUIContent("Is It Relative To Player?"));
-
-            if (isHint)
-                EditorGUILayout.HelpBox("Плиты относительно игрока меняются с перемещением пирамидки", MessageType.Info);
-
-            if (isRelativeToPlayer.boolValue)
-            {
-                EditorGUILayout.PropertyField(arrayOfFacesRelativeToPlayer, new GUIContent("Array Of Faces Relative To Player"));
-
-                if (isHint)
-                    EditorGUILayout.HelpBox("Для вычисления точных индексов смотрите на специализированные схемы.", MessageType.Info);
-            }
-        }
-    }
-    private void SetProximityAndDistanceLimit(bool isHint)
-    {
-        SerializedProperty isProximityLimit = serializedObject.FindProperty("isProximityLimit");
-        SerializedProperty proximityLimit = serializedObject.FindProperty("proximityLimit");
-        SerializedProperty isDistanceLimit = serializedObject.FindProperty("isDistanceLimit");
-        SerializedProperty distanceLimit = serializedObject.FindProperty("distanceLimit");
-
-        if (isHint)
-            EditorGUILayout.HelpBox("Если вы хотите ограничить спавн плит по отдаленности от игрока, то ставьте галочку. Работает и для рандомных, и конкретных плит.", MessageType.Info);
-
-        EditorGUILayout.PropertyField(isProximityLimit, new GUIContent("Is There a Proximity Limt?"));
-
-        if (isProximityLimit.boolValue)
-        {
-            EditorGUILayout.PropertyField(proximityLimit, new GUIContent("Proximity Limit"));
-
-            if (isHint)
-                EditorGUILayout.HelpBox("Лимит по приближенности. Если равен 1, то на соседних гранях от игрока не будут появляться враги, если 2, то на соседях соседях не будут появляться красные плиты, и так далее", MessageType.Info);
-        }
-
-        EditorGUILayout.PropertyField(isDistanceLimit, new GUIContent("Is There a Distance Limt?"));
-        if (isDistanceLimit.boolValue)
-        {
-            EditorGUILayout.PropertyField(distanceLimit, new GUIContent("Distance Limit"));
-
-            if (isHint)
-                EditorGUILayout.HelpBox("Аналогично предыдущему лимиту, только по отдаленности. Проверьте ваши математические расчеты перед указанием.", MessageType.Info);
-        }
     }
 
     private void SetRedWaveSpecialSettings(float bpm, bool changedBPM, bool isHint)
@@ -388,10 +30,8 @@ public class RedWaveSettingsEditor : Editor
         SerializedProperty lifeDurationSeconds = serializedObject.FindProperty("lifeDurationSeconds");
         SerializedProperty lifeDurationBeats = serializedObject.FindProperty("lifeDurationBeats");
 
-        SerializedProperty isBuddingAfterColoring = serializedObject.FindProperty("isBuddingAfterColoring");
-        SerializedProperty isBuddingAfterScalingUp = serializedObject.FindProperty("isBuddingAfterScalingUp");
-        SerializedProperty isBuddingAfterWaiting = serializedObject.FindProperty("isBuddingAfterWaiting");
-        SerializedProperty isBuddingAfterScalingDown = serializedObject.FindProperty("isBuddingAfterScalingDown");
+        SerializedProperty typeRedWaveBudding = serializedObject.FindProperty("typeRedWaveBudding");
+
 
         EditorGUILayout.PropertyField(isChasingPlayer, new GUIContent("Is Chasing Player?"));
 
@@ -429,52 +69,10 @@ public class RedWaveSettingsEditor : Editor
             EditorGUILayout.Space();
         }
 
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(isBuddingAfterColoring, new GUIContent("Is Budding After Coloring?"));
-        bool changedIsBuddingAfterColoring = EditorGUI.EndChangeCheck();
-
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(isBuddingAfterScalingUp, new GUIContent("Is Budding After Scaling Up?"));
-        bool changedIsBuddingAfterScalingUp = EditorGUI.EndChangeCheck();
-
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(isBuddingAfterWaiting, new GUIContent("Is Budding After Coloring?"));
-        bool changedIsBuddingAfterWaiting = EditorGUI.EndChangeCheck();
-
-        EditorGUI.BeginChangeCheck();
-        EditorGUILayout.PropertyField(isBuddingAfterScalingDown, new GUIContent("Is Budding After Scaling Down?"));
-        bool changedIsBuddingAfterScalingDown = EditorGUI.EndChangeCheck();
-
-        SerializedProperty[] props =
-        {
-            isBuddingAfterColoring,
-            isBuddingAfterScalingUp,
-            isBuddingAfterWaiting,
-            isBuddingAfterScalingDown
-        };
-
-        bool[] changed =
-        {
-            changedIsBuddingAfterColoring,
-            changedIsBuddingAfterScalingUp,
-            changedIsBuddingAfterWaiting,
-            changedIsBuddingAfterScalingDown
-        };
-
-        for (int i = 0; i < props.Length; i++)
-        {
-            if (changed[i] && props[i].boolValue)
-            {
-                for (int j = 0; j < props.Length; j++)
-
-                    if (j != i)
-                        props[j].boolValue = false;
-                break;
-            }
-        }
+        EditorGUILayout.PropertyField(typeRedWaveBudding, new GUIContent("When will Red Wave budding begin?"));
 
         if (isHint)
-            EditorGUILayout.HelpBox("Этап, после которого волна создаст свой следующий фрагмент. Можно выбрать только один из них.", MessageType.Warning);
+            EditorGUILayout.HelpBox("Этап, после которого волна создаст свой следующий фрагмент", MessageType.Warning);
     }
 
     private void SetBasicSettings(float bpm, bool changedBPM, bool isHint)
@@ -619,29 +217,5 @@ public class RedWaveSettingsEditor : Editor
                 EditorGUILayout.PropertyField(offset, new GUIContent("Offset"));
             }
         }
-    }
-
-    private void DrawSeparator(float thickness = 1, float padding = 10)
-    {
-        var rect = EditorGUILayout.GetControlRect(false, padding + thickness);
-        rect.height = thickness;
-        rect.y += padding / 2f;
-        rect.x -= 2;
-        rect.width += 6;
-
-        EditorGUI.DrawRect(rect, new Color(0.3f, 0.3f, 0.3f, 1));
-    }
-
-    private void BeginColoredBox(Color color)
-    {
-        var c = GUI.color;
-        GUI.color = color;
-        EditorGUILayout.BeginVertical("box");
-        GUI.color = c;
-    }
-
-    private void EndColoredBox()
-    {
-        EditorGUILayout.EndVertical();
     }
 }

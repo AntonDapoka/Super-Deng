@@ -9,21 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 923a0e76dcd3e7249b9844036167da33, type: 3}
-  m_Name: RedWaveSettings
+  m_Script: {fileID: 11500000, guid: 23611e6e2dfd4094b90c3c3ec81a0283, type: 3}
+  m_Name: BonusSettings
   m_EditorClassIdentifier: 
-  effectName: dfggggggggggg
+  effectName: 
   isHint: 0
-  bpm: 0.93
-  timeStartSeconds: 4.05
-  timeStartBeats: 0.062775
+  bpm: 8.82
+  timeStartSeconds: 4.65
+  timeStartBeats: 0.68355
   isTimeEnd: 0
   timeEndSeconds: 0
   timeEndBeats: 0
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 0
   timeForcedBreakBeats: 0
-  type: 0
+  type: 3
   isRandom: 0
   isCertain: 0
   isStableQuantity: 0
@@ -38,27 +38,10 @@ MonoBehaviour:
   proximityLimit: 0
   isDistanceLimit: 0
   distanceLimit: 0
-  isChasingPlayer: 0
+  typeBonus: 0
   isLifeDuration: 0
-  lifeDurationSeconds: 3238.7097
-  lifeDurationBeats: 50.2
-  typeRedWaveBudding: 3
+  lifeDurationSeconds: 0
+  lifeDurationBeats: 0
   isBasicSettingsChange: 0
   isMaterialChange: 0
   material: {fileID: 0}
-  isColorDurationChange: 0
-  colorDurationBeats: 0
-  colorDurationSeconds: 0
-  isScaleUpDurationChange: 0
-  scaleUpDurationBeats: 0
-  scaleUpDurationSeconds: 0
-  isWaitDurationChange: 0
-  waitDurationBeats: 0
-  waitDurationSeconds: 0
-  isScaleDownDurationChange: 0
-  scaleDownDurationBeats: 0
-  scaleDownDurationSeconds: 0
-  isHeightChange: 0
-  height: 0
-  isOffsetChange: 0
-  offset: 0
