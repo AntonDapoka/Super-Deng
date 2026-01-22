@@ -1,80 +1,37 @@
 using System;
+using Unity.Burst.CompilerServices;
 using UnityEditor;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 [CustomEditor(typeof(RedFaceSettings))]
-public class RedFaceSettingsEditor : Editor
+public class RedFaceSettingsEditor : ActionSettingsEditor
 {
-    private GUIStyle headerStyle;
-    private GUIStyle labelStyle;
-    private GUIStyle attentionStyle;
-    private GUIStyle hintStyle;
-
-    private bool stylesInitialized = false;
-
-    private void InitStyles()
+    public override void SetActionSpecialSettings(float bpm, bool changedBPM, bool isHint)
     {
-        headerStyle = new GUIStyle(EditorStyles.label)
+        AddSettingsSection("Face Settings:", Color.red, () =>
         {
-            fontSize = 20,
-            fontStyle = FontStyle.Bold
-        };
-        headerStyle.normal.textColor = Color.white;
+            SetRandom(isHint);
+            SetCertain(isHint);
+        });
+        if (isHint)
+            EditorGUILayout.HelpBox("Не забывайте, что параметр рандомности и параметр конкретности могут вызываться ОДНОВРЕМЕННО. Не забывайте вовремя удалять лишние данные", MessageType.Warning);
 
-        labelStyle = new GUIStyle(EditorStyles.label)
+        AddSettingsSection("Limit Settings:", Color.blue, () =>
         {
-            fontSize = 16,
-            fontStyle = FontStyle.Bold
-        };
-        labelStyle.normal.textColor = Color.white;
+            SetProximityAndDistanceLimit(isHint);
+        });
 
-        attentionStyle = new GUIStyle(EditorStyles.label)
+        AddSettingsSection("Basic Settings:", Color.cyan, () =>
         {
-            fontSize = 10,
-            fontStyle = FontStyle.Italic
-        };
-        attentionStyle.normal.textColor = Color.red;
-
-        hintStyle = new(EditorStyles.label)
-        {
-            fontSize = 10,
-            fontStyle = FontStyle.Italic,
-            wordWrap = true
-        };
-        hintStyle.normal.textColor = Color.green;
-
-        headerStyle.normal.textColor = Color.white;
-        labelStyle.normal.textColor = Color.white;
-        attentionStyle.normal.textColor = Color.red;
-        hintStyle.normal.textColor = Color.green;
-
-        stylesInitialized = true;
-    }
-
-    public override void OnInspectorGUI()
-    {
-        if (!stylesInitialized) InitStyles();
-
-
-        serializedObject.Update();
-        SerializedProperty effectName = serializedObject.FindProperty("effectName");
-        
-        EditorGUILayout.LabelField("Red Face Effect \"" + effectName.stringValue + "\"", headerStyle);
-        EditorGUILayout.PropertyField(effectName, new GUIContent("Name of the effect:"));
-
-        SerializedProperty type = serializedObject.FindProperty("type");
-        EditorGUILayout.PropertyField(type, new GUIContent("Action Type"));
-
-        SetRedFaces();
-
-        serializedObject.ApplyModifiedProperties();
+            SetBasicSettings(bpm, changedBPM, isHint);
+        });
     }
 
     private void SetRedFaces()
     {
         SerializedProperty bpm = serializedObject.FindProperty("bpm");
         SerializedProperty isHint = serializedObject.FindProperty("isHint");
-
 
         EditorGUILayout.Space();
 
@@ -91,23 +48,7 @@ public class RedFaceSettingsEditor : Editor
             SetForcedBreakTime(bpm.floatValue, changedBPM, isHint.boolValue);
         });
 
-        AddSettingsSection("Face Settings:", Color.red, () =>
-        {
-            SetRandom(isHint.boolValue);
-            SetCertain(isHint.boolValue);
-        });
-        if (isHint.boolValue)
-            EditorGUILayout.HelpBox("Не забывайте, что параметр рандомности и параметр конкретности могут вызываться ОДНОВРЕМЕННО. Не забывайте вовремя удалять лишние данные", MessageType.Warning);
-
-        AddSettingsSection("Limit Settings:", Color.blue, () =>
-        {
-            SetProximityAndDistanceLimit(isHint.boolValue);
-        });
-
-        AddSettingsSection("Basic Settings:", Color.cyan, () =>
-        {
-            SetBasicSettings(bpm.floatValue, changedBPM, isHint.boolValue);
-        });
+       
 
     }
 
@@ -538,4 +479,6 @@ public class RedFaceSettingsEditor : Editor
     {
         EditorGUILayout.EndVertical();
     }
+
+
 }
