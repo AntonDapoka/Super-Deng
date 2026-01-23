@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6031fe08d46b0e540b243d3ffa166c70, type: 3}
+  m_Name: FallFaceSettings
+  m_EditorClassIdentifier: 
+  effectName: 
+  isHint: 0
+  bpm: 0
+  timeStartSeconds: 0
+  timeStartBeats: 0
+  isTimeEnd: 0
+  timeEndSeconds: 0
+  timeEndBeats: 0
+  isTimeForcedBreak: 0
+  timeForcedBreakSeconds: 0
+  timeForcedBreakBeats: 0
+  type: 0
+  isRandom: 0
+  isCertain: 0
+  isStableQuantity: 0
+  quantityExact: 0
+  quantityMin: 0
+  quantityMax: 0
+  isRelativeToPlayer: 0
+  arrayOfFacesRelativeToPlayer: 
+  isRelativeToFigure: 0
+  arrayOfFacesRelativeToFigure: 
+  isProximityLimit: 0
+  proximityLimit: 0
+  isDistanceLimit: 0
+  distanceLimit: 0
+  isBasicSettingsChange: 1
+  isMaterialChange: 0
+  material: {fileID: 0}
+  isBlinkingDurationChange: 0
+  blinkingDurationBeats: 0
+  blinkingDurationSeconds: 0
+  isReturningDurationChange: 0
+  returningDurationBeats: 0
+  returningDurationSeconds: 0
+  isImpulseChange: 1
+  impulse: -8.24
