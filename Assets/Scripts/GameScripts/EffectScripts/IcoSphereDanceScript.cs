@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 public class IcoSphereDanceScript : MonoBehaviour
@@ -11,8 +8,8 @@ public class IcoSphereDanceScript : MonoBehaviour
     public bool isTurnOn = false;  
     private bool inProcess = false;
     private int side = -1;
-    [SerializeField] private EnemySpawnSettings enemySpawnSettings;
-
+    //[SerializeField] private EnemySpawnSettings enemySpawnSettings;
+    /*
     private void Update()
     {
         if (isTurnOn && !inProcess)
@@ -57,5 +54,5 @@ public class IcoSphereDanceScript : MonoBehaviour
             inProcess = false;
             yield return null;
         }
-    }
+    }*/
 }

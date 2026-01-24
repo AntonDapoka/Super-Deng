@@ -24,7 +24,7 @@ public class RedWaveScript : MonoBehaviour
     [SerializeField] private TimerController TC;
     [SerializeField] private PlayerScript PS;
     [SerializeField] private ComboManager CM;
-    [SerializeField] private EnemySpawnSettings enemySpawnSettings;
+    //[SerializeField] private EnemySpawnSettings enemySpawnSettings;
     
 
     public List<int> faceIndices = new();
@@ -33,7 +33,7 @@ public class RedWaveScript : MonoBehaviour
 
     private List<WaveCall> waveOrder = new List<WaveCall>();
     private int waveCount = 0;
-
+    /*
     private void Start()
     {
         faces = FAS.GetAllFaces();
@@ -69,7 +69,7 @@ public class RedWaveScript : MonoBehaviour
                 {
                     availableFaces.Add(i);
                 }
-                */
+                
                 // Only check PathObjectCount which is still active
                 if (FS.PathObjectCount >= proximityLimit)
                 {
@@ -187,7 +187,7 @@ public class RedWaveScript : MonoBehaviour
         else if (FS.isLeft) FS.rend.material = FS.materialLeftFace;
         else if (FS.isTop) FS.rend.material = FS.materialTopFace;
         else FS.rend.material = materialWhite;
-        */
+        //
         FS.rend.material = materialWhite; // Fallback
     }
 
@@ -216,7 +216,7 @@ public class RedWaveScript : MonoBehaviour
                     minPathCounter = face.PathObjectCount;
                     objectWithMinPathCounter = face;
                 }
-                */
+                *
                 // Simplified check without commented fields
                 minPathCounter = face.PathObjectCount;
                 objectWithMinPathCounter = face;
@@ -247,11 +247,11 @@ public class RedWaveScript : MonoBehaviour
             }
         }
     }
-
+    */
     private struct WaveCall
     {
-        public int CallNumber { get; } // ����� ������
-        public float RemovalTime { get; } // ����� ��������
+        public int CallNumber { get; } 
+        public float RemovalTime { get; }
 
         public WaveCall(int callNumber, float removalTime)
         {

@@ -18,10 +18,10 @@ public class UnifiedFrameManagerScript : MonoBehaviour
     [SerializeField] private CameraRGBInterferenceScript CRGBIS;
     [SerializeField] private OrbitScript OS;
 
-    [SerializeField] private EnemySpawnSettings enemySpawnSettings;
+    //[SerializeField] private EnemySpawnSettings enemySpawnSettings;
     private bool[] spawnExecuted;
     private int currentSpawnIndex = 0;
-
+    /*
     private void Start()
     {
         spawnExecuted = new bool[enemySpawnSettings.spawnTimes.Length];
@@ -63,7 +63,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
                     RFS.faceIndices.Clear();
                     RFS.isRandomSpawnTime = false;
                     RFS.isTurnOn = false;
-                }*/
+                }
 
                 if (spawnTimeData.isRedWaveTurnOn)
                 {
@@ -275,7 +275,7 @@ public class UnifiedFrameManagerScript : MonoBehaviour
             {
                 currentSpawnIndex++;
             }
-            //}
+            }
         }
-    }
+    }*/
 }
