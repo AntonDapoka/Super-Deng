@@ -4,7 +4,7 @@ using System.Drawing;
 using UnityEngine;
 
 public class UnifiedFrameManagerScript : MonoBehaviour
-{
+{/*
     public bool isTurnOn = false;
     [SerializeField] private TimerController TC;
     [SerializeField] private RedFaceScript RFS;

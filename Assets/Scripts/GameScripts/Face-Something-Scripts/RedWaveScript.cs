@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class RedWaveScript : MonoBehaviour
-{
+{/*
     public bool isTurnOn = false;
     private GameObject[] faces;
     public int proximityLimit = 5;

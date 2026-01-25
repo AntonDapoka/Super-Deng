@@ -1,18 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class StripDanceSettings : MonoBehaviour
+public class StripDanceSettings : ActionSettingsScript
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public float angleStripDance;
+    public float durationOfCycleStripDanceSeconds;
+    public float durationOfCycleStripDanceBeats;
 }

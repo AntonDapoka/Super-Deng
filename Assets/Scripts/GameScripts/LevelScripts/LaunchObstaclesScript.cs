@@ -6,7 +6,7 @@ public class LaunchObstaclesScript : MonoBehaviour
 {
     private FaceScript[] faces;
     [SerializeField] private FaceArrayScript FAS;
-    [SerializeField] private UnifiedFrameManagerScript UFMS;
+    //[SerializeField] private UnifiedFrameManagerScript UFMS;
     [SerializeField] private RhythmManager RM;
     [SerializeField] private BeatController BC;
     [SerializeField] private CameraZoom CZ;
@@ -15,7 +15,7 @@ public class LaunchObstaclesScript : MonoBehaviour
 
     public void StartLaunchObstacles()
     {
-        if (UFMS != null) UFMS.isTurnOn = true;
+        //if (UFMS != null) UFMS.isTurnOn = true;
         if (RM != null) RM.StartWithSync();  //Запускаем RhythmManager с синхронизацией с бпм музыки
         if (BC != null) BC.isTurnOn = true;
         if (CZ != null) CZ.isTurnOn = true;

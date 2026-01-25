@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class IcoSphereDanceScript : MonoBehaviour
-{
+{/*
     [SerializeField] private GameObject[] objects; 
     public float rotationAngle = 15f;  
     public float duration = 0.2f; 
