@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f8bd7cec5e67ce44b9fd466f585f8da4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 262863
+  packageName: Advanced Edge Detection
+  packageVersion: 2.1
+  assetPath: Assets/INab Studio/Post Processing Assets/Advanced Edge Detection/Common/Edge
+    Read/Example Materials/Water Edge.mat
+  uploadId: 769266

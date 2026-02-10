@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a89df90aa4a753545b6bcf12489aa17c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 262863
+  packageName: Advanced Edge Detection
+  packageVersion: 2.1
+  assetPath: Assets/INab Studio/Post Processing Assets/Advanced Edge Detection/Common
+    URP/Demo Scenes/Lightning/LightingData.asset
+  uploadId: 769266
