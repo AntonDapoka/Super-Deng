@@ -9,6 +9,7 @@ public class ActionInitializerScript : MonoBehaviour
     [SerializeField] private ActionInteractorScript actionInteractor;
 
     [SerializeField] private MonoBehaviour[] actionObjects;
+    [SerializeField] private SpawnerInitializerScript[] spawnerInitializerObjects;
     private IActionScript[] actions;
     private IActionSettingsScript[] settings;
 
