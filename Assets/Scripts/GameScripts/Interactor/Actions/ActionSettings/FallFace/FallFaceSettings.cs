@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PortalSettings", menuName = "ScriptableObjects/PortalSettings", order = 6)]
-public class PortalSettings : ActionSettingsScript
+[CreateAssetMenu(fileName = "FallFaceSettings", menuName = "ScriptableObjects/FallFaceSettings", order = 5)]
+public class FallFaceSettings : ActionSettingsScript
 {
     public bool isRandom;
     public bool isCertain; // Or are specific facets activated?
@@ -21,12 +21,6 @@ public class PortalSettings : ActionSettingsScript
     public bool isDistanceLimit;
     public int distanceLimit;
 
-    public BonusType typeBonus;
-
-    public bool isLifeDuration; //Or it will be kinda immortal? 
-    public float lifeDurationSeconds;
-    public float lifeDurationBeats;
-
     /// <summary>
     /// Часть ниже является необязательной и даже нежелательной, но к ней нужно проявить дотошное внимание
     /// </summary>
@@ -35,4 +29,15 @@ public class PortalSettings : ActionSettingsScript
 
     public bool isMaterialChange;
     public Material material;
+
+    public bool isBlinkingDurationChange;
+    public float blinkingDurationBeats;
+    public float blinkingDurationSeconds;
+
+    public bool isReturningDurationChange;
+    public float returningDurationBeats;
+    public float returningDurationSeconds;
+
+    public bool isImpulseChange;
+    public float impulse;
 }

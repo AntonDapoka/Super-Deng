@@ -23,7 +23,7 @@ public class RedWaveSettings : ActionSettingsScript
 
     public bool isChasingPlayer; //Or it will be random
 
-    public bool isLifeDuration; //Or it will be kinda immortal? It can still die, but only from hitting the player or getting stuck
+    public bool isLifeDuration;  //Or it will be kinda immortal? It can still die, but only from hitting the player or getting stuck
     public float lifeDurationSeconds;
     public float lifeDurationBeats;
 

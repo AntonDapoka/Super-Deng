@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "RedFaceBasicSettings", menuName = "ScriptableObjects/RedFaceBasicSettings", order = 3)]
+[CreateAssetMenu(fileName = "RedFaceBasicSettings", menuName = "ScriptableObjects/RedFaceBasicSettings", order = 2)]
 public class RedFaceBasicSettings : ScriptableObject
 {
     public Material material;

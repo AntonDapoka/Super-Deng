@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BonusSettings", menuName = "ScriptableObjects/BonusSettings", order = 5)]
+[CreateAssetMenu(fileName = "BonusSettings", menuName = "ScriptableObjects/BonusSettings", order = 7)]
 public class BonusSettings : ActionSettingsScript
 {
     public bool isRandom;
