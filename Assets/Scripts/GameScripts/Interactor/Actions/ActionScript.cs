@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class ActionScript : MonoBehaviour
 {
-    /*public ActionType Type { get; private set; }
+   public ActionType Type { get; private set; }
 
     public abstract void Initialize();
 
@@ -14,5 +14,5 @@ public abstract class ActionScript : MonoBehaviour
 
     public abstract void TurnOn();
 
-    public abstract void TurnOff();*/
+    public abstract void TurnOff();
 }

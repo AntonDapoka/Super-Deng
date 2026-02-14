@@ -1,5 +1,5 @@
 public class ScenarioEntry
 {
-    public IActionScript action;
+    public ActionScript action;
     public IActionSettingsScript settings;
 }

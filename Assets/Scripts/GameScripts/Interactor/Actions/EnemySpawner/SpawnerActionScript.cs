@@ -36,14 +36,12 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
     public ActionType Type => type;
 
 
-    public virtual void Initialize()
+    public override void Initialize()
     {
         faces = FaceArray.GetAllFaces();
     }
 
-    public abstract void SetSettings<T>(T settings);
-
-    public virtual void Execute() 
+    public override void Execute() 
     {
 
         List<int> availableFaces = GetAvailableFaces();
@@ -127,14 +125,17 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
 
     public abstract void SetActionFace(GameObject gameObject);
 
-    public virtual void Cancel() { }
+    public override void Cancel() 
+    { 
+    
+    }
 
-    public void TurnOn()
+    public override void TurnOn()
     {
         isTurnOn = true;
     }
 
-    public void TurnOff()
+    public override void TurnOff()
     {
         isTurnOn = false;
     }

@@ -6,11 +6,10 @@ public class ActionInitializerScript : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private ActionInteractorScript actionInteractor;
-    [SerializeField] private ActionScript[] actionObjects;
+    [SerializeField] private ActionScript[] actions;
 
-    private IActionScript[] actions;
-    private IActionSettingsScript[] settings;
-    private IActionBasicSettingsScript[] settingsBasic;
+    private ActionSettingsScript[] settings;
+    private ActionBasicSettingsScript[] settingsBasic;
 
     private ActionScenarioDataBase scenarioData;
     private ActionBasicSettingsDataBase basicSettingsData;
@@ -21,25 +20,7 @@ public class ActionInitializerScript : MonoBehaviour
         scenarioData = scenario;
         basicSettingsData = basicSettings;
 
-        ConvertActions();
-
         ApplyScenario();
-    }
-
-    private void ConvertActions() //Why?
-    {
-        actions = actionObjects
-            .Select(s =>
-            {
-                if (s is not IActionScript action)
-                {
-                    Debug.LogError($"Объект {s.name} не реализует IActionScript");
-                    return null;
-                }
-                return action;
-            })
-            .Where(a => a != null)
-            .ToArray();
     }
 
     private void ApplyScenario()
@@ -52,7 +33,7 @@ public class ActionInitializerScript : MonoBehaviour
     {
         settings = scenarioData.Settings;
 
-        Dictionary<ActionType, IActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
+        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
 
         List<ScenarioEntry> result = new();
 
@@ -78,7 +59,7 @@ public class ActionInitializerScript : MonoBehaviour
     {
         settingsBasic = basicSettingsData.BasicSettings;
 
-        Dictionary<ActionType, IActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
+        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
 
         List<BasicSettingsEntry> result = new();
 
@@ -103,6 +84,6 @@ public class ActionInitializerScript : MonoBehaviour
 
 public class BasicSettingsEntry
 {
-    public IActionScript action;
+    public ActionScript action;
     public IActionBasicSettingsScript settingsBasic;
 }

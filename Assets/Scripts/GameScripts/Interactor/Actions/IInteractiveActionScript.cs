@@ -1,4 +1,4 @@
-public interface IInteractiveActionScript : IActionScript
+public interface IInteractiveActionScript
 {
 
 }
