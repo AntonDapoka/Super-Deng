@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RedFaceSpawnerInitializer : SpawnerInitializerScript
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private ActionType type;
+    [Header("References")] 
+    [SerializeField] private RedFaceBasicSettings settingsBasic;
+    [SerializeField] private RedFaceSpawnerScript redFaceSpawner;
 
-    // Update is called once per frame
-    void Update()
+    public override void Initialize()
     {
-        
+        if (settingsBasic == null) return;
+
+        redFaceSpawner.SetBasicSettings(settingsBasic);
+
+        redFaceSpawner.Initialize();
     }
 }

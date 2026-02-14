@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LevelInitializerScript : MonoBehaviour
 {
+    [SerializeField] private ActionScenarioDataBase scenarioData; 
+    [SerializeField] private ActionBasicSettingsDataBase basicSettingsData; 
+
     [SerializeField] private FieldInitializerScript fieldInitializer;
     [SerializeField] private BackgroundInitializerScript backgroundInitializer;
     [SerializeField] private PlayerInitializerScript playerInitializer;
@@ -16,6 +19,11 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private AudioClip musicTrack;
     [SerializeField] private TimerController TC;
     [SerializeField] private StartCountDown SCD;
+
+    private void Awake()
+    {
+        actionInitializer.SetActionScenarioDataBase(scenarioData, basicSettingsData);
+    }
 
     private void Start()
     {

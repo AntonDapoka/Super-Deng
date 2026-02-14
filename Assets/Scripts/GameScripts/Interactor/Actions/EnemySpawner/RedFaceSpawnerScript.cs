@@ -1,17 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class RedFaceSpawnerScript : SpawnerActionScript
 {
     private List<RedFaceScript> redFaces = new();
     private RedFaceSettings redFaceSettings;
+    private RedFaceBasicSettings redFaceBasicSettings;
     [SerializeField] private RedFaceSpawnerPresenterScript presenter;
-
-    private void Start()
-    {
-        Initialize(); //It would be better to change it
-    }
 
     public override void SetSettings<T>(T settings)
     {
@@ -24,6 +19,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
         isRandomSpawn = redFaceSettings.isRandom;
         isCertainSpawn = redFaceSettings.isCertain;
+        isBasicSettingsChange = redFaceSettings.isBasicSettingsChange;
 
         if (isRandomSpawn)
         {
@@ -45,6 +41,12 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         proximityLimit = redFaceSettings.proximityLimit;
         isDistanceLimit = redFaceSettings.isDistanceLimit;
         distanceLimit = redFaceSettings.distanceLimit;
+
+        if (isBasicSettingsChange)
+        {
+            /////
+        }
+        else ApplyBasicSettings();
     }
 
     public override bool IsSuitableSpecialRequirements()
@@ -59,7 +61,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     private RedFaceScript CreateRedFace(GameObject face)
     {
-        if (face == null) 
+        if (face == null)
             Debug.Log("Face null");
 
         if (redFaceSettings == null)
@@ -80,5 +82,21 @@ public class RedFaceSpawnerScript : SpawnerActionScript
             if (redFaces[i].IsFinished)
                 redFaces.RemoveAt(i);
         }
+    }
+
+    public override void SetBasicSettings(ActionBasicSettingsScript actionBasicSettings)
+    {
+        if (actionBasicSettings is not RedFaceBasicSettings redFaceSettings)
+        {
+            Debug.LogError("actionBasicSettings must be of type RedFaceBasicSettingsScript");
+            return;
+        }
+
+        redFaceBasicSettings = redFaceSettings;
+    }
+
+    private void ApplyBasicSettings()
+    {
+
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class ActionScenarioDataBase : ScriptableObject
 {
     [SerializeReference]
-    private ActionSettingsScript[] actions;
+    private ActionSettingsScript[] settings;
 
-    public ActionSettingsScript[] Actions => actions;
+    public ActionSettingsScript[] Settings => settings;
 }

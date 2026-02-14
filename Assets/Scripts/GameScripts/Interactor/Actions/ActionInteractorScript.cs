@@ -5,12 +5,18 @@ public class ActionInteractorScript : MonoBehaviour
     [SerializeField] private LevelTimeManagementScript levelTimeManagement;
 
     public ScenarioEntry[] entries; //!!!!!!!!!!!!
+    public BasicSettingsEntry[] entriesBasicSettings; //!!!!!!!!!!!!
     private bool[] spawnExecuted;
     private bool[] spawnCanceled;
 
     private float time;
     private int currentSpawnIndex = 0;
 
+
+    public void SetBasicSettings(BasicSettingsEntry[] newEntries)
+    {
+        entriesBasicSettings = newEntries;
+    }
 
     public void SetScenario(ScenarioEntry[] newEntries)
     {
@@ -45,10 +51,4 @@ public class ActionInteractorScript : MonoBehaviour
             }
         }
     }
-}
-
-public class ScenarioEntry
-{
-    public IActionScript action;     
-    public IActionSettingsScript settings;        
 }

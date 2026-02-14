@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "FallFaceBasicSettings", menuName = "ScriptableObjects/FallFaceBasicSettings", order = 6)]
-public class FallFaceBasicSettings : ScriptableObject
+public class FallFaceBasicSettings : ActionBasicSettingsScript
 {
     public Material material;
 

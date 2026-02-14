@@ -1,26 +1,32 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class ActionInitializerScript : MonoBehaviour
 {
-    [SerializeField] private ActionScenarioDataBase scenarioData;
+    [Header("References")]
     [SerializeField] private ActionInteractorScript actionInteractor;
+    [SerializeField] private ActionScript[] actionObjects;
 
-    [SerializeField] private MonoBehaviour[] actionObjects;
-    [SerializeField] private SpawnerInitializerScript[] spawnerInitializerObjects;
     private IActionScript[] actions;
     private IActionSettingsScript[] settings;
+    private IActionBasicSettingsScript[] settingsBasic;
 
-    private void Awake()
+    private ActionScenarioDataBase scenarioData;
+    private ActionBasicSettingsDataBase basicSettingsData;
+
+
+    public void SetActionScenarioDataBase(ActionScenarioDataBase scenario, ActionBasicSettingsDataBase basicSettings) 
     {
+        scenarioData = scenario;
+        basicSettingsData = basicSettings;
+
         ConvertActions();
-        ConvertSettings();
-        SetScenario();
+
+        ApplyScenario();
     }
 
-    private void ConvertActions()
+    private void ConvertActions() //Why?
     {
         actions = actionObjects
             .Select(s =>
@@ -36,42 +42,17 @@ public class ActionInitializerScript : MonoBehaviour
             .ToArray();
     }
 
-    private void ConvertSettings()
+    private void ApplyScenario()
     {
-        var raw = scenarioData.Actions;
-
-        if (raw == null)
-        {
-            Debug.LogError("scenarioData.Actions == null");
-            settings = new IActionSettingsScript[0];
-            return;
-        }
-
-        settings = raw
-            .Select(s =>
-            {
-                if (s is not IActionSettingsScript setting)
-                {
-                    Debug.LogError($"ScriptableObject {s.name} does NOT realise IActionSettingsScript");
-                    return null;
-                }
-                return setting;
-            })
-            .Where(s => s != null)
-            .ToArray();
+        actionInteractor.SetBasicSettings(BuildBasicSettingsEntries());
+        actionInteractor.SetScenario(BuildScenarioEntries());
     }
 
-    private void SetScenario()
+    private ScenarioEntry[] BuildScenarioEntries()
     {
-        actionInteractor.SetScenario(BuildScenario());
-    }
+        settings = scenarioData.Settings;
 
-    public ScenarioEntry[] BuildScenario()
-    {
-        settings = scenarioData.Actions;
-
-        Dictionary<ActionType, IActionScript> actionByType =
-            actions.ToDictionary(s => s.Type, s => s);
+        Dictionary<ActionType, IActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
 
         List<ScenarioEntry> result = new();
 
@@ -92,4 +73,36 @@ public class ActionInitializerScript : MonoBehaviour
 
         return result.ToArray();
     }
+
+    private BasicSettingsEntry[] BuildBasicSettingsEntries()
+    {
+        settingsBasic = basicSettingsData.BasicSettings;
+
+        Dictionary<ActionType, IActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
+
+        List<BasicSettingsEntry> result = new();
+
+        foreach (var set in settingsBasic)
+        {
+            if (!actionByType.TryGetValue(set.Type, out var script))
+            {
+                Debug.LogError($"Не найден IActionScript для ActionType {set.Type}");
+                continue;
+            }
+
+            result.Add(new BasicSettingsEntry
+            {
+                action = script,
+                settingsBasic = set
+            });
+        }
+
+        return result.ToArray();
+    }
+}
+
+public class BasicSettingsEntry
+{
+    public IActionScript action;
+    public IActionBasicSettingsScript settingsBasic;
 }

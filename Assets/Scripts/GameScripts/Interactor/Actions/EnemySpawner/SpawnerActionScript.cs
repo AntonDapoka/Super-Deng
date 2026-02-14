@@ -1,16 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using static UnityEngine.Rendering.PostProcessing.SubpixelMorphologicalAntialiasing;
 
-public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
+public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
 {
     [SerializeField] private ActionType type;
     [SerializeField] protected GameObject[] faces;
     [SerializeField] protected bool isTurnOn = false;
     [SerializeField] protected bool isRandomSpawn = false;
     protected bool isCertainSpawn = false;
+    protected bool isBasicSettingsChange = false;
     protected bool isStableQuantity;
     protected int quantityExact;
     protected int quantityMin;
@@ -124,6 +123,8 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
 
     public abstract bool IsSuitableSpecialRequirements();
 
+    public abstract void SetBasicSettings(ActionBasicSettingsScript actionBasicSettings);
+
     public abstract void SetActionFace(GameObject gameObject);
 
     public virtual void Cancel() { }
@@ -137,4 +138,6 @@ public abstract class SpawnerActionScript : MonoBehaviour, IPlayerInteractiveAct
     {
         isTurnOn = false;
     }
+
+
 }
