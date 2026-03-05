@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class ActionSettingsScript : ScriptableObject, IActionSettingsScript
+public abstract class ActionSettingsScript : ScriptableObject, IActionTypeHolder
 {
     public string effectName;
     public bool isHint;
@@ -20,7 +20,4 @@ public abstract class ActionSettingsScript : ScriptableObject, IActionSettingsSc
     public ActionType type;
 
     public ActionType Type => type;
-
-    float IActionSettingsScript.TimeStartSeconds => timeStartSeconds;
-    float IActionSettingsScript.TimeEndSeconds => timeEndSeconds;
 }

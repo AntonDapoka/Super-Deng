@@ -9,7 +9,11 @@ public class RedFaceSpawnerInitializer : SpawnerInitializerScript
 
     public override void Initialize()
     {
-        if (settingsBasic == null) return;
+        if (settingsBasic == null)
+        {
+            Debug.Log("Null settings");
+            return;
+        }
 
         redFaceSpawner.SetBasicSettings(settingsBasic);
 

@@ -31,21 +31,21 @@ public class ActionInteractorScript : MonoBehaviour
 
         for (int i = 0; i < entries.Length; i++)
         {
-            if (time >= entries[i].settings.TimeStartSeconds && time < entries[i].settings.TimeEndSeconds && !spawnExecuted[currentSpawnIndex])
+            if (time >= entries[i].settings.timeStartSeconds && time < entries[i].settings.timeEndSeconds && !spawnExecuted[currentSpawnIndex])
             {
-                Debug.Log(entries[i].settings.TimeStartSeconds.ToString());
+                Debug.Log(entries[i].settings.timeStartSeconds.ToString());
                 entries[i].action.TurnOn();
                 entries[i].action.SetSettings(entries[i].settings);
                 spawnExecuted[currentSpawnIndex] = true;
             }
-            else if (time >= entries[i].settings.TimeEndSeconds && !spawnCanceled[currentSpawnIndex])
+            else if (time >= entries[i].settings.timeEndSeconds && !spawnCanceled[currentSpawnIndex])
             {
-                Debug.Log(entries[i].settings.TimeEndSeconds.ToString());
+                Debug.Log(entries[i].settings.timeEndSeconds.ToString());
                 entries[i].action.Cancel();
                 spawnCanceled[currentSpawnIndex] = true;
             }
 
-            if (i + 1 < entries.Length && time > entries[i + 1].settings.TimeStartSeconds)
+            if (i + 1 < entries.Length && time > entries[i + 1].settings.timeStartSeconds)
             {
                 currentSpawnIndex++;
             }

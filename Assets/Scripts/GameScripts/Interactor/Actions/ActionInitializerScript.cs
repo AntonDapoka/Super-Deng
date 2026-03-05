@@ -31,51 +31,43 @@ public class ActionInitializerScript : MonoBehaviour
 
     private ScenarioEntry[] BuildScenarioEntries()
     {
-        settings = scenarioData.Settings;
-
-        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
-
-        List<ScenarioEntry> result = new();
-
-        foreach (var set in settings)
-        {
-            if (!actionByType.TryGetValue(set.Type, out var script))
-            {
-                Debug.LogError($"Не найден IActionScript для ActionType {set.Type}");
-                continue;
-            }
-
-            result.Add(new ScenarioEntry
+        return BuildEntries(
+            scenarioData.Settings,
+            (script, set) => new ScenarioEntry
             {
                 action = script,
                 settings = set
-            });
-        }
-
-        return result.ToArray();
+            }
+        );
     }
 
     private BasicSettingsEntry[] BuildBasicSettingsEntries()
     {
-        settingsBasic = basicSettingsData.BasicSettings;
-
-        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
-
-        List<BasicSettingsEntry> result = new();
-
-        foreach (var set in settingsBasic)
-        {
-            if (!actionByType.TryGetValue(set.Type, out var script))
-            {
-                Debug.LogError($"Не найден IActionScript для ActionType {set.Type}");
-                continue;
-            }
-
-            result.Add(new BasicSettingsEntry
+        return BuildEntries(
+            basicSettingsData.BasicSettings,
+            (script, set) => new BasicSettingsEntry
             {
                 action = script,
                 settingsBasic = set
-            });
+            }
+        );
+    }
+
+    private TEntry[] BuildEntries<TSettings, TEntry>(TSettings[] settingsArray, System.Func<ActionScript, TSettings, TEntry> entryFactory) where TSettings : IActionTypeHolder
+    {
+        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.type, s => s);
+
+        List<TEntry> result = new();
+
+        foreach (var set in settingsArray)
+        {
+            if (!actionByType.TryGetValue(set.Type, out var script))
+            {
+                Debug.LogError($"Не найден ___ для ActionType {set.Type}");
+                continue;
+            }
+
+            result.Add(entryFactory(script, set));
         }
 
         return result.ToArray();
@@ -85,5 +77,5 @@ public class ActionInitializerScript : MonoBehaviour
 public class BasicSettingsEntry
 {
     public ActionScript action;
-    public IActionBasicSettingsScript settingsBasic;
+    public ActionBasicSettingsScript settingsBasic;
 }

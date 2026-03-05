@@ -4,7 +4,6 @@ using System.Linq;
 
 public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
 {
-    [SerializeField] private ActionType type;
     [SerializeField] protected GameObject[] faces;
     [SerializeField] protected bool isTurnOn = false;
     [SerializeField] protected bool isRandomSpawn = false;
