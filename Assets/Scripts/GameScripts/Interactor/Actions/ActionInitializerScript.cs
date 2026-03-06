@@ -8,12 +8,8 @@ public class ActionInitializerScript : MonoBehaviour
     [SerializeField] private ActionInteractorScript actionInteractor;
     [SerializeField] private ActionScript[] actions;
 
-    private ActionSettingsScript[] settings;
-    private ActionBasicSettingsScript[] settingsBasic;
-
     private ActionScenarioDataBase scenarioData;
     private ActionBasicSettingsDataBase basicSettingsData;
-
 
     public void SetActionScenarioDataBase(ActionScenarioDataBase scenario, ActionBasicSettingsDataBase basicSettings) 
     {
@@ -26,13 +22,17 @@ public class ActionInitializerScript : MonoBehaviour
     private void ApplyScenario()
     {
         actionInteractor.SetBasicSettings(BuildBasicSettingsEntries());
+
+        foreach (var action in actions)
+        {
+
+        }
         actionInteractor.SetScenario(BuildScenarioEntries());
     }
 
     private ScenarioEntry[] BuildScenarioEntries()
     {
-        return BuildEntries(
-            scenarioData.Settings,
+        return BuildEntries(scenarioData.Settings,
             (script, set) => new ScenarioEntry
             {
                 action = script,
@@ -43,8 +43,7 @@ public class ActionInitializerScript : MonoBehaviour
 
     private BasicSettingsEntry[] BuildBasicSettingsEntries()
     {
-        return BuildEntries(
-            basicSettingsData.BasicSettings,
+        return BuildEntries(basicSettingsData.BasicSettings,
             (script, set) => new BasicSettingsEntry
             {
                 action = script,
@@ -69,7 +68,6 @@ public class ActionInitializerScript : MonoBehaviour
 
             result.Add(entryFactory(script, set));
         }
-
         return result.ToArray();
     }
 }

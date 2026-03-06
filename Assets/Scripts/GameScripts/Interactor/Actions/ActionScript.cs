@@ -6,7 +6,9 @@ public abstract class ActionScript : MonoBehaviour
 
     public abstract void Initialize();
 
-    public abstract void SetSettings<T>(T settings);
+    public abstract void SetSettings(ActionSettingsScript actionSettings);
+
+    public abstract void SetBasicSettings(ActionBasicSettingsScript actionBasicSettings);
 
     public abstract void Execute();
 

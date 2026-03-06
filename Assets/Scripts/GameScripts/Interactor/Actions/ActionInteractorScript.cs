@@ -4,8 +4,8 @@ public class ActionInteractorScript : MonoBehaviour
 {
     [SerializeField] private LevelTimeManagementScript levelTimeManagement;
 
-    public ScenarioEntry[] entries; //!!!!!!!!!!!!
-    public BasicSettingsEntry[] entriesBasicSettings; //!!!!!!!!!!!!
+    private ScenarioEntry[] entries; //!!!!!!!!!!!!
+    private BasicSettingsEntry[] entriesBasicSettings; //!!!!!!!!!!!!
     private bool[] spawnExecuted;
     private bool[] spawnCanceled;
 

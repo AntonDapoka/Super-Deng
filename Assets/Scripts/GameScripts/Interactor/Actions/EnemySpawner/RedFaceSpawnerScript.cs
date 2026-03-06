@@ -8,7 +8,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     private RedFaceBasicSettings redFaceBasicSettings;
     [SerializeField] private RedFaceSpawnerPresenterScript presenter;
 
-    public override void SetSettings<T>(T settings)
+    public override void SetSettings(ActionSettingsScript settings)
     {
         redFaceSettings = settings as RedFaceSettings;
         if (redFaceSettings == null)
@@ -99,4 +99,9 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     {
 
     }
+
+    /*public override void SetBasicSettings(ActionBasicSettingsScript actionBasicSettings)
+    {
+        
+    }*/
 }

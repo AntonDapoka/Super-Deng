@@ -120,8 +120,6 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
 
     public abstract bool IsSuitableSpecialRequirements();
 
-    public abstract void SetBasicSettings(ActionBasicSettingsScript actionBasicSettings);
-
     public abstract void SetActionFace(GameObject gameObject);
 
     public override void Cancel() 
