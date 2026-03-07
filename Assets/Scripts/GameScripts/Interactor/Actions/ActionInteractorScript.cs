@@ -4,10 +4,11 @@ public class ActionInteractorScript : MonoBehaviour
 {
     [SerializeField] private LevelTimeManagementScript levelTimeManagement;
 
-    private ScenarioEntry[] entries; //!!!!!!!!!!!!
-    private BasicSettingsEntry[] entriesBasicSettings; //!!!!!!!!!!!!
+    private ScenarioEntry[] entries;
     private bool[] spawnExecuted;
     private bool[] spawnCanceled;
+
+    //private BasicSettingsEntry[] entriesBasicSettings; //!!!!!!!!!!!!
 
     private float time;
     private int currentSpawnIndex = 0;

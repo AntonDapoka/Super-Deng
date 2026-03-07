@@ -21,10 +21,18 @@ public class ActionInitializerScript : MonoBehaviour
 
     private void ApplyScenario()
     {
-        foreach (var action in actions)
-        {
+        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
 
+        foreach (var set in basicSettingsData.BasicSettings)
+        {
+            if (!actionByType.TryGetValue(set.Type, out var script))
+            {
+                Debug.LogError($"Не найден Settings Type для ActionType {set.Type}");
+                continue;
+            }
+            script.SetBasicSettings(set);
         }
+
         actionInteractor.SetScenario(BuildScenarioEntries());
     }
 
@@ -39,20 +47,9 @@ public class ActionInitializerScript : MonoBehaviour
         );
     }
 
-    private BasicSettingsEntry[] BuildBasicSettingsEntries()
-    {
-        return BuildEntries(basicSettingsData.BasicSettings,
-            (script, set) => new BasicSettingsEntry
-            {
-                action = script,
-                settingsBasic = set
-            }
-        );
-    }
-
     private TEntry[] BuildEntries<TSettings, TEntry>(TSettings[] settingsArray, System.Func<ActionScript, TSettings, TEntry> entryFactory) where TSettings : IActionTypeHolder
     {
-        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.type, s => s);
+        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
 
         List<TEntry> result = new();
 
@@ -60,7 +57,7 @@ public class ActionInitializerScript : MonoBehaviour
         {
             if (!actionByType.TryGetValue(set.Type, out var script))
             {
-                Debug.LogError($"Не найден ___ для ActionType {set.Type}");
+                Debug.LogError($"Не найден Settings Type для ActionType {set.Type}");
                 continue;
             }
 
@@ -68,10 +65,4 @@ public class ActionInitializerScript : MonoBehaviour
         }
         return result.ToArray();
     }
-}
-
-public class BasicSettingsEntry
-{
-    public ActionScript action;
-    public ActionBasicSettingsScript settingsBasic;
 }

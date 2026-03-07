@@ -32,7 +32,7 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
     public PlayerStateInteractorScript PlayerStatetInteractor => playerStateInteractor;
     public FieldInteractorScript FieldInteractor => fieldInteractor;
     public FaceArrayScript FaceArray => faceArray;
-    public ActionType Type => type;
+    public ActionType Type => base.Type;
 
 
     public override void Initialize()
