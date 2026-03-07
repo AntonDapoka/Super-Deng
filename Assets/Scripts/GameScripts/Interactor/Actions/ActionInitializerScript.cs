@@ -21,8 +21,6 @@ public class ActionInitializerScript : MonoBehaviour
 
     private void ApplyScenario()
     {
-        actionInteractor.SetBasicSettings(BuildBasicSettingsEntries());
-
         foreach (var action in actions)
         {
 
