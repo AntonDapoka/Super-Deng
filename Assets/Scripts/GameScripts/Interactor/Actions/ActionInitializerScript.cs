@@ -7,9 +7,31 @@ public class ActionInitializerScript : MonoBehaviour
     [Header("References")]
     [SerializeField] private ActionInteractorScript actionInteractor;
     [SerializeField] private ActionScript[] actions;
+    private Dictionary<ActionType, ActionScript> actionsByType;
 
     private ActionScenarioDataBase scenarioData;
     private ActionBasicSettingsDataBase basicSettingsData;
+
+    private void Awake()
+    {
+        BuildDictionary();
+    }
+
+    private void BuildDictionary()
+    {
+        actionsByType = new Dictionary<ActionType, ActionScript>(actions.Length);
+
+        foreach (var action in actions)
+        {
+            if (actionsByType.ContainsKey(action.Type))
+            {
+                Debug.LogError($"Duplicate ActionType: {action.Type}");
+                continue;
+            }
+
+            actionsByType[action.Type] = action;
+        }
+    }
 
     public void SetActionScenarioDataBase(ActionScenarioDataBase scenario, ActionBasicSettingsDataBase basicSettings) 
     {
@@ -21,48 +43,49 @@ public class ActionInitializerScript : MonoBehaviour
 
     private void ApplyScenario()
     {
-        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
+        if (scenarioData == null || basicSettingsData == null)
+        {
+            Debug.LogError("Scenario or BasicSettings not assigned");
+            return;
+        }
 
+        ApplyBasicSettings();
+
+        actionInteractor.SetScenario(BuildScenarioEntries());
+    }
+
+    private void ApplyBasicSettings()
+    {
         foreach (var set in basicSettingsData.BasicSettings)
         {
-            if (!actionByType.TryGetValue(set.Type, out var script))
+            if (!actionsByType.TryGetValue(set.Type, out var script))
             {
                 Debug.LogError($"Не найден Settings Type для ActionType {set.Type}");
                 continue;
             }
             script.SetBasicSettings(set);
         }
-
-        actionInteractor.SetScenario(BuildScenarioEntries());
     }
 
     private ScenarioEntry[] BuildScenarioEntries()
     {
-        return BuildEntries(scenarioData.Settings,
-            (script, set) => new ScenarioEntry
-            {
-                action = script,
-                settings = set
-            }
-        );
-    }
+        List<ScenarioEntry> result = new(scenarioData.Settings.Length);
 
-    private TEntry[] BuildEntries<TSettings, TEntry>(TSettings[] settingsArray, System.Func<ActionScript, TSettings, TEntry> entryFactory) where TSettings : IActionTypeHolder
-    {
-        Dictionary<ActionType, ActionScript> actionByType = actions.ToDictionary(s => s.Type, s => s);
-
-        List<TEntry> result = new();
-
-        foreach (var set in settingsArray)
+        foreach (var set in scenarioData.Settings)
         {
-            if (!actionByType.TryGetValue(set.Type, out var script))
+            if (!actionsByType.TryGetValue(set.Type, out var script))
             {
                 Debug.LogError($"Не найден Settings Type для ActionType {set.Type}");
                 continue;
             }
 
-            result.Add(entryFactory(script, set));
+            result.Add(new ScenarioEntry
+            {
+                action = script,
+                settings = set
+            });
         }
+
         return result.ToArray();
     }
 }

@@ -19,7 +19,6 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
     protected bool isRelativeToFigure = false;
     protected int[] arrayOfFacesRelativeToFigure;
 
-
     protected bool isProximityLimit = false;
     protected int proximityLimit;
     protected bool isDistanceLimit = false;
@@ -32,8 +31,6 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
     public PlayerStateInteractorScript PlayerStatetInteractor => playerStateInteractor;
     public FieldInteractorScript FieldInteractor => fieldInteractor;
     public FaceArrayScript FaceArray => faceArray;
-    public ActionType Type => base.Type;
-
 
     public override void Initialize()
     {
@@ -122,10 +119,7 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
 
     public abstract void SetActionFace(GameObject gameObject);
 
-    public override void Cancel() 
-    { 
-    
-    }
+    public override void Cancel() { }
 
     public override void TurnOn()
     {
@@ -136,6 +130,4 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
     {
         isTurnOn = false;
     }
-
-
 }

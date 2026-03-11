@@ -7,11 +7,10 @@ public class ActionInteractorScript : MonoBehaviour
     private ScenarioEntry[] entries;
     private bool[] spawnExecuted;
     private bool[] spawnCanceled;
-
-    //private BasicSettingsEntry[] entriesBasicSettings; //!!!!!!!!!!!!
-
     private float time;
     private int currentSpawnIndex = 0;
+
+    //private BasicSettingsEntry[] entriesBasicSettings; //!!!!!!!!!!!!
 
     public void SetScenario(ScenarioEntry[] newEntries)
     {
