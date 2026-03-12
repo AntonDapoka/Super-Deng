@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelTimeManagementScript : MonoBehaviour
 {
     [SerializeField] private bool isTurnOn = false;
-    private float time;
+    [SerializeField] private float time;
 
     private void Awake()
     {

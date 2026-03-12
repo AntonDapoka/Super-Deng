@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f41fcfd6a8b4c4e9cf3f6eceb9c3f4, type: 3}
   m_Name: ActionScenarioDataBase
   m_EditorClassIdentifier: 
-  actions:
+  settings:
   - {fileID: 11400000, guid: 321dcd2905daa85498fcf1937b2d45f8, type: 2}

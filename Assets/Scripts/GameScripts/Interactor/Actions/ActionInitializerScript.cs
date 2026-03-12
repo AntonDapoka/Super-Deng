@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class ActionInitializerScript : MonoBehaviour
@@ -38,7 +37,16 @@ public class ActionInitializerScript : MonoBehaviour
         scenarioData = scenario;
         basicSettingsData = basicSettings;
 
+        InitializeActions();
         ApplyScenario();
+    }
+
+    private void InitializeActions()
+    {
+        foreach (var action in actions)
+        {
+            action.Initialize();
+        }
     }
 
     private void ApplyScenario()

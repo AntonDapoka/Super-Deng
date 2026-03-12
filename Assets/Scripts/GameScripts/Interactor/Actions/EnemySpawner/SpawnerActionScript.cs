@@ -35,6 +35,7 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
     public override void Initialize()
     {
         faces = FaceArray.GetAllFaces();
+        Debug.Log((faces.Length).ToString() + "Initialized");
     }
 
     public override void Execute() 

@@ -104,7 +104,6 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                 }
             }
         }
-        Debug.Log(w);
         //GroupGameObjects(faces.ToArray());
     }
 

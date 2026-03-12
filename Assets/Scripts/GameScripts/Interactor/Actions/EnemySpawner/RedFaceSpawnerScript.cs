@@ -5,13 +5,13 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 {
     private List<RedFaceScript> redFaces = new();
     private RedFaceSettings redFaceSettings;
-    private RedFaceBasicSettings redFaceBasicSettings;
+    [SerializeField] private RedFaceBasicSettings redFaceBasicSettings;
     [SerializeField] private RedFaceSpawnerPresenterScript presenter;
 
     public override void SetSettings(ActionSettingsScript settings)
     {
         redFaceSettings = settings as RedFaceSettings;
-        if (redFaceSettings == null)
+        if (redFaceSettings == null || faces == null)
         {
             Debug.LogError($"RedFaceSpawner REQUIRES RedFaceSettings, but received {settings?.GetType().Name ?? "null"}");
             return;
@@ -75,6 +75,8 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     private void Update()
     {
+        //Debug.Log((faces.Length).ToString());
+
         for (int i = redFaces.Count - 1; i >= 0; i--)
         {
             redFaces[i].Update();

@@ -1,20 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelInitializerScript : MonoBehaviour
 {
+    [Header("Level Data")]
     [SerializeField] private ActionScenarioDataBase scenarioData; 
-    [SerializeField] private ActionBasicSettingsDataBase basicSettingsData; 
+    [SerializeField] private ActionBasicSettingsDataBase basicSettingsData;
 
+    [Header("Script References")]
     [SerializeField] private FieldInitializerScript fieldInitializer;
     [SerializeField] private BackgroundInitializerScript backgroundInitializer;
     [SerializeField] private PlayerInitializerScript playerInitializer;
     [SerializeField] private ActionInitializerScript actionInitializer;
     [SerializeField] private LevelTimeManagementScript timeIntializer;
-    //[SerializeField] private InputControllerInitializerScript inputControllerInitializer; ????
 
-
+    [Header("Other References")]
     [SerializeField] private AudioSource musicManager;
     [SerializeField] private AudioClip musicTrack;
     [SerializeField] private TimerController TC;
@@ -22,13 +21,14 @@ public class LevelInitializerScript : MonoBehaviour
 
     private void Awake()
     {
+        fieldInitializer.InitializeField();
         actionInitializer.SetActionScenarioDataBase(scenarioData, basicSettingsData);
     }
 
     private void Start()
     {
         timeIntializer.TurnOn();
-        fieldInitializer.InitializeField();
+
         playerInitializer.InitializePlayer();
     }
 }
