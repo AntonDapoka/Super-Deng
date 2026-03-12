@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RedFaceScript 
@@ -10,6 +8,7 @@ public class RedFaceScript
     private readonly FaceStateScript faceState;
 
     private readonly RedFaceSettings settings;
+    private readonly RedFaceBasicSettings settingsBasic;
     private readonly RedFaceSpawnerPresenterScript presenter;
 
     private State state;
@@ -58,10 +57,12 @@ public class RedFaceScript
     public RedFaceScript(
         GameObject face,
         RedFaceSettings settings,
+        RedFaceBasicSettings settingsBasic,
         RedFaceSpawnerPresenterScript presenter)
     {
         this.face = face;
         this.settings = settings;
+        this.settingsBasic = settingsBasic;
         this.presenter = presenter;
         //Debug.Log("JHDHDKSGHSKF");
         if (settings.isBasicSettingsChange)
@@ -130,8 +131,7 @@ public class RedFaceScript
         ApplyRedFaceMaterial();
         AdvanceTimer();
 
-        if (TimerExpired(colorDuration))
-            StartScaleUp();
+        if (TimerExpired(colorDuration)) StartScaleUp();
     }
 
     private void StartScaleUp()
@@ -175,15 +175,12 @@ public class RedFaceScript
 
     private void Finish()
     {
-        faceScript.rend.material = material;        //CHANGE TO PRESENTER
+        faceScript.rend.material = material; //CHANGE TO PRESENTER
         faceState.Set(FaceProperty.IsKilling, false);
         state = State.Done;
     }
 
-    private void UpdateScaling(
-        Vector3 fromScale, Vector3 toScale,
-        Vector3 fromPos, Vector3 toPos,
-        float duration, System.Action onComplete)
+    private void UpdateScaling(Vector3 fromScale, Vector3 toScale, Vector3 fromPos, Vector3 toPos, float duration, System.Action onComplete)
     {
         ApplyRedFaceMaterial();
         AdvanceTimer();

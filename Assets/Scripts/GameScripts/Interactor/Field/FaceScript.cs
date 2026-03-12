@@ -41,7 +41,6 @@ public class FaceScript : MonoBehaviour, IFaceScript
 
     private void OnEnable()
     {
-        //Debug.Log("I ENABLED");
         faceState = GetComponent<FaceStateScript>();
 
         if (glowingPart != null)

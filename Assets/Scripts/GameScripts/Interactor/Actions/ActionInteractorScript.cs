@@ -10,8 +10,6 @@ public class ActionInteractorScript : MonoBehaviour
     private float time;
     private int currentSpawnIndex = 0;
 
-    //private BasicSettingsEntry[] entriesBasicSettings; //!!!!!!!!!!!!
-
     public void SetScenario(ScenarioEntry[] newEntries)
     {
         entries = newEntries;
