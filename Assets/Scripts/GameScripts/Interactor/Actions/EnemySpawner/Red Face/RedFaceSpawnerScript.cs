@@ -16,6 +16,44 @@ public class RedFaceSpawnerScript : SpawnerActionScript
             return;
         }
         redFaceSettings = settings as RedFaceSettings;
+
+        isRandomSpawn = redFaceSettings.isRandom;
+        if (isRandomSpawn) SetRandomSpawnSettings(settings);
+
+        isCertainSpawn = redFaceSettings.isCertain;
+        if (isCertainSpawn) SetCertainSettings(settings);
+
+        isProximityLimit = redFaceSettings.isProximityLimit;
+        if (isProximityLimit) SetProximityLimitSettings(settings);
+
+        isDistanceLimit = redFaceSettings.isDistanceLimit;
+        if (isDistanceLimit) SetDistanceLimitSettings(settings);
+    }
+
+    private void SetRandomSpawnSettings(ActionSettingsScript settings)
+    {
+        isStableQuantity = redFaceSettings.isStableQuantity;
+        quantityExact = redFaceSettings.quantityExact;
+        quantityMin = redFaceSettings.quantityMin;
+        quantityMax = redFaceSettings.quantityMax;
+    }
+
+    private void SetCertainSettings(ActionSettingsScript settings)
+    {
+        isRelativeToPlayer = redFaceSettings.isRelativeToPlayer;
+        arrayOfFacesRelativeToPlayer = redFaceSettings.arrayOfFacesRelativeToPlayer;
+        isRelativeToFigure = redFaceSettings.isRelativeToFigure;
+        arrayOfFacesRelativeToFigure = redFaceSettings.arrayOfFacesRelativeToFigure;
+    }
+
+    private void SetProximityLimitSettings(ActionSettingsScript settings)
+    {
+        proximityLimit = redFaceSettings.proximityLimit;
+    }
+
+    private void SetDistanceLimitSettings(ActionSettingsScript settings)
+    {
+        distanceLimit = redFaceSettings.distanceLimit;
     }
 
     public override void SetBasicSettings(ActionBasicSettingsScript actionBasicSettings)
@@ -58,6 +96,8 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     private void Update()
     {
+        //Debug.Log((faces.Length).ToString());
+
         for (int i = redFaces.Count - 1; i >= 0; i--)
         {
             redFaces[i].Update();

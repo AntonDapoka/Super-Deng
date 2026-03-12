@@ -40,22 +40,23 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
 
     public override void Execute() 
     {
-
         List<int> availableFaces = GetAvailableFaces();
         if (isRandomSpawn)
         {
             int quantity = isStableQuantity ? quantityExact : Random.Range(quantityMin, quantityMax);
-
+            Debug.Log("Executed");
             for (int i = 0; i < quantity; i++)
             {
-                if (availableFaces.Count == 0) return;
-
+                if (availableFaces.Count == 0) 
+                {
+                    Debug.Log("No available faces!");
+                    return;
+                }
                 int randomIndex = Random.Range(0, availableFaces.Count);
                 int selectedFaceIndex = availableFaces[randomIndex];
                 availableFaces.RemoveAt(randomIndex);
 
                 SetActionFace(faces[selectedFaceIndex]); //Launch random ones from the available ones
-
             }
         }
         if (isCertainSpawn) 

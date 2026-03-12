@@ -3,8 +3,16 @@
 [CreateAssetMenu(fileName = "RedFaceBasicSettings", menuName = "ScriptableObjects/RedFaceBasicSettings", order = 2)]
 public class RedFaceBasicSettings : ActionBasicSettingsScript
 {
-    public Material material;
+    public float heightBasic;
+    public float offsetBasic;
 
-    public float height;
-    public float offset;
+    public float proximityLimit;
+    public float distanceLimit;
+
+    public float colorDurationSecondsBasic;
+    public float scaleUpDurationSecondsBasic;
+    public float waitDurationSecondsBasic;
+    public float scaleDownDurationSecondsBasic;
+
+    public Material materialBasic;
 }

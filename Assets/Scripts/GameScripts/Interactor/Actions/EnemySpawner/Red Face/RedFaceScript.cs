@@ -2,13 +2,11 @@ using UnityEngine;
 
 public class RedFaceScript 
 {
+    private float timer; //Local
     private bool isTime = true;
     private readonly GameObject face;
     private readonly FaceScript faceScript;
     private readonly FaceStateScript faceState;
-
-    private readonly RedFaceSettings settings;
-    private readonly RedFaceBasicSettings settingsBasic;
     private readonly RedFaceSpawnerPresenterScript presenter;
 
     private State state;
@@ -22,30 +20,14 @@ public class RedFaceScript
         Done
     }
 
-    private float timer; //Local
-
-    private readonly bool isBasicSettingsChange;
-
-    private readonly bool isMaterialChange;
-    private readonly Material material;
-
-    private readonly bool isColorDurationChange;
-    private readonly float colorDuration; //
-
-    private readonly bool isScaleUpDurationChange;
-    private readonly float scaleUpDuration;//
-
-    private readonly bool isWaitDurationChange;
-    private readonly float waitDuration;//
-
-    private readonly bool isScaleDownDurationChange;
-    private readonly float scaleDownDuration;//
-
-    private readonly bool isHeightChange;
+    private readonly float colorDuration;
+    private readonly float scaleUpDuration;
+    private readonly float waitDuration;
+    private readonly float scaleDownDuration;
     private readonly float height;
-
-    private readonly bool isOffsetChange;
     private readonly float offset;
+
+    private readonly Material material; //MOVE TO PRESENTER
 
     private readonly Vector3 startScale;
     private readonly Vector3 targetScale;
@@ -61,37 +43,51 @@ public class RedFaceScript
         RedFaceSpawnerPresenterScript presenter)
     {
         this.face = face;
-        this.settings = settings;
-        this.settingsBasic = settingsBasic;
+        //this.settings = settings;
+        //this.settingsBasic = settingsBasic;
         this.presenter = presenter;
-        //Debug.Log("JHDHDKSGHSKF");
-        if (settings.isBasicSettingsChange)
-        {
+
+        if (settings.isColorDurationChange)
             colorDuration = settings.colorDurationSeconds;
+        else colorDuration = settingsBasic.colorDurationSecondsBasic;
+
+        if (settings.isScaleUpDurationChange)
             scaleUpDuration = settings.scaleUpDurationSeconds;
+        else scaleUpDuration = settingsBasic.scaleUpDurationSecondsBasic;
+
+        if (settings.isWaitDurationChange)
             waitDuration = settings.waitDurationSeconds;
+        else waitDuration = settingsBasic.waitDurationSecondsBasic;
+
+        if (settings.isScaleDownDurationChange)
             scaleDownDuration = settings.scaleDownDurationSeconds;
+        else scaleDownDuration = settingsBasic.scaleDownDurationSecondsBasic;
 
+        if (settings.isHeightChange)
             height = settings.height;
+        else height = settingsBasic.heightBasic;
+
+        if (settings.isOffsetChange)
             offset = settings.offset;
+        else offset = settingsBasic.offsetBasic;
 
+        if (settings.isMaterialChange)
             material = settings.material;
-        }
-        else
-        {
-            float bpm = settings.bpm;
-            colorDuration = presenter.GetColorDurationSeconds(bpm);
-            scaleUpDuration = presenter.GetScaleUpDurationSeconds(bpm);
-            waitDuration = presenter.GetWaitDurationSeconds(bpm);
-            scaleDownDuration = presenter.GetScaleDownDurationSeconds(bpm);
+        else material = settingsBasic.materialBasic;
 
-            height = presenter.GetHeight();
-            offset = presenter.GetOffset();
+        /*
+        float bpm = settings.bpm;
+        colorDuration = presenter.GetColorDurationSeconds(bpm);
+        scaleUpDuration = presenter.GetScaleUpDurationSeconds(bpm);
+        waitDuration = presenter.GetWaitDurationSeconds(bpm);
+        scaleDownDuration = presenter.GetScaleDownDurationSeconds(bpm);
 
-            material = presenter.GetMaterial();
-        }
+        height = presenter.GetHeight();
+        offset = presenter.GetOffset();
 
-            faceScript = face.GetComponent<FaceScript>();
+        material = presenter.GetMaterial();*/
+
+        faceScript = face.GetComponent<FaceScript>();
         faceState = face.GetComponent<FaceStateScript>();
 
         startScale = faceScript.glowingPart.transform.localScale;
@@ -209,134 +205,4 @@ public class RedFaceScript
     {
         return timer >= duration;
     }
-
-    /*
-    public override void SetSettings<T>(T settings)
-    {
-        if (settings is not RedFaceSettings redFaceSettings)
-        {
-            Debug.LogError("WRONG SETTINGS FOR RED FACE SPAWNER");
-            return;
-        }
-
-        bpm = redFaceSettings.bpm;
-
-        isRandomSpawn = redFaceSettings.isRandom;
-
-        //isResetAfterDeath  = redFaceSettings.isResetAfterDeath;
-
-        if (isRandomSpawn)
-        {
-
-            isStableQuantity = redFaceSettings.isStableQuantity;
-            if (isStableQuantity)
-            {
-                quantity = redFaceSettings.quantityExact;
-            }
-            else
-            {
-                quantityMin = redFaceSettings.quantityMin;
-                quantityMax = redFaceSettings.quantityMax;
-            }
-        }
-
-        isCertainSpawn = redFaceSettings.isCertain;
-
-        if (isCertainSpawn)
-        {
-            isRelativeToFigure = redFaceSettings.isRelativeToFigure;
-            isRelativeToPlayer = redFaceSettings.isRelativeToPlayer;
-
-            if (isRelativeToFigure)
-            {
-                arrayOfFacesRelativeToFigure = redFaceSettings.arrayOfFacesRelativeToFigure;
-            }
-
-            if (isRelativeToPlayer)
-            {
-                arrayOfFacesRelativeToPlayer = redFaceSettings.arrayOfFacesRelativeToPlayer;
-            }
-        }
-
-        isProximityLimit = redFaceSettings.isProximityLimit;
-
-        if (isProximityLimit)
-        {
-            proximityLimit = redFaceSettings.proximityLimit;
-        }
-
-        isDistanceLimit = redFaceSettings.isDistanceLimit;
-
-        if (isDistanceLimit)
-        {
-            distanceLimit = redFaceSettings.distanceLimit;
-        }
-
-        isBasicSettingsChange = redFaceSettings.isBasicSettingsChange;
-
-        if (isBasicSettingsChange)
-        {
-            isMaterialChange = redFaceSettings.isMaterialChange;
-
-            if (isMaterialChange)
-            {
-                //PRESENTER
-            }
-
-            isColorDurationChange = redFaceSettings.isColorDurationChange;
-
-            if (isColorDurationChange)
-            {
-                colorDurationSeconds = redFaceSettings.colorDurationSeconds;
-            }
-
-            isScaleUpDurationChange = redFaceSettings.isScaleUpDurationChange;
-
-            if (isScaleUpDurationChange)
-            {
-                scaleUpDurationSeconds = redFaceSettings.scaleUpDurationSeconds;
-            }
-
-            isWaitDurationChange = redFaceSettings.isWaitDurationChange;
-
-            if (isWaitDurationChange)
-            {
-                waitDurationSeconds = redFaceSettings.waitDurationSeconds;
-            }
-
-            isScaleDownDurationChange = redFaceSettings.isScaleDownDurationChange;
-
-            if (isScaleDownDurationChange)
-            {
-                scaleDownDurationSeconds = redFaceSettings.scaleDownDurationSeconds;
-            }
-
-            isHeightChange = redFaceSettings.isHeightChange;
-
-            if (isHeightChange)
-            {
-                scaleChange = redFaceSettings.height;
-            }
-
-            isOffsetChange = redFaceSettings.isOffsetChange;
-
-            if (isOffsetChange)
-            {
-                offset = redFaceSettings.offset;
-            }
-        }
-        else
-        {
-            colorDurationSeconds = 60f / bpm * 3;
-            scaleUpDurationSeconds = 60f / bpm / 2;
-            waitDurationSeconds = 0f;
-            scaleDownDurationSeconds = 60f / bpm;
-            height = 60f;
-            offset = height * 0.0009f;
-        }
-
-
-        isTurnOn = true;
-    }
-     * */
 }

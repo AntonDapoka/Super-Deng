@@ -8,7 +8,7 @@ public class RedFaceSpawnerPresenterScript : MonoBehaviour
     [SerializeField] private Material materialBasic;
     [SerializeField] private Material materialRedFace;
     [SerializeField] private Material materialPlayer;
-
+    /*
     public float GetColorDurationSeconds(float bpm)
     {
         return bpm / 60f;
@@ -42,5 +42,5 @@ public class RedFaceSpawnerPresenterScript : MonoBehaviour
     public Material GetMaterial()
     {
         return redFaceBasicSettings.material;
-    }
+    }*/
 }

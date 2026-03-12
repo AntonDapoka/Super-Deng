@@ -6,7 +6,7 @@ public class RedFaceSettings : ActionSettingsScript
     public bool isRandom;
     public bool isCertain; // Или активируются конкретные грани?
 
-    public bool isStableQuantity; 
+    public bool isStableQuantity;
     public int quantityExact;
     public int quantityMin;
     public int quantityMax;

@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5600188f43e96f409dde2875436b445, type: 3}
   m_Name: RedFaceBasicSettings
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
-  height: 40
-  offset: 0.4
+  type: 0
+  heightBasic: 30
+  offsetBasic: -10
+  proximityLimit: 0
+  distanceLimit: 0
+  colorDurationSecondsBasic: 1
+  scaleUpDurationSecondsBasic: 1
+  waitDurationSecondsBasic: 2
+  scaleDownDurationSecondsBasic: 1
+  materialBasic: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
