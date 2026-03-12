@@ -34,7 +34,7 @@ MonoBehaviour:
   arrayOfFacesRelativeToPlayer: 
   isRelativeToFigure: 0
   arrayOfFacesRelativeToFigure: 
-  isProximityLimit: 0
+  isProximityLimit: 1
   proximityLimit: 63
   isDistanceLimit: 0
   distanceLimit: 288

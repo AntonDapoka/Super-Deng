@@ -16,7 +16,7 @@ MonoBehaviour:
   heightBasic: 30
   offsetBasic: -10
   proximityLimit: 0
-  distanceLimit: 0
+  distanceLimit: 99
   colorDurationSecondsBasic: 1
   scaleUpDurationSecondsBasic: 1
   waitDurationSecondsBasic: 2

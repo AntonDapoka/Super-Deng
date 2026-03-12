@@ -6,8 +6,8 @@ public class RedFaceBasicSettings : ActionBasicSettingsScript
     public float heightBasic;
     public float offsetBasic;
 
-    public float proximityLimit;
-    public float distanceLimit;
+    public int proximityLimit;
+    public int distanceLimit;
 
     public float colorDurationSecondsBasic;
     public float scaleUpDurationSecondsBasic;
