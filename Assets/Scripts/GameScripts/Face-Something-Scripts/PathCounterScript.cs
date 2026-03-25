@@ -23,7 +23,6 @@ public class PathCounterScript : MonoBehaviour
             if (face.FaceState.Get(FaceProperty.HavePlayer))
             {
                 startface = face;
-                Debug.Log("WE ARE STARTING WITH " + face.name);
             }
             face.PathObjectCount = -1;
         }
