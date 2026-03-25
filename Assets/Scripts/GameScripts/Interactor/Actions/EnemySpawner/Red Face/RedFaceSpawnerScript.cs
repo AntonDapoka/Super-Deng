@@ -6,7 +6,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     private List<RedFaceScript> redFaces = new();
     private RedFaceSettings redFaceSettings;
     [SerializeField] private RedFaceBasicSettings redFaceBasicSettings;
-    [SerializeField] private RedFaceSpawnerPresenterScript presenter;
+    [SerializeField] private RedFaceSpawnerPresenterScript redFacePresenter;
 
     public override void SetSettings(ActionSettingsScript settings)
     {
@@ -90,10 +90,10 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         if (redFaceBasicSettings == null)
             Debug.Log("redFaceBasicSettings null");
 
-        if (presenter == null)
+        if (redFacePresenter == null)
             Debug.Log("presenter null");
 
-        return new RedFaceScript(face, redFaceSettings, redFaceBasicSettings, presenter);
+        return new RedFaceScript(face, redFaceSettings, redFaceBasicSettings, redFacePresenter);
     }
 
     private void Update()

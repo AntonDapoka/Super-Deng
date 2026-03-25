@@ -16,8 +16,6 @@ public class PlayerMovementInteractorScript : MonoBehaviour
     [SerializeField] private FaceScript playerFace;
     private FaceStateScript playerFaceState;
 
-
-
     private Dictionary<string, GameObject> sides = new();
 
     public void InitializePlayerFace(FaceScript face)
