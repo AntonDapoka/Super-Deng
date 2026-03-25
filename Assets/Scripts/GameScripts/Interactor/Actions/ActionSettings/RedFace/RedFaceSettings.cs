@@ -4,7 +4,7 @@ using UnityEngine;
 public class RedFaceSettings : ActionSettingsScript
 {
     public bool isRandom;
-    public bool isCertain; // Или активируются конкретные грани?
+    public bool isCertain; // Will be certain faces activated?
 
     public bool isStableQuantity;
     public int quantityExact;
@@ -22,7 +22,7 @@ public class RedFaceSettings : ActionSettingsScript
     public int distanceLimit;
 
     /// <summary>
-    /// Часть ниже является необязательной и даже нежелательной, но к ней нужно проявить дотошное внимание
+    /// Don't mess up with the stuff below
     /// </summary>
 
     public bool isBasicSettingsChange;

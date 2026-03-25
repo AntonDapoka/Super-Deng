@@ -6,32 +6,28 @@ public class PathCounterScript : MonoBehaviour
 {
     private FaceScript[] faces;
     [SerializeField] private FaceArrayScript FAS;
-    Queue<FaceScript> queue = new Queue<FaceScript>();
+    Queue<FaceScript> queue = new();
 
-    private void Start()
+    public void StartPathCount()
     {
         faces = FAS.GetAllFaceScripts();
         SetPathCount();
-
     }
 
     public void SetPathCount()
     {
         FaceScript startface = null;
+        
         foreach (var face in faces)
         {
-            // Commented out - field is commented in FaceScript
-            /*
-            if (face.havePlayer)
+            if (face.FaceState.Get(FaceProperty.HavePlayer))
             {
                 startface = face;
-                //Debug.Log(face.name);
+                Debug.Log("WE ARE STARTING WITH " + face.name);
             }
-            */
             face.PathObjectCount = -1;
         }
         queue = new Queue<FaceScript>();
-        // Commented out - startface may be null if havePlayer is commented
         if (startface != null)
         {
             queue.Enqueue(startface);

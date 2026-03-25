@@ -10,11 +10,13 @@ public class PlayerMovementInteractorScript : MonoBehaviour
     public IPlayerMovementPresenterScript presenter => movementPresenter as IPlayerMovementPresenterScript;
     [SerializeField] private BeatController beatController;
     [SerializeField] private PathCounterScript pathCounter;
+    [SerializeField] private PlayerStateInteractorScript playerStateInteractor;
+    [SerializeField] private PlayerScript playerScript;
 
     [SerializeField] private FaceScript playerFace;
     private FaceStateScript playerFaceState;
 
-    [SerializeField] private PlayerStateInteractorScript playerStateInteractor;
+
 
     private Dictionary<string, GameObject> sides = new();
 
@@ -47,9 +49,9 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         sides.Add("LeftSide", playerFace.side1);
         sides.Add("RightSide", playerFace.side2);
         sides.Add("TopSide", playerFace.side3);
-        /*
-        PS.SetCurrentFace(gameObject);
 
+        playerScript.SetCurrentFace(gameObject);
+        /*
         SetSideMaterial(FS1, materialLeftFace);
         SetSideMaterial(FS2, materialRightFace);
         SetSideMaterial(FS3, materialTopFace);

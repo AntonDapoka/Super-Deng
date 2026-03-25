@@ -18,42 +18,44 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         redFaceSettings = settings as RedFaceSettings;
 
         isRandomSpawn = redFaceSettings.isRandom;
-        if (isRandomSpawn) SetRandomSpawnSettings(settings);
+        if (isRandomSpawn) SetRandomSpawnSettings(redFaceSettings);
 
         isCertainSpawn = redFaceSettings.isCertain;
-        if (isCertainSpawn) SetCertainSettings(settings);
+        if (isCertainSpawn) SetCertainSettings(redFaceSettings);
 
         isProximityLimit = redFaceSettings.isProximityLimit;
-        if (isProximityLimit) SetProximityLimitSettings(settings);
+        if (isProximityLimit) SetProximityLimitSettings(redFaceSettings);
 
         isDistanceLimit = redFaceSettings.isDistanceLimit;
-        if (isDistanceLimit) SetDistanceLimitSettings(settings);
+        if (isDistanceLimit) SetDistanceLimitSettings(redFaceSettings);
     }
 
-    private void SetRandomSpawnSettings(ActionSettingsScript settings)
+    private void SetRandomSpawnSettings(RedFaceSettings settings)
     {
-        isStableQuantity = redFaceSettings.isStableQuantity;
-        quantityExact = redFaceSettings.quantityExact;
-        quantityMin = redFaceSettings.quantityMin;
-        quantityMax = redFaceSettings.quantityMax;
+        isStableQuantity = settings.isStableQuantity;
+        quantityExact = settings.quantityExact;
+        quantityMin = settings.quantityMin;
+        quantityMax = settings.quantityMax;
     }
 
-    private void SetCertainSettings(ActionSettingsScript settings)
+    private void SetCertainSettings(RedFaceSettings settings)
     {
-        isRelativeToPlayer = redFaceSettings.isRelativeToPlayer;
-        arrayOfFacesRelativeToPlayer = redFaceSettings.arrayOfFacesRelativeToPlayer;
-        isRelativeToFigure = redFaceSettings.isRelativeToFigure;
-        arrayOfFacesRelativeToFigure = redFaceSettings.arrayOfFacesRelativeToFigure;
+        isRelativeToPlayer = settings.isRelativeToPlayer;
+        arrayOfFacesRelativeToPlayer = settings.arrayOfFacesRelativeToPlayer;
+        isRelativeToFigure = settings.isRelativeToFigure;
+        arrayOfFacesRelativeToFigure = settings.arrayOfFacesRelativeToFigure;
     }
 
-    private void SetProximityLimitSettings(ActionSettingsScript settings)
+    private void SetProximityLimitSettings(RedFaceSettings settings)
     {
-        proximityLimit = redFaceSettings.proximityLimit;
+        isProximityLimit = settings.isProximityLimit;
+        proximityLimit = settings.proximityLimit;
     }
 
-    private void SetDistanceLimitSettings(ActionSettingsScript settings)
+    private void SetDistanceLimitSettings(RedFaceSettings settings)
     {
-        distanceLimit = redFaceSettings.distanceLimit;
+        isDistanceLimit = settings.isDistanceLimit;
+        distanceLimit = settings.distanceLimit;
     }
 
     public override void SetBasicSettings(ActionBasicSettingsScript actionBasicSettings)

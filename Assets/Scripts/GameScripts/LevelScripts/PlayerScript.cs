@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -26,9 +25,7 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] private LoseScript LS;
 
-    //private bool inBlinking = false;
     private bool isLosing = false;
-    //private bool inTakingDamage = false;
 
 
     private void Awake()
@@ -44,47 +41,6 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         faceCurrentFS = faceCurrent.GetComponent<FaceScript>();
-    }
-
-    private void Update()
-    {
-        
-        if (!isTutorial)
-        {
-            // Commented out - these fields are commented in FaceScript
-            /*
-            if (faceCurrentFS != null && faceCurrentFS.isKilling && !inTakingDamage)
-            {
-                inTakingDamage = true;
-                TakeDamage();
-                StartCoroutine(PlayAnimationTakeDamage());
-            }
-            if (faceCurrentFS != null && faceCurrentFS.isBlinking && !inBlinking)
-            {
-                inBlinking = true;
-                if (animator != null && animClipBlink != null)
-                {
-                    animator.enabled = true;
-                    animator.Play(animClipBlink.name);
-                }
-            }
-            else if (faceCurrentFS != null && !faceCurrentFS.isBlinking && inBlinking)
-            {
-                inBlinking = false;
-                animator.enabled = false;
-                ResetMaterials();
-            }
-            */
-        }
-        // Commented out - field is commented in TutorialFaceScript
-        /*
-        else if (faceCurrentFST.isKilling && !inTakingDamage)
-        {
-            inTakingDamage = true;
-            TakeDamage();
-            StartCoroutine(PlayAnimationTakeDamage());
-        }
-        */
     }
 
     public void ResetMaterials()

@@ -35,7 +35,7 @@ MonoBehaviour:
   isRelativeToFigure: 0
   arrayOfFacesRelativeToFigure: 
   isProximityLimit: 1
-  proximityLimit: 63
+  proximityLimit: 1
   isDistanceLimit: 0
   distanceLimit: 288
   isBasicSettingsChange: 0

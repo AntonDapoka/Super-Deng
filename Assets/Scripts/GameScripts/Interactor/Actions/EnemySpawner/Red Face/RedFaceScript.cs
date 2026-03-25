@@ -75,18 +75,6 @@ public class RedFaceScript
             material = settings.material;
         else material = settingsBasic.materialBasic;
 
-        /*
-        float bpm = settings.bpm;
-        colorDuration = presenter.GetColorDurationSeconds(bpm);
-        scaleUpDuration = presenter.GetScaleUpDurationSeconds(bpm);
-        waitDuration = presenter.GetWaitDurationSeconds(bpm);
-        scaleDownDuration = presenter.GetScaleDownDurationSeconds(bpm);
-
-        height = presenter.GetHeight();
-        offset = presenter.GetOffset();
-
-        material = presenter.GetMaterial();*/
-
         faceScript = face.GetComponent<FaceScript>();
         faceState = face.GetComponent<FaceStateScript>();
 

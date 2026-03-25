@@ -6,10 +6,12 @@ public class PlayerInitializerScript : MonoBehaviour
 {
     [SerializeField] private PlayerSetterScript playerSetter;
     [SerializeField] private FaceArrayScript faceArray;
+    [SerializeField] private PathCounterScript pathCounter;
 
     public void InitializePlayer()
     {
         GameObject face = faceArray.GetRandomFace(); //Rewrite!!!!!
         playerSetter.SetPlayer(face);
+        pathCounter.StartPathCount();
     }
 }
