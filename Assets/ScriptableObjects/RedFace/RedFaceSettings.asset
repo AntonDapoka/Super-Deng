@@ -18,8 +18,8 @@ MonoBehaviour:
   timeStartSeconds: 2
   timeStartBeats: 3
   isTimeEnd: 1
-  timeEndSeconds: 20
-  timeEndBeats: 30
+  timeEndSeconds: 5
+  timeEndBeats: 7.5
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 11.4
   timeForcedBreakBeats: 29.449999
@@ -35,9 +35,9 @@ MonoBehaviour:
   isRelativeToFigure: 0
   arrayOfFacesRelativeToFigure: 
   isProximityLimit: 1
-  proximityLimit: 1
-  isDistanceLimit: 1
-  distanceLimit: 3
+  proximityLimit: 2
+  isDistanceLimit: 0
+  distanceLimit: 4
   isBasicSettingsChange: 0
   isMaterialChange: 1
   material: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}

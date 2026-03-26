@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,27 +10,27 @@ public class RedWaveSpawnerScript : SpawnerActionScript
 
     public override void SetSettings(ActionSettingsScript settings)
     {
-        if (settings == null || faces == null || settings as RedFaceSettings == null)
+        if (settings == null || faces == null || settings as RedWaveSettings == null)
         {
-            Debug.LogError($"RedFaceSpawner REQUIRES RedFaceSettings, but received {settings?.GetType().Name ?? "null"}");
+            Debug.LogError($"RedWaveSpawner REQUIRES RedWaveSettings, but received {settings?.GetType().Name ?? "null"}");
             return;
         }
         redWaveSettings = settings as RedWaveSettings;
 
         isRandomSpawn = redWaveSettings.isRandom;
-        //if (isRandomSpawn) SetRandomSpawnSettings(redWaveSettings);
+        if (isRandomSpawn) SetRandomSpawnSettings(redWaveSettings);
 
         isCertainSpawn = redWaveSettings.isCertain;
-        //if (isCertainSpawn) SetCertainSettings(redWaveSettings);
+        if (isCertainSpawn) SetCertainSettings(redWaveSettings);
 
         isProximityLimit = redWaveSettings.isProximityLimit;
-        //if (isProximityLimit) SetProximityLimitSettings(redWaveSettings);
+        if (isProximityLimit) SetProximityLimitSettings(redWaveSettings);
 
         isDistanceLimit = redWaveSettings.isDistanceLimit;
-        //if (isDistanceLimit) SetDistanceLimitSettings(redWaveSettings);
+        if (isDistanceLimit) SetDistanceLimitSettings(redWaveSettings);
     }
 
-    private void SetRandomSpawnSettings(RedFaceSettings settings)
+    private void SetRandomSpawnSettings(RedWaveSettings settings)
     {
         isStableQuantity = settings.isStableQuantity;
         quantityExact = settings.quantityExact;
@@ -39,7 +38,7 @@ public class RedWaveSpawnerScript : SpawnerActionScript
         quantityMax = settings.quantityMax;
     }
 
-    private void SetCertainSettings(RedFaceSettings settings)
+    private void SetCertainSettings(RedWaveSettings settings)
     {
         isRelativeToPlayer = settings.isRelativeToPlayer;
         arrayOfFacesRelativeToPlayer = settings.arrayOfFacesRelativeToPlayer;
@@ -47,13 +46,13 @@ public class RedWaveSpawnerScript : SpawnerActionScript
         arrayOfFacesRelativeToFigure = settings.arrayOfFacesRelativeToFigure;
     }
 
-    private void SetProximityLimitSettings(RedFaceSettings settings)
+    private void SetProximityLimitSettings(RedWaveSettings settings)
     {
         isProximityLimit = settings.isProximityLimit;
         proximityLimit = settings.proximityLimit;
     }
 
-    private void SetDistanceLimitSettings(RedFaceSettings settings)
+    private void SetDistanceLimitSettings(RedWaveSettings settings)
     {
         isDistanceLimit = settings.isDistanceLimit;
         distanceLimit = settings.distanceLimit;
@@ -61,13 +60,13 @@ public class RedWaveSpawnerScript : SpawnerActionScript
 
     public override void SetBasicSettings(ActionBasicSettingsScript actionBasicSettings)
     {
-        if (actionBasicSettings is not RedFaceBasicSettings redFaceSettings)
+        if (actionBasicSettings is not RedWaveBasicSettings redWaveSettings)
         {
-            Debug.LogError("actionBasicSettings must be of type RedFaceBasicSettingsScript");
+            Debug.LogError("actionBasicSettings must be of type RedWaveBasicSettingsScript");
             return;
         }
 
-        //redFaceBasicSettings = redFaceSettings;
+        redWaveBasicSettings = redWaveSettings;
     }
 
     public override bool IsSuitableSpecialRequirements()
@@ -77,36 +76,34 @@ public class RedWaveSpawnerScript : SpawnerActionScript
 
     public override void SetActionFace(GameObject face)
     {
-        //if (isTurnOn) redFaces.Add(CreateRedFace(face));
+        if (isTurnOn) redWaves.Add(CreateRedWave(face));
     }
-/*
+
     private RedWaveScript CreateRedWave(GameObject face)
     {
-        /*if (face == null)
+        if (face == null)
             Debug.Log("Face null");
 
         if (redWaveSettings == null)
-            Debug.Log("redFaceSettings null");
+            Debug.Log("redWaveSettings null");
 
-        if (redFaceBasicSettings == null)
-            Debug.Log("redFaceBasicSettings null");
+        if (redWaveBasicSettings == null)
+            Debug.Log("redWaveBasicSettings null");
 
-        if (presenter == null)
+        if (redWavePresenter == null)
             Debug.Log("presenter null");
 
-        return new RedFaceScript(face, redFaceSettings, redFaceBasicSettings, presenter);
+        return new RedWaveScript(face, redWaveSettings, redWaveBasicSettings, redWavePresenter);
     }
-/*
+
     private void Update()
     {
-        //Debug.Log((faces.Length).ToString());
-
-        for (int i = redFaces.Count - 1; i >= 0; i--)
+        for (int i = redWaves.Count - 1; i >= 0; i--)
         {
-            redFaces[i].Update();
+            redWaves[i].Update();
 
-            if (redFaces[i].IsFinished)
-                redFaces.RemoveAt(i);
+            if (redWaves[i].IsFinished)
+                redWaves.RemoveAt(i);
         }
-    }*/
+    }
 }

@@ -7,6 +7,7 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private ActionBasicSettingsDataBase basicSettingsData;
 
     [Header("Script References")]
+    [SerializeField] private LevelTimeManagementScript LevelTimeManagement;
     [SerializeField] private FieldInitializerScript fieldInitializer;
     [SerializeField] private BackgroundInitializerScript backgroundInitializer;
     [SerializeField] private PlayerInitializerScript playerInitializer;
@@ -21,7 +22,11 @@ public class LevelInitializerScript : MonoBehaviour
 
     private void Awake()
     {
+        musicManager.clip = musicTrack;
+        musicManager.Play();
+        
         fieldInitializer.InitializeField();
+        LevelTimeManagement.InitializeTime(0f, musicTrack.length);
         actionInitializer.SetActionScenarioDataBase(scenarioData, basicSettingsData);
     }
 

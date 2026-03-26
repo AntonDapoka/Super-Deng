@@ -43,8 +43,6 @@ public class RedFaceScript
         RedFaceSpawnerPresenterScript presenter)
     {
         this.face = face;
-        //this.settings = settings;
-        //this.settingsBasic = settingsBasic;
         this.presenter = presenter;
 
         if (settings.isColorDurationChange)
@@ -89,11 +87,6 @@ public class RedFaceScript
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isTime = !isTime;
-        }
-
         switch (state)
         {
             case State.Coloring: UpdateColoring(); break;
@@ -192,5 +185,15 @@ public class RedFaceScript
     private bool TimerExpired(float duration)
     {
         return timer >= duration;
+    }
+
+    public void ForcedBreak()
+    {
+        state = State.Done;
+        faceState.Set(FaceProperty.IsKilling, false);
+        faceState.Set(FaceProperty.IsColored, false);
+        //faceScript.glowingPart.transform.localPosition = 
+        //faceScript.glowingPart.transform.localScale = 
+        //presenter.SetBasicFace();
     }
 }

@@ -35,7 +35,7 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
     public override void Initialize()
     {
         faces = FaceArray.GetAllFaces();
-        Debug.Log((faces.Length).ToString() + "Initialized");
+        Debug.Log(faces.Length.ToString() + "Initialized");
     }
 
     public override void Execute() 
@@ -111,8 +111,8 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
                 !FSS.Get(FaceProperty.IsColored) &&
                 !FSS.Get(FaceProperty.IsPortal) &&
                 !FSS.Get(FaceProperty.IsBonus) &&
-                (isProximityLimit && FS.GetPathObjectCount() >= proximityLimit) &&
-                (isDistanceLimit && FS.GetPathObjectCount() <= distanceLimit) &&
+                (!isProximityLimit || FS.GetPathObjectCount() >= proximityLimit) &&
+                (!isDistanceLimit || FS.GetPathObjectCount() <= distanceLimit) &&
                 IsSuitableSpecialRequirements();
         return res;
     }

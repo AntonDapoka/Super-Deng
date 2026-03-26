@@ -2,18 +2,26 @@ using UnityEngine;
 
 public class LevelTimeManagementScript : MonoBehaviour
 {
-    [SerializeField] private bool isTurnOn = false;
-    [SerializeField] private float time;
+    [SerializeField] private LevelTimePresenterScript timePresenter;
+    private bool isTurnOn = false;
+    private float timeElapsed;
+    private float timeTotal;
 
-    private void Awake()
+    public void InitializeTime(float timeStart, float timeTotal)
     {
-        time = 0f;
+        timeElapsed = timeStart;
+        this.timeTotal = timeTotal;
+        isTurnOn = true;
+        timePresenter.InitializeTime(timeElapsed, timeTotal);
     }
 
     private void Update()
     {
-        if (isTurnOn)
-            time += Time.deltaTime;
+        if (isTurnOn && timeElapsed <= timeTotal)
+        {
+            timeElapsed += Time.deltaTime;
+            timePresenter.UpdateTime(timeElapsed);
+        }
     }
 
     public void TurnOn()
@@ -28,11 +36,13 @@ public class LevelTimeManagementScript : MonoBehaviour
 
     public float GetCurrentTime()
     {
-        return time;
+        return timeElapsed;
     }
 
     public void ResetTime()
     {
-        time = 0f;
+        timeElapsed = 0f;
+        isTurnOn = true;
+        timePresenter.InitializeTime(timeElapsed, timeTotal);
     }
 }
