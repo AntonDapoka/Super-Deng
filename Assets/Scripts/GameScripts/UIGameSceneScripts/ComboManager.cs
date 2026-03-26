@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using System;
 using UnityEngine;
@@ -15,7 +14,6 @@ public class ComboManager : MonoBehaviour
     public Sprite[] comboSprites;
     [SerializeField] private RhythmManager RM;
     [SerializeField] private BeatController BC;
-    [SerializeField] private TimerController TC;
     private int comboCount = 0;
     private bool comboTime = false;
     private float comboTimer;
@@ -35,9 +33,9 @@ public class ComboManager : MonoBehaviour
         scoreLoseText.text = "0";
         scoreWinText.text = "0";
         score = 0;
-        keyRight = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
-        keyLeft = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
-        keyTop = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
+        keyRight = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("RightButtonSymbol"));
+        keyLeft = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("LeftButtonSymbol"));
+        keyTop = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("TopButtonSymbol"));
     }
 
     public int GetScore()
@@ -57,7 +55,7 @@ public class ComboManager : MonoBehaviour
         }
         if ((Input.GetKeyDown(keyLeft) && !Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyRight)) || (Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyLeft) && !Input.GetKeyDown(keyRight)) || (Input.GetKeyDown(keyRight) && !Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyLeft)))
         {
-            if (!inProcess && (TC == null || (TC.timeElapsed < TC.totalTime && TC.isTurnOn)))
+            if (!inProcess /*&& (TC == null || (TC.timeElapsed < TC.totalTime && TC.isTurnOn))*/)
             {
                 inProcess = true;
                 if (comboTime)

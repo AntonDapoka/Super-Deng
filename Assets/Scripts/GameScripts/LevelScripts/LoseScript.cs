@@ -1,17 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 
 public class LoseScript : MonoBehaviour
 {
     [SerializeField] private UnifiedFrameManagerScript UFMS;
     [SerializeField] private RhythmManager RM;
-    [SerializeField] private TimerController TC;
-    [SerializeField] private StartCountDown SCD;
     [SerializeField] private RedFaceScript RFS;
     [SerializeField] private RedWaveScript RWS;
     [SerializeField] private FallManager FM;

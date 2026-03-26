@@ -13,18 +13,17 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private PlayerInitializerScript playerInitializer;
     [SerializeField] private ActionInitializerScript actionInitializer;
     [SerializeField] private LevelTimeManagementScript timeIntializer;
+    [SerializeField] private StartCountDownInteractorScript startCountDownInteractor;
 
     [Header("Other References")]
     [SerializeField] private AudioSource musicManager;
     [SerializeField] private AudioClip musicTrack;
-    [SerializeField] private TimerController TC;
-    [SerializeField] private StartCountDown SCD;
 
     private void Awake()
     {
         musicManager.clip = musicTrack;
         musicManager.Play();
-        
+
         fieldInitializer.InitializeField();
         LevelTimeManagement.InitializeTime(0f, musicTrack.length);
         actionInitializer.SetActionScenarioDataBase(scenarioData, basicSettingsData);
@@ -35,5 +34,7 @@ public class LevelInitializerScript : MonoBehaviour
         timeIntializer.TurnOn();
 
         playerInitializer.InitializePlayer();
+
+        startCountDownInteractor.StartStartCountDown();
     }
 }

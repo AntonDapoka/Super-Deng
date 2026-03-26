@@ -38,7 +38,13 @@ public class PlayerScript : MonoBehaviour
         animator.enabled = false;
     }
 
-    private void Start()
+    public void SetCurrentFace(GameObject face)
+    {
+        faceCurrent = face;
+        faceCurrentFS = face.GetComponent<FaceScript>();
+    }
+
+    public void InitializePlayer()
     {
         faceCurrentFS = faceCurrent.GetComponent<FaceScript>();
     }
@@ -57,17 +63,6 @@ public class PlayerScript : MonoBehaviour
         rendPartMiddle.material = parts[1];
         rendPartLeft.material = parts[2];
         rendPartRight.material = parts[3];
-    }
-
-    public void SetCurrentFace(GameObject face)
-    {
-        faceCurrent = face;
-        faceCurrentFS = face.GetComponent<FaceScript>();
-    }
-    
-    public GameObject GetCurrentFace()
-    {
-        return faceCurrent;
     }
 
     public void TakeDamage()

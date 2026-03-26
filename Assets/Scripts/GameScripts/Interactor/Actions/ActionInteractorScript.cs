@@ -10,6 +10,8 @@ public class ActionInteractorScript : MonoBehaviour
     private float time;
     private int currentSpawnIndex = 0;
 
+    private bool isTurnOn = false;
+
     public void SetScenario(ScenarioEntry[] newEntries)
     {
         entries = newEntries;
@@ -17,9 +19,21 @@ public class ActionInteractorScript : MonoBehaviour
         spawnCanceled = new bool[entries.Length];
     }
 
+    public void TurnOn()
+    {
+        isTurnOn = true;
+    }
+
+    public void TurnOff()
+    {
+        isTurnOn = false;
+    }
+
     private void FixedUpdate()
     {
         time = levelTimeManagement.GetCurrentTime();
+
+        if (!isTurnOn) return;
 
         for (int i = 0; i < entries.Length; i++)
         {

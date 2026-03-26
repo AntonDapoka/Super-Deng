@@ -18,6 +18,8 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
     private Dictionary<string, GameObject> sides = new();
 
+    private bool isTurnOn = false;
+
     public void InitializePlayerFace(FaceScript face)
     {
         playerFace = face;
@@ -29,6 +31,16 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         SetPlayerFace();
         presenter.UpdatePlayerSides(sides);
+    }
+
+    public void TurnOn()
+    {
+        isTurnOn = true;
+    }
+
+    public void TurnOff()
+    {
+        isTurnOn = false;
     }
 
     private void SetPlayerFace()
@@ -63,9 +75,8 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
     public void MovePlayer(string direction)
     {
-        Debug.Log(playerFaceState.Get(FaceProperty.HavePlayer));
-
-        if (playerFace.IsTurnOn == true
+        if (isTurnOn == true 
+            && playerFace.IsTurnOn == true
             && playerFaceState.Get(FaceProperty.HavePlayer)
             && !playerFaceState.Get(FaceProperty.TransferInProgress)
             //&& beatController.canPress == true
