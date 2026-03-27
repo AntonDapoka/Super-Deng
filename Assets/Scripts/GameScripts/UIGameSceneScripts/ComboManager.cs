@@ -13,7 +13,7 @@ public class ComboManager : MonoBehaviour
     public Image comboImage; 
     public Sprite[] comboSprites;
     [SerializeField] private RhythmManager RM;
-    [SerializeField] private BeatController BC;
+    [SerializeField] private PlayerBeatSyncValidatorScript BC;
     private int comboCount = 0;
     private bool comboTime = false;
     private float comboTimer;
@@ -45,7 +45,7 @@ public class ComboManager : MonoBehaviour
 
     private void Update()
     {
-        if (BC.canCombo)
+        if (BC.CanCombo())
         {
             comboTime = true;
         }

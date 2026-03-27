@@ -17,18 +17,15 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private AnimationClip animClipBlink;
     [SerializeField] private Material materialTurnOn;
     [SerializeField] private Material materialTurnOff;
-    [Space]
-    public MeshRenderer rendPartTop;
-    public MeshRenderer rendPartMiddle;
-    public MeshRenderer rendPartLeft;
-    public MeshRenderer rendPartRight;
 
-    [SerializeField] private LoseScript LS;
+    private MeshRenderer rendPartTop;
+    private MeshRenderer rendPartMiddle;
+    private MeshRenderer rendPartLeft;
+    private MeshRenderer rendPartRight;
 
     private bool isLosing = false;
 
-
-    private void Awake()
+    private void OnEnable()
     {
         rendPartTop = glowingPartTop.GetComponent<MeshRenderer>();
         rendPartMiddle = glowingPartMiddle.GetComponent<MeshRenderer>();
@@ -129,11 +126,7 @@ public class PlayerScript : MonoBehaviour
     {
         isLosing = true;
         rendPartMiddle.material = materialTurnOff;
-        if (LS != null)
-        {
-            LS.Lose();
-        }
-        
+        Debug.Log("Losing");
     }
 
     public void SetPartsMaterial(Material material)

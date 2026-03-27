@@ -1,17 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BeatFlickeringScript : MonoBehaviour
 {
     public bool isTurnOn = false;
     [SerializeField] private RhythmManager RM;
-    [SerializeField] private BeatController BC;
-
+    [SerializeField] private PlayerBeatSyncValidatorScript BC;
 
     public Material materialToFade;
-
-
 
     private void Start()
     {
@@ -22,21 +17,12 @@ public class BeatFlickeringScript : MonoBehaviour
     {
         if (isTurnOn)
         {
-            if (BC.canPress)
+            if (BC.CanPress())
             {
                 SetMaterialAlpha(0.25f);
-                if (BC.canCombo)
-                {
-                    SetMaterialAlpha(0f);
-                    //Debug.Log("0f");
-                }
-
+                if (BC.CanCombo()) SetMaterialAlpha(0f);
             }
-            else
-            {
-                SetMaterialAlpha(0.75f);
-                //Debug.Log("1f");
-            }
+            else SetMaterialAlpha(0.75f);
         }
     }
 

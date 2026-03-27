@@ -14,6 +14,7 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private ActionInitializerScript actionInitializer;
     [SerializeField] private LevelTimeManagementScript timeIntializer;
     [SerializeField] private StartCountDownInteractorScript startCountDownInteractor;
+    [SerializeField] private PlayerBeatSyncValidatorScript playerBeatSyncValidator;
 
     [Header("Other References")]
     [SerializeField] private AudioSource musicManager;
@@ -34,7 +35,7 @@ public class LevelInitializerScript : MonoBehaviour
         timeIntializer.TurnOn();
 
         playerInitializer.InitializePlayer();
-
+        playerBeatSyncValidator.Initialize(); //Add data
         startCountDownInteractor.StartStartCountDown();
     }
 }

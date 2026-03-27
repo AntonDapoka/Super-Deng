@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlayerMovementInteractorScript : MonoBehaviour
@@ -8,7 +7,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private MonoBehaviour movementPresenter;
     public IPlayerMovementPresenterScript presenter => movementPresenter as IPlayerMovementPresenterScript;
-    [SerializeField] private BeatController beatController;
+    [SerializeField] private PlayerBeatSyncValidatorScript beatSyncValidator;
     [SerializeField] private PathCounterScript pathCounter;
     [SerializeField] private PlayerStateInteractorScript playerStateInteractor;
     [SerializeField] private PlayerScript playerScript;
@@ -79,12 +78,11 @@ public class PlayerMovementInteractorScript : MonoBehaviour
             && playerFace.IsTurnOn == true
             && playerFaceState.Get(FaceProperty.HavePlayer)
             && !playerFaceState.Get(FaceProperty.TransferInProgress)
-            //&& beatController.canPress == true
+            && beatSyncValidator.CanPress() == true
             )
         {
             StartTransferPlayer(GetGameObject($"{direction}Side"), direction);
-            beatController.isAlreadyPressed = true;
-            beatController.isAlreadyPressedIsAlreadyPressed = false;
+            beatSyncValidator.RegisterPress();
             //SS.TurnOnSoundStep();
         }
     }
