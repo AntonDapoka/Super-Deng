@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class LoseScript : MonoBehaviour
 {
+    /*
     [SerializeField] private UnifiedFrameManagerScript UFMS;
     [SerializeField] private RhythmManager RM;
     [SerializeField] private RedFaceScript RFS;
@@ -47,7 +47,7 @@ public class LoseScript : MonoBehaviour
         PSS.isTurnOn = false;
         CZ.isTurnOn = false;
         PTTB.isTurnOn = false;
-        ISDS.isTurnOn = false;*/
+        ISDS.isTurnOn = false;
     }
 
     private IEnumerator FadeOutCoroutine()
@@ -68,5 +68,5 @@ public class LoseScript : MonoBehaviour
     {
         imageLose.gameObject.SetActive(true);
     }
-
+*/
 }

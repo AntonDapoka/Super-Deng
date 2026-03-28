@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ComboManager : MonoBehaviour
-{
+{/*
     [SerializeField] private TMP_Text comboText;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text scoreLoseText; 
@@ -55,7 +55,7 @@ public class ComboManager : MonoBehaviour
         }
         if ((Input.GetKeyDown(keyLeft) && !Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyRight)) || (Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyLeft) && !Input.GetKeyDown(keyRight)) || (Input.GetKeyDown(keyRight) && !Input.GetKeyDown(keyTop) && !Input.GetKeyDown(keyLeft)))
         {
-            if (!inProcess /*&& (TC == null || (TC.timeElapsed < TC.totalTime && TC.isTurnOn))*/)
+            if (!inProcess /*&& (TC == null || (TC.timeElapsed < TC.totalTime && TC.isTurnOn)))
             {
                 inProcess = true;
                 if (comboTime)
@@ -146,5 +146,5 @@ public class ComboManager : MonoBehaviour
             }
         }
         
-    }
+    }*/
 }

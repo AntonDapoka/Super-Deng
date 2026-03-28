@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class PlayerBeatSyncValidatorScript : MonoBehaviour
+public class PlayerBeatSyncValidatorScript : MonoBehaviour, IBeatUpdate
 {
     [SerializeField] private bool isTurnOn = false;
-    [SerializeField] private RhythmManager rhythmManager;
 
     private float beatInterval;
     private float elapsedTime;
@@ -24,10 +23,9 @@ public class PlayerBeatSyncValidatorScript : MonoBehaviour
     [SerializeField] private float pressWindowEarly = 0.33f;
     [SerializeField] private float pressWindowLate = 0.67f;
 
-    public void Initialize()
+    public void Initialize(float beatInterval)
     {
-        if (rhythmManager != null)
-            beatInterval = rhythmManager.beatInterval;
+        this.beatInterval = beatInterval;
 
         isTurnOn = true;
         /*

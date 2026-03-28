@@ -19,6 +19,11 @@ public class LevelRhythmManagementScript : MonoBehaviour, IRhythmableScript
         beatInterval = 60f / bpm;
     }
 
+    public float GetBeatInterval()
+    {
+        return beatInterval;
+    }
+
     public float GetBPM()
     {
         return bpm;
@@ -27,9 +32,10 @@ public class LevelRhythmManagementScript : MonoBehaviour, IRhythmableScript
     public void SetBPM(float newBPM)
     {
         bpm = newBPM;
+        beatInterval = 60f / bpm;
     }
 
-     public void TurnOn()
+    public void TurnOn()
     {
         isTurnOn = true;
     }

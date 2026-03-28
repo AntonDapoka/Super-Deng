@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class WinScript : MonoBehaviour
 {
+    /*
     [SerializeField] private Image imageCompleted;
     [SerializeField] private UnifiedFrameManagerScript UFMS;
     [SerializeField] private RhythmManager RM;
@@ -44,6 +45,6 @@ public class WinScript : MonoBehaviour
         PSS.isTurnOn = false;
         CZ.isTurnOn = false;
         PTTB.isTurnOn = false;
-        ISDS.isTurnOn = false;*/
-    }
+        ISDS.isTurnOn = false;
+    }*/
 }

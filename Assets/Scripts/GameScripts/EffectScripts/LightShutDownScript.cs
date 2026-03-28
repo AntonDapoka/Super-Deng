@@ -5,7 +5,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class LightShutDownScript : MonoBehaviour
 {
-    private GameObject[] faces;
+    /*private GameObject[] faces;
     [SerializeField] private LoseScript LS;
     [SerializeField] private FaceArrayScript FAS;
     [SerializeField] private GameObject[] lights;
@@ -119,5 +119,5 @@ public class LightShutDownScript : MonoBehaviour
         }
         vignette.intensity.value = targetIntensity;
         vignette.smoothness.value = targetIntensity;
-    }
+    }*/
 }

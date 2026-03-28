@@ -1,12 +1,31 @@
 using UnityEngine;
 
-public class CameraBehaivorInteractorScript : MonoBehaviour
+public class CameraBehaivorInteractorScript : MonoBehaviour, IBeatUpdate
 {
-    [SerializeField] private RhythmManager rhythmManager;
     [SerializeField] private CameraBeatZoomPresenterScript cameraBeatZoomPresenter;
+    private float beatInterval;
 
-    public void ActivateBeatZoom()
+    private bool isTurnOn = false;
+
+    public void InitializeCamera(float beatInterval)
     {
-        cameraBeatZoomPresenter.StartZooming(rhythmManager.beatInterval);
+        //SomeSettings
+        this.beatInterval = beatInterval;
+    }
+
+    public void OnBeat()
+    {
+        if (isTurnOn)
+            cameraBeatZoomPresenter.StartZooming(beatInterval);
+    }
+
+    public void TurnOn()
+    {
+        isTurnOn = true;
+    }
+
+    public void TurnOff()
+    {
+        isTurnOn = false;
     }
 }

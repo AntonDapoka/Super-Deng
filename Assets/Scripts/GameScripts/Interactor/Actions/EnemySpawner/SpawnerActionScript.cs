@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
+public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
 {
     [SerializeField] protected GameObject[] faces;
     [SerializeField] protected bool isTurnOn = false;
@@ -36,6 +36,11 @@ public abstract class SpawnerActionScript : ActionScript, IPlayerInteractiveActi
     {
         faces = FaceArray.GetAllFaces();
         Debug.Log(faces.Length.ToString() + "Initialized");
+    }
+
+    public void OnBeat()
+    {
+        Execute();
     }
 
     public override void Execute() 

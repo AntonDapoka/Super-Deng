@@ -3,7 +3,6 @@ using UnityEngine;
 public class BeatFlickeringScript : MonoBehaviour
 {
     public bool isTurnOn = false;
-    [SerializeField] private RhythmManager RM;
     [SerializeField] private PlayerBeatSyncValidatorScript BC;
 
     public Material materialToFade;

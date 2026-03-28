@@ -7,6 +7,7 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private ActionBasicSettingsDataBase basicSettingsData;
 
     [Header("Script References")]
+    [SerializeField] private LevelRhythmManagementScript rhythmManager;
     [SerializeField] private LevelTimeManagementScript LevelTimeManagement;
     [SerializeField] private FieldInitializerScript fieldInitializer;
     [SerializeField] private BackgroundInitializerScript backgroundInitializer;
@@ -15,6 +16,7 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private LevelTimeManagementScript timeIntializer;
     [SerializeField] private StartCountDownInteractorScript startCountDownInteractor;
     [SerializeField] private PlayerBeatSyncValidatorScript playerBeatSyncValidator;
+    [SerializeField] private CameraBehaivorInteractorScript cameraBehaivorInteractor;
 
     [Header("Other References")]
     [SerializeField] private AudioSource musicManager;
@@ -27,7 +29,9 @@ public class LevelInitializerScript : MonoBehaviour
 
         fieldInitializer.InitializeField();
         LevelTimeManagement.InitializeTime(0f, musicTrack.length);
+        rhythmManager.StartWithSync();
         actionInitializer.SetActionScenarioDataBase(scenarioData, basicSettingsData);
+        cameraBehaivorInteractor.InitializeCamera(rhythmManager.GetBeatInterval());
     }
 
     private void Start()
@@ -35,7 +39,7 @@ public class LevelInitializerScript : MonoBehaviour
         timeIntializer.TurnOn();
 
         playerInitializer.InitializePlayer();
-        playerBeatSyncValidator.Initialize(); //Add data
-        startCountDownInteractor.StartStartCountDown();
+        playerBeatSyncValidator.Initialize(rhythmManager.GetBeatInterval()); //Add data
+        startCountDownInteractor.StartStartCountDown(rhythmManager.GetBeatInterval());
     }
 }

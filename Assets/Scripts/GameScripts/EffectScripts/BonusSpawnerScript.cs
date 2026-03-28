@@ -123,7 +123,7 @@ public class BonusSpawnerScript : MonoBehaviour
 
     public void GetComboBonus()
     {
-        CM.Double(); //����� ���������
+        //CM.Double(); //����� ���������
     }
 
     private IEnumerator DestroyBonus(GameObject face, GameObject bonus, float delay)

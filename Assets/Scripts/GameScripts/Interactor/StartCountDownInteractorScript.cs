@@ -3,10 +3,10 @@ using UnityEngine;
 public class StartCountDownInteractorScript : MonoBehaviour
 {
     [SerializeField] private int countingLength = 3;
-    [SerializeField] private RhythmManager rhythmManager;
     [SerializeField] private StartCountDownPresenterScript startCountDownPresenter;
     [SerializeField] private ActionInteractorScript actionInteractor;
     [SerializeField] private PlayerMovementInteractorScript playerMovementInteractor;
+    [SerializeField] private CameraBehaivorInteractorScript cameraBehaivorInteractor;
 
     private void OnEnable()
     {
@@ -18,17 +18,15 @@ public class StartCountDownInteractorScript : MonoBehaviour
         startCountDownPresenter.OnCountDownFinished -= HandleCountDownFinished;
     }
 
-    public void StartStartCountDown()
+    public void StartStartCountDown(float beatInterval)
     {
-        startCountDownPresenter.StartStartCountDown(
-            rhythmManager.beatInterval,
-            countingLength
-        );
+        startCountDownPresenter.StartStartCountDown(beatInterval, countingLength);
     }
 
     private void HandleCountDownFinished()
     {
         actionInteractor.TurnOn();
         playerMovementInteractor.TurnOn();
+        cameraBehaivorInteractor.TurnOn();
     }
 }
