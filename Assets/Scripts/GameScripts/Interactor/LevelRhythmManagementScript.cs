@@ -6,17 +6,17 @@ using UnityEngine.Events;
 public class LevelRhythmManagementScript : MonoBehaviour, IRhythmableScript
 {
     public bool isTurnOn = false;
-    public float bpm = 90f;
-    public float beatInterval;
-    public int currentBeat = 0;
+    [SerializeField] private float bpm = 90f;
+    [SerializeField] private float beatInterval;
+    [SerializeField] private int currentBeat = 0;
     [SerializeField] private AudioSource musicManager;
-    [SerializeField] private Intervals[] intervals;
+    [SerializeField] private List<Intervals> intervals = new List<Intervals>();
 
     public float CurrentBeat => currentBeat;
 
     private void Awake()
     {
-        beatInterval = 60f / bpm;  //Вычисляем длительность одного такта в секундах
+        beatInterval = 60f / bpm;
     }
 
     public float GetBPM()
@@ -27,6 +27,16 @@ public class LevelRhythmManagementScript : MonoBehaviour, IRhythmableScript
     public void SetBPM(float newBPM)
     {
         bpm = newBPM;
+    }
+
+     public void TurnOn()
+    {
+        isTurnOn = true;
+    }
+
+    public void TurnOff()
+    {
+        isTurnOn = false;
     }
 
     public void StartWithSync()
@@ -44,29 +54,59 @@ public class LevelRhythmManagementScript : MonoBehaviour, IRhythmableScript
 
     private void FixedUpdate()
     {
-        currentBeat = Mathf.FloorToInt((musicManager.timeSamples / (float)musicManager.clip.frequency) / (60f / bpm));
-        /*
-         * На каждом вызове FixedUpdate проверяется текущее положение аудио (timeSamples) и вычисляется, какой интервал сейчас активен (sampledTime).
-         * Для каждого интервала вызывается CheckForNewInterval, где сравнивается новый интервал с предыдущим (lastInterval).
-         * Если интервал изменился, вызывается привязанное событие.
-         * */
+        currentBeat = Mathf.FloorToInt(musicManager.timeSamples / (float)musicManager.clip.frequency / (60f / bpm));
         if (isTurnOn)
         {
             foreach (Intervals interval in intervals)
             {
-                float sampledTime = (musicManager.timeSamples / (musicManager.clip.frequency * interval.GetIntervalLength(bpm)));
+                float sampledTime = musicManager.timeSamples / (musicManager.clip.frequency * interval.GetIntervalLength(bpm));
                 interval.CheckForNewInterval(sampledTime);
             }
         }
+    }
+
+    public void AddNewIntervalByStep(float step, UnityAction action)
+    {
+        foreach (var interval in intervals)
+        {
+            if (interval.MatchesStep(step))
+            {
+                interval.AddListener(action);
+                return;
+            }
+        }
+
+        Intervals newInterval = new(step);
+        newInterval.AddListener(action);
+        intervals.Add(newInterval);
     }
 }
 
 [System.Serializable]
 public class Intervals
 {
-    [SerializeField] private float steps; //Сколько раз за бит нужно вызвать функцию
+    [SerializeField] private float steps;
     [SerializeField] private UnityEvent trigger;
     private int lastInterval;
+
+    public Intervals(float steps)
+    {
+        this.steps = steps;
+        trigger = new UnityEvent();
+    }
+
+    public bool MatchesStep(float step)
+    {
+        return Mathf.Approximately(steps, step);
+    }
+
+    public void AddListener(UnityAction action)
+    {
+        if (trigger == null)
+            trigger = new UnityEvent();
+
+        trigger.AddListener(action);
+    }
 
     public float GetIntervalLength(float bpm)
     {

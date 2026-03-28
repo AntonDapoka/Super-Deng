@@ -9,8 +9,6 @@ public class FieldAssemblerScript : MonoBehaviour
     [SerializeField] private FaceSetterScript faceSetter;
     [SerializeField] private FaceArrayScript faceArray;
 
-
-
     public IBuilderScript Builder => builder as IBuilderScript;
 
     public void SetStartField(GameObject facePrefab, float faceSideLength, float faceScale)
@@ -18,5 +16,10 @@ public class FieldAssemblerScript : MonoBehaviour
         Builder.BuildField(facePrefab, faceSideLength, faceScale);
         faceArray.SetAllFaces(Builder.GetField());
         faceSetter.InitializeAllFaces(Builder.GetField());
+    }
+
+    public GameObject GetFieldHolder()
+    {
+        return Builder.Holder;
     }
 }

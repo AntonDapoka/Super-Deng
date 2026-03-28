@@ -30,7 +30,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
     protected void BuildIcosahedron()
     {
-        radiusIco = sideLength * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
+        radiusIco = sideLength * 0.250000f * Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f)));
         float radiusPenta = sideLength * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
