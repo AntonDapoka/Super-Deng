@@ -54,14 +54,13 @@ public class LevelRhythmManagementScript : MonoBehaviour, IRhythmableScript
 
     private void FixedUpdate()
     {
+        if (!isTurnOn) return;
+
         currentBeat = Mathf.FloorToInt(musicManager.timeSamples / (float)musicManager.clip.frequency / (60f / bpm));
-        if (isTurnOn)
+        foreach (Intervals interval in intervals)
         {
-            foreach (Intervals interval in intervals)
-            {
-                float sampledTime = musicManager.timeSamples / (musicManager.clip.frequency * interval.GetIntervalLength(bpm));
-                interval.CheckForNewInterval(sampledTime);
-            }
+            float sampledTime = musicManager.timeSamples / (musicManager.clip.frequency * interval.GetIntervalLength(bpm));
+            interval.CheckForNewInterval(sampledTime);
         }
     }
 
