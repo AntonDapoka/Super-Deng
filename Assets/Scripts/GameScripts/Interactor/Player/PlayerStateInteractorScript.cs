@@ -1,74 +1,64 @@
-using Newtonsoft.Json.Converters;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStateInteractorScript : MonoBehaviour
 {
-    [SerializeField] private int hp = 4;
-    [SerializeField] private GameObject faceCurrent;
-    private FaceScript faceScript;
-    private FaceStateScript faceState;
+    [SerializeField] PlayerStatePresenterScript playerStatePresenter;
+    [SerializeField]  FaceStateScript faceState;
 
-    /*[Space]
-    public MeshRenderer rendPartTop;
-    public MeshRenderer rendPartMiddle;
-    public MeshRenderer rendPartLeft;
-    public MeshRenderer rendPartRight;*/
+    private int difficulty = 1;
+    public int hp = 4;
 
     [SerializeField] private bool isLosing = false;
     [SerializeField] private bool inTakingDamage = false;
     [SerializeField] bool inBlinking = false;
+    [SerializeField] bool isColored = false;
+    [SerializeField] bool isInvincible = false;
 
-
-    private void Awake()
-    {/*
-        rendPartTop = glowingPartTop.GetComponent<MeshRenderer>();
-        rendPartMiddle = glowingPartMiddle.GetComponent<MeshRenderer>();
-        rendPartLeft = glowingPartLeft.GetComponent<MeshRenderer>();
-        rendPartRight = glowingPartRight.GetComponent<MeshRenderer>();*/
-    }
-
-    private void Start()
+    public void SetCurrentFace(GameObject face)
     {
-        if (faceScript != null)
-        {
-            faceScript = faceCurrent.GetComponent<FaceScript>();
-            faceState = faceCurrent.GetComponent<FaceStateScript>();
-        }
-        
+        faceState = face.GetComponent<FaceStateScript>();
     }
 
     private void Update()
     {
-        if (faceState != null && faceState.Get(FaceProperty.IsKilling) && !inTakingDamage)
+        if (faceState == null) return;
+
+        if ((faceState.Get(FaceProperty.IsColored) || faceState.Get(FaceProperty.IsKilling)) && !isColored)
+        {
+            isColored = true;
+            playerStatePresenter.SetColoredState();
+        }
+        else if (!faceState.Get(FaceProperty.IsColored) && !faceState.Get(FaceProperty.IsKilling) && isColored)
+        {
+            isColored = false;
+            playerStatePresenter.RemoveColoredState();
+        }
+
+
+        if (faceState.Get(FaceProperty.IsBlinking) && !inBlinking)
+        {
+            inBlinking = true;
+            playerStatePresenter.SetBlinkingState();
+        }
+        else if (!faceState.Get(FaceProperty.IsBlinking) && inBlinking)
+        {
+            inBlinking = false;
+            playerStatePresenter.RemoveBlinkingState();
+        }
+
+        
+        if (faceState.Get(FaceProperty.IsKilling) && !inTakingDamage)
         {
             inTakingDamage = true;
             TakeDamage();
-        }
-        if (faceState != null && !faceState.Get(FaceProperty.IsKilling) && inTakingDamage)
+            playerStatePresenter.SetInvincibilityFramesState();
+        } 
+        else if (!faceState.Get(FaceProperty.IsKilling) && inTakingDamage)
         {
             inTakingDamage = false;
-        }
-        if (faceState != null && faceState.Get(FaceProperty.IsBlinking) && !inBlinking)
-        {
-            inBlinking = true;
-            /*if (animator != null && animClipBlink != null)
-            {
-                animator.enabled = true;
-                animator.Play(animClipBlink.name);
-            }*/
-        }
-        else if (faceState != null && !faceState.Get(FaceProperty.IsBlinking) && inBlinking)
-        {
-            inBlinking = false;
-            //animator.enabled = false;
-            //ResetMaterials();
+            playerStatePresenter.RemoveInvincibilityFramesState();
         }
 
-        //*/
-        // Commented out - field is commented in TutorialFaceScript
         /*
         else if (faceCurrentFST.isKilling && !inTakingDamage)
         {
@@ -77,30 +67,6 @@ public class PlayerStateInteractorScript : MonoBehaviour
             StartCoroutine(PlayAnimationTakeDamage());
         }
         */
-    }
-    /*
-    public void ResetMaterials()
-    {
-        //Material[] materials = new Material[] { materialTurnOff, materialTurnOn };
-        Material[] parts = new Material[] { rendPartTop.material, rendPartMiddle.material, rendPartLeft.material, rendPartRight.material };
-
-        for (int i = 0; i < 4; i++)
-        {
-            parts[i] = materials[(hp >= i + 1) ? 1 : 0];
-        }
-
-        rendPartTop.material = parts[0];
-        rendPartMiddle.material = parts[1];
-        rendPartLeft.material = parts[2];
-        rendPartRight.material = parts[3];
-    }*/
-
-
-    public void SetCurrentFace(GameObject face)
-    {
-        faceCurrent = face;
-        faceScript = face.GetComponent<FaceScript>();
-        faceState = face.GetComponent<FaceStateScript>();
     }
 
     public void TakeDamage()
@@ -135,12 +101,4 @@ public class PlayerStateInteractorScript : MonoBehaviour
             rendPartTop.material = materialTurnOn;
         }*/
     }
-    /*
-    public void SetPartsMaterial(Material material)
-    {
-        rendPartTop.material = material;
-        rendPartMiddle.material = material;
-        rendPartLeft.material = material;
-        rendPartRight.material = material;
-    }*/
 }

@@ -13,7 +13,6 @@ public class PortalSpawnerScript : MonoBehaviour
     [SerializeField] private Material materialBasic;
     [SerializeField] private Material materialPortal;
     [SerializeField] private FaceArrayScript FAS;
-    [SerializeField] private PlayerScript PS;
     [SerializeField] private Image panel;
     [SerializeField] private AnimationClip animClip;
     [SerializeField] private float delay;

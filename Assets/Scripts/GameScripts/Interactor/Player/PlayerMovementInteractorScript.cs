@@ -10,7 +10,6 @@ public class PlayerMovementInteractorScript : MonoBehaviour
     [SerializeField] private PlayerBeatSyncValidatorScript beatSyncValidator;
     [SerializeField] private PathCounterScript pathCounter;
     [SerializeField] private PlayerStateInteractorScript playerStateInteractor;
-    [SerializeField] private PlayerScript playerScript;
 
     [SerializeField] private FaceScript playerFace;
     private FaceStateScript playerFaceState;
@@ -59,7 +58,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         sides.Add("RightSide", playerFace.side2);
         sides.Add("TopSide", playerFace.side3);
 
-        playerScript.SetCurrentFace(gameObject);
+        playerStateInteractor.SetCurrentFace(gameObject);
         /*
         SetSideMaterial(FS1, materialLeftFace);
         SetSideMaterial(FS2, materialRightFace);
@@ -97,7 +96,6 @@ public class PlayerMovementInteractorScript : MonoBehaviour
     private IEnumerator TransferPlayer(GameObject targetSide, string direction)
     {
         yield return new WaitForSeconds(0.01f);
-        FaceScript targetFace = targetSide.GetComponent<FaceScript>();
 
         playerFaceState.Set(FaceProperty.HavePlayer, false);
         playerFaceState.Set(FaceProperty.TransferInProgress, false);

@@ -1006,7 +1006,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8405228799366529537}
-  - component: {fileID: 6298700578705105554}
   - component: {fileID: 3621040553826363761}
   m_Layer: 0
   m_Name: Player
@@ -1034,29 +1033,6 @@ Transform:
   - {fileID: 2824735617205282944}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6298700578705105554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6610379395708787489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c045eddf7ecb80e479336ea4b4853db8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isTutorial: 0
-  hp: 4
-  faceCurrent: {fileID: 0}
-  glowingPartTop: {fileID: 6046339314719020779}
-  glowingPartMiddle: {fileID: 3820011584762762047}
-  glowingPartLeft: {fileID: 8166263606724188168}
-  glowingPartRight: {fileID: 7352456933072699831}
-  animator: {fileID: 0}
-  animClipBlink: {fileID: 7400000, guid: 150deb4cd99a2dd42a4c004910764df5, type: 2}
-  materialTurnOn: {fileID: 2100000, guid: 337b1a4e27063cb4283e3304e55bf7f8, type: 2}
-  materialTurnOff: {fileID: -3846018093981099296, guid: 0f159ac7e9174c749a10d2eb55f2d24b, type: 3}
 --- !u!95 &3621040553826363761
 Animator:
   serializedVersion: 5

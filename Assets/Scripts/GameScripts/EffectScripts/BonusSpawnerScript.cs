@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class BonusSpawnerScript : MonoBehaviour
-{
+{/*
     private FaceScript[] faceScripts;
     [SerializeField] private GameObject prefabBonusCombo;
     [SerializeField] private GameObject prefabBonusHealth;
@@ -53,7 +53,7 @@ public class BonusSpawnerScript : MonoBehaviour
                 {
                     availableFaces.Add(i);
                 }
-                */
+                
                 // Only check PathObjectCount which is still active
                 if (faceScripts[i].PathObjectCount >= proximityLimit)
                 {
@@ -144,5 +144,5 @@ public class BonusSpawnerScript : MonoBehaviour
             animator.enabled = false;
         }
         Destroy(bonus);
-    }
+    }*/
 }

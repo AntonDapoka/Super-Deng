@@ -115,7 +115,9 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
                 !FSS.Get(FaceProperty.IsBlocked) &&
                 !FSS.Get(FaceProperty.IsColored) &&
                 !FSS.Get(FaceProperty.IsPortal) &&
-                !FSS.Get(FaceProperty.IsBonus) &&
+                !FSS.Get(FaceProperty.IsBonusHealth) &&
+                !FSS.Get(FaceProperty.IsBonusCombo) &&
+                !FSS.Get(FaceProperty.IsBonusShield) &&
                 (!isProximityLimit || FS.GetPathObjectCount() >= proximityLimit) &&
                 (!isDistanceLimit || FS.GetPathObjectCount() <= distanceLimit) &&
                 IsSuitableSpecialRequirements();

@@ -1,13 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FallManager : MonoBehaviour
-{
+{/*
     private GameObject[] faces;
     private FaceScript[] faceScripts;
     [SerializeField] private FaceArrayScript FAS;
@@ -70,7 +67,7 @@ public class FallManager : MonoBehaviour
                 {
                     availableFaces.Add(i);
                 }
-                */
+                
                 // Only check PathObjectCount which is still active
                 if (FS.PathObjectCount >= proximityLimit)
                 {
@@ -142,7 +139,7 @@ public class FallManager : MonoBehaviour
             face.GetComponent<FaceScript>().havePlayer = false;
             waitForDeath = true;
         }
-        */
+        
 
         Vector3 direction = (rb.transform.position - centerPoint).normalized;
         rb.AddForce(direction * impulseForce, ForceMode.Impulse);
@@ -213,7 +210,7 @@ public class FallManager : MonoBehaviour
         {
             FS.ResetRightLeftTop();
         }
-        */
+        
         Animator animator = face.GetComponent<Animator>();
         animator.enabled = true;
         if (animator != null && animClipReset != null)
@@ -228,7 +225,7 @@ public class FallManager : MonoBehaviour
         {
             FS.ResetRightLeftTop();
         }
-        */
+        
         animator.enabled = false;
 
         fallDataList.RemoveAll(f => f.FallFaceNumber == numb);
@@ -252,6 +249,6 @@ public class FallManager : MonoBehaviour
             InitialLocalPosition = initialLocalPosition;
             InitialLocalRotation = initialLocalRotation;
         }
-    }
+    }*/
 
 }

@@ -10,7 +10,9 @@ public enum FaceProperty
     IsColored,
     IsBlocked,
     IsPortal,
-    IsBonus,
+    IsBonusCombo,
+    IsBonusShield,
+    IsBonusHealth,
     IsLeft,
     IsRight,
     IsTop
