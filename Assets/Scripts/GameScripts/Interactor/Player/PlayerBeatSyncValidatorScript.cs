@@ -4,6 +4,8 @@ public class PlayerBeatSyncValidatorScript : MonoBehaviour, IBeatUpdate
 {
     [SerializeField] private bool isTurnOn = false;
 
+    [SerializeField] private PlayerBeatSyncPresenterScript playerBeatSyncPresenter;
+
     private float beatInterval;
     private float elapsedTime;
 
@@ -34,6 +36,7 @@ public class PlayerBeatSyncValidatorScript : MonoBehaviour, IBeatUpdate
         pressWindowEarly = xx;
         pressWindowLate = yy;
         */
+        playerBeatSyncPresenter.Initialize();
     }
 
     private void Update()
@@ -45,6 +48,8 @@ public class PlayerBeatSyncValidatorScript : MonoBehaviour, IBeatUpdate
         UpdateComboWindow();
         UpdatePressWindow();
 
+        if (!canCombo && !canPress) playerBeatSyncPresenter.SetCanNoNoState();
+
         if (elapsedTime >= beatInterval)
             ResetBeatCycle();
     }
@@ -54,6 +59,8 @@ public class PlayerBeatSyncValidatorScript : MonoBehaviour, IBeatUpdate
         float normalizedTime = elapsedTime / beatInterval;
 
         canCombo = normalizedTime < comboWindowEarly || normalizedTime > comboWindowLate;
+
+        if (canCombo && canPress) playerBeatSyncPresenter.SetCanComboState();
     }
 
     private void UpdatePressWindow()
@@ -73,6 +80,8 @@ public class PlayerBeatSyncValidatorScript : MonoBehaviour, IBeatUpdate
         {
             canPress = !hasPressedThisBeat;
         }
+
+        if (canPress && !canCombo) playerBeatSyncPresenter.SetCanPressState();
     }
 
     private void ResetPressStateMidBeat()
