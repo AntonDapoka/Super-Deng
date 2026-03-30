@@ -27,8 +27,6 @@ public class RedFaceScript
     private readonly float height;
     private readonly float offset;
 
-    private readonly Material material; //MOVE TO PRESENTER
-
     private readonly Vector3 startScale;
     private readonly Vector3 targetScale;
     private readonly Vector3 startPos;
@@ -70,8 +68,8 @@ public class RedFaceScript
         else offset = settingsBasic.offsetBasic;
 
         if (settings.isMaterialChange)
-            material = settings.material;
-        else material = settingsBasic.materialBasic;
+            presenter.SetFaceActionMaterial(settings.material);
+        else presenter.SetFaceActionMaterial(settingsBasic.materialBasic);
 
         faceScript = face.GetComponent<FaceScript>();
         faceState = face.GetComponent<FaceStateScript>();
@@ -84,6 +82,7 @@ public class RedFaceScript
 
         StartColoring();
     }
+
 
     public void Update()
     {
@@ -152,8 +151,11 @@ public class RedFaceScript
 
     private void Finish()
     {
-        faceScript.rend.material = material; //CHANGE TO PRESENTER
+        faceScript.glowingPart.transform.localPosition = startPos;
+        faceScript.glowingPart.transform.localScale = startScale;
+        
         faceState.Set(FaceProperty.IsKilling, false);
+        presenter.ChangeFaceBackToDefault(face);
         state = State.Done;
     }
 
@@ -172,8 +174,7 @@ public class RedFaceScript
 
     private void ApplyRedFaceMaterial()
     {
-        faceScript.rend.material = material;
-        //CHANGE TO PRESENTER
+        presenter.ApplyFaceActionMaterial(face);
     }
 
     private void AdvanceTimer()
@@ -192,8 +193,11 @@ public class RedFaceScript
         state = State.Done;
         faceState.Set(FaceProperty.IsKilling, false);
         faceState.Set(FaceProperty.IsColored, false);
-        //faceScript.glowingPart.transform.localPosition = 
-        //faceScript.glowingPart.transform.localScale = 
-        //presenter.SetBasicFace();
+
+        faceScript.glowingPart.transform.localPosition = startPos;
+        faceScript.glowingPart.transform.localScale = startScale;
+
+        presenter.ChangeFaceBackToDefault(face);
+
     }
 }

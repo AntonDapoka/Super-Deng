@@ -15,7 +15,6 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private ActionInitializerScript actionInitializer;
     [SerializeField] private LevelTimeManagementScript timeIntializer;
     [SerializeField] private StartCountDownInteractorScript startCountDownInteractor;
-    [SerializeField] private PlayerBeatSyncValidatorScript playerBeatSyncValidator;
     [SerializeField] private CameraBehaivorInteractorScript cameraBehaivorInteractor;
 
     [Header("Other References")]
@@ -38,8 +37,7 @@ public class LevelInitializerScript : MonoBehaviour
     {
         timeIntializer.TurnOn();
 
-        playerInitializer.InitializePlayer();
-        playerBeatSyncValidator.Initialize(rhythmManager.GetBeatInterval()); //Add data
+        playerInitializer.InitializePlayer(rhythmManager.GetBeatInterval());
         startCountDownInteractor.StartStartCountDown(rhythmManager.GetBeatInterval());
     }
 }

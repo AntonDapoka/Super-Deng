@@ -4,6 +4,7 @@ using System.Linq;
 
 public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerInteractiveActionScript, IFieldInteractiveActionScript
 {
+    [SerializeField] protected SpawnerActionPresenterScript presenter;
     [SerializeField] protected GameObject[] faces;
     [SerializeField] protected bool isTurnOn = false;
     [SerializeField] protected bool isRandomSpawn = false;
@@ -45,6 +46,8 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
 
     public override void Execute() 
     {
+        if (!isTurnOn) return;
+
         List<int> availableFaces = GetAvailableFaces();
         if (isRandomSpawn)
         {
@@ -128,7 +131,9 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
 
     public abstract void SetActionFace(GameObject gameObject);
 
-    public override void Cancel() { }
+    public override void Cancel() {}
+
+    public override void ForcedBreak() {}
 
     public override void TurnOn()
     {

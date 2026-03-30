@@ -15,7 +15,7 @@ public class FaceMaterialViewScript : MonoBehaviour, IFaceMaterialViewScript
     [SerializeField] private Material materialBonus;
     [SerializeField] private Material materialPortal;
 
-    private Dictionary<MaterialType, Material> _materials;
+    public Dictionary<MaterialType, Material> _materials;
 
     private void Awake()
     {

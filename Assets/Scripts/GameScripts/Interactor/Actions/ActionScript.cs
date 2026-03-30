@@ -12,6 +12,8 @@ public abstract class ActionScript : MonoBehaviour
 
     public abstract void Execute();
 
+    public abstract void ForcedBreak();
+
     public abstract void Cancel();
 
     public abstract void TurnOn();

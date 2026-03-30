@@ -79,6 +79,16 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         if (isTurnOn) redFaces.Add(CreateRedFace(face));
     }
 
+    public override void Cancel()
+    {
+        TurnOff();
+    }
+
+    public override void ForcedBreak()
+    {
+        Debug.Log("UnderContruction!!!");
+    }
+
     private RedFaceScript CreateRedFace(GameObject face)
     {
         if (face == null)
