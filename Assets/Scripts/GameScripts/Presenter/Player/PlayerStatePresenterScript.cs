@@ -6,24 +6,79 @@ public class PlayerStatePresenterScript : MonoBehaviour
 {
     [SerializeField] private PlayerStateViewScript playerStateView;
 
-    [SerializeField] private GameObject partMiddle;
-    [SerializeField] private GameObject partRight;
-    [SerializeField] private GameObject partLeft;
     [SerializeField] private GameObject partTop;
+    [SerializeField] private GameObject partMiddle;
+    [SerializeField] private GameObject partLeft;
+    [SerializeField] private GameObject partRight;
+
+    [SerializeField] private Material materialTurnOn;
+    [SerializeField] private Material materialTurnOff;
+    [SerializeField] private Material materialRed;
 
     private MeshRenderer rendPartTop;
     private MeshRenderer rendPartMiddle;
     private MeshRenderer rendPartLeft;
     private MeshRenderer rendPartRight;
 
+    private int hp = 4;
+
+    [SerializeField] private bool isLosing = false;
+    [SerializeField] private bool inTakingDamage = false;
+    [SerializeField] private bool inTakingHealth = false;
+    [SerializeField] private bool inBlinking = false;
+    [SerializeField] private bool isColored = false;
+    [SerializeField] private bool isInvincible = false;
+
+    private void Start() //Replace for Initialize
+    {
+        rendPartTop = partTop.GetComponent<MeshRenderer>();
+        rendPartMiddle = partMiddle.GetComponent<MeshRenderer>();
+        rendPartLeft = partLeft.GetComponent<MeshRenderer>();
+        rendPartRight = partRight.GetComponent<MeshRenderer>();
+    }
+
+    public void SetNewHP(int hp)
+    {
+        this.hp = hp;
+    }
+
+    public void DisplayHP()
+    {
+        Material[] materials = new Material[] { materialTurnOff, materialTurnOn };
+        MeshRenderer[] parts = new MeshRenderer[] { rendPartMiddle, rendPartTop, rendPartLeft, rendPartRight};
+
+        for (int i = 0; i < 4; i++)
+        {
+            parts[i].material = materials[(hp >= i + 1) ? 1 : 0];
+        }
+    }
+
+    public void SetPartsMaterial(Material material)
+    {
+        rendPartTop.material = material;
+        rendPartMiddle.material = material;
+        rendPartLeft.material = material;
+        rendPartRight.material = material;
+    }
+
     public void SetColoredState()
     {
-        
+        SetPartsMaterial(materialRed);
     }
 
     public void RemoveColoredState()
     {
+        DisplayHP();
+    }
+
+    public void SetTakingHealthState()
+    {
         
+    }
+
+    public void RemoveTakingHealthState()
+    {
+        DisplayHP();
     }
 
     public void SetBlinkingState()
@@ -33,7 +88,7 @@ public class PlayerStatePresenterScript : MonoBehaviour
 
     public void RemoveBlinkingState()
     {
-        
+        DisplayHP();
     }
 
     public void SetInvincibilityFramesState()
@@ -43,7 +98,7 @@ public class PlayerStatePresenterScript : MonoBehaviour
 
     public void RemoveInvincibilityFramesState()
     {
-        
+        DisplayHP();
     }
 
         /*
@@ -63,14 +118,6 @@ public class PlayerStatePresenterScript : MonoBehaviour
         rendPartRight.material = parts[3];
     }*/
 
-        /*
-    public void SetPartsMaterial(Material material)
-    {
-        rendPartTop.material = material;
-        rendPartMiddle.material = material;
-        rendPartLeft.material = material;
-        rendPartRight.material = material;
-    }*/
 
     public void TakeHP(int hp)
     {

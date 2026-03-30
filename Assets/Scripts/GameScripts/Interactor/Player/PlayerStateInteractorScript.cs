@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerStateInteractorScript : MonoBehaviour
@@ -5,100 +7,119 @@ public class PlayerStateInteractorScript : MonoBehaviour
     [SerializeField] PlayerStatePresenterScript playerStatePresenter;
     [SerializeField]  FaceStateScript faceState;
 
-    private int difficulty = 1;
-    public int hp = 4;
+    [SerializeField] private int hp = 4;
+    [SerializeField] private float durationSecondsInvincible = 1f;
 
     [SerializeField] private bool isLosing = false;
-    [SerializeField] private bool inTakingDamage = false;
-    [SerializeField] bool inBlinking = false;
-    [SerializeField] bool isColored = false;
-    [SerializeField] bool isInvincible = false;
+    [SerializeField] private bool isTakingDamage = false;
+    [SerializeField] private bool isTakingHealth = false;
+    [SerializeField] private bool isBlinking = false;
+    [SerializeField] private bool isColored = false;
+    [SerializeField] private bool isInvincible = false;
+
+    [SerializeField] private bool isFaceKilling = false;
+    [SerializeField] private bool isFaceBonusHealth = false;
+    [SerializeField] private bool isFaceBlinking = false;
+    [SerializeField] private bool isFaceColored = false;
 
     public void SetCurrentFace(GameObject face)
     {
         faceState = face.GetComponent<FaceStateScript>();
+        playerStatePresenter.SetNewHP(hp); // Move to Initialize()
     }
 
     private void Update()
     {
         if (faceState == null) return;
 
-        if ((faceState.Get(FaceProperty.IsColored) || faceState.Get(FaceProperty.IsKilling)) && !isColored)
+        isFaceColored = faceState.Get(FaceProperty.IsColored);
+        isFaceKilling = faceState.Get(FaceProperty.IsKilling);
+        isFaceBlinking = faceState.Get(FaceProperty.IsBlinking);
+        isFaceBonusHealth = faceState.Get(FaceProperty.IsBonusHealth);
+
+        if (!isFaceColored &&
+            !isFaceBlinking &&
+            !isFaceKilling &&
+            !isFaceBonusHealth)
         {
-            isColored = true;
-            playerStatePresenter.SetColoredState();
-        }
-        else if (!faceState.Get(FaceProperty.IsColored) && !faceState.Get(FaceProperty.IsKilling) && isColored)
-        {
+            playerStatePresenter.DisplayHP();
             isColored = false;
-            playerStatePresenter.RemoveColoredState();
+            isBlinking = false;
+            isTakingDamage = false;
+            return;
         }
 
+        HandleState(
+            isFaceKilling || isFaceColored,
+            ref isColored,
+            playerStatePresenter.SetColoredState,
+            playerStatePresenter.RemoveColoredState
+        );
 
-        if (faceState.Get(FaceProperty.IsBlinking) && !inBlinking)
-        {
-            inBlinking = true;
-            playerStatePresenter.SetBlinkingState();
-        }
-        else if (!faceState.Get(FaceProperty.IsBlinking) && inBlinking)
-        {
-            inBlinking = false;
-            playerStatePresenter.RemoveBlinkingState();
-        }
+        HandleState(
+            isFaceBlinking,
+            ref isBlinking,
+            playerStatePresenter.SetBlinkingState,
+            playerStatePresenter.RemoveBlinkingState
+        );
 
-        
-        if (faceState.Get(FaceProperty.IsKilling) && !inTakingDamage)
-        {
-            inTakingDamage = true;
-            TakeDamage();
-            playerStatePresenter.SetInvincibilityFramesState();
+        HandleState(
+            isFaceBonusHealth,
+            ref isTakingHealth,
+            playerStatePresenter.SetTakingHealthState,
+            playerStatePresenter.RemoveTakingHealthState
+        );
+
+        if (isFaceKilling && !isTakingDamage && !isInvincible) 
+        { 
+            isTakingDamage = true; 
+            TakeDamage(); 
+            playerStatePresenter.SetInvincibilityFramesState(); 
         } 
-        else if (!faceState.Get(FaceProperty.IsKilling) && inTakingDamage)
-        {
-            inTakingDamage = false;
-            playerStatePresenter.RemoveInvincibilityFramesState();
+        if (!isFaceKilling && isTakingDamage) 
+        { 
+            isTakingDamage = false; 
         }
-
-        /*
-        else if (faceCurrentFST.isKilling && !inTakingDamage)
-        {
-            inTakingDamage = true;
-            TakeDamage();
-            StartCoroutine(PlayAnimationTakeDamage());
-        }
-        */
     }
 
-    public void TakeDamage()
+    private void HandleState(bool condition, ref bool state, Action onEnter, Action onExit)
     {
-        if (hp > 1)
-        {
-            hp -= 1;
-        }
+        if (condition == state) return;
+
+        state = condition;
+
+        if (state) onEnter?.Invoke();
+        else onExit?.Invoke();
+    }
+
+    private void TakeDamage()
+    {
+        hp = Mathf.Max(0, hp - 1);
+
+        if (hp > 0)
+            StartCoroutine(UsingInvincibilityFrames());
         else if (!isLosing)
         {
-            hp -= 1;
-            //StartLosing();
+            // StartLosing();
         }
+
+        playerStatePresenter.SetNewHP(hp);
     }
 
-    public void TakeHP()
+    private IEnumerator UsingInvincibilityFrames()
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(durationSecondsInvincible);
+        playerStatePresenter.RemoveInvincibilityFramesState(); 
+        isInvincible = false;
+    }
+
+    private void TakeHP()
     {
         if (hp < 4)
         {
             hp += 1;
         }
-        /*if (hp == 2)
-        {
-            rendPartLeft.material = materialTurnOn;
-        }
-        if (hp == 3)
-        {
-            rendPartRight.material = materialTurnOn;
-        }
-        if (hp == 4)
-        {
-            rendPartTop.material = materialTurnOn;
-        }*/
+        playerStatePresenter.SetNewHP(hp);
     }
 }

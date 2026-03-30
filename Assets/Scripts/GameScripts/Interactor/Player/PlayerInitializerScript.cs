@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInitializerScript : MonoBehaviour
 {
     [SerializeField] private PlayerSetterScript playerSetter;
+    [SerializeField] private PlayerStateInteractorScript playerScript;
     [SerializeField] private FaceArrayScript faceArray;
     [SerializeField] private PathCounterScript pathCounter;
 
@@ -12,6 +11,7 @@ public class PlayerInitializerScript : MonoBehaviour
     {
         GameObject face = faceArray.GetRandomFace(); //Rewrite!!!!!
         playerSetter.SetPlayer(face);
+        playerScript.SetCurrentFace(face);
         pathCounter.StartPathCount();
     }
 }
