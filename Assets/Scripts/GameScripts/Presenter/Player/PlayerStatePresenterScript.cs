@@ -22,13 +22,6 @@ public class PlayerStatePresenterScript : MonoBehaviour
 
     private int hp = 4;
 
-    [SerializeField] private bool isLosing = false;
-    [SerializeField] private bool inTakingDamage = false;
-    [SerializeField] private bool inTakingHealth = false;
-    [SerializeField] private bool inBlinking = false;
-    [SerializeField] private bool isColored = false;
-    [SerializeField] private bool isInvincible = false;
-
     private void Start() //Replace for Initialize
     {
         rendPartTop = partTop.GetComponent<MeshRenderer>();
@@ -117,25 +110,4 @@ public class PlayerStatePresenterScript : MonoBehaviour
         rendPartLeft.material = parts[2];
         rendPartRight.material = parts[3];
     }*/
-
-
-    public void TakeHP(int hp)
-    {
-        if (hp < 4)
-        {
-            hp += 1;
-        }
-        /*if (hp == 2)
-        {
-            rendPartLeft.material = materialTurnOn;
-        }
-        if (hp == 3)
-        {
-            rendPartRight.material = materialTurnOn;
-        }
-        if (hp == 4)
-        {
-            rendPartTop.material = materialTurnOn;
-        }*/
-    }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,21 +24,36 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
 
         foreach (var pair in sides)
         {
-
             if (materials.TryGetValue(pair.Key, out var mat))
             {
-                FaceMaterialView.SetMaterial(pair.Value.GetComponent<FaceScript>().rend, mat);
+                FaceScript faceScript = pair.Value.GetComponent<FaceScript>();
+                FaceStateScript faceState = faceScript.FaceState;
+
+                //if (faceState.Get(FaceProperty.IsColored)
+                    //|| faceState.Get(FaceProperty.IsKilling)
+                    /*|| faceState.Get(FaceProperty.IsBlinking)
+                    || faceState.Get(FaceProperty.IsBonusHealth) /*dd)
+                //{
+                    /*Debug.Log(pair.Key + " is colored: " + faceState.Get(FaceProperty.IsColored)  + " is killing: " + faceState.Get(FaceProperty.IsKilling));
+                    return;
+                //}
+                else*/ FaceMaterialView.SetMaterial(faceScript.rend, mat);
             }
-            /*
-            pair.Value.GetComponent<FaceScript>().rend.material = materialLeft;
-            
-                Debug.Log("Here");
-                pair.Value.GetComponent<FaceScript>().rend.material = materialTop;*/
         }
     }
 
     public void UpdateNonPlayerSide(GameObject side)
     {
-        FaceMaterialView.SetMaterial(side.GetComponent<FaceScript>().rend, MaterialType.Default);
+        FaceScript faceScript = side.GetComponent<FaceScript>();
+        FaceStateScript faceState = faceScript.FaceState;
+
+        if (faceState.Get(FaceProperty.IsColored)
+        || faceState.Get(FaceProperty.IsKilling)
+        || faceState.Get(FaceProperty.IsBlinking)
+        || faceState.Get(FaceProperty.IsBonusHealth) /*dd*/)
+        {
+            return;
+        }
+        else FaceMaterialView.SetMaterial(faceScript.rend, MaterialType.Default);
     }
 }

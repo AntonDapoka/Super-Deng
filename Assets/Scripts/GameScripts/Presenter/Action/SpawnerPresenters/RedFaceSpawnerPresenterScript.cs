@@ -23,16 +23,15 @@ public class RedFaceSpawnerPresenterScript : SpawnerActionPresenterScript
         || faceState.Get(FaceProperty.IsBlinking)
         || faceState.Get(FaceProperty.IsBonusHealth) /*dd*/)
         {
-            Debug.Log("Nah");
             return;
         }
         else if (faceState.Get(FaceProperty.IsRight))
-            faceScript.rend.material = materialHolder._materials[MaterialType.Right];
+            materialHolder.SetMaterial(faceScript.rend, MaterialType.Right);
         else if (faceState.Get(FaceProperty.IsLeft))
-            faceScript.rend.material = materialHolder._materials[MaterialType.Left];
+            materialHolder.SetMaterial(faceScript.rend, MaterialType.Left);
         else if (faceState.Get(FaceProperty.IsTop))
-            faceScript.rend.material = materialHolder._materials[MaterialType.Top];
+            materialHolder.SetMaterial(faceScript.rend, MaterialType.Top);
         else 
-            faceScript.rend.material = materialHolder._materials[MaterialType.Default];
+            materialHolder.SetMaterial(faceScript.rend, MaterialType.Default);
     }
 }

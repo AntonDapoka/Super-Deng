@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStateInteractorScript : MonoBehaviour
 {
     [SerializeField] PlayerStatePresenterScript playerStatePresenter;
-    [SerializeField]  FaceStateScript faceState;
+    [SerializeField] FaceStateScript faceState;
 
     [SerializeField] private int hp = 4;
     [SerializeField] private float durationSecondsInvincible = 1f;

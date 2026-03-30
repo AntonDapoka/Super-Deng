@@ -39,14 +39,14 @@ public class ActionInteractorScript : MonoBehaviour
         {
             if (time >= entries[i].settings.timeStartSeconds && time < entries[i].settings.timeEndSeconds && !spawnExecuted[currentSpawnIndex])
             {
-                Debug.Log(entries[i].settings.timeStartSeconds.ToString());
+                //Debug.Log(entries[i].settings.timeStartSeconds.ToString());
                 entries[i].action.TurnOn();
                 entries[i].action.SetSettings(entries[i].settings);
                 spawnExecuted[currentSpawnIndex] = true;
             }
             else if (time >= entries[i].settings.timeEndSeconds && !spawnCanceled[currentSpawnIndex])
             {
-                Debug.Log(entries[i].settings.timeEndSeconds.ToString());
+                //Debug.Log(entries[i].settings.timeEndSeconds.ToString());
                 entries[i].action.Cancel();
                 spawnCanceled[currentSpawnIndex] = true;
             }
