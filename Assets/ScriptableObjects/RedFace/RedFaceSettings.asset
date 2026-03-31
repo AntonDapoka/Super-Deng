@@ -18,8 +18,8 @@ MonoBehaviour:
   timeStartSeconds: 2
   timeStartBeats: 3
   isTimeEnd: 1
-  timeEndSeconds: 3
-  timeEndBeats: 4.5
+  timeEndSeconds: 30
+  timeEndBeats: 45
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 11.4
   timeForcedBreakBeats: 29.449999

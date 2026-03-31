@@ -31,15 +31,13 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
                 FaceScript faceScript = pair.Value.GetComponent<FaceScript>();
                 FaceStateScript faceState = faceScript.FaceState;
 
-                //if (faceState.Get(FaceProperty.IsColored)
-                    //|| faceState.Get(FaceProperty.IsKilling)
-                    /*|| faceState.Get(FaceProperty.IsBlinking)
-                    || faceState.Get(FaceProperty.IsBonusHealth) /*dd)
-                //{
-                    /*Debug.Log(pair.Key + " is colored: " + faceState.Get(FaceProperty.IsColored)  + " is killing: " + faceState.Get(FaceProperty.IsKilling));
-                    return;
-                //}
-                else*/ FaceMaterialView.SetMaterial(faceScript.rend, mat);
+                if (!faceState.Get(FaceProperty.IsColored)
+                    && !faceState.Get(FaceProperty.IsKilling)
+                    && !faceState.Get(FaceProperty.IsBlinking)
+                    && !faceState.Get(FaceProperty.IsBonusHealth))
+                {
+                    FaceMaterialView.SetMaterial(faceScript.rend, mat);
+                }
             }
             playerMovementKeyBindingHintsPresenter.SetNavigationHint(playerFace.transform, pair.Value.GetComponent<FaceScript>());
         }
