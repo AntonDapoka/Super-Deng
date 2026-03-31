@@ -3,6 +3,6 @@ using UnityEngine;
 
 public interface IPlayerMovementPresenterScript 
 {
-    void UpdatePlayerSides(Dictionary<string, GameObject> sides);
+    void UpdatePlayerSides(Dictionary<string, GameObject> sides, GameObject playerFace);
     void UpdateNonPlayerSide(GameObject side);
 }

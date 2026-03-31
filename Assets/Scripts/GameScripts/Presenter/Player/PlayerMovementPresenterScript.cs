@@ -5,6 +5,7 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
 {
     [SerializeField] private MonoBehaviour faceMaterialView;
     private IFaceMaterialViewScript FaceMaterialView => faceMaterialView as IFaceMaterialViewScript;
+    [SerializeField] private PlayerMovementKeyBindingHintsPresenterScript playerMovementKeyBindingHintsPresenter;
     public Dictionary<string, MaterialType> materials = new();
 
     private void Awake()
@@ -14,13 +15,14 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
         materials.Add("TopSide", MaterialType.Top);
     }
 
-    public void UpdatePlayerSides(Dictionary<string, GameObject> sides)
+    public void UpdatePlayerSides(Dictionary<string, GameObject> sides, GameObject playerFace)
     {
         if (sides.Count != 3)
         {
             Debug.LogError("More than three sides!!!!");
             return;
         }
+        
 
         foreach (var pair in sides)
         {
@@ -39,6 +41,7 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
                 //}
                 else*/ FaceMaterialView.SetMaterial(faceScript.rend, mat);
             }
+            playerMovementKeyBindingHintsPresenter.SetNavigationHint(playerFace.transform, pair.Value.GetComponent<FaceScript>());
         }
     }
 

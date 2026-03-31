@@ -24,7 +24,7 @@ public class FaceStateScript : MonoBehaviour
 
     public bool Get(FaceProperty prop) => _boolStates.TryGetValue(prop, out bool value) && value;
     public void Set(FaceProperty prop, bool value) => _boolStates[prop] = value;
-
+/*
     [SerializeField] private bool _debugHavePlayer;
     [SerializeField] private bool _debugIsKilling;
     [SerializeField] private bool _debugIsColored;
@@ -40,5 +40,5 @@ public class FaceStateScript : MonoBehaviour
         _debugIsLeft = Get(FaceProperty.IsLeft);
         _debugIsRight = Get(FaceProperty.IsRight);
         _debugIsTop = Get(FaceProperty.IsTop);
-    }
+    }*/
 }

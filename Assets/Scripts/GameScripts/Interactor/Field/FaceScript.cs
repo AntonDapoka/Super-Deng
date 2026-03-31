@@ -18,6 +18,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
     */
     [Header("State")]
     [SerializeField] private bool isTurnOn = false;
+    [SerializeField] private int id = -1;
     [SerializeField] private int pathObjectCount = -1;
     [SerializeField] private FaceStateScript faceState;
 
@@ -81,7 +82,6 @@ public class FaceScript : MonoBehaviour, IFaceScript
                 Debug.LogWarning($"{name}: No Shadow found in children!");
             }
         }
-
     }
 
     public void Initialize(GameObject[] closestObjects, bool havePlayer)
@@ -106,5 +106,15 @@ public class FaceScript : MonoBehaviour, IFaceScript
     public int GetPathObjectCount()
     {
         return pathObjectCount;
+    }
+
+    public void SetFaceID(int id)
+    {
+        this.id = id;
+    }
+
+    public int GetFaceID()
+    {
+        return id;
     }
 }

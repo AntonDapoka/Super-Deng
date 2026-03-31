@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,8 +29,8 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
     protected void BuildIcosahedron()
     {
-        radiusIco = sideLength * 0.250000f * Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f)));
-        float radiusPenta = sideLength * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
+        radiusIco = sideLength * 0.250000f * Mathf.Sqrt(2.00000f * (5.00000f + Mathf.Sqrt(5.00000f)));
+        float radiusPenta = sideLength * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.00000f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
 
@@ -78,7 +77,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
     protected void GenerateFaces(Vector3[] vertices, float maxDistance, float radius, Transform parent)
     {
-        int w = 0;
+        int id = 0;
         for (int i = 0; i < vertices.Length; i++)
         {
             for (int j = i + 1; j < vertices.Length; j++)
@@ -96,10 +95,12 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                         Mathf.Abs(maxDistance - bcDistance) <= epsilon &&
                         Mathf.Abs(maxDistance - acDistance) <= epsilon)
                     {
-                        w++;
+
                         Vector3[] verticesABC = AdjustVerticesToRadius(new Vector3[3] { a, b, c }, radius);
-                        GameObject face = SetFace(verticesABC, parent);
+                        GameObject face = SetFace(verticesABC, parent, id);
+
                         faces.Add(face);
+                        id++;
                     }
                 }
             }
@@ -107,7 +108,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         //GroupGameObjects(faces.ToArray());
     }
 
-    protected GameObject SetFace(Vector3[] verticesABC, Transform parent)
+    protected GameObject SetFace(Vector3[] verticesABC, Transform parent, int id)
     {
         if (verticesABC.Length != 3)
         {
@@ -120,7 +121,9 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
         GameObject face = Instantiate(facePrefab, center, rotation, parent);
         face.transform.localScale = new Vector3(faceScale, faceScale, faceScale); 
-        GameObject shadow = face.GetComponent<FaceScript>().shadow;
+        FaceScript faceScript = face.GetComponent<FaceScript>();
+        faceScript.SetFaceID(id);
+        GameObject shadow = faceScript.shadow;
 
         float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Distance to (0,0,0)
         float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Distance to (0,0,0)

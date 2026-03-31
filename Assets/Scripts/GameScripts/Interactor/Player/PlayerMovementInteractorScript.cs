@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMovementInteractorScript : MonoBehaviour
@@ -28,7 +29,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         player.transform.localRotation = Quaternion.identity;
 
         SetPlayerFace();
-        presenter.UpdatePlayerSides(sides);
+        presenter.UpdatePlayerSides(sides, playerFace.gameObject);
     }
 
     public void TurnOn()
@@ -49,26 +50,86 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         playerFace.FaceState.Set(FaceProperty.IsTop, false);
         playerFace.FaceState.Set(FaceProperty.IsLeft, false);
 
+        /*
         playerFace.side1.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsLeft, true);
         playerFace.side2.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsRight, true);
-        playerFace.side3.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsTop, true);
+        playerFace.side3.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsTop, true);//IM SORRY WHAT???
 
         sides.Clear();
         sides.Add("LeftSide", playerFace.side1);
         sides.Add("RightSide", playerFace.side2);
-        sides.Add("TopSide", playerFace.side3);
+        sides.Add("TopSide", playerFace.side3);*/
 
-        playerStateInteractor.SetCurrentFace(gameObject);
+        VeryPoorlyThoughtOutVoidForSettingThePlayerNeighborSidesPleaseRewriteIt();
+
+        playerStateInteractor.SetCurrentFace(playerFace.gameObject);
+
         /*
-        SetSideMaterial(FS1, materialLeftFace);
-        SetSideMaterial(FS2, materialRightFace);
-        SetSideMaterial(FS3, materialTopFace);
-
         NHS.SetNavigationHint(FS1);
         NHS.SetNavigationHint(FS2);
         NHS.SetNavigationHint(FS3);*/
+    }
 
-        //presenter.UpdatePlayerSides(sides);
+    private void VeryPoorlyThoughtOutVoidForSettingThePlayerNeighborSidesPleaseRewriteIt()
+    {
+        var sideObjects = new[]
+        {
+            playerFace.side1,
+            playerFace.side2,
+            playerFace.side3
+        };
+
+        Vector3 center = playerFace.transform.position;
+        Vector3 normal = Vector3.zero;
+
+        for (int i = 0; i < sideObjects.Length; i++)
+        {
+            for (int j = i + 1; j < sideObjects.Length; j++)
+            {
+                Vector3 a = sideObjects[i].transform.position - center;
+                Vector3 b = sideObjects[j].transform.position - center;
+
+                Vector3 cross = Vector3.Cross(a, b);
+                if (cross.sqrMagnitude > 0.0001f)
+                    normal += cross.normalized;
+            }
+        }
+
+        normal.Normalize();
+
+        if (normal.sqrMagnitude < 0.0001f)
+            normal = Vector3.forward;
+
+        Vector3 right = Vector3.ProjectOnPlane(Vector3.right, normal).normalized;
+
+        if (right.sqrMagnitude < 0.0001f)
+            right = Vector3.ProjectOnPlane(Vector3.forward, normal).normalized;
+
+        Vector3 up = Vector3.Cross(normal, right).normalized;
+
+        var sideData = sideObjects.Select(side =>
+        {
+            Vector3 dir = side.transform.position - center;
+
+            return new
+            {
+                Side = side,
+                X = Vector3.Dot(dir, right),
+                Y = Vector3.Dot(dir, up)
+            };
+        }).ToList();
+
+        var leftSide = sideData.OrderByDescending(s => s.X).First().Side;
+        var rightSide = sideData.OrderBy(s => s.X).First().Side;
+        var topSide = sideData.OrderByDescending(s => s.Y).First().Side;
+
+        leftSide.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsLeft, true);
+        rightSide.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsRight, true);
+        topSide.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsTop, true);
+
+        sides.Add("LeftSide", leftSide);
+        sides.Add("RightSide", rightSide);
+        sides.Add("TopSide", topSide);
     }
 
     public void MovePlayer(string direction)
@@ -105,7 +166,6 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
     public void ReceivePlayer(GameObject newPlayer, GameObject sideCurrent, GameObject sidePrevious, string directionPrevious, GameObject[] sidesPreviousOther)
     {
-
         playerFace = sideCurrent.GetComponent<FaceScript>();
         playerFaceState = playerFace.FaceState;
 
@@ -113,16 +173,11 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         playerFaceState.Set(FaceProperty.IsTop, false);
         playerFaceState.Set(FaceProperty.IsLeft, false);
 
-        //playerFace.FS1.FaceState.IsLeft = true;
-        //playerFace.FS2.FaceState.IsRight = true;
-        //playerFace.FS3.FaceState.IsTop = true;
-
         sides.Clear();
 
         sides.Add($"{directionPrevious}Side", sidePrevious);
 
         FaceScript faceScriptPrevious = sidePrevious.GetComponent<FaceScript>();
-        //SetSideMaterial(faceScriptPrevious, GetMaterialForSide(colorPrevious));
 
         if (directionPrevious == "Right") { faceScriptPrevious.FaceState.Set(FaceProperty.IsRight, true); }
         else if (directionPrevious == "Left") { faceScriptPrevious.FaceState.Set(FaceProperty.IsLeft, true); }
@@ -134,13 +189,12 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         ResetOtherSides(sidesPreviousOther);
 
-        presenter.UpdatePlayerSides(sides);
+        presenter.UpdatePlayerSides(sides, sideCurrent);
 
         playerFaceState.Set(FaceProperty.HavePlayer, true);
-        //PS.ResetMaterials();
         if (pathCounter != null) pathCounter.SetPathCount();
         //if (KYSS != null) KYSS.beatsNoMoving = 0;
-        //PS.SetCurrentFace(gameObject);
+
 
         newPlayer.transform.SetParent(sideCurrent.transform);
         newPlayer.transform.localPosition = Vector3.zero;
@@ -189,19 +243,16 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         if (faceScriptSidePrevious.FaceState.Get(FaceProperty.IsRight))
         {
             sides["RightSide"] = side;
-            //SetSideMaterial(faceScriptSide, materialRightFace);
             faceScriptSide.FaceState.Set(FaceProperty.IsRight, true);
         }
         else if (faceScriptSidePrevious.FaceState.Get(FaceProperty.IsLeft))
         {
             sides["LeftSide"] = side;
-            //SetSideMaterial(faceScriptSide, materialLeftFace);
             faceScriptSide.FaceState.Set(FaceProperty.IsLeft, true);
         }
         else if (faceScriptSidePrevious.FaceState.Get(FaceProperty.IsTop))
         {
             sides["TopSide"] = side;
-            //SetSideMaterial(faceScriptSide, materialTopFace);
             faceScriptSide.FaceState.Set(FaceProperty.IsTop, true);
         }
     }

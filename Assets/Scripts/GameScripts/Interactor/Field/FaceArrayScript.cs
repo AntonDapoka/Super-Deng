@@ -9,7 +9,17 @@ public class FaceArrayScript : MonoBehaviour
 
     public void SetAllFaces(GameObject[] newFaces)
     {
-        faces = newFaces;
+        faces = newFaces
+        .OrderBy(face => face.GetComponent<FaceScript>().GetFaceID())
+        .ToArray();
+    }
+
+    public GameObject GetFaceByID(int id)
+    {
+        if (faces == null || id < 0 || id >= faces.Length)
+            return null;
+
+        return faces[id];
     }
 
     public GameObject[] GetAllFaces()
