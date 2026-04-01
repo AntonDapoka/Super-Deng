@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ddcebce76eba824c9a702683ba5b80c, type: 3}
+  m_Name: RedFaceSettings 1
+  m_EditorClassIdentifier: 
+  effectName: dfsdfsdfsdf
+  isHint: 0
+  bpm: 90
+  timeStartSeconds: 10
+  timeStartBeats: 15
+  isTimeEnd: 0
+  timeEndSeconds: 20
+  timeEndBeats: 30
+  isTimeForcedBreak: 1
+  timeForcedBreakSeconds: 20
+  timeForcedBreakBeats: 30
+  type: 0
+  isRandom: 1
+  isCertain: 0
+  isStableQuantity: 1
+  quantityExact: 1
+  quantityMin: 63
+  quantityMax: 148
+  isRelativeToPlayer: 0
+  arrayOfFacesRelativeToPlayer: 
+  isRelativeToFigure: 0
+  arrayOfFacesRelativeToFigure: 
+  isProximityLimit: 1
+  proximityLimit: 1
+  isDistanceLimit: 0
+  distanceLimit: 4
+  isBasicSettingsChange: 1
+  isMaterialChange: 0
+  material: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
+  isColorDurationChange: 1
+  colorDurationBeats: 5
+  colorDurationSeconds: 3.3333333
+  isScaleUpDurationChange: 1
+  scaleUpDurationBeats: 5
+  scaleUpDurationSeconds: 3.3333333
+  isWaitDurationChange: 1
+  waitDurationBeats: 5
+  waitDurationSeconds: 3.3333333
+  isScaleDownDurationChange: 1
+  scaleDownDurationBeats: 5
+  scaleDownDurationSeconds: 3.3333333
+  isHeightChange: 1
+  height: 3
+  isOffsetChange: 1
+  offset: 0.1

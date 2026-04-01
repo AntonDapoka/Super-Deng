@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class RedFaceSpawnerPresenterScript : SpawnerActionPresenterScript
 {
-    public override void SetFaceActionMaterial(Material material)
-    {
-        materialFaceAction = material;
-    }
-
-    public override void ApplyFaceActionMaterial(GameObject face)
+    public override void ApplyFaceActionMaterial(GameObject face, Material material)
     {
         FaceScript faceScript = face.GetComponent<FaceScript>();
-        faceScript.rend.material = materialFaceAction;
+        faceScript.rend.material = material;
     }
 
     public override void ChangeFaceBackToDefault(GameObject face)

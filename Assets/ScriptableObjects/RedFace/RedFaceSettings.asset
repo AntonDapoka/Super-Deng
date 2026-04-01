@@ -18,18 +18,18 @@ MonoBehaviour:
   timeStartSeconds: 2
   timeStartBeats: 3
   isTimeEnd: 1
-  timeEndSeconds: 30
-  timeEndBeats: 45
+  timeEndSeconds: 6
+  timeEndBeats: 9
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 11.4
   timeForcedBreakBeats: 29.449999
   type: 0
   isRandom: 1
   isCertain: 0
-  isStableQuantity: 1
+  isStableQuantity: 0
   quantityExact: 2
-  quantityMin: 63
-  quantityMax: 148
+  quantityMin: 0
+  quantityMax: 3
   isRelativeToPlayer: 0
   arrayOfFacesRelativeToPlayer: 
   isRelativeToFigure: 0
@@ -38,22 +38,22 @@ MonoBehaviour:
   proximityLimit: 2
   isDistanceLimit: 0
   distanceLimit: 4
-  isBasicSettingsChange: 0
+  isBasicSettingsChange: 1
   isMaterialChange: 1
-  material: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
-  isColorDurationChange: 1
+  material: {fileID: 2100000, guid: 59989691223971d4f80f5f257faa22f4, type: 2}
+  isColorDurationChange: 0
   colorDurationBeats: 1.7222223
   colorDurationSeconds: 0.6666667
-  isScaleUpDurationChange: 1
+  isScaleUpDurationChange: 0
   scaleUpDurationBeats: 1.7222223
   scaleUpDurationSeconds: 0.6666667
-  isWaitDurationChange: 1
+  isWaitDurationChange: 0
   waitDurationBeats: 1.7222223
   waitDurationSeconds: 0.6666667
-  isScaleDownDurationChange: 1
+  isScaleDownDurationChange: 0
   scaleDownDurationBeats: 1.7222223
   scaleDownDurationSeconds: 0.6666667
-  isHeightChange: 1
+  isHeightChange: 0
   height: 100
-  isOffsetChange: 1
+  isOffsetChange: 0
   offset: 0.1

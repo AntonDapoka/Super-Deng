@@ -28,6 +28,8 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
         isDistanceLimit = redFaceSettings.isDistanceLimit;
         if (isDistanceLimit) SetDistanceLimitSettings(redFaceSettings);
+
+        isForcedBreak = false;
     }
 
     private void SetRandomSpawnSettings(RedFaceSettings settings)
@@ -76,7 +78,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     public override void SetActionFace(GameObject face)
     {
-        if (isTurnOn) redFaces.Add(CreateRedFace(face));
+        if (isTurnOn && !isForcedBreak) redFaces.Add(CreateRedFace(face));
     }
 
     public override void Cancel()
@@ -86,7 +88,13 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     public override void ForcedBreak()
     {
-        Debug.Log("UnderContruction!!!");
+        isForcedBreak = true;
+
+        for (int i = redFaces.Count - 1; i >= 0; i--)
+        {
+            redFaces[i].ForcedBreak();
+            redFaces.RemoveAt(i);
+        }
     }
 
     private RedFaceScript CreateRedFace(GameObject face)
@@ -108,7 +116,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
 
     private void Update()
     {
-        //Debug.Log((faces.Length).ToString());
+        if (isForcedBreak) return;
 
         for (int i = redFaces.Count - 1; i >= 0; i--)
         {

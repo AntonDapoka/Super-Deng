@@ -9,7 +9,7 @@ public abstract class ActionSettingsScript : ScriptableObject, IActionTypeHolder
     public float timeStartSeconds;
     public float timeStartBeats;
 
-    public bool isTimeEnd; // Заканчивается ли эффект?
+    public bool isTimeEnd;
     public float timeEndSeconds; 
     public float timeEndBeats;
 

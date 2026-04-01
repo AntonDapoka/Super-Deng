@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: RedFaceBasicSettings
   m_EditorClassIdentifier: 
   type: 0
-  heightBasic: 30
-  offsetBasic: -10
-  proximityLimit: 0
-  distanceLimit: 99
+  heightBasic: 100
+  offsetBasic: 0.1
   colorDurationSecondsBasic: 1
   scaleUpDurationSecondsBasic: 1
   waitDurationSecondsBasic: 2

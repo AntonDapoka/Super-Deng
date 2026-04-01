@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class RedFaceScript 
 {
+    private int id;
     private float timer; //Local
     private bool isTime = true;
     private readonly GameObject face;
@@ -24,8 +25,9 @@ public class RedFaceScript
     private readonly float scaleUpDuration;
     private readonly float waitDuration;
     private readonly float scaleDownDuration;
-    private readonly float height;
+    private readonly Material materialAction;
     private readonly float offset;
+    private readonly float height;
 
     private readonly Vector3 startScale;
     private readonly Vector3 targetScale;
@@ -33,6 +35,7 @@ public class RedFaceScript
     private readonly Vector3 targetPos;
 
     public bool IsFinished => state == State.Done;
+    private bool isBroken;
 
     public RedFaceScript(
         GameObject face,
@@ -43,33 +46,35 @@ public class RedFaceScript
         this.face = face;
         this.presenter = presenter;
 
-        if (settings.isColorDurationChange)
+        bool isChange = settings.isBasicSettingsChange;
+
+        if (isChange && settings.isColorDurationChange)
             colorDuration = settings.colorDurationSeconds;
         else colorDuration = settingsBasic.colorDurationSecondsBasic;
 
-        if (settings.isScaleUpDurationChange)
+        if (isChange && settings.isScaleUpDurationChange)
             scaleUpDuration = settings.scaleUpDurationSeconds;
         else scaleUpDuration = settingsBasic.scaleUpDurationSecondsBasic;
 
-        if (settings.isWaitDurationChange)
+        if (isChange && settings.isWaitDurationChange)
             waitDuration = settings.waitDurationSeconds;
         else waitDuration = settingsBasic.waitDurationSecondsBasic;
 
-        if (settings.isScaleDownDurationChange)
+        if (isChange && settings.isScaleDownDurationChange)
             scaleDownDuration = settings.scaleDownDurationSeconds;
         else scaleDownDuration = settingsBasic.scaleDownDurationSecondsBasic;
 
-        if (settings.isHeightChange)
+        if (isChange && settings.isHeightChange)
             height = settings.height;
         else height = settingsBasic.heightBasic;
 
-        if (settings.isOffsetChange)
+        if (isChange && settings.isOffsetChange)
             offset = settings.offset;
         else offset = settingsBasic.offsetBasic;
 
-        if (settings.isMaterialChange)
-            presenter.SetFaceActionMaterial(settings.material);
-        else presenter.SetFaceActionMaterial(settingsBasic.materialBasic);
+        if (isChange && settings.isMaterialChange)
+            materialAction = settings.material;
+        else materialAction = settingsBasic.materialBasic;
 
         faceScript = face.GetComponent<FaceScript>();
         faceState = face.GetComponent<FaceStateScript>();
@@ -86,6 +91,8 @@ public class RedFaceScript
 
     public void Update()
     {
+        if (state == State.Done || isBroken) return;
+
         switch (state)
         {
             case State.Coloring: UpdateColoring(); break;
@@ -97,6 +104,8 @@ public class RedFaceScript
 
     private void StartColoring()
     {
+        if (state == State.Done || isBroken) return;
+
         timer = 0f;
         state = State.Coloring;
         faceState.Set(FaceProperty.IsColored, true);
@@ -106,7 +115,6 @@ public class RedFaceScript
     {
         ApplyRedFaceMaterial();
         AdvanceTimer();
-
         if (TimerExpired(colorDuration)) StartScaleUp();
     }
 
@@ -134,8 +142,7 @@ public class RedFaceScript
     {
         AdvanceTimer();
 
-        if (TimerExpired(waitDuration))
-            StartScaleDown();
+        if (TimerExpired(waitDuration)) StartScaleDown();
     }
 
     private void StartScaleDown()
@@ -174,13 +181,12 @@ public class RedFaceScript
 
     private void ApplyRedFaceMaterial()
     {
-        presenter.ApplyFaceActionMaterial(face);
+        presenter.ApplyFaceActionMaterial(face, materialAction);
     }
 
     private void AdvanceTimer()
     {
-        if (isTime)
-            timer += Time.deltaTime;
+        if (isTime) timer += Time.deltaTime;
     }
 
     private bool TimerExpired(float duration)
@@ -190,14 +196,18 @@ public class RedFaceScript
 
     public void ForcedBreak()
     {
-        state = State.Done;
-        faceState.Set(FaceProperty.IsKilling, false);
-        faceState.Set(FaceProperty.IsColored, false);
+        if (isBroken || state == State.Done) return;
+
+        isBroken = true;
 
         faceScript.glowingPart.transform.localPosition = startPos;
         faceScript.glowingPart.transform.localScale = startScale;
 
+        faceState.Set(FaceProperty.IsKilling, false);
+        faceState.Set(FaceProperty.IsColored, false);
+
         presenter.ChangeFaceBackToDefault(face);
 
+        state = State.Done;
     }
 }

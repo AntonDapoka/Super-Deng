@@ -7,6 +7,7 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
     [SerializeField] protected SpawnerActionPresenterScript presenter;
     [SerializeField] protected GameObject[] faces;
     [SerializeField] protected bool isTurnOn = false;
+    [SerializeField] protected bool isForcedBreak = false;
     [SerializeField] protected bool isRandomSpawn = false;
     protected bool isCertainSpawn = false;
     protected bool isBasicSettingsChange = false;
@@ -52,7 +53,7 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
         if (isRandomSpawn)
         {
             int quantity = isStableQuantity ? quantityExact : Random.Range(quantityMin, quantityMax);
-            //Debug.Log("Executed");
+
             for (int i = 0; i < quantity; i++)
             {
                 if (availableFaces.Count == 0) 

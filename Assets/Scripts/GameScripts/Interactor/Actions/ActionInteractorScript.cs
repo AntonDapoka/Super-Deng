@@ -8,7 +8,6 @@ public class ActionInteractorScript : MonoBehaviour
     private bool[] spawnExecuted;
     private bool[] spawnCanceled;
     private float time;
-    private int currentSpawnIndex = 0;
 
     private bool isTurnOn = false;
 
@@ -31,29 +30,47 @@ public class ActionInteractorScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        time = levelTimeManagement.GetCurrentTime();
+        if (!isTurnOn || entries == null) return;
 
-        if (!isTurnOn) return;
+        time = levelTimeManagement.GetCurrentTime();
 
         for (int i = 0; i < entries.Length; i++)
         {
-            if (time >= entries[i].settings.timeStartSeconds && time < entries[i].settings.timeEndSeconds && !spawnExecuted[currentSpawnIndex])
+            ScenarioEntry entry = entries[i];
+
+            if (!spawnExecuted[i] &&
+                time >= entry.settings.timeStartSeconds && 
+                (!entry.settings.isTimeEnd ||
+                time < entry.settings.timeEndSeconds) &&
+                (!entry.settings.isTimeForcedBreak ||
+                time < entry.settings.timeForcedBreakSeconds))
             {
-                //Debug.Log(entries[i].settings.timeStartSeconds.ToString());
-                entries[i].action.TurnOn();
-                entries[i].action.SetSettings(entries[i].settings);
-                spawnExecuted[currentSpawnIndex] = true;
-            }
-            else if (time >= entries[i].settings.timeEndSeconds && !spawnCanceled[currentSpawnIndex])
-            {
-                //Debug.Log(entries[i].settings.timeEndSeconds.ToString());
-                entries[i].action.Cancel();
-                spawnCanceled[currentSpawnIndex] = true;
+                Debug.Log($"Start action {i} at {time}");
+
+                entry.action.SetSettings(entry.settings);
+                entry.action.TurnOn();
+
+                spawnExecuted[i] = true;
             }
 
-            if (i + 1 < entries.Length && time > entries[i + 1].settings.timeStartSeconds)
+            if (!spawnCanceled[i] &&
+                entry.settings.isTimeEnd &&
+                time >= entry.settings.timeEndSeconds)
             {
-                currentSpawnIndex++;
+                Debug.Log($"Cancel action {i} at {time}");
+
+                entry.action.Cancel();
+                spawnCanceled[i] = true;
+            }
+
+            if (!spawnCanceled[i] &&
+                entry.settings.isTimeForcedBreak &&
+                time >= entry.settings.timeForcedBreakSeconds)
+            {
+                Debug.Log($"Forced Break action {i} at {time}");
+
+                entry.action.ForcedBreak();
+                spawnCanceled[i] = true;
             }
         }
     }
