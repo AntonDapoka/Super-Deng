@@ -1,8 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(BonusSettings))]
-public class BonusSettingsEditor : ActionFaceSettingsEditor
+[CustomEditor(typeof(BonusFaceSettings))]
+public class BonusFaceSettingsEditor : ActionFaceSettingsEditor
 {
     public override string GetActionStringName()
     {
@@ -36,7 +36,7 @@ public class BonusSettingsEditor : ActionFaceSettingsEditor
         EditorGUILayout.PropertyField(isLifeDuration, new GUIContent("Is Life Duration?"));
 
         if (isHint)
-            EditorGUILayout.HelpBox("Время жизни волны, по истечении которого она перестанет почковаться", MessageType.Info);
+            EditorGUILayout.HelpBox("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", MessageType.Info);
 
 
         if (isLifeDuration.boolValue)

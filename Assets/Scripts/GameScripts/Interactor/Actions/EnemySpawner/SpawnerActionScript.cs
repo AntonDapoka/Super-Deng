@@ -114,14 +114,12 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
     protected virtual bool CheckIsSuitableFace(FaceScript FS, FaceStateScript FSS)
     {
         bool res = //!FSS.Get(FaceProperty.HavePlayer) &&
-                !FSS.Get(FaceProperty.IsBlinking) &&
-                !FSS.Get(FaceProperty.IsKilling) &&
-                !FSS.Get(FaceProperty.IsBlocked) &&
-                !FSS.Get(FaceProperty.IsColored) &&
-                !FSS.Get(FaceProperty.IsPortal) &&
-                !FSS.Get(FaceProperty.IsBonusHealth) &&
-                !FSS.Get(FaceProperty.IsBonusCombo) &&
-                !FSS.Get(FaceProperty.IsBonusShield) &&
+                !FSS.GetFaceState(FaceProperty.IsBlinking) &&
+                !FSS.GetFaceState(FaceProperty.IsKilling) &&
+                !FSS.GetFaceState(FaceProperty.IsBlocked) &&
+                !FSS.GetFaceState(FaceProperty.IsColored) &&
+                !FSS.GetFaceState(FaceProperty.IsPortal) &&
+                !FSS.GetFaceState(FaceProperty.IsBonus) &&
                 (!isProximityLimit || FS.GetPathObjectCount() >= proximityLimit) &&
                 (!isDistanceLimit || FS.GetPathObjectCount() <= distanceLimit) &&
                 IsSuitableSpecialRequirements();

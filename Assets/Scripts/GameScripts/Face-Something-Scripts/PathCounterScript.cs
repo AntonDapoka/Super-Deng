@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +19,7 @@ public class PathCounterScript : MonoBehaviour
         
         foreach (var face in faces)
         {
-            if (face.FaceState.Get(FaceProperty.HavePlayer))
+            if (face.FaceState.GetFaceState(FaceProperty.HavePlayer))
             {
                 startface = face;
             }

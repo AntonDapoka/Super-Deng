@@ -18,7 +18,7 @@ public class PlayerStateInteractorScript : MonoBehaviour
     [SerializeField] private bool isInvincible = false;
 
     [SerializeField] private bool isFaceKilling = false;
-    [SerializeField] private bool isFaceBonusHealth = false;
+    [SerializeField] private bool isFaceBonus = false;
     [SerializeField] private bool isFaceBlinking = false;
     [SerializeField] private bool isFaceColored = false;
 
@@ -32,15 +32,15 @@ public class PlayerStateInteractorScript : MonoBehaviour
     {
         if (faceState == null) return;
 
-        isFaceColored = faceState.Get(FaceProperty.IsColored);
-        isFaceKilling = faceState.Get(FaceProperty.IsKilling);
-        isFaceBlinking = faceState.Get(FaceProperty.IsBlinking);
-        isFaceBonusHealth = faceState.Get(FaceProperty.IsBonusHealth);
+        isFaceColored = faceState.GetFaceState(FaceProperty.IsColored);
+        isFaceKilling = faceState.GetFaceState(FaceProperty.IsKilling);
+        isFaceBlinking = faceState.GetFaceState(FaceProperty.IsBlinking);
+        isFaceBonus = faceState.GetFaceState(FaceProperty.IsBonus);
 
         if (!isFaceColored &&
             !isFaceBlinking &&
             !isFaceKilling &&
-            !isFaceBonusHealth)
+            !isFaceBonus)
         {
             playerStatePresenter.DisplayHP();
             isColored = false;
@@ -64,7 +64,7 @@ public class PlayerStateInteractorScript : MonoBehaviour
         );
 
         HandleState(
-            isFaceBonusHealth,
+            isFaceBonus,
             ref isTakingHealth,
             playerStatePresenter.SetTakingHealthState,
             playerStatePresenter.RemoveTakingHealthState

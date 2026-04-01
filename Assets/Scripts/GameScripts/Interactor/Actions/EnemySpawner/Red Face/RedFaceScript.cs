@@ -108,7 +108,7 @@ public class RedFaceScript
 
         timer = 0f;
         state = State.Coloring;
-        faceState.Set(FaceProperty.IsColored, true);
+        faceState.SetFaceState(FaceProperty.IsColored, true);
     }
 
     private void UpdateColoring()
@@ -123,8 +123,8 @@ public class RedFaceScript
         timer = 0f;
         state = State.ScaleUp;
 
-        faceState.Set(FaceProperty.IsKilling, true);
-        faceState.Set(FaceProperty.IsColored, false);
+        faceState.SetFaceState(FaceProperty.IsKilling, true);
+        faceState.SetFaceState(FaceProperty.IsColored, false);
     }
 
     private void UpdateScaleUp()
@@ -161,7 +161,7 @@ public class RedFaceScript
         faceScript.glowingPart.transform.localPosition = startPos;
         faceScript.glowingPart.transform.localScale = startScale;
         
-        faceState.Set(FaceProperty.IsKilling, false);
+        faceState.SetFaceState(FaceProperty.IsKilling, false);
         presenter.ChangeFaceBackToDefault(face);
         state = State.Done;
     }
@@ -203,8 +203,8 @@ public class RedFaceScript
         faceScript.glowingPart.transform.localPosition = startPos;
         faceScript.glowingPart.transform.localScale = startScale;
 
-        faceState.Set(FaceProperty.IsKilling, false);
-        faceState.Set(FaceProperty.IsColored, false);
+        faceState.SetFaceState(FaceProperty.IsKilling, false);
+        faceState.SetFaceState(FaceProperty.IsColored, false);
 
         presenter.ChangeFaceBackToDefault(face);
 

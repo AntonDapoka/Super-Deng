@@ -1,39 +1,39 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BonusFaceSpawnerScript : SpawnerActionScript
 {
-    private List<RedFaceScript> redFaces = new();
-    private RedFaceSettings redFaceSettings;
-    [SerializeField] private RedFaceBasicSettings redFaceBasicSettings;
-    [SerializeField] private RedFaceSpawnerPresenterScript redFacePresenter;
+    private List<BonusFaceScript> bonusFaces = new();
+    private BonusFaceSettings bonusFaceSettings;
+    [SerializeField] private BonusFaceBasicSettings bonusFaceBasicSettings;
+    private BonusFaceSpawnerPresenterScript bonusFacePresenter;
 
     public override void SetSettings(ActionSettingsScript settings)
     {
-        if (settings == null || faces == null || settings as RedFaceSettings == null)
+        if (settings == null || faces == null || settings as BonusFaceSettings == null)
         {
-            Debug.LogError($"RedFaceSpawner REQUIRES RedFaceSettings, but received {settings?.GetType().Name ?? "null"}");
+            Debug.LogError($"BonusFaceSpawner REQUIRES BonusFaceSettings, but received {settings?.GetType().Name ?? "null"}");
             return;
         }
-        redFaceSettings = settings as RedFaceSettings;
+        bonusFaceSettings = settings as BonusFaceSettings;
+        bonusFacePresenter = presenter as BonusFaceSpawnerPresenterScript;
 
-        isRandomSpawn = redFaceSettings.isRandom;
-        if (isRandomSpawn) SetRandomSpawnSettings(redFaceSettings);
+        isRandomSpawn = bonusFaceSettings.isRandom;
+        if (isRandomSpawn) SetRandomSpawnSettings(bonusFaceSettings);
 
-        isCertainSpawn = redFaceSettings.isCertain;
-        if (isCertainSpawn) SetCertainSettings(redFaceSettings);
+        isCertainSpawn = bonusFaceSettings.isCertain;
+        if (isCertainSpawn) SetCertainSettings(bonusFaceSettings);
 
-        isProximityLimit = redFaceSettings.isProximityLimit;
-        if (isProximityLimit) SetProximityLimitSettings(redFaceSettings);
+        isProximityLimit = bonusFaceSettings.isProximityLimit;
+        if (isProximityLimit) SetProximityLimitSettings(bonusFaceSettings);
 
-        isDistanceLimit = redFaceSettings.isDistanceLimit;
-        if (isDistanceLimit) SetDistanceLimitSettings(redFaceSettings);
+        isDistanceLimit = bonusFaceSettings.isDistanceLimit;
+        if (isDistanceLimit) SetDistanceLimitSettings(bonusFaceSettings);
 
         isForcedBreak = false;
     }
 
-    private void SetRandomSpawnSettings(RedFaceSettings settings)
+    private void SetRandomSpawnSettings(BonusFaceSettings settings)
     {
         isStableQuantity = settings.isStableQuantity;
         quantityExact = settings.quantityExact;
@@ -41,7 +41,7 @@ public class BonusFaceSpawnerScript : SpawnerActionScript
         quantityMax = settings.quantityMax;
     }
 
-    private void SetCertainSettings(RedFaceSettings settings)
+    private void SetCertainSettings(BonusFaceSettings settings)
     {
         isRelativeToPlayer = settings.isRelativeToPlayer;
         arrayOfFacesRelativeToPlayer = settings.arrayOfFacesRelativeToPlayer;
@@ -49,13 +49,13 @@ public class BonusFaceSpawnerScript : SpawnerActionScript
         arrayOfFacesRelativeToFigure = settings.arrayOfFacesRelativeToFigure;
     }
 
-    private void SetProximityLimitSettings(RedFaceSettings settings)
+    private void SetProximityLimitSettings(BonusFaceSettings settings)
     {
         isProximityLimit = settings.isProximityLimit;
         proximityLimit = settings.proximityLimit;
     }
 
-    private void SetDistanceLimitSettings(RedFaceSettings settings)
+    private void SetDistanceLimitSettings(BonusFaceSettings settings)
     {
         isDistanceLimit = settings.isDistanceLimit;
         distanceLimit = settings.distanceLimit;
@@ -63,13 +63,13 @@ public class BonusFaceSpawnerScript : SpawnerActionScript
 
     public override void SetBasicSettings(ActionBasicSettingsScript actionBasicSettings)
     {
-        if (actionBasicSettings is not RedFaceBasicSettings redFaceSettings)
+        if (actionBasicSettings is not BonusFaceBasicSettings bonusFaceSettings)
         {
-            Debug.LogError("actionBasicSettings must be of type RedFaceBasicSettingsScript");
+            Debug.LogError("actionBasicSettings must be of type BonusFaceBasicSettingsScript");
             return;
         }
 
-        redFaceBasicSettings = redFaceSettings;
+        bonusFaceBasicSettings = bonusFaceSettings;
     }
 
     public override bool IsSuitableSpecialRequirements()
@@ -79,7 +79,7 @@ public class BonusFaceSpawnerScript : SpawnerActionScript
 
     public override void SetActionFace(GameObject face)
     {
-        if (isTurnOn && !isForcedBreak) redFaces.Add(CreateRedFace(face));
+        if (isTurnOn && !isForcedBreak) bonusFaces.Add(CreateBonusFace(face, BonusType.Combo)); //Replace
     }
 
     public override void Cancel()
@@ -91,40 +91,40 @@ public class BonusFaceSpawnerScript : SpawnerActionScript
     {
         isForcedBreak = true;
 
-        for (int i = redFaces.Count - 1; i >= 0; i--)
+        for (int i = bonusFaces.Count - 1; i >= 0; i--)
         {
-            redFaces[i].ForcedBreak();
-            redFaces.RemoveAt(i);
+            bonusFaces[i].ForcedBreak();
+            bonusFaces.RemoveAt(i);
         }
     }
 
-    private RedFaceScript CreateRedFace(GameObject face)
+    private BonusFaceScript CreateBonusFace(GameObject face, BonusType bonusType)
     {
         if (face == null)
             Debug.Log("Face null");
 
-        if (redFaceSettings == null)
-            Debug.Log("redFaceSettings null");
+        if (bonusFaceSettings == null)
+            Debug.Log("bonusFaceSettings null");
 
-        if (redFaceBasicSettings == null)
-            Debug.Log("redFaceBasicSettings null");
+        if (bonusFaceBasicSettings == null)
+            Debug.Log("bonusFaceBasicSettings null");
 
-        if (redFacePresenter == null)
+        if (bonusFacePresenter == null)
             Debug.Log("presenter null");
 
-        return new RedFaceScript(face, redFaceSettings, redFaceBasicSettings, redFacePresenter);
+        return new BonusFaceScript(face, bonusFaceSettings, bonusFaceBasicSettings, bonusFacePresenter, bonusType);
     }
 
     private void Update()
     {
         if (isForcedBreak) return;
 
-        for (int i = redFaces.Count - 1; i >= 0; i--)
+        for (int i = bonusFaces.Count - 1; i >= 0; i--)
         {
-            redFaces[i].Update();
+            bonusFaces[i].Update();
 
-            if (redFaces[i].IsFinished)
-                redFaces.RemoveAt(i);
+            if (bonusFaces[i].IsFinished)
+                bonusFaces.RemoveAt(i);
         }
     }
 }

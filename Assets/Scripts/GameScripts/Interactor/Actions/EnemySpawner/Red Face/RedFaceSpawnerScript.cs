@@ -6,7 +6,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
     private List<RedFaceScript> redFaces = new();
     private RedFaceSettings redFaceSettings;
     [SerializeField] private RedFaceBasicSettings redFaceBasicSettings;
-    [SerializeField] private RedFaceSpawnerPresenterScript redFacePresenter;
+    private RedFaceSpawnerPresenterScript redFacePresenter;
 
     public override void SetSettings(ActionSettingsScript settings)
     {
@@ -16,6 +16,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
             return;
         }
         redFaceSettings = settings as RedFaceSettings;
+        redFacePresenter = presenter as RedFaceSpawnerPresenterScript;
 
         isRandomSpawn = redFaceSettings.isRandom;
         if (isRandomSpawn) SetRandomSpawnSettings(redFaceSettings);

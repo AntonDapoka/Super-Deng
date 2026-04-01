@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BonusSettings", menuName = "ScriptableObjects/BonusSettings", order = 7)]
-public class BonusSettings : ActionSpawnerSettingsScript
+[CreateAssetMenu(fileName = "BonusFaceSettings", menuName = "ScriptableObjects/BonusFaceSettings", order = 7)]
+public class BonusFaceSettings : ActionSpawnerSettingsScript
 {
     public BonusType typeBonus;
 

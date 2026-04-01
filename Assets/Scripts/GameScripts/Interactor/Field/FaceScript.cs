@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class FaceScript : MonoBehaviour, IFaceScript
@@ -86,7 +84,7 @@ public class FaceScript : MonoBehaviour, IFaceScript
 
     public void Initialize(GameObject[] closestObjects, bool havePlayer)
     {
-        gameObject.GetComponent<FaceStateScript>().Set(FaceProperty.HavePlayer, havePlayer);
+        gameObject.GetComponent<FaceStateScript>().SetFaceState(FaceProperty.HavePlayer, havePlayer);
 
         pathObjectCount = havePlayer ? 0 : -1;
 

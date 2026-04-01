@@ -31,10 +31,10 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
                 FaceScript faceScript = pair.Value.GetComponent<FaceScript>();
                 FaceStateScript faceState = faceScript.FaceState;
 
-                if (!faceState.Get(FaceProperty.IsColored)
-                    && !faceState.Get(FaceProperty.IsKilling)
-                    && !faceState.Get(FaceProperty.IsBlinking)
-                    && !faceState.Get(FaceProperty.IsBonusHealth))
+                if (!faceState.GetFaceState(FaceProperty.IsColored)
+                    && !faceState.GetFaceState(FaceProperty.IsKilling)
+                    && !faceState.GetFaceState(FaceProperty.IsBlinking)
+                    && !faceState.GetFaceState(FaceProperty.IsBonus))
                 {
                     FaceMaterialView.SetMaterial(faceScript.rend, mat);
                 }
@@ -48,10 +48,10 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
         FaceScript faceScript = side.GetComponent<FaceScript>();
         FaceStateScript faceState = faceScript.FaceState;
 
-        if (faceState.Get(FaceProperty.IsColored)
-        || faceState.Get(FaceProperty.IsKilling)
-        || faceState.Get(FaceProperty.IsBlinking)
-        || faceState.Get(FaceProperty.IsBonusHealth) /*dd*/)
+        if (faceState.GetFaceState(FaceProperty.IsColored)
+        || faceState.GetFaceState(FaceProperty.IsKilling)
+        || faceState.GetFaceState(FaceProperty.IsBlinking)
+        || faceState.GetFaceState(FaceProperty.IsBonus) /*dd*/)
         {
             return;
         }

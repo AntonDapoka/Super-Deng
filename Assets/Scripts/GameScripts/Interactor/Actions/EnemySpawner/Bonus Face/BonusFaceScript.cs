@@ -8,69 +8,35 @@ public class BonusFaceScript
     private readonly GameObject face;
     private readonly FaceScript faceScript;
     private readonly FaceStateScript faceState;
-    private readonly RedFaceSpawnerPresenterScript presenter;
+    private readonly BonusFaceSpawnerPresenterScript presenter;
 
     private State state;
 
     private enum State
     {
-        Coloring,
-        ScaleUp,
-        Wait,
-        ScaleDown,
+        Living,
+        Dying,
         Done
     }
 
-    private readonly float colorDuration;
-    private readonly float scaleUpDuration;
-    private readonly float waitDuration;
-    private readonly float scaleDownDuration;
+    private readonly float lifeDuration;
+    private readonly float deathDuration;
     private readonly Material materialAction;
-    private readonly float offset;
-    private readonly float height;
-
-    private readonly Vector3 startScale;
-    private readonly Vector3 targetScale;
-    private readonly Vector3 startPos;
-    private readonly Vector3 targetPos;
 
     public bool IsFinished => state == State.Done;
     private bool isBroken;
 
     public BonusFaceScript(
         GameObject face,
-        RedFaceSettings settings,
-        RedFaceBasicSettings settingsBasic,
-        RedFaceSpawnerPresenterScript presenter)
+        BonusFaceSettings settings,
+        BonusFaceBasicSettings settingsBasic,
+        BonusFaceSpawnerPresenterScript presenter,
+        BonusType bonusType)
     {
         this.face = face;
         this.presenter = presenter;
 
         bool isChange = settings.isBasicSettingsChange;
-
-        if (isChange && settings.isColorDurationChange)
-            colorDuration = settings.colorDurationSeconds;
-        else colorDuration = settingsBasic.colorDurationSecondsBasic;
-
-        if (isChange && settings.isScaleUpDurationChange)
-            scaleUpDuration = settings.scaleUpDurationSeconds;
-        else scaleUpDuration = settingsBasic.scaleUpDurationSecondsBasic;
-
-        if (isChange && settings.isWaitDurationChange)
-            waitDuration = settings.waitDurationSeconds;
-        else waitDuration = settingsBasic.waitDurationSecondsBasic;
-
-        if (isChange && settings.isScaleDownDurationChange)
-            scaleDownDuration = settings.scaleDownDurationSeconds;
-        else scaleDownDuration = settingsBasic.scaleDownDurationSecondsBasic;
-
-        if (isChange && settings.isHeightChange)
-            height = settings.height;
-        else height = settingsBasic.heightBasic;
-
-        if (isChange && settings.isOffsetChange)
-            offset = settings.offset;
-        else offset = settingsBasic.offsetBasic;
 
         if (isChange && settings.isMaterialChange)
             materialAction = settings.material;
@@ -79,15 +45,8 @@ public class BonusFaceScript
         faceScript = face.GetComponent<FaceScript>();
         faceState = face.GetComponent<FaceStateScript>();
 
-        startScale = faceScript.glowingPart.transform.localScale;
-        startPos = faceScript.glowingPart.transform.localPosition;
-
-        targetScale = new Vector3(1f, 1f, height);
-        targetPos = new Vector3(0f, offset, 0f);
-
-        StartColoring();
+        StartLiving(bonusType);
     }
-
 
     public void Update()
     {
@@ -95,91 +54,45 @@ public class BonusFaceScript
 
         switch (state)
         {
-            case State.Coloring: UpdateColoring(); break;
-            case State.ScaleUp: UpdateScaleUp(); break;
-            case State.Wait: UpdateWait(); break;
-            case State.ScaleDown: UpdateScaleDown(); break;
+            case State.Living: UpdateLiving(); break;
+            case State.Dying: UpdateDying(); break;
         }
     }
 
-    private void StartColoring()
+    private void StartLiving(BonusType bonusType)
     {
         if (state == State.Done || isBroken) return;
 
         timer = 0f;
-        state = State.Coloring;
-        faceState.Set(FaceProperty.IsColored, true);
+        state = State.Living;
+        faceState.SetFaceState(FaceProperty.IsBonus, true);
+        faceState.SetBonusType(bonusType, true);
     }
 
-    private void UpdateColoring()
+    private void UpdateLiving()
     {
-        ApplyRedFaceMaterial();
+        ApplyBonusFaceMaterial();
         AdvanceTimer();
-        if (TimerExpired(colorDuration)) StartScaleUp();
+        if (TimerExpired(lifeDuration)) UpdateDying();
     }
 
-    private void StartScaleUp()
+    private void UpdateDying()
     {
         timer = 0f;
-        state = State.ScaleUp;
+        state = State.Dying;
 
-        faceState.Set(FaceProperty.IsKilling, true);
-        faceState.Set(FaceProperty.IsColored, false);
-    }
-
-    private void UpdateScaleUp()
-    {
-        UpdateScaling(startScale, targetScale, startPos, targetPos, scaleUpDuration, StartWait);
-    }
-
-    private void StartWait()
-    {
-        timer = 0f;
-        state = State.Wait;
-    }
-
-    private void UpdateWait()
-    {
-        AdvanceTimer();
-
-        if (TimerExpired(waitDuration)) StartScaleDown();
-    }
-
-    private void StartScaleDown()
-    {
-        timer = 0f;
-        state = State.ScaleDown;
-    }
-
-    private void UpdateScaleDown()
-    {
-        UpdateScaling(targetScale, startScale, targetPos, startPos, scaleDownDuration, Finish);
+        faceState.SetFaceState(FaceProperty.IsKilling, true);
+        faceState.SetFaceState(FaceProperty.IsColored, false);
     }
 
     private void Finish()
-    {
-        faceScript.glowingPart.transform.localPosition = startPos;
-        faceScript.glowingPart.transform.localScale = startScale;
-        
-        faceState.Set(FaceProperty.IsKilling, false);
+    {        
+        faceState.SetFaceState(FaceProperty.IsKilling, false);
         presenter.ChangeFaceBackToDefault(face);
         state = State.Done;
     }
 
-    private void UpdateScaling(Vector3 fromScale, Vector3 toScale, Vector3 fromPos, Vector3 toPos, float duration, System.Action onComplete)
-    {
-        ApplyRedFaceMaterial();
-        AdvanceTimer();
-
-        float t = Mathf.Clamp01(timer / duration);
-
-        faceScript.glowingPart.transform.localScale = Vector3.Lerp(fromScale, toScale, t);
-        faceScript.glowingPart.transform.localPosition = Vector3.Lerp(fromPos, toPos, t);
-
-        if (t >= 1f) onComplete();
-    }
-
-    private void ApplyRedFaceMaterial()
+    private void ApplyBonusFaceMaterial()
     {
         presenter.ApplyFaceActionMaterial(face, materialAction);
     }
@@ -200,11 +113,8 @@ public class BonusFaceScript
 
         isBroken = true;
 
-        faceScript.glowingPart.transform.localPosition = startPos;
-        faceScript.glowingPart.transform.localScale = startScale;
-
-        faceState.Set(FaceProperty.IsKilling, false);
-        faceState.Set(FaceProperty.IsColored, false);
+        faceState.SetFaceState(FaceProperty.IsBonus, false);
+        faceState.SetFaceState(FaceProperty.IsColored, false);
 
         presenter.ChangeFaceBackToDefault(face);
 

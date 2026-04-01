@@ -100,7 +100,7 @@ public class RedWaveScript
     {
         timer = 0f;
         state = State.Coloring;
-        faceState.Set(FaceProperty.IsColored, true);
+        faceState.SetFaceState(FaceProperty.IsColored, true);
     }
 
     private void UpdateColoring()
@@ -116,8 +116,8 @@ public class RedWaveScript
         timer = 0f;
         state = State.ScaleUp;
 
-        faceState.Set(FaceProperty.IsKilling, true);
-        faceState.Set(FaceProperty.IsColored, false);
+        faceState.SetFaceState(FaceProperty.IsKilling, true);
+        faceState.SetFaceState(FaceProperty.IsColored, false);
     }
 
     private void UpdateScaleUp()
@@ -153,7 +153,7 @@ public class RedWaveScript
     private void Finish()
     {
         faceScript.rend.material = material; //CHANGE TO PRESENTER
-        faceState.Set(FaceProperty.IsKilling, false);
+        faceState.SetFaceState(FaceProperty.IsKilling, false);
         state = State.Done;
     }
 
@@ -190,8 +190,8 @@ public class RedWaveScript
     public void ForcedBreak()
     {
         state = State.Done;
-        faceState.Set(FaceProperty.IsKilling, false);
-        faceState.Set(FaceProperty.IsColored, false);
+        faceState.SetFaceState(FaceProperty.IsKilling, false);
+        faceState.SetFaceState(FaceProperty.IsColored, false);
         //faceScript.glowingPart.transform.localPosition = 
         //faceScript.glowingPart.transform.localScale = 
         //presenter.SetBasicFace();

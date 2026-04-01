@@ -25,6 +25,7 @@ MonoBehaviour:
   timeForcedBreakBeats: 29.449999
   type: 0
   isRandom: 1
+  isPseudoRandom: 0
   isCertain: 0
   isStableQuantity: 0
   quantityExact: 2

@@ -10,9 +10,7 @@ public enum FaceProperty
     IsColored,
     IsBlocked,
     IsPortal,
-    IsBonusCombo,
-    IsBonusShield,
-    IsBonusHealth,
+    IsBonus,
     IsLeft,
     IsRight,
     IsTop
@@ -21,10 +19,14 @@ public enum FaceProperty
 public class FaceStateScript : MonoBehaviour
 {
     private readonly Dictionary<FaceProperty, bool> _boolStates = new();
+    private readonly Dictionary<BonusType, bool> _boolBonusTypes = new();
 
-    public bool Get(FaceProperty prop) => _boolStates.TryGetValue(prop, out bool value) && value;
-    public void Set(FaceProperty prop, bool value) => _boolStates[prop] = value;
+    public bool GetFaceState(FaceProperty prop) => _boolStates.TryGetValue(prop, out bool value) && value;
+    public void SetFaceState(FaceProperty prop, bool value) => _boolStates[prop] = value;
 
+    public bool GetBonusType(BonusType prop) => _boolBonusTypes.TryGetValue(prop, out bool value) && value;
+    public void SetBonusType(BonusType prop, bool value) => _boolBonusTypes[prop] = value;
+/*
     [SerializeField] private bool _debugHavePlayer;
     [SerializeField] private bool _debugIsKilling;
     [SerializeField] private bool _debugIsColored;
@@ -34,11 +36,11 @@ public class FaceStateScript : MonoBehaviour
 
     private void Update()
     {
-        _debugHavePlayer = Get(FaceProperty.HavePlayer);
-        _debugIsKilling = Get(FaceProperty.IsKilling);
-        _debugIsColored = Get(FaceProperty.IsColored);
-        _debugIsLeft = Get(FaceProperty.IsLeft);
-        _debugIsRight = Get(FaceProperty.IsRight);
-        _debugIsTop = Get(FaceProperty.IsTop);
-    }
+        _debugHavePlayer = GetFaceState(FaceProperty.HavePlayer);
+        _debugIsKilling = GetFaceState(FaceProperty.IsKilling);
+        _debugIsColored = GetFaceState(FaceProperty.IsColored);
+        _debugIsLeft = GetFaceState(FaceProperty.IsLeft);
+        _debugIsRight = GetFaceState(FaceProperty.IsRight);
+        _debugIsTop = GetFaceState(FaceProperty.IsTop);
+    }*/
 }

@@ -13,18 +13,18 @@ public class RedFaceSpawnerPresenterScript : SpawnerActionPresenterScript
         FaceScript faceScript = face.GetComponent<FaceScript>();
         FaceStateScript faceState = faceScript.FaceState;
 
-        if (faceState.Get(FaceProperty.IsColored)
-        || faceState.Get(FaceProperty.IsKilling)
-        || faceState.Get(FaceProperty.IsBlinking)
-        || faceState.Get(FaceProperty.IsBonusHealth) /*dd*/)
+        if (faceState.GetFaceState(FaceProperty.IsColored)
+        || faceState.GetFaceState(FaceProperty.IsKilling)
+        || faceState.GetFaceState(FaceProperty.IsBlinking)
+        || faceState.GetFaceState(FaceProperty.IsBonus) /*dd*/)
         {
             return;
         }
-        else if (faceState.Get(FaceProperty.IsRight))
+        else if (faceState.GetFaceState(FaceProperty.IsRight))
             materialHolder.SetMaterial(faceScript.rend, MaterialType.Right);
-        else if (faceState.Get(FaceProperty.IsLeft))
+        else if (faceState.GetFaceState(FaceProperty.IsLeft))
             materialHolder.SetMaterial(faceScript.rend, MaterialType.Left);
-        else if (faceState.Get(FaceProperty.IsTop))
+        else if (faceState.GetFaceState(FaceProperty.IsTop))
             materialHolder.SetMaterial(faceScript.rend, MaterialType.Top);
         else 
             materialHolder.SetMaterial(faceScript.rend, MaterialType.Default);

@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23611e6e2dfd4094b90c3c3ec81a0283, type: 3}
-  m_Name: BonusSettings
+  m_Name: BonusFaceSettings
   m_EditorClassIdentifier: 
-  effectName: BonusHealth
+  effectName: 
   isHint: 0
-  bpm: 8.82
-  timeStartSeconds: 4.65
-  timeStartBeats: 0.68355
+  bpm: 0
+  timeStartSeconds: 0
+  timeStartBeats: 0
   isTimeEnd: 0
   timeEndSeconds: 0
   timeEndBeats: 0
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 0
   timeForcedBreakBeats: 0
-  type: 3
+  type: 0
   isRandom: 0
   isPseudoRandom: 0
   isCertain: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
   isDistanceLimit: 0
   distanceLimit: 0
   isBasicSettingsChange: 0
-  typeBonus: 1
+  typeBonus: 0
   isLifeDuration: 0
   lifeDurationSeconds: 0
   lifeDurationBeats: 0

@@ -49,18 +49,18 @@ public class PlayerMovementKeyBindingHintsPresenterScript : MonoBehaviour
 
         TextMeshPro textNavigationHint = null;
 
-        if (faceState.Get(FaceProperty.IsLeft))
+        if (faceState.GetFaceState(FaceProperty.IsLeft))
             textNavigationHint = textNavigationHintLeft;
-        else if (faceState.Get(FaceProperty.IsRight))
+        else if (faceState.GetFaceState(FaceProperty.IsRight))
             textNavigationHint = textNavigationHintRight;
-        else if (faceState.Get(FaceProperty.IsTop))
+        else if (faceState.GetFaceState(FaceProperty.IsTop))
             textNavigationHint = textNavigationHintTop;
 
         if (textNavigationHint != null)
         {
             MeshRenderer renderer = textNavigationHint.GetComponent<MeshRenderer>();
 
-            if (faceState.Get(FaceProperty.IsBlocked))
+            if (faceState.GetFaceState(FaceProperty.IsBlocked))
                 renderer.enabled = false;
             else
                 renderer.enabled = true;

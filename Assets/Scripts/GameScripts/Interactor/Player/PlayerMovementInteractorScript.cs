@@ -44,11 +44,11 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
     private void SetPlayerFace()
     {
-        playerFaceState.Set(FaceProperty.HavePlayer, true);
+        playerFaceState.SetFaceState(FaceProperty.HavePlayer, true);
 
-        playerFace.FaceState.Set(FaceProperty.IsRight, false);
-        playerFace.FaceState.Set(FaceProperty.IsTop, false);
-        playerFace.FaceState.Set(FaceProperty.IsLeft, false);
+        playerFace.FaceState.SetFaceState(FaceProperty.IsRight, false);
+        playerFace.FaceState.SetFaceState(FaceProperty.IsTop, false);
+        playerFace.FaceState.SetFaceState(FaceProperty.IsLeft, false);
 
         /*
         playerFace.side1.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsLeft, true);
@@ -123,9 +123,9 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         var rightSide = sideData.OrderBy(s => s.X).First().Side;
         var topSide = sideData.OrderByDescending(s => s.Y).First().Side;
 
-        leftSide.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsLeft, true);
-        rightSide.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsRight, true);
-        topSide.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsTop, true);
+        leftSide.GetComponent<FaceScript>().FaceState.SetFaceState(FaceProperty.IsLeft, true);
+        rightSide.GetComponent<FaceScript>().FaceState.SetFaceState(FaceProperty.IsRight, true);
+        topSide.GetComponent<FaceScript>().FaceState.SetFaceState(FaceProperty.IsTop, true);
 
         sides.Add("LeftSide", leftSide);
         sides.Add("RightSide", rightSide);
@@ -136,8 +136,8 @@ public class PlayerMovementInteractorScript : MonoBehaviour
     {
         if (isTurnOn == true 
             && playerFace.IsTurnOn == true
-            && playerFaceState.Get(FaceProperty.HavePlayer)
-            && !playerFaceState.Get(FaceProperty.TransferInProgress)
+            && playerFaceState.GetFaceState(FaceProperty.HavePlayer)
+            && !playerFaceState.GetFaceState(FaceProperty.TransferInProgress)
             && beatSyncValidator.CanPress() == true
             )
         {
@@ -149,7 +149,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
     private void StartTransferPlayer(GameObject targetSide, string direction)
     {
-        playerFaceState.Set(FaceProperty.TransferInProgress, true);
+        playerFaceState.SetFaceState(FaceProperty.TransferInProgress, true);
         //ResetSideMaterials();
         StartCoroutine(TransferPlayer(targetSide, direction));
     }
@@ -158,8 +158,8 @@ public class PlayerMovementInteractorScript : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
 
-        playerFaceState.Set(FaceProperty.HavePlayer, false);
-        playerFaceState.Set(FaceProperty.TransferInProgress, false);
+        playerFaceState.SetFaceState(FaceProperty.HavePlayer, false);
+        playerFaceState.SetFaceState(FaceProperty.TransferInProgress, false);
 
         ReceivePlayer(player, targetSide, playerFace.gameObject, direction, GetOtherGameObjects(direction));
     }
@@ -169,9 +169,9 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         playerFace = sideCurrent.GetComponent<FaceScript>();
         playerFaceState = playerFace.FaceState;
 
-        playerFaceState.Set(FaceProperty.IsRight, false);
-        playerFaceState.Set(FaceProperty.IsTop, false);
-        playerFaceState.Set(FaceProperty.IsLeft, false);
+        playerFaceState.SetFaceState(FaceProperty.IsRight, false);
+        playerFaceState.SetFaceState(FaceProperty.IsTop, false);
+        playerFaceState.SetFaceState(FaceProperty.IsLeft, false);
 
         sides.Clear();
 
@@ -179,9 +179,9 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         FaceScript faceScriptPrevious = sidePrevious.GetComponent<FaceScript>();
 
-        if (directionPrevious == "Right") { faceScriptPrevious.FaceState.Set(FaceProperty.IsRight, true); }
-        else if (directionPrevious == "Left") { faceScriptPrevious.FaceState.Set(FaceProperty.IsLeft, true); }
-        else if (directionPrevious == "Top") { faceScriptPrevious.FaceState.Set(FaceProperty.IsTop, true); }
+        if (directionPrevious == "Right") { faceScriptPrevious.FaceState.SetFaceState(FaceProperty.IsRight, true); }
+        else if (directionPrevious == "Left") { faceScriptPrevious.FaceState.SetFaceState(FaceProperty.IsLeft, true); }
+        else if (directionPrevious == "Top") { faceScriptPrevious.FaceState.SetFaceState(FaceProperty.IsTop, true); }
 
         if (playerFace.side1 == sidePrevious) { UpdateSidesBasedOnPrevious(playerFace.side2, playerFace.side3, sidesPreviousOther); }
         else if (playerFace.side2 == sidePrevious) { UpdateSidesBasedOnPrevious(playerFace.side1, playerFace.side3, sidesPreviousOther); }
@@ -191,7 +191,7 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
         presenter.UpdatePlayerSides(sides, sideCurrent);
 
-        playerFaceState.Set(FaceProperty.HavePlayer, true);
+        playerFaceState.SetFaceState(FaceProperty.HavePlayer, true);
         if (pathCounter != null) pathCounter.SetPathCount();
         //if (KYSS != null) KYSS.beatsNoMoving = 0;
 
@@ -240,20 +240,20 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         FaceScript faceScriptSide = side.GetComponent<FaceScript>();
         FaceScript faceScriptSidePrevious = sidePrevious.GetComponent<FaceScript>();
 
-        if (faceScriptSidePrevious.FaceState.Get(FaceProperty.IsRight))
+        if (faceScriptSidePrevious.FaceState.GetFaceState(FaceProperty.IsRight))
         {
             sides["RightSide"] = side;
-            faceScriptSide.FaceState.Set(FaceProperty.IsRight, true);
+            faceScriptSide.FaceState.SetFaceState(FaceProperty.IsRight, true);
         }
-        else if (faceScriptSidePrevious.FaceState.Get(FaceProperty.IsLeft))
+        else if (faceScriptSidePrevious.FaceState.GetFaceState(FaceProperty.IsLeft))
         {
             sides["LeftSide"] = side;
-            faceScriptSide.FaceState.Set(FaceProperty.IsLeft, true);
+            faceScriptSide.FaceState.SetFaceState(FaceProperty.IsLeft, true);
         }
-        else if (faceScriptSidePrevious.FaceState.Get(FaceProperty.IsTop))
+        else if (faceScriptSidePrevious.FaceState.GetFaceState(FaceProperty.IsTop))
         {
             sides["TopSide"] = side;
-            faceScriptSide.FaceState.Set(FaceProperty.IsTop, true);
+            faceScriptSide.FaceState.SetFaceState(FaceProperty.IsTop, true);
         }
     }
 
@@ -262,9 +262,9 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         foreach (var side in sidesPreviousOther)
         {
             FaceScript faceScript = side.GetComponent<FaceScript>();
-            faceScript.FaceState.Set(FaceProperty.IsRight, false);
-            faceScript.FaceState.Set(FaceProperty.IsTop, false);
-            faceScript.FaceState.Set(FaceProperty.IsLeft, false);
+            faceScript.FaceState.SetFaceState(FaceProperty.IsRight, false);
+            faceScript.FaceState.SetFaceState(FaceProperty.IsTop, false);
+            faceScript.FaceState.SetFaceState(FaceProperty.IsLeft, false);
             presenter.UpdateNonPlayerSide(side);
         }
     }
