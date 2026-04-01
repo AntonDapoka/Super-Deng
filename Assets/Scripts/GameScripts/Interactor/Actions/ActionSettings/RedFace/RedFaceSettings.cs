@@ -7,8 +7,6 @@ public class RedFaceSettings : ActionSpawnerSettingsScript
     /// Don't mess up with the stuff below
     /// </summary>
 
-    public bool isBasicSettingsChange;
-
     public bool isMaterialChange;
     public Material material;
 

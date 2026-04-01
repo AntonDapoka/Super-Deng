@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23611e6e2dfd4094b90c3c3ec81a0283, type: 3}
   m_Name: BonusSettings
   m_EditorClassIdentifier: 
-  effectName: 
+  effectName: BonusHealth
   isHint: 0
   bpm: 8.82
   timeStartSeconds: 4.65
@@ -25,6 +25,7 @@ MonoBehaviour:
   timeForcedBreakBeats: 0
   type: 3
   isRandom: 0
+  isPseudoRandom: 0
   isCertain: 0
   isStableQuantity: 0
   quantityExact: 0
@@ -38,10 +39,10 @@ MonoBehaviour:
   proximityLimit: 0
   isDistanceLimit: 0
   distanceLimit: 0
-  typeBonus: 0
+  isBasicSettingsChange: 0
+  typeBonus: 1
   isLifeDuration: 0
   lifeDurationSeconds: 0
   lifeDurationBeats: 0
-  isBasicSettingsChange: 0
   isMaterialChange: 0
   material: {fileID: 0}

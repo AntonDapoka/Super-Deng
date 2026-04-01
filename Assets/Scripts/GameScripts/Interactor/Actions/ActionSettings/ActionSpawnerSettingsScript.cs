@@ -18,4 +18,6 @@ public class ActionSpawnerSettingsScript : ActionSettingsScript
     public int proximityLimit;
     public bool isDistanceLimit;
     public int distanceLimit;
+
+    public bool isBasicSettingsChange;
 }

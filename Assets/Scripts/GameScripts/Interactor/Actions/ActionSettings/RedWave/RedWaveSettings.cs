@@ -1,26 +1,8 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RedWaveSettings", menuName = "ScriptableObjects/RedWaveSettings", order = 3)]
-public class RedWaveSettings : ActionSettingsScript
+public class RedWaveSettings : ActionSpawnerSettingsScript
 {
-    public bool isRandom;
-    public bool isCertain; // Or are specific facets activated?
-
-    public bool isStableQuantity;
-    public int quantityExact;
-    public int quantityMin;
-    public int quantityMax;
-
-    public bool isRelativeToPlayer;
-    public int[] arrayOfFacesRelativeToPlayer;
-    public bool isRelativeToFigure;
-    public int[] arrayOfFacesRelativeToFigure;
-
-    public bool isProximityLimit;
-    public int proximityLimit;
-    public bool isDistanceLimit;
-    public int distanceLimit;
-
     public bool isChasingPlayer; //Or it will be random
 
     public bool isLifeDuration;  //Or it will be kinda immortal? It can still die, but only from hitting the player or getting stuck
@@ -30,10 +12,8 @@ public class RedWaveSettings : ActionSettingsScript
     public RedWaveBuddingType typeRedWaveBudding;
 
     /// <summary>
-    /// ����� ���� �������� �������������� � ���� �������������, �� � ��� ����� �������� �������� ��������
+    /// Don't mess up with the stuff below
     /// </summary>
-
-    public bool isBasicSettingsChange;
 
     public bool isMaterialChange;
     public Material material;
