@@ -29,4 +29,14 @@ public class BonusFaceSpawnerPresenterScript : SpawnerActionPresenterScript
         else 
             materialHolder.SetMaterial(faceScript.rend, MaterialType.Default);
     }
+
+    public void PresentBonusType(GameObject face, BonusType bonusType)
+    {
+        
+    }
+
+    public void StartBonusDyingAnimation(GameObject face, float duration)
+    {
+        
+    }
 }

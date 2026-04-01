@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23611e6e2dfd4094b90c3c3ec81a0283, type: 3}
   m_Name: BonusFaceSettings
   m_EditorClassIdentifier: 
-  effectName: 
+  effectName: da
   isHint: 0
-  bpm: 0
-  timeStartSeconds: 0
-  timeStartBeats: 0
-  isTimeEnd: 0
-  timeEndSeconds: 0
-  timeEndBeats: 0
+  bpm: 90
+  timeStartSeconds: 3
+  timeStartBeats: 4.5
+  isTimeEnd: 1
+  timeEndSeconds: 8
+  timeEndBeats: 12
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 0
   timeForcedBreakBeats: 0
-  type: 0
-  isRandom: 0
+  type: 3
+  isRandom: 1
   isPseudoRandom: 0
   isCertain: 0
-  isStableQuantity: 0
-  quantityExact: 0
+  isStableQuantity: 1
+  quantityExact: 1
   quantityMin: 0
   quantityMax: 0
   isRelativeToPlayer: 0
@@ -40,9 +40,12 @@ MonoBehaviour:
   isDistanceLimit: 0
   distanceLimit: 0
   isBasicSettingsChange: 0
-  typeBonus: 0
-  isLifeDuration: 0
-  lifeDurationSeconds: 0
-  lifeDurationBeats: 0
+  typeBonus: 1
+  isLifeDuration: 1
+  lifeDurationSeconds: 3
+  lifeDurationBeats: 4.5
+  isDeathDuration: 0
+  deathDurationSeconds: 0
+  deathDurationBeats: 0
   isMaterialChange: 0
   material: {fileID: 0}

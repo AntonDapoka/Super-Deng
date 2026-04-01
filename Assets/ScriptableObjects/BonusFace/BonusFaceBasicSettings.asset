@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f6eb223f28042345b26066a62202f3b, type: 3}
-  m_Name: ActionBasicSettingsDataBase
+  m_Script: {fileID: 11500000, guid: 54603e21bd0b1294d8b84a0c4a3f902c, type: 3}
+  m_Name: BonusFaceBasicSettings
   m_EditorClassIdentifier: 
-  basicSettings:
-  - {fileID: 11400000, guid: 9609c794bf6032f41ba9fed0c535e6fc, type: 2}
-  - {fileID: 11400000, guid: 9609c794bf6032f41ba9fed0c535e6fc, type: 2}
+  type: 3
+  materialBasic: {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
+  lifeDurationSecondsBasic: 2
+  deathDurationSecondsBasic: 3

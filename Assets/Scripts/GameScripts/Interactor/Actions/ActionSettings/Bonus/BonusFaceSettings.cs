@@ -9,6 +9,10 @@ public class BonusFaceSettings : ActionSpawnerSettingsScript
     public float lifeDurationSeconds;
     public float lifeDurationBeats;
 
+    public bool isDeathDuration; //Or it will just disappear without animation? 
+    public float deathDurationSeconds;
+    public float deathDurationBeats;
+
     /// <summary>
     /// Don't mess up with the stuff below
     /// </summary>

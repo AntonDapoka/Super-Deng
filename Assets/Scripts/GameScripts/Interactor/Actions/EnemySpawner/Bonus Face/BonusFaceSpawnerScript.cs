@@ -79,7 +79,7 @@ public class BonusFaceSpawnerScript : SpawnerActionScript
 
     public override void SetActionFace(GameObject face)
     {
-        if (isTurnOn && !isForcedBreak) bonusFaces.Add(CreateBonusFace(face, BonusType.Combo)); //Replace
+        if (isTurnOn && !isForcedBreak) bonusFaces.Add(CreateBonusFace(face, bonusFaceSettings.typeBonus)); //Replace
     }
 
     public override void Cancel()

@@ -5,6 +5,6 @@ public class BonusFaceBasicSettings : ActionBasicSettingsScript
 {
     public Material materialBasic;
 
-    public float height;
-    public float offset;
+    public float lifeDurationSecondsBasic;
+    public float deathDurationSecondsBasic;
 }
