@@ -15,11 +15,11 @@ MonoBehaviour:
   effectName: da
   isHint: 0
   bpm: 90
-  timeStartSeconds: 2
-  timeStartBeats: 3
+  timeStartSeconds: 6
+  timeStartBeats: 9
   isTimeEnd: 1
-  timeEndSeconds: 8
-  timeEndBeats: 12
+  timeEndSeconds: 15
+  timeEndBeats: 22.5
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 0
   timeForcedBreakBeats: 0
@@ -42,11 +42,11 @@ MonoBehaviour:
   isBasicSettingsChange: 0
   typeBonus: 1
   isLifeDuration: 1
-  lifeDurationSeconds: 3
-  lifeDurationBeats: 4.5
+  lifeDurationSeconds: 2
+  lifeDurationBeats: 3
   isDeathDuration: 1
-  deathDurationSeconds: 2.38
-  deathDurationBeats: 3.5700002
+  deathDurationSeconds: 1.3333334
+  deathDurationBeats: 2
   isMaterialChange: 0
   material: {fileID: 0}
   isBonusSymbolPrefabChange: 0

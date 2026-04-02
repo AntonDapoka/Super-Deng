@@ -26,6 +26,10 @@ public class PlayerStateInteractorScript : MonoBehaviour
     {
         faceState = face.GetComponent<FaceStateScript>();
         playerStatePresenter.SetNewHP(hp); // Move to Initialize()
+        isTakingDamage = false;
+        isTakingHealth = false;
+        isBlinking = false;
+        isColored = false;
     }
 
     private void Update()

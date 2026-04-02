@@ -15,8 +15,8 @@ MonoBehaviour:
   effectName: dfsdfsdfsdf
   isHint: 0
   bpm: 90
-  timeStartSeconds: 10
-  timeStartBeats: 15
+  timeStartSeconds: 14
+  timeStartBeats: 21
   isTimeEnd: 0
   timeEndSeconds: 20
   timeEndBeats: 30
@@ -25,6 +25,7 @@ MonoBehaviour:
   timeForcedBreakBeats: 30
   type: 0
   isRandom: 1
+  isPseudoRandom: 0
   isCertain: 0
   isStableQuantity: 1
   quantityExact: 1
@@ -38,7 +39,7 @@ MonoBehaviour:
   proximityLimit: 1
   isDistanceLimit: 0
   distanceLimit: 4
-  isBasicSettingsChange: 1
+  isBasicSettingsChange: 0
   isMaterialChange: 0
   material: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
   isColorDurationChange: 1

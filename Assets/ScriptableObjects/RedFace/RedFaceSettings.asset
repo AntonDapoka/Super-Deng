@@ -18,8 +18,8 @@ MonoBehaviour:
   timeStartSeconds: 2
   timeStartBeats: 3
   isTimeEnd: 1
-  timeEndSeconds: 6
-  timeEndBeats: 9
+  timeEndSeconds: 12
+  timeEndBeats: 18
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 11.4
   timeForcedBreakBeats: 29.449999
@@ -30,7 +30,7 @@ MonoBehaviour:
   isStableQuantity: 0
   quantityExact: 2
   quantityMin: 0
-  quantityMax: 3
+  quantityMax: 2
   isRelativeToPlayer: 0
   arrayOfFacesRelativeToPlayer: 
   isRelativeToFigure: 0
@@ -39,8 +39,8 @@ MonoBehaviour:
   proximityLimit: 2
   isDistanceLimit: 0
   distanceLimit: 4
-  isBasicSettingsChange: 1
-  isMaterialChange: 1
+  isBasicSettingsChange: 0
+  isMaterialChange: 0
   material: {fileID: 2100000, guid: 59989691223971d4f80f5f257faa22f4, type: 2}
   isColorDurationChange: 0
   colorDurationBeats: 1.7222223
