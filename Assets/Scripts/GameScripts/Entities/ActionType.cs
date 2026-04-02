@@ -3,8 +3,8 @@ public enum ActionType
     RedFaceSpawner,
     RedWaveSpawner,
     FallFaceSpawner,
-    BonusSpawner,
-    PortalSpawner,
+    BonusFaceSpawner,
+    PortalFaceSpawner,
     FaceDance,
     StripDance
 }

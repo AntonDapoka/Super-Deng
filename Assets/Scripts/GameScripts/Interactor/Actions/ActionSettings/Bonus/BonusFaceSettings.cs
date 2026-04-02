@@ -19,4 +19,7 @@ public class BonusFaceSettings : ActionSpawnerSettingsScript
 
     public bool isMaterialChange;
     public Material material;
+
+    public bool isBonusSymbolPrefabChange;
+    public GameObject bonusSymbolPrefab;
 }

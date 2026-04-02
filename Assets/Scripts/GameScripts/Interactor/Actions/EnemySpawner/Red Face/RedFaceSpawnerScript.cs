@@ -72,7 +72,7 @@ public class RedFaceSpawnerScript : SpawnerActionScript
         redFaceBasicSettings = redFaceSettings;
     }
 
-    public override bool IsSuitableSpecialRequirements()
+    public override bool IsSuitableSpecialRequirements(FaceScript FS, FaceStateScript FSS)
     {
         return true;
     }

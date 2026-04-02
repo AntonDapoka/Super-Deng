@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class ActionScript : MonoBehaviour
 {
-    public ActionType Type { get; private set; }
+    public ActionType Type;
 
     public abstract void Initialize();
 

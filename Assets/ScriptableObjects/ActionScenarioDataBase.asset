@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: ActionScenarioDataBase
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: 11400000, guid: 321dcd2905daa85498fcf1937b2d45f8, type: 2}
-  - {fileID: 11400000, guid: c675715533ffe5b4f937607f57846d46, type: 2}
+  - {fileID: 11400000, guid: 43eddd78bfac0ee4f922df8dc6362af3, type: 2}

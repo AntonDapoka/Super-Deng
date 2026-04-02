@@ -3,5 +3,6 @@ public enum BonusType
     Combo,
     Health,
     SlowMo,
-    Speed
+    Speed,
+    Shield
 }

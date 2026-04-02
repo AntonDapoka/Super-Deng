@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +13,7 @@ public class FaceMaterialViewScript : MonoBehaviour, IFaceMaterialViewScript
     [SerializeField] private Material materialFallFace;
     [SerializeField] private Material materialBonus;
     [SerializeField] private Material materialPortal;
+    [SerializeField] private Material materialGrey;
 
     public Dictionary<MaterialType, Material> _materials;
 
@@ -30,11 +30,17 @@ public class FaceMaterialViewScript : MonoBehaviour, IFaceMaterialViewScript
             {MaterialType.FallFace, materialFallFace},
             {MaterialType.Bonus, materialBonus},
             {MaterialType.Portal, materialPortal},
+            {MaterialType.Grey, materialGrey},
         };
     }
 
     public void SetMaterial(Renderer renderer, MaterialType type)
     {
         renderer.material = _materials[type];
+    }
+
+    public Material GetMaterial(MaterialType type)
+    {
+        return _materials[type];
     }
 }

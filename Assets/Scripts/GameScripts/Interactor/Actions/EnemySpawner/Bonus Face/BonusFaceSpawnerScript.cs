@@ -72,9 +72,9 @@ public class BonusFaceSpawnerScript : SpawnerActionScript
         bonusFaceBasicSettings = bonusFaceSettings;
     }
 
-    public override bool IsSuitableSpecialRequirements()
+    public override bool IsSuitableSpecialRequirements(FaceScript FS, FaceStateScript FSS)
     {
-        return true;
+        return !FSS.GetFaceState(FaceProperty.HavePlayer);
     }
 
     public override void SetActionFace(GameObject face)

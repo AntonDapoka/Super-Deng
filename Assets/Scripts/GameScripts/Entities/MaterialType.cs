@@ -9,5 +9,6 @@ public enum MaterialType
     FallFace,
     Bonus,
     Portal,
-    Hui
+    Hui, 
+    Grey
 }

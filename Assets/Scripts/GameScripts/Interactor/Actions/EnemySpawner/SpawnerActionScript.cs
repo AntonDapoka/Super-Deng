@@ -113,7 +113,7 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
 
     protected virtual bool CheckIsSuitableFace(FaceScript FS, FaceStateScript FSS)
     {
-        bool res = //!FSS.Get(FaceProperty.HavePlayer) &&
+        bool res = //!FSS.GetFaceState(FaceProperty.HavePlayer) &&
                 !FSS.GetFaceState(FaceProperty.IsBlinking) &&
                 !FSS.GetFaceState(FaceProperty.IsKilling) &&
                 !FSS.GetFaceState(FaceProperty.IsBlocked) &&
@@ -122,11 +122,11 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
                 !FSS.GetFaceState(FaceProperty.IsBonus) &&
                 (!isProximityLimit || FS.GetPathObjectCount() >= proximityLimit) &&
                 (!isDistanceLimit || FS.GetPathObjectCount() <= distanceLimit) &&
-                IsSuitableSpecialRequirements();
+                IsSuitableSpecialRequirements(FS, FSS);
         return res;
     }
 
-    public abstract bool IsSuitableSpecialRequirements();
+    public abstract bool IsSuitableSpecialRequirements(FaceScript FS, FaceStateScript FSS);
 
     public abstract void SetActionFace(GameObject gameObject);
 

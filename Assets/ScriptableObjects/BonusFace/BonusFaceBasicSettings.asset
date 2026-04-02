@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: BonusFaceBasicSettings
   m_EditorClassIdentifier: 
   type: 3
-  materialBasic: {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
-  lifeDurationSecondsBasic: 2
-  deathDurationSecondsBasic: 3
+  materialHealthBasic: {fileID: 2100000, guid: 337b1a4e27063cb4283e3304e55bf7f8, type: 2}
+  bonusHealthPrefabBasic: {fileID: 522931450574674631, guid: c747067f2a096e6499e586eebb36e40e, type: 3}
+  materialComboBasic: {fileID: 2100000, guid: 662af7bb2192b3b478c380dd1acc8fef, type: 2}
+  bonusComboPrefabBasic: {fileID: 2574275269824986248, guid: d7438c25a06e8ec4599fe632eb4b66c4, type: 3}
+  materialShieldBasic: {fileID: 2100000, guid: 58f78dde3204a174db4c9037a8914c82, type: 2}
+  bonusShieldPrefabBasic: {fileID: 522931450574674631, guid: 1f944d647175bad4db7aa7d1feae7cb4, type: 3}
+  materialSlowMoBasic: {fileID: 2100000, guid: 59989691223971d4f80f5f257faa22f4, type: 2}
+  bonusSlowMoPrefabBasic: {fileID: 522931450574674631, guid: 1f944d647175bad4db7aa7d1feae7cb4, type: 3}
+  materialSpeedBasic: {fileID: 2100000, guid: f371f526a1fd49e43b1b4d8d39074dbe, type: 2}
+  bonusSpeedPrefabBasic: {fileID: 522931450574674631, guid: 1f944d647175bad4db7aa7d1feae7cb4, type: 3}

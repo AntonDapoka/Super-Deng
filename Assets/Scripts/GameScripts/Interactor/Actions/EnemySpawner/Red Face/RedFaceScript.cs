@@ -35,7 +35,7 @@ public class RedFaceScript
     private readonly Vector3 targetPos;
 
     public bool IsFinished => state == State.Done;
-    private bool isBroken;
+    private bool isBroken = false;
 
     public RedFaceScript(
         GameObject face,
@@ -109,11 +109,11 @@ public class RedFaceScript
         timer = 0f;
         state = State.Coloring;
         faceState.SetFaceState(FaceProperty.IsColored, true);
+        ApplyRedFaceMaterial();
     }
 
     private void UpdateColoring()
     {
-        ApplyRedFaceMaterial();
         AdvanceTimer();
         if (TimerExpired(colorDuration)) StartScaleUp();
     }
@@ -125,6 +125,8 @@ public class RedFaceScript
 
         faceState.SetFaceState(FaceProperty.IsKilling, true);
         faceState.SetFaceState(FaceProperty.IsColored, false);
+
+        ApplyRedFaceMaterial();
     }
 
     private void UpdateScaleUp()
@@ -136,6 +138,7 @@ public class RedFaceScript
     {
         timer = 0f;
         state = State.Wait;
+        ApplyRedFaceMaterial();
     }
 
     private void UpdateWait()
@@ -149,6 +152,7 @@ public class RedFaceScript
     {
         timer = 0f;
         state = State.ScaleDown;
+        ApplyRedFaceMaterial();
     }
 
     private void UpdateScaleDown()
@@ -168,7 +172,6 @@ public class RedFaceScript
 
     private void UpdateScaling(Vector3 fromScale, Vector3 toScale, Vector3 fromPos, Vector3 toPos, float duration, System.Action onComplete)
     {
-        ApplyRedFaceMaterial();
         AdvanceTimer();
 
         float t = Mathf.Clamp01(timer / duration);

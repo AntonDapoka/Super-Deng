@@ -8,6 +8,8 @@ public class BonusFaceScript
     private readonly GameObject face;
     private readonly FaceScript faceScript;
     private readonly FaceStateScript faceState;
+    private readonly BonusFaceSettings settings;
+    private readonly BonusFaceBasicSettings settingsBasic;
     private readonly BonusFaceSpawnerPresenterScript presenter;
 
     private State state;
@@ -19,13 +21,13 @@ public class BonusFaceScript
         Done
     }
 
+    private GameObject bonus;
     private BonusType bonusType;
     private readonly float lifeDuration;
     private readonly float deathDuration;
-    private readonly Material materialAction;
 
     public bool IsFinished => state == State.Done;
-    private bool isBroken;
+    private bool isBroken = false;
 
     public BonusFaceScript(
         GameObject face,
@@ -35,22 +37,16 @@ public class BonusFaceScript
         BonusType bonusType)
     {
         this.face = face;
+        this.settings = settings;
+        this.settingsBasic = settingsBasic;
         this.presenter = presenter;
         this.bonusType = bonusType;
 
-        bool isChange = settings.isBasicSettingsChange;
-
-        if (isChange && settings.isLifeDuration)
+        if (settings.isLifeDuration)
             lifeDuration = settings.lifeDurationSeconds;
-        else lifeDuration = settingsBasic.lifeDurationSecondsBasic;
 
-        if (isChange && settings.isDeathDuration)
+        if (settings.isDeathDuration)
             deathDuration = settings.deathDurationSeconds;
-        else deathDuration = settingsBasic.deathDurationSecondsBasic;
-
-        if (isChange && settings.isMaterialChange)
-            materialAction = settings.material;
-        else materialAction = settingsBasic.materialBasic;
 
         faceScript = face.GetComponent<FaceScript>();
         faceState = face.GetComponent<FaceStateScript>();
@@ -74,17 +70,22 @@ public class BonusFaceScript
         if (state == State.Done || isBroken) return;
 
         timer = 0f;
-        state = State.Living;
+        if (settings.isLifeDuration) state = State.Living;
         faceState.SetFaceState(FaceProperty.IsBonus, true);
         faceState.SetBonusType(bonusType, true);
+        bonus = null;
+        presenter.PresentBonusType(face, ref bonus, settings, settingsBasic);
     }
 
     private void UpdateLiving()
     {
-        presenter.ApplyFaceActionMaterial(face, materialAction);
-        presenter.PresentBonusType(face, bonusType);
         AdvanceTimer();
-        if (TimerExpired(lifeDuration)) StartDying();
+        if (TimerExpired(lifeDuration)) 
+        {
+            if (settings.isDeathDuration)
+                StartDying();
+            else Finish();
+        }
     }
 
     private void StartDying()
@@ -95,8 +96,8 @@ public class BonusFaceScript
 
     private void UpdateDying()
     {
-        presenter.StartBonusDyingAnimation(face, deathDuration);
         AdvanceTimer();
+        presenter.PlayBonusDyingAnimation(face, bonus, settings, settingsBasic, timer, deathDuration);
         if (TimerExpired(deathDuration)) Finish();
     }
 
@@ -105,6 +106,8 @@ public class BonusFaceScript
         faceState.SetFaceState(FaceProperty.IsBonus, false);
         faceState.SetBonusType(bonusType, false);
         presenter.ChangeFaceBackToDefault(face);
+        presenter.DestroyBonus(bonus);
+        bonus = null;
         state = State.Done;
     }
 
@@ -128,7 +131,8 @@ public class BonusFaceScript
         faceState.SetBonusType(bonusType, false);
 
         presenter.ChangeFaceBackToDefault(face);
-
+        presenter.DestroyBonus(bonus);
+        bonus = null;
         state = State.Done;
     }
 }

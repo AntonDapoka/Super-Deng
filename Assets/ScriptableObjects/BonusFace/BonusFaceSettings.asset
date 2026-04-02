@@ -15,8 +15,8 @@ MonoBehaviour:
   effectName: da
   isHint: 0
   bpm: 90
-  timeStartSeconds: 3
-  timeStartBeats: 4.5
+  timeStartSeconds: 2
+  timeStartBeats: 3
   isTimeEnd: 1
   timeEndSeconds: 8
   timeEndBeats: 12
@@ -44,8 +44,10 @@ MonoBehaviour:
   isLifeDuration: 1
   lifeDurationSeconds: 3
   lifeDurationBeats: 4.5
-  isDeathDuration: 0
-  deathDurationSeconds: 0
-  deathDurationBeats: 0
+  isDeathDuration: 1
+  deathDurationSeconds: 2.38
+  deathDurationBeats: 3.5700002
   isMaterialChange: 0
   material: {fileID: 0}
+  isBonusSymbolPrefabChange: 0
+  bonusSymbolPrefab: {fileID: 0}
