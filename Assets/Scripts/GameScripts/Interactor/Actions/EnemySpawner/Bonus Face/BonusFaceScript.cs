@@ -57,6 +57,12 @@ public class BonusFaceScript
     public void Update()
     {
         if (state == State.Done || isBroken) return;
+        if (faceState.GetFaceState(FaceProperty.HavePlayer))
+        {
+            ForcedBreak();
+            return;
+        }
+        
 
         switch (state)
         {

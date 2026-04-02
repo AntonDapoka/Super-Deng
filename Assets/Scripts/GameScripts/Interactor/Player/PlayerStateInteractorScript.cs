@@ -63,12 +63,17 @@ public class PlayerStateInteractorScript : MonoBehaviour
             playerStatePresenter.RemoveBlinkingState
         );
 
-        HandleState(
-            isFaceBonus,
-            ref isTakingHealth,
-            playerStatePresenter.SetTakingHealthState,
-            playerStatePresenter.RemoveTakingHealthState
-        );
+        if (isFaceBonus && faceState.GetBonusType(BonusType.Health) && !isTakingHealth) 
+        { 
+            isTakingHealth = true; 
+            TakeHP(); 
+            playerStatePresenter.SetTakingHealthState();
+        } 
+        if (!isFaceBonus && !faceState.GetBonusType(BonusType.Health) && isTakingHealth) 
+        { 
+            isTakingHealth = false; 
+            playerStatePresenter.RemoveTakingHealthState();
+        }
 
         if (isFaceKilling && !isTakingDamage && !isInvincible) 
         { 
