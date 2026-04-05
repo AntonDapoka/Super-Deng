@@ -18,18 +18,18 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
 
-        //Vector3[] combined = GetEdgeMidpoints(verticesIcosahedron, sideLen * iteration, iteration, radiusIco);
+        Vector3[] combined = GetEdgeMidpoints(verticesIcosahedron, sideLen * iteration, iteration, radiusIco);
 
 
         //if (isTest) 
-        //GenerateInitialVertices(combined);
-        //GenerateInitialVertices(AdjustVerticesToRadius(combined, radiusIco));
+        GenerateInitialVertices(combined);
+        GenerateInitialVertices(AdjustVerticesToRadius(combined, radiusIco));
         //Debug.Log("You have 1f");
         yield return new WaitForSeconds(1f);
-        //StartCoroutine(GeneratingFaces(combined, sideLen, radiusIco));
+        StartCoroutine(GeneratingFaces(combined, sideLen, radiusIco));
 
     }
-    /*
+    
     public static Vector3[] GetEdgeMidpoints(Vector3[] vertices, float maxDistance, int iteration, float radius)
     {
         List<Vector3> midpoints = new();
@@ -48,14 +48,14 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
                     }
                 }
             }
-            //vertices = vertices.Concat(midpoints).ToArray();
+            vertices = vertices.Concat(midpoints).ToArray();
             maxDistance /= 2f;
 
         }
 
         Vector3[] combined = midpoints.Concat(vertices).ToArray();
         return combined;
-    }*/
+    }
 
     protected IEnumerator GeneratingFaces(Vector3[] vertices, float maxDistance, float radius)
     {
@@ -79,9 +79,9 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
                     {
                         w++;
                         Vector3[] verticesABC = AdjustVerticesToRadius(new Vector3[3] { a, b, c }, radius);
-                        //GameObject face = SetFace(verticesABC);
+                        GameObject face = SetFace(verticesABC, this.transform, 1);
                         yield return new WaitForSeconds(0.5f);
-                        //faces.Add(face);
+                        faces.Add(face);
                     }
                 }
             }
@@ -90,7 +90,7 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         //GroupGameObjects(faces.ToArray());
     }
 
-    /*s
+    
 
 
     public static float[] GenerateDistances(int iterations, float a)
@@ -106,5 +106,5 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         }
 
         return distances;
-    }*/
+    }
 }

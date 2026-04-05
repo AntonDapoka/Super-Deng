@@ -1,42 +1,36 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MenuTriangleInteractSecretScript : MonoBehaviour
 {
-    public ParticleSystem particlePrefab;
-    public GameObject shadow;
-    public float shakeDuration = 0.2f;
-    public float shakeAmount = 0.05f;
-    public int clickCount = 0;
-    public int maxCount = 10;
-    public GameObject window;
+    [SerializeField] private ParticleSystem particlePrefab;
+    [SerializeField] private GameObject shadow;
+    [SerializeField] private float shakeDuration = 0.2f;
+    [SerializeField] private float shakeAmount = 0.05f;
+    [SerializeField] private int clickCount = 0;
+    [SerializeField] private int activationCount = 0;
 
-    private Vector3 originalPosition;
-
-    private void Start()
-    {
-        originalPosition = transform.localPosition;
-
-    }
+    [SerializeField] private int maxCount = 10;
+    [SerializeField] private GameObject window;
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            clickCount++;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (hit.collider == shadow.GetComponent<Collider>())
                 {
+                    clickCount++;
                     SpawnParticles(hit.point);
                     StartCoroutine(Shake());
                 }
             }
-            if (clickCount == maxCount)
+            if (clickCount == maxCount && activationCount==0)
             {
                 window.SetActive(true);
+                activationCount = 1;
                 clickCount = 0;
             }
         }

@@ -9,10 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4065416354205082906}
-  - component: {fileID: 864903862722885172}
-  - component: {fileID: 3772927542929991956}
   m_Layer: 0
-  m_Name: IcoFace
+  m_Name: IcoFaceWithoutFunc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,39 +32,6 @@ Transform:
   - {fileID: 7845584935394469105}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &864903862722885172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3684105087820857248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8982b84b108a02d41bd90fc972d45f90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isTurnOn: 0
-  pathObjectCount: -1
-  faceState: {fileID: 3772927542929991956}
-  side1: {fileID: 0}
-  side2: {fileID: 0}
-  side3: {fileID: 0}
-  rend: {fileID: 5946493059742440397}
-  glowingPart: {fileID: 6546850780690612807}
-  shadow: {fileID: 1339446687287294089}
---- !u!114 &3772927542929991956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3684105087820857248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d29c64eb8ef47dc4ca30c7fb574d6caf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7740461336503157530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -307,11 +272,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 774d63c61aa2ba949a487132cdafca7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!23 &5946493059742440397 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4174145801627146455, guid: b54bff9948844664783f8c383d9e84c7, type: 3}
-  m_PrefabInstance: {fileID: 7740461336503157530}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6546850780690612807 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3580558009726075229, guid: b54bff9948844664783f8c383d9e84c7, type: 3}

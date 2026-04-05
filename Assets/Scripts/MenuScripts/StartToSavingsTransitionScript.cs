@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class StartToSavingsTransitionScript : MonoBehaviour
 {
+    [SerializeField] private GameObject background;
+    [SerializeField] private GameObject[] canvases;
+    [SerializeField] private GameObject[] levelObjects;
     [SerializeField] private GameObject prefabDoor;
     [SerializeField] private Transform targetPoint;
     [SerializeField] private Transform enviromentHolder;
@@ -11,21 +14,25 @@ public class StartToSavingsTransitionScript : MonoBehaviour
     [SerializeField] private Vector3 doorPosition;
     [SerializeField] private float rotationDuration = 1.5f;
     [SerializeField] private float imageResizeDuration = 0.8f;
-    private Vector3 originalImageScale;
-    private float originalCameraSize;
 
     public void StartTransition()
     {
+        background.SetActive(false);
+        foreach (var levelObject in levelObjects)
+            levelObject.SetActive(false);
+        foreach (var canvas in canvases)
+            canvas.SetActive(false);
         StartCoroutine(PerformEffects());
+
     }
 
     private IEnumerator PerformEffects()
     {
         StartCoroutine(RotateCameraToTarget());
-        //yield return StartCoroutine(ToggleAndResizeImage(false)); // Скрываем и сжимаем
+        //yield return StartCoroutine(ToggleAndResizeImage(false)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         yield return new WaitForSeconds(0.6f);
-        StartCoroutine(ExpandDoor()); // Показываем и увеличиваем обратно
-        //yield return StartCoroutine(ZoomCamera(originalCameraSize)); // Возвращаем зум
+        StartCoroutine(ExpandDoor()); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        //yield return StartCoroutine(ZoomCamera(originalCameraSize)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(ExpandDoor());
         yield return new WaitForSeconds(0.5f);

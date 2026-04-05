@@ -5,10 +5,10 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 {
     [SerializeField] protected bool isTest = false;
 
-    [SerializeField] private List<GameObject> faces;
-    private GameObject fieldHolder;
-    private GameObject facePrefab;
-    [SerializeField] private GameObject verticePrefab;
+    [SerializeField] protected List<GameObject> faces;
+    protected GameObject fieldHolder;
+    protected GameObject facePrefab;
+    [SerializeField] protected GameObject verticePrefab;
 
     protected float sideLength;
     protected float faceScale;
