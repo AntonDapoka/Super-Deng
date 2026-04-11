@@ -17,8 +17,8 @@ public class ExitButtonScript : MonoBehaviour
             else if (holdTimer >= 1f && holdTimer <= 1.5f) textQuiting.text = "Quitting...";
             if (holdTimer >= holdTime)
             {
-                Application.Quit();
                 holdTimer = 0f;
+                Exit();
             }
         }
         else
