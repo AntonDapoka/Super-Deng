@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "com.glairedaggers.retrotvfx": "file:D:/Games that I'm trying to make/Super 灯/RetroTVFX-2.0.0",
+    "com.unity.2d.animation": "9.2.2",
+    "com.unity.cinemachine": "3.1.6",
     "com.unity.collab-proxy": "2.7.1",
     "com.unity.feature.2d": "2.0.1",
     "com.unity.feature.development": "1.0.1",
