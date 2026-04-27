@@ -1,24 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragWindowScript : MonoBehaviour, IDragHandler, IPointerDownHandler
+public class WindowDragControllerScript : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
-    [SerializeField] private bool HaveTexts;
-    [SerializeField] private bool HaveImages;
-
-
-    private RectTransform dragRectTransform;
-    private Canvas canvas;
-    private RectTransform canvasRectTransform;
-
-    private void Awake()
+    protected Canvas canvas;
+    protected RectTransform dragRectTransform;
+    protected RectTransform canvasRectTransform;
+    
+    protected void Awake()
     {
         if (dragRectTransform == null)
-        {
             dragRectTransform = transform.parent.GetComponent<RectTransform>();
-        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -42,13 +34,12 @@ public class DragWindowScript : MonoBehaviour, IDragHandler, IPointerDownHandler
         canvasRectTransform = canvas.GetComponent<RectTransform>();
     }
 
-    private void ClampToWindow()
+    protected void ClampToWindow()
     {
         Vector2 pos = dragRectTransform.anchoredPosition;
         Vector2 size = dragRectTransform.rect.size;
         Vector2 canvasSize = canvasRectTransform.rect.size;
 
-        // Ограничения с учётом pivot
         float minX = -canvasSize.x * 0.5f + size.x * dragRectTransform.pivot.x;
         float maxX = canvasSize.x * 0.5f - size.x * (1 - dragRectTransform.pivot.x);
         float minY = -canvasSize.y * 0.5f + size.y * dragRectTransform.pivot.y;
@@ -59,6 +50,4 @@ public class DragWindowScript : MonoBehaviour, IDragHandler, IPointerDownHandler
 
         dragRectTransform.anchoredPosition = pos;
     }
-
-    
 }
