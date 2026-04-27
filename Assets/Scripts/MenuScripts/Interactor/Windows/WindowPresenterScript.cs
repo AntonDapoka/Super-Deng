@@ -8,7 +8,6 @@ public class WindowPresenterScript : MonoBehaviour
     [SerializeField] protected float durationMinimizing = 0.25f;
     [SerializeField] protected AnimationCurve heightCurve;
     [SerializeField] protected AnimationCurve positionCurve;
-    [SerializeField] protected Image imageButtonMinMax;
     [SerializeField] protected Sprite spriteButtonMin;
     [SerializeField] protected Sprite spriteButtonMax;
     
@@ -29,7 +28,7 @@ public class WindowPresenterScript : MonoBehaviour
         Vector2 windowPositionStart = windowSettings.GetWindowPosition();
         Vector2 windowPositionTarget = new(windowPositionStart.x, windowPositionStart.y + windowSpaceHeight / 2f);
 
-        imageButtonMinMax.sprite = spriteButtonMax;
+        components.GetImageButtonMinMax().sprite = spriteButtonMax;
         StartCoroutine(ChangingWindowHeight(windowSpace, windowPositionStart, windowPositionTarget, windowSpaceHeight, 0f));
     }
 
@@ -41,7 +40,7 @@ public class WindowPresenterScript : MonoBehaviour
         Vector2 windowPositionTarget = windowSettings.GetWindowPosition();
         Vector2 windowPositionStart = new(windowPositionTarget.x, windowPositionTarget.y + windowSpaceHeight / 2f);
 
-        imageButtonMinMax.sprite = spriteButtonMin;
+        components.GetImageButtonMinMax().sprite = spriteButtonMin;
         StartCoroutine(ChangingWindowHeight(windowSpace, windowPositionStart, windowPositionTarget, 0f, windowSpaceHeight));
     }
 

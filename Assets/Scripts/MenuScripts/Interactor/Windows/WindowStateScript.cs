@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WindowStateScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private bool isMaximized = true;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool GetIsMaximized() => isMaximized;
+    public void SetIsMaximized(bool newIsMaximized) => isMaximized = newIsMaximized;
+    
 }

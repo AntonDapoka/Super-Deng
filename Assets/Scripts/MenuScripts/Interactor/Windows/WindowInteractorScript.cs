@@ -3,7 +3,6 @@ using UnityEngine;
 public class WindowInteractorScript : MonoBehaviour
 {
     [SerializeField] protected WindowPresenterScript windowPresenter;
-    bool isMaximized = true;
 
     protected void Initialize()//Add some data
     {
@@ -20,15 +19,15 @@ public class WindowInteractorScript : MonoBehaviour
     {
         if (window.TryGetComponent(out WindowComponentsScript components))
         {
-            if (isMaximized)
+            if (components.GetWindowState().GetIsMaximized())
             {
                 windowPresenter.MinimizeWindow(components);
-                isMaximized = false;
+                components.GetWindowState().SetIsMaximized(false);
             }
             else
             {
                 windowPresenter.MaximizeWindow(components);
-                isMaximized = true;
+                components.GetWindowState().SetIsMaximized(true);
             }
         }
         else
