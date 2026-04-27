@@ -11,8 +11,11 @@ public class WindowInteractorScript : MonoBehaviour
 
     public void CloseWindow(GameObject window)
     {
-        windowPresenter.CloseWindow();
-        window.SetActive(false);
+        if (window.TryGetComponent(out WindowComponentsScript components))
+        {
+            windowPresenter.CloseWindow(components);
+        }
+        //window.SetActive(false);
     }
 
     public void MaxMinWindow(GameObject window)

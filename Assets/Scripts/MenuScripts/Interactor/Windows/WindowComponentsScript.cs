@@ -13,7 +13,11 @@ public class WindowComponentsScript : MonoBehaviour
     [SerializeField] private RectTransform windowTitleBar;
     [SerializeField] private TextMeshProUGUI windowTitleBarText;
     [SerializeField] private TextMeshProUGUI windowSpaceInnerText;
-    [SerializeField] protected Image imageButtonMinMax;
+    [SerializeField] private Image iconButtonMinMax;
+    [SerializeField] private Image iconButtonClose;
+    [SerializeField] private Image imageButtonMinMax;
+    [SerializeField] private Image imageButtonClose;
+
     
     public WindowSettingsScript GetWindowSettings() => windowSettings;
     public WindowStateScript GetWindowState() => windowState;
@@ -22,7 +26,10 @@ public class WindowComponentsScript : MonoBehaviour
     public RectTransform GetWindowTitleBar() => windowTitleBar;
     public TextMeshProUGUI GetWindowTitleBarText() => windowTitleBarText;
     public TextMeshProUGUI GetWindowSpaceInnerText() => windowSpaceInnerText;
+    public Image GetIconButtonMinMax() => iconButtonMinMax;
+    public Image GetIconButtonClose() => iconButtonClose;
     public Image GetImageButtonMinMax() => imageButtonMinMax;
+    public Image GetImageButtonClose() => imageButtonClose;
 
     private void Awake()
     {
