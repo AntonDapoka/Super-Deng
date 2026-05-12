@@ -2678,7 +2678,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTest: 1
   faces: []
-  facePrefab: {fileID: 3684105087820857248, guid: ee0c6848608046f4c9dbc86b69b0e9d0, type: 3}
   verticePrefab: {fileID: 8621958319103481344, guid: f183aed9516f7bd4ba48608542eb2f0b, type: 3}
   interation: 2
 --- !u!114 &821049931
@@ -4124,7 +4123,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTest: 1
   faces: []
-  facePrefab: {fileID: 0}
   verticePrefab: {fileID: 8621958319103481344, guid: f183aed9516f7bd4ba48608542eb2f0b, type: 3}
 --- !u!4 &1213165972 stripped
 Transform:
