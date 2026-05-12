@@ -1,0 +1,269 @@
+# AGENTS.md — IcoBeat (Super-Deng / Super 灯)
+
+> **Purpose**: This file exists to orient AI coding agents who have zero prior knowledge of the project. Read this before modifying code, adding features, or refactoring.
+
+---
+
+## Project Overview
+
+**IcoBeat** (also known as *Super-Deng* / *Super 灯*) is a rhythm-based action game developed by **DapokaStudio**. The player navigates a character across the triangular faces of an icosahedral sphere, dodging obstacles and interacting with beat-synchronized events.
+
+- **Engine**: Unity 2022.3.62f3 LTS
+- **Language**: C# 9.0 targeting .NET Standard 2.1
+- **Primary Platform**: Standalone Windows 64-bit
+- **Repo Root**: `d:/Games that I'm trying to make/Super 灯/Super-Deng`
+
+---
+
+## Technology Stack
+
+### Core Unity Packages
+- **Universal Render Pipeline (URP)** — primary rendering pipeline
+- **Input System** — new Unity Input System (`MenuControls.inputactions`)
+- **Cinemachine** — camera control
+- **TextMeshPro** — text rendering
+- **Localization** — multi-language support
+- **Post Processing** — full-screen effects
+- **Timeline** — cutscenes and scripted sequences
+- **Visual Scripting** — available but gameplay is code-driven
+- **Addressable Assets** — asset bundling / loading
+- **2D Animation & Sprite features**
+
+### Third-Party / Asset Store Integrations
+| Asset | Location in Project | Purpose |
+|-------|---------------------|---------|
+| **Steamworks.NET** | `Assets/com.rlabrecque.steamworks.net/` | Steam API integration (leaderboards, achievements) |
+| **RetroTVFX** | `Packages/com.glairedaggers.retrotvfx` + `Assets/Retro 3D Shader Pack for Unity/` | Retro CRT / post-processing aesthetic |
+| **NiceVibrations** | Separate `.csproj` in root | Haptic feedback |
+| **MoreMountains.Tools** | Separate `.csproj` in root | Utility toolkit |
+| **INab Studio** | `Assets/INab Studio/` | Advanced edge detection post-processing |
+| **ShowLasers** | `Assets/ShowLasers/` | Laser VFX |
+| **PeerPlay** | `Assets/PeerPlay/` | Procedural VFX (Phyllotaxis trails) |
+| **VHS** | `Assets/VHS/` | VHS tape post-processing effects |
+| **PostEffects** | `Assets/PostEffects/` | Custom image effects (Bloom, RGB shift, Scanlines, etc.) |
+
+---
+
+## Project Structure
+
+### Top-Level Folders
+```
+Assets/
+  Scripts/           # All C# gameplay code (~420 .cs files)
+  Scenes/            # Unity scenes
+  ScriptableObjects/ # Data assets (scenarios, settings, material configs)
+  Prefabs/           # GameObject prefabs (Player, faces, UI, etc.)
+  Input/             # Input System action maps
+  Animation/         # Legacy animations
+  Animations/        # Animator controllers & clips
+  Models/            # 3D meshes
+  Materials/         # URP materials
+  Sprites/           # 2D sprites & cursors
+  Fonts/             # Custom fonts
+  Music/             # OST / level music tracks
+  Sounds/            # SFX
+  StreamingAssets/   # Runtime-loaded files
+  PostProcessing/    # Post-processing profiles
+  TextMesh Pro/      # TMP fonts, examples, shaders
+```
+
+### Code Organization (`Assets/Scripts/`)
+The codebase follows a **layered architecture** with strong separation of concerns. Many folders mirror an **MVP-ish / Clean Architecture** pattern:
+
+| Folder | Role |
+|--------|------|
+| `GameScripts/Main/` | Scene entry points (`LevelInitializerScript`, `MenuInitializerScript`) |
+| `GameScripts/Interactor/` | **Business logic** — actions, field builders, player state, rhythm management |
+| `GameScripts/Presenter/` | **Presentation logic** — translates game state into view commands |
+| `GameScripts/View/` | **Visual feedback** — material changes, UI updates, camera zoom |
+| `GameScripts/Controller/` | **Input handling** — keyboard, gamepad, key binding data |
+| `GameScripts/Entities/` | **Enums & simple data types** (`ActionType`, `AbilityType`, `BonusType`, etc.) |
+| `GameScripts/DataBase/` | **Persistence** — JSON save system, key bindings |
+| `GameScripts/Structures/` | **Serializable structs** for vectors / quaternions |
+| `MenuScripts/` | Full menu stack (buttons, windows, settings, secrets, credits) |
+| `UI Scripts/` | Generic UI utilities (fade, link buttons, sound variation) |
+| `Sound&MusicScripts/` | Audio playback, pitch variation, undestroyable audio sources |
+| `Markers/` | Tag-like MonoBehaviour components (`ComboBonus`, `Portal`, `Shadow`, etc.) |
+| `Database/` | High-level save data (`LevelSaveData`) |
+| `Editor/` | Custom Unity Inspector drawers for ScriptableObject settings |
+| `Steamworks.NET/` | Steam manager wrapper |
+
+### Script Naming Conventions
+- **PascalCase** with a mandatory `Script` suffix: `PlayerMovementInteractorScript`
+- **Interfaces**: `I` prefix + `Script` suffix: `IPlayerMovementPresenterScript`
+- **Abstract base classes**: `ActionScript`, `ActionSettingsEditor`, etc.
+- **ScriptableObjects**: `[CreateAssetMenu]` is used extensively; file names end in `DataBase` or `Settings`
+
+### Scene List
+| Scene | Purpose |
+|-------|---------|
+| `StartMenu.unity` | Main menu, level select, settings, credits |
+| `IcoScene.unity` | Core gameplay scene |
+| `TutorialScene.unity` | Tutorial |
+| `BlackApple.unity`, `CaramelDansen.unity`, `ChasingYourselfScene.unity`, `HitogataCutScene.unity`, `ScanCutScene.unity`, `PasswordHintScene.unity` | Special levels / secrets / cutscenes |
+| `ForVarvara'sExperiments.unity` | Development / experiment scene |
+
+---
+
+## Architecture Deep Dive
+
+### 1. Game Initialization Flow
+1. `LevelInitializerScript.Awake()` wires all serialized references.
+2. Music starts; `LevelRhythmManagementScript` calculates beat intervals from BPM.
+3. `FieldInitializerScript` calls `FieldInteractorScript` to build the icosahedral face grid.
+4. `PlayerInitializerScript` places the player on a starting face.
+5. `ActionInitializerScript` loads the level's `ActionScenarioDataBase` + `ActionBasicSettingsDataBase` and schedules enemy/item/effect spawns.
+6. Countdown starts; gameplay begins.
+
+### 2. Rhythm System
+- `LevelRhythmManagementScript` implements `IRhythmableScript`.
+- BPM drives `beatInterval = 60 / bpm`.
+- Beat counting is sample-accurate: `timeSamples / (frequency * interval)`.
+- Coroutine `SynchronizeAndTurnOn()` aligns gameplay start to the music beat.
+
+### 3. Field & Faces
+- The playable field is composed of **triangular faces** (`FaceScript`) arranged into an icosahedron or icosphere.
+- Builders (`FaceIcosphereBuilderScript`, `FaceIcosahedronBuilderScript`, etc.) generate the geometry at runtime.
+- Each face has 3 sides (`side1`, `side2`, `side3`) and a `FaceStateScript` tracking properties (`HavePlayer`, `IsRight`, `IsTop`, etc.).
+- Faces are pooled / reused; `FieldAssemblerScript` / `FieldDisassemblerScript` handle dynamic restructuring.
+
+### 4. Action System (Enemies, Effects, Items)
+- **ActionScenarioDataBase** (ScriptableObject) holds an ordered array of `ActionSettingsScript` entries defining *what* spawns and *when*.
+- **ActionBasicSettingsDataBase** holds default parameters for each action type.
+- Concrete actions inherit from `ActionScript`:
+  - `SpawnerActionScript` — enemy spawners (`RedFace`, `RedWave`, `FallFace`, `BonusFace`)
+  - `FieldEffect` scripts — dynamic field modifications (`FaceDance`, `StripDance`)
+  - `NonFieldEffect` scripts — camera / screen effects (`RGBSuddenEffect`, `CameraRotationSuddenEffect`)
+  - `ItemSpawner` — portals, bonuses
+- **Custom Editors** (`ActionSettingsEditor` subclasses) provide polished inspector UIs for designers to tweak these ScriptableObjects.
+
+### 5. Player Movement & Beat Sync
+- `PlayerMovementControllerScript` reads input.
+- `PlayerMovementInteractorScript` validates moves against adjacent faces and beat timing.
+- `PlayerBeatSyncValidatorScript` checks whether the player pressed on-beat.
+- `PlayerBeatSyncPresenterScript` / `PlayerBeatSyncViewScript` fade a material to give visual feedback (combo window, miss, etc.).
+
+### 6. Menu Architecture
+- `MenuController` is the central orchestrator for the main menu.
+- `WindowInteractorScript` / `WindowViewScript` implement draggable/settings/credits windows.
+- Secret inputs (Konami code, annihilation password) have dedicated `*SecretRepositoryScript` and `*InteractorScript` classes.
+- Menu buttons use a transition system (`LevelButtonTransition`) with configurable curves.
+
+---
+
+## Build & Development Workflow
+
+### Opening the Project
+1. Launch **Unity Hub** → Add project from `d:/Games that I'm trying to make/Super 灯/Super-Deng`
+2. Open with **Unity 2022.3.62f3** (exact version recommended).
+
+### Building
+- **Target**: Standalone Windows 64-bit (configured in Build Settings).
+- **Scenes in build**:
+  1. `Assets/Scenes/StartMenu.unity`
+  2. `Assets/Scenes/IcoScene.unity`
+- Burst compilation is enabled for Android, StandaloneWindows, WebGL, and WSAPlayer.
+- No automated build scripts / CI pipelines are present in the repository. Builds are produced manually via the Unity Editor (`File → Build Settings → Build`).
+
+### Generated Files
+- `.csproj`, `.sln`, and `.csproj.lscache` files are **auto-generated by Unity**; do not hand-edit them. They are already in `.gitignore`.
+- `Library/`, `Temp/`, `obj/`, `Logs/`, `UserSettings/` are also gitignored.
+
+---
+
+## Code Style Guidelines
+
+### Naming
+| Construct | Convention | Example |
+|-----------|------------|---------|
+| Classes / Structs | PascalCase + `Script` suffix | `LevelTimeManagementScript` |
+| Interfaces | `I` + PascalCase + `Script` suffix | `IPlayerMovementPresenterScript` |
+| Methods | PascalCase | `InitializePlayer()` |
+| Private fields | camelCase, `[SerializeField]` | `private float beatInterval;` |
+| Public properties | PascalCase, expression-bodied when simple | `public float CurrentBeat => currentBeat;` |
+| Enums | PascalCase members | `ActionType`, `BonusType` |
+| ScriptableObjects | PascalCase, often end in `DataBase` or `Settings` | `ActionScenarioDataBase` |
+
+### Inspector Best Practices
+- Use `[Header("...")]` and `[Space]` to organize serialized fields.
+- Use `[SerializeReference]` for polymorphic arrays in ScriptableObjects (e.g., `ActionSettingsScript[]`).
+- Wire dependencies via `[SerializeField]` rather than `FindObjectOfType` or `GameObject.Find` where possible.
+
+### Comments
+- Comments are written in **English**.
+- Complex geometry / face orientation includes ASCII art diagrams (see `FaceScript.cs`).
+- Custom editor code uses colored GUI styles for warnings / hints.
+
+---
+
+## Testing
+
+- **There is no automated test suite** (no NUnit, no Test Runner assemblies, no PlayMode/EditMode tests).
+- All validation is manual / play-mode testing inside the Unity Editor.
+- When adding new features, test through the `IcoScene` or `ForVarvara'sExperiments` scene.
+
+---
+
+## Data & Persistence
+
+### Save System
+- `JsonDataServiceScript` implements `IDataServiceScript`.
+- Saves are stored as JSON (location depends on `Application.persistentDataPath`).
+- `LevelSaveData` tracks level progression.
+- Key bindings are saved via `KeyBindingDataScript`.
+
+### ScriptableObject Assets
+Designer-configurable data lives in `Assets/ScriptableObjects/`:
+- `ActionScenarioDataBase` — level spawn timelines
+- `ActionBasicSettingsDataBase` — default action parameters
+- `MaterialSettings` — runtime material references
+- Sub-folders (`RedFace/`, `BonusFace/`, `Portal/`, etc.) hold per-action setting assets.
+
+---
+
+## Steam Integration
+
+- `SteamManager.cs` (from Steamworks.NET) is a singleton that initializes the Steam API on startup.
+- Conditionally compiled with `#if !DISABLESTEAMWORKS`.
+- If Steam is not running or the platform is unsupported, the game still launches in offline mode.
+- **Do not** remove or rename `SteamManager` — other scripts may depend on `SteamManager.Initialized`.
+
+---
+
+## Security & Deployment Considerations
+
+- **No secrets / API keys** are stored in plain text in the repository.
+- Steam App ID is managed by the Steamworks.NET plugin (usually `steam_appid.txt` in the build output, not in source control).
+- `.gitignore` is the standard GitHub Unity template; it correctly excludes `Library/`, `Temp/`, build artifacts, and IDE caches.
+- Addressable asset bundles may contain large binary data — ensure they are tracked via Git LFS if they move into version control.
+
+---
+
+## Quick Reference for Agents
+
+### I want to add a new enemy type
+1. Create a new `ActionScript` subclass in `Assets/Scripts/GameScripts/Interactor/Actions/EnemySpawner/<YourEnemy>/`.
+2. Create matching `*Settings` and `*BasicSettings` ScriptableObject classes.
+3. Add a custom editor in `Assets/Scripts/Editor/` inheriting from `ActionSettingsEditor`.
+4. Add the new `ActionType` enum value.
+5. Create prefabs in `Assets/Prefabs/GamePrefabs/`.
+6. Add entries to `ActionScenarioDataBase` assets for levels that use it.
+
+### I want to add a new level
+1. Duplicate `IcoScene.unity` or use the existing one as a base.
+2. Create a new `ActionScenarioDataBase` asset describing the spawn sequence.
+3. Assign the scenario asset to the scene's `LevelInitializerScript`.
+4. Add the scene to `EditorBuildSettings.asset` if it needs to be reachable from the menu.
+
+### I want to change how the player moves
+- Modify `PlayerMovementControllerScript` (input reading) and/or `PlayerMovementInteractorScript` (move validation & execution).
+- Update `PlayerMovementPresenterScript` / `PlayerMovementViewScript` if visuals need to change.
+
+### I want to tweak post-processing / visual effects
+- URP post-processing volumes are in `Assets/PostProcessing/`.
+- Retro effects (CRT, VHS, scanlines) are handled by **RetroTVFX** and custom shaders in `Assets/PostEffects/` and `Assets/VHS/`.
+- **Do not** directly edit third-party shader packages unless you fork them — prefer overriding via material instances.
+
+---
+
+*Last updated: 2026-05-12 by agent exploration.*
