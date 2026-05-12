@@ -14,20 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: dfggggggggggg
   isHint: 0
-  bpm: 0.93
-  timeStartSeconds: 4.05
-  timeStartBeats: 0.062775
+  bpm: 90
+  timeStartSeconds: 4
+  timeStartBeats: 6
   isTimeEnd: 0
   timeEndSeconds: 0
   timeEndBeats: 0
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 0
   timeForcedBreakBeats: 0
-  type: 0
-  isRandom: 0
+  type: 1
+  isRandom: 1
+  isPseudoRandom: 0
   isCertain: 0
-  isStableQuantity: 0
-  quantityExact: 0
+  isStableQuantity: 1
+  quantityExact: 1
   quantityMin: 0
   quantityMax: 0
   isRelativeToPlayer: 0
@@ -38,12 +39,12 @@ MonoBehaviour:
   proximityLimit: 0
   isDistanceLimit: 0
   distanceLimit: 0
-  isChasingPlayer: 0
+  isBasicSettingsChange: 0
+  isChasingPlayer: 1
   isLifeDuration: 0
   lifeDurationSeconds: 3238.7097
   lifeDurationBeats: 50.2
-  typeRedWaveBudding: 3
-  isBasicSettingsChange: 0
+  typeRedWaveBudding: 1
   isMaterialChange: 0
   material: {fileID: 0}
   isColorDurationChange: 0

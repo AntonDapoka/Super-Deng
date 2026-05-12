@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61714268c09ad704ea89dc5693f1f0d2, type: 3}
+  m_Name: RedWaveBasicSettings
+  m_EditorClassIdentifier: 
+  type: 1
+  materialBasic: {fileID: 2100000, guid: f371f526a1fd49e43b1b4d8d39074dbe, type: 2}
+  proximityLimit: 0
+  distanceLimit: 99
+  colorDurationSecondsBasic: 1
+  scaleUpDurationSecondsBasic: 1
+  waitDurationSecondsBasic: 1
+  scaleDownDurationSecondsBasic: 1
+  heightBasic: 100
+  offsetBasic: 0.1

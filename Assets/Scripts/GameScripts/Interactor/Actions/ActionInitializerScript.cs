@@ -68,7 +68,7 @@ public class ActionInitializerScript : MonoBehaviour
         {
             if (!actionsByType.TryGetValue(set.Type, out var script))
             {
-                Debug.LogError($"Не найден Settings Type для ActionType {set.Type}");
+                Debug.LogError($"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ BasicSettings Type пїЅпїЅпїЅ ActionType {set.Type}");
                 continue;
             }
             script.SetBasicSettings(set);
@@ -83,7 +83,7 @@ public class ActionInitializerScript : MonoBehaviour
         {
             if (!actionsByType.TryGetValue(set.Type, out var script))
             {
-                Debug.LogError($"Не найден Settings Type для ActionType {set.Type}");
+                Debug.LogError($"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Settings Type пїЅпїЅпїЅ ActionType {set.Type}");
                 continue;
             }
 

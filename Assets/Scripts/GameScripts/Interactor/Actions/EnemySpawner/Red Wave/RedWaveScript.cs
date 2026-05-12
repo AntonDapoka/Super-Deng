@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class RedWaveScript
 {
-    private float timer; //Local
+    private int id;
+    private float timer; // Local
     private bool isTime = true;
+    private bool isBroken = false;
+    private bool hasBudded = false;
     private readonly GameObject face;
     private readonly FaceScript faceScript;
     private readonly FaceStateScript faceState;
@@ -26,8 +29,10 @@ public class RedWaveScript
     private readonly float scaleDownDuration;
     private readonly float height;
     private readonly float offset;
-
-    private readonly Material material; //MOVE TO PRESENTER
+    private readonly Material materialAction;
+    private readonly bool isLifeDurationEnabled;
+    private float lifeDuration;
+    private readonly RedWaveBuddingType buddingType;
 
     private readonly Vector3 startScale;
     private readonly Vector3 targetScale;
@@ -35,6 +40,8 @@ public class RedWaveScript
     private readonly Vector3 targetPos;
 
     public bool IsFinished => state == State.Done;
+    public bool ShouldBud { get; private set; }
+    public GameObject CurrentFace => face;
 
     public RedWaveScript(
         GameObject face,
@@ -45,33 +52,39 @@ public class RedWaveScript
         this.face = face;
         this.presenter = presenter;
 
-        if (settings.isColorDurationChange)
+        buddingType = settings.typeRedWaveBudding;
+        isLifeDurationEnabled = settings.isLifeDuration;
+        lifeDuration = settings.lifeDurationSeconds;
+
+        bool isChange = settings.isBasicSettingsChange;
+
+        if (isChange && settings.isColorDurationChange)
             colorDuration = settings.colorDurationSeconds;
         else colorDuration = settingsBasic.colorDurationSecondsBasic;
 
-        if (settings.isScaleUpDurationChange)
+        if (isChange && settings.isScaleUpDurationChange)
             scaleUpDuration = settings.scaleUpDurationSeconds;
         else scaleUpDuration = settingsBasic.scaleUpDurationSecondsBasic;
 
-        if (settings.isWaitDurationChange)
+        if (isChange && settings.isWaitDurationChange)
             waitDuration = settings.waitDurationSeconds;
         else waitDuration = settingsBasic.waitDurationSecondsBasic;
 
-        if (settings.isScaleDownDurationChange)
+        if (isChange && settings.isScaleDownDurationChange)
             scaleDownDuration = settings.scaleDownDurationSeconds;
         else scaleDownDuration = settingsBasic.scaleDownDurationSecondsBasic;
 
-        if (settings.isHeightChange)
+        if (isChange && settings.isHeightChange)
             height = settings.height;
         else height = settingsBasic.heightBasic;
 
-        if (settings.isOffsetChange)
+        if (isChange && settings.isOffsetChange)
             offset = settings.offset;
         else offset = settingsBasic.offsetBasic;
 
-        if (settings.isMaterialChange)
-            material = settings.material;
-        else material = settingsBasic.materialBasic;
+        if (isChange && settings.isMaterialChange)
+            materialAction = settings.material;
+        else materialAction = settingsBasic.materialBasic;
 
         faceScript = face.GetComponent<FaceScript>();
         faceState = face.GetComponent<FaceStateScript>();
@@ -82,11 +95,24 @@ public class RedWaveScript
         targetScale = new Vector3(1f, 1f, height);
         targetPos = new Vector3(0f, offset, 0f);
 
+        ShouldBud = false;
         StartColoring();
     }
 
     public void Update()
     {
+        if (state == State.Done || isBroken) return;
+
+        if (isLifeDurationEnabled)
+        {
+            lifeDuration -= Time.deltaTime;
+            if (lifeDuration <= 0f)
+            {
+                ForcedBreak();
+                return;
+            }
+        }
+
         switch (state)
         {
             case State.Coloring: UpdateColoring(); break;
@@ -98,17 +124,22 @@ public class RedWaveScript
 
     private void StartColoring()
     {
+        if (state == State.Done || isBroken) return;
+
         timer = 0f;
         state = State.Coloring;
         faceState.SetFaceState(FaceProperty.IsColored, true);
+        ApplyRedWaveMaterial();
     }
 
     private void UpdateColoring()
     {
-        ApplyRedFaceMaterial();
         AdvanceTimer();
-
-        if (TimerExpired(colorDuration)) StartScaleUp();
+        if (TimerExpired(colorDuration))
+        {
+            CheckAndTriggerBudding(State.Coloring);
+            StartScaleUp();
+        }
     }
 
     private void StartScaleUp()
@@ -118,17 +149,21 @@ public class RedWaveScript
 
         faceState.SetFaceState(FaceProperty.IsKilling, true);
         faceState.SetFaceState(FaceProperty.IsColored, false);
+
+        ApplyRedWaveMaterial();
     }
 
     private void UpdateScaleUp()
     {
-        UpdateScaling(startScale, targetScale, startPos, targetPos, scaleUpDuration, StartWait);
+        UpdateScaling(Vector3.zero, targetScale, startPos, targetPos, scaleUpDuration, StartWait);
     }
 
     private void StartWait()
     {
+        CheckAndTriggerBudding(State.ScaleUp);
         timer = 0f;
         state = State.Wait;
+        ApplyRedWaveMaterial();
     }
 
     private void UpdateWait()
@@ -141,8 +176,10 @@ public class RedWaveScript
 
     private void StartScaleDown()
     {
+        CheckAndTriggerBudding(State.Wait);
         timer = 0f;
         state = State.ScaleDown;
+        ApplyRedWaveMaterial();
     }
 
     private void UpdateScaleDown()
@@ -152,14 +189,18 @@ public class RedWaveScript
 
     private void Finish()
     {
-        faceScript.rend.material = material; //CHANGE TO PRESENTER
+        CheckAndTriggerBudding(State.ScaleDown);
+
+        faceScript.glowingPart.transform.localPosition = startPos;
+        faceScript.glowingPart.transform.localScale = startScale;
+
         faceState.SetFaceState(FaceProperty.IsKilling, false);
+        presenter.ChangeFaceBackToDefault(face);
         state = State.Done;
     }
 
     private void UpdateScaling(Vector3 fromScale, Vector3 toScale, Vector3 fromPos, Vector3 toPos, float duration, System.Action onComplete)
     {
-        ApplyRedFaceMaterial();
         AdvanceTimer();
 
         float t = Mathf.Clamp01(timer / duration);
@@ -170,16 +211,14 @@ public class RedWaveScript
         if (t >= 1f) onComplete();
     }
 
-    private void ApplyRedFaceMaterial()
+    private void ApplyRedWaveMaterial()
     {
-        faceScript.rend.material = material;
-        //CHANGE TO PRESENTER
+        presenter.ApplyFaceActionMaterial(face, materialAction);
     }
 
     private void AdvanceTimer()
     {
-        if (isTime)
-            timer += Time.deltaTime;
+        if (isTime) timer += Time.deltaTime;
     }
 
     private bool TimerExpired(float duration)
@@ -187,13 +226,45 @@ public class RedWaveScript
         return timer >= duration;
     }
 
+    private void CheckAndTriggerBudding(State currentState)
+    {
+        if (hasBudded) return;
+
+        bool shouldTrigger = buddingType switch
+        {
+            RedWaveBuddingType.isBuddingAfterColoring => currentState == State.Coloring,
+            RedWaveBuddingType.isBuddingAfterScalingUp => currentState == State.ScaleUp,
+            RedWaveBuddingType.isBuddingAfterWaiting => currentState == State.Wait,
+            RedWaveBuddingType.isBuddingAfterScalingDown => currentState == State.ScaleDown,
+            _ => false
+        };
+
+        if (shouldTrigger)
+        {
+            ShouldBud = true;
+        }
+    }
+
+    public void MarkBudded()
+    {
+        hasBudded = true;
+        ShouldBud = false;
+    }
+
     public void ForcedBreak()
     {
-        state = State.Done;
+        if (isBroken || state == State.Done) return;
+
+        isBroken = true;
+
+        faceScript.glowingPart.transform.localPosition = startPos;
+        faceScript.glowingPart.transform.localScale = startScale;
+
         faceState.SetFaceState(FaceProperty.IsKilling, false);
         faceState.SetFaceState(FaceProperty.IsColored, false);
-        //faceScript.glowingPart.transform.localPosition = 
-        //faceScript.glowingPart.transform.localScale = 
-        //presenter.SetBasicFace();
+
+        presenter.ChangeFaceBackToDefault(face);
+
+        state = State.Done;
     }
 }
