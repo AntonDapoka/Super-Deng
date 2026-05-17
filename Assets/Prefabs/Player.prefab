@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 324661030802127226}
   - component: {fileID: 2162271736784357601}
   m_Layer: 0
-  m_Name: InPart
+  m_Name: HolderInterior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 3892173913019095404}
   - component: {fileID: 4790996219765686259}
   m_Layer: 0
-  m_Name: LeftPart (1)
+  m_Name: BeatShutterLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2230396041881768602}
   m_Layer: 0
-  m_Name: BeatShutter
+  m_Name: HolderBeatShutter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -548,6 +548,38 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 8030619764310938100}
   m_maskType: 0
+--- !u!1 &1983409933316540267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 364560026150937960}
+  m_Layer: 0
+  m_Name: HolderExterior
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &364560026150937960
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983409933316540267}
+  serializedVersion: 2
+  m_LocalRotation: {x: -1, y: -0, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2895553756108374237}
+  m_Father: {fileID: 90731828576397414}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3570383966409583908
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,7 +592,7 @@ GameObject:
   - component: {fileID: 5173250509979986174}
   - component: {fileID: 815109230770350837}
   m_Layer: 0
-  m_Name: MiddlePart (1)
+  m_Name: BeatShutterMiddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -643,7 +675,7 @@ GameObject:
   - component: {fileID: 4506028882347502881}
   - component: {fileID: 507168029110500965}
   m_Layer: 0
-  m_Name: MiddlePart
+  m_Name: PartMiddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -726,7 +758,7 @@ GameObject:
   - component: {fileID: 4376043454115684324}
   - component: {fileID: 4923796537742426914}
   m_Layer: 0
-  m_Name: OutPart
+  m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -740,12 +772,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4560173050447090502}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.40000004, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0.40000007, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 90731828576397414}
+  m_Father: {fileID: 364560026150937960}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &4376043454115684324
 MeshFilter:
@@ -827,7 +859,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5589761995087973927}
-  - {fileID: 2895553756108374237}
+  - {fileID: 364560026150937960}
   - {fileID: 7936401244412914327}
   m_Father: {fileID: 8405228799366529537}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 180}
@@ -843,7 +875,7 @@ GameObject:
   - component: {fileID: 5290752215085270927}
   - component: {fileID: 1113981416907851127}
   m_Layer: 0
-  m_Name: TopPart (1)
+  m_Name: BeatShutterTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -926,7 +958,7 @@ GameObject:
   - component: {fileID: 1686432665563667610}
   - component: {fileID: 8414750217337765763}
   m_Layer: 0
-  m_Name: TopPart
+  m_Name: PartTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1066,7 +1098,7 @@ GameObject:
   - component: {fileID: 8447590462133656685}
   - component: {fileID: 4971050617267178775}
   m_Layer: 0
-  m_Name: RightPart
+  m_Name: PartRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1081,7 +1113,7 @@ Transform:
   m_GameObject: {fileID: 7352456933072699831}
   serializedVersion: 2
   m_LocalRotation: {x: -0.065263085, y: -0.11303897, z: 0.8586165, w: 0.49572235}
-  m_LocalPosition: {x: 0.89, y: 0.57, z: -0}
+  m_LocalPosition: {x: 1.18, y: 0.74, z: 0.09}
   m_LocalScale: {x: 4, y: 0.4999999, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1180,7 +1212,7 @@ GameObject:
   - component: {fileID: 8601084446509729984}
   - component: {fileID: 3955404407373321515}
   m_Layer: 0
-  m_Name: LeftPart
+  m_Name: PartLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1195,7 +1227,7 @@ Transform:
   m_GameObject: {fileID: 8166263606724188168}
   serializedVersion: 2
   m_LocalRotation: {x: -0.065263085, y: 0.11303897, z: -0.8586165, w: 0.49572235}
-  m_LocalPosition: {x: -1.06, y: 0.55, z: -0}
+  m_LocalPosition: {x: -1.16, y: 0.61, z: 0.03}
   m_LocalScale: {x: 4, y: 0.4999999, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1434,7 +1466,7 @@ GameObject:
   - component: {fileID: 4300343549825401241}
   - component: {fileID: 3005327371696305925}
   m_Layer: 0
-  m_Name: RightPart (1)
+  m_Name: BeatShutterRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
