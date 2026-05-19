@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAbilityTauntInteractorScript : MonoBehaviour, IAbilityScript
+public class PlayerAbilityTauntInteractorScript : PlayerAbilityScript
 {
     public AudioClip soundClipTaunt;
     public AudioSource audioSource;
@@ -15,16 +13,15 @@ public class PlayerAbilityTauntInteractorScript : MonoBehaviour, IAbilityScript
     private bool isRotating;
     private Quaternion initialRotation;
 
-    public void Activate(GameObject face)
+    public override void Activate(GameObject face)
     {
         if (!isRotating)
         {
             audioSource.clip = soundClipTaunt;
             duration = soundClipTaunt.length;
+
             if (audioSource != null && soundClipTaunt != null)
-            {
                 audioSource.Play();
-            }
 
             playerFace = face;
             elapsed = 0f;
@@ -42,7 +39,6 @@ public class PlayerAbilityTauntInteractorScript : MonoBehaviour, IAbilityScript
         float t = Mathf.Clamp01(elapsed / duration);
         float angle = 360f * t;
 
-        // ÂÐÀÙÀÅÌ ÎÒÍÎÑÈÒÅËÜÍÎ ÑÂÎÅÉ ÎÑÈ
         playerFace.transform.localRotation = initialRotation * Quaternion.AngleAxis(angle, axis.normalized);
 
         if (t >= 1f)

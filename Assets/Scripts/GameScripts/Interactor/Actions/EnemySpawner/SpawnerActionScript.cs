@@ -12,9 +12,10 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
     protected bool isCertainSpawn = false;
     protected bool isBasicSettingsChange = false;
     protected bool isStableQuantity;
-    protected int quantityExact;
-    protected int quantityMin;
-    protected int quantityMax;
+    protected float quantityExact;
+    protected float quantityMin;
+    protected float quantityMax;
+    [SerializeField] protected float quantityAccumulator = 0f;
 
     protected bool isRelativeToPlayer = false;
     protected int[] arrayOfFacesRelativeToPlayer;
@@ -52,9 +53,10 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
         List<int> availableFaces = GetAvailableFaces();
         if (isRandomSpawn)
         {
-            int quantity = isStableQuantity ? quantityExact : Random.Range(quantityMin, quantityMax);
+            float quantity = isStableQuantity ? quantityExact : Random.Range(quantityMin, quantityMax);
+            quantityAccumulator += quantity;
 
-            for (int i = 0; i < quantity; i++)
+            while (quantityAccumulator >= 1f)
             {
                 if (availableFaces.Count == 0) 
                 {
@@ -66,6 +68,7 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
                 availableFaces.RemoveAt(randomIndex);
 
                 SetActionFace(faces[selectedFaceIndex]); //Launch random ones from the available ones
+                quantityAccumulator -= 1f;
             }
         }
         if (isCertainSpawn) 

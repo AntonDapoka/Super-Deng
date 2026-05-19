@@ -17,27 +17,32 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private ActionInitializerScript actionInitializer;
     [SerializeField] private LevelTimeManagementScript timeIntializer;
 
-    [Header("Script References")]
+    [Header("Music References")]
     [SerializeField] private LevelRhythmManagementScript rhythmManager;
-    [SerializeField] private LevelTimeManagementScript LevelTimeManagement;
-    [SerializeField] private StartCountDownInteractorScript startCountDownInteractor;
-    [SerializeField] private CameraBehaivorInteractorScript cameraBehaivorInteractor;
-
-    [Header("Other References")]
     [SerializeField] private AudioSource musicManager;
     [SerializeField] private AudioClip musicTrack;
 
+    [Header("Other References")]
+    [SerializeField] private StartCountDownInteractorScript startCountDownInteractor;
+    [SerializeField] private CameraBehaivorInteractorScript cameraBehaivorInteractor;
+
     private void Awake()
+    {
+        InitializeMusic();
+
+        fieldInitializer.InitializeField();
+        timeIntializer.InitializeTime(0f, musicTrack.length);
+
+        rhythmManager.StartWithSync();
+        
+        actionInitializer.SetActionScenarioDataBase(scenarioData, basicSettingsData);
+        cameraBehaivorInteractor.InitializeCamera(rhythmManager.GetBeatInterval());
+    }
+
+    private void InitializeMusic()
     {
         musicManager.clip = musicTrack;
         musicManager.Play();
-
-
-        fieldInitializer.InitializeField();
-        LevelTimeManagement.InitializeTime(0f, musicTrack.length);
-        rhythmManager.StartWithSync();
-        actionInitializer.SetActionScenarioDataBase(scenarioData, basicSettingsData);
-        cameraBehaivorInteractor.InitializeCamera(rhythmManager.GetBeatInterval());
     }
 
     private void Start()

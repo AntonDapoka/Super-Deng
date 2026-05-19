@@ -35,6 +35,7 @@ public class PlayerInitializerScript : MonoBehaviour
     private void InitializeControllers(MovementKeyBindingDataScript movementKeyBindingData, AbilityKeyBindingDataScript abilityKeyBindingData)
     {
         playerMovementController.SetKeyBindings(movementKeyBindingData);
+        playerMovementController.SetAbilityKeyBindings(abilityKeyBindingData);
         playerAbilityController.SetKeyBindings(abilityKeyBindingData);
     }
 

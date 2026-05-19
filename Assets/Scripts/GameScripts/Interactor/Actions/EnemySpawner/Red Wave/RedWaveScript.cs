@@ -52,37 +52,37 @@ public class RedWaveScript
         this.face = face;
         this.presenter = presenter;
 
-        buddingType = settings.typeRedWaveBudding;
-        isLifeDurationEnabled = settings.isLifeDuration;
-        lifeDuration = settings.lifeDurationSeconds;
+        buddingType = settings != null ? settings.typeRedWaveBudding : RedWaveBuddingType.isBuddingAfterColoring;
+        isLifeDurationEnabled = settings != null && settings.isLifeDuration;
+        lifeDuration = settings != null ? settings.lifeDurationSeconds : 0f;
 
-        bool isChange = settings.isBasicSettingsChange;
+        bool isChange = settings != null && settings.isBasicSettingsChange;
 
-        if (isChange && settings.isColorDurationChange)
+        if (settings != null && isChange && settings.isColorDurationChange)
             colorDuration = settings.colorDurationSeconds;
         else colorDuration = settingsBasic.colorDurationSecondsBasic;
 
-        if (isChange && settings.isScaleUpDurationChange)
+        if (settings != null && isChange && settings.isScaleUpDurationChange)
             scaleUpDuration = settings.scaleUpDurationSeconds;
         else scaleUpDuration = settingsBasic.scaleUpDurationSecondsBasic;
 
-        if (isChange && settings.isWaitDurationChange)
+        if (settings != null && isChange && settings.isWaitDurationChange)
             waitDuration = settings.waitDurationSeconds;
         else waitDuration = settingsBasic.waitDurationSecondsBasic;
 
-        if (isChange && settings.isScaleDownDurationChange)
+        if (settings != null && isChange && settings.isScaleDownDurationChange)
             scaleDownDuration = settings.scaleDownDurationSeconds;
         else scaleDownDuration = settingsBasic.scaleDownDurationSecondsBasic;
 
-        if (isChange && settings.isHeightChange)
+        if (settings != null && isChange && settings.isHeightChange)
             height = settings.height;
         else height = settingsBasic.heightBasic;
 
-        if (isChange && settings.isOffsetChange)
+        if (settings != null && isChange && settings.isOffsetChange)
             offset = settings.offset;
         else offset = settingsBasic.offsetBasic;
 
-        if (isChange && settings.isMaterialChange)
+        if (settings != null && isChange && settings.isMaterialChange)
             materialAction = settings.material;
         else materialAction = settingsBasic.materialBasic;
 

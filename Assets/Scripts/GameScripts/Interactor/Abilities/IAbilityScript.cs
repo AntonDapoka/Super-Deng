@@ -1,3 +1,4 @@
+using RetroTVFX.Extras;
 using UnityEngine;
 
 public interface IAbilityScript

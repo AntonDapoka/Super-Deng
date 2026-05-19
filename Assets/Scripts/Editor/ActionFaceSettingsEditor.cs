@@ -52,7 +52,7 @@ public abstract class ActionFaceSettingsEditor : ActionSettingsEditor
                 EditorGUILayout.PropertyField(quantityExact, new GUIContent("Exact Quantity"));
 
                 if (isHint)
-                    EditorGUILayout.HelpBox("���������� ���������� �������� ���������� ����. ������ ��� ����� ���������� " + quantityExact.intValue + " ����", MessageType.Info);
+                    EditorGUILayout.HelpBox("���������� ���������� �������� ���������� ����. ������ ��� ����� ���������� " + quantityExact.floatValue + " ����", MessageType.Info);
             }
             else
             {
@@ -61,7 +61,7 @@ public abstract class ActionFaceSettingsEditor : ActionSettingsEditor
                 bool changedQuantityMin = EditorGUI.EndChangeCheck();
 
                 if (isHint)
-                    EditorGUILayout.HelpBox("����������� ���������� ���������� ����. ����� ���������� ���� ����� ���������� �������� ����� " + quantityMin.intValue + " � " + quantityMax.intValue, MessageType.Info);
+                    EditorGUILayout.HelpBox("����������� ���������� ���������� ����. ����� ���������� ���� ����� ���������� �������� ����� " + quantityMin.floatValue + " � " + quantityMax.floatValue, MessageType.Info);
 
                 EditorGUI.BeginChangeCheck();
                 EditorGUILayout.PropertyField(quantityMax, new GUIContent("Maximum Quantity"));
@@ -71,33 +71,33 @@ public abstract class ActionFaceSettingsEditor : ActionSettingsEditor
                     EditorGUILayout.HelpBox("������������ ���������� ���������� ����.", MessageType.Info);
 
 
-                if (changedQuantityMin && quantityMin.intValue > quantityMax.intValue)
+                if (changedQuantityMin && quantityMin.floatValue > quantityMax.floatValue)
                 {
-                    quantityMax.intValue = quantityMin.intValue;
+                    quantityMax.floatValue = quantityMin.floatValue;
                 }
-                else if (changedQuantityMax && quantityMin.intValue > quantityMax.intValue)
+                else if (changedQuantityMax && quantityMin.floatValue > quantityMax.floatValue)
                 {
-                    quantityMin.intValue = quantityMax.intValue;
-                }
-
-                if ((changedQuantityMin || changedQuantityMax) && quantityMin.intValue < 0)
-                {
-                    quantityMin.intValue = 0;
+                    quantityMin.floatValue = quantityMax.floatValue;
                 }
 
-                if ((changedQuantityMin || changedQuantityMax) && quantityMax.intValue < 0)
+                if ((changedQuantityMin || changedQuantityMax) && quantityMin.floatValue < 0)
                 {
-                    quantityMax.intValue = 0;
+                    quantityMin.floatValue = 0;
                 }
 
-                if ((changedQuantityMin || changedQuantityMax) && quantityMin.intValue > 321)
+                if ((changedQuantityMin || changedQuantityMax) && quantityMax.floatValue < 0)
                 {
-                    quantityMin.intValue = 321;
+                    quantityMax.floatValue = 0;
                 }
 
-                if ((changedQuantityMin || changedQuantityMax) && quantityMax.intValue > 321)
+                if ((changedQuantityMin || changedQuantityMax) && quantityMin.floatValue > 321)
                 {
-                    quantityMax.intValue = 321;
+                    quantityMin.floatValue = 321;
+                }
+
+                if ((changedQuantityMin || changedQuantityMax) && quantityMax.floatValue > 321)
+                {
+                    quantityMax.floatValue = 321;
                 }
             }
         }

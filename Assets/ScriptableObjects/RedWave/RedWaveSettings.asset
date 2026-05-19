@@ -28,7 +28,7 @@ MonoBehaviour:
   isPseudoRandom: 0
   isCertain: 0
   isStableQuantity: 1
-  quantityExact: 1
+  quantityExact: 0.2
   quantityMin: 0
   quantityMax: 0
   isRelativeToPlayer: 0

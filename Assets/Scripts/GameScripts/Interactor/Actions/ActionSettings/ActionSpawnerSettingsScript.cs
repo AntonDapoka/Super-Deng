@@ -5,9 +5,9 @@ public class ActionSpawnerSettingsScript : ActionSettingsScript
     public bool isCertain; // Will be certain faces activated?
 
     public bool isStableQuantity;
-    public int quantityExact;
-    public int quantityMin;
-    public int quantityMax;
+    public float quantityExact;
+    public float quantityMin;
+    public float quantityMax;
 
     public bool isRelativeToPlayer;
     public int[] arrayOfFacesRelativeToPlayer;

@@ -55,24 +55,9 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         playerFace.FaceState.SetFaceState(FaceProperty.IsTop, false);
         playerFace.FaceState.SetFaceState(FaceProperty.IsLeft, false);
 
-        /*
-        playerFace.side1.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsLeft, true);
-        playerFace.side2.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsRight, true);
-        playerFace.side3.GetComponent<FaceScript>().FaceState.Set(FaceProperty.IsTop, true);//IM SORRY WHAT???
-
-        sides.Clear();
-        sides.Add("LeftSide", playerFace.side1);
-        sides.Add("RightSide", playerFace.side2);
-        sides.Add("TopSide", playerFace.side3);*/
-
         VeryPoorlyThoughtOutVoidForSettingThePlayerNeighborSidesPleaseRewriteIt();
 
         playerStateInteractor.SetCurrentFace(playerFace.gameObject);
-
-        /*
-        NHS.SetNavigationHint(FS1);
-        NHS.SetNavigationHint(FS2);
-        NHS.SetNavigationHint(FS3);*/
     }
 
     private void VeryPoorlyThoughtOutVoidForSettingThePlayerNeighborSidesPleaseRewriteIt()
@@ -200,15 +185,9 @@ public class PlayerMovementInteractorScript : MonoBehaviour
         if (pathCounter != null) pathCounter.SetPathCount();
         //if (KYSS != null) KYSS.beatsNoMoving = 0;
 
-
         newPlayer.transform.SetParent(sideCurrent.transform);
         newPlayer.transform.localPosition = Vector3.zero;
-        //IsUpsideDown = !IsUpsideDown;
         newPlayer.transform.localRotation =  Quaternion.identity;
-
-        //NHS.SetNavigationHint(FS1);
-        //NHS.SetNavigationHint(FS2);
-        //NHS.SetNavigationHint(FS3);
 
         playerStateInteractor.SetCurrentFace(sideCurrent);
     }

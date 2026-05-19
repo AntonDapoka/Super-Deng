@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityContextScript : MonoBehaviour
+public class AbilityInitializerScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

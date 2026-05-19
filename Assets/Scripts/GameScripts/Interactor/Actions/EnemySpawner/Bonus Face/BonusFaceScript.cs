@@ -37,16 +37,20 @@ public class BonusFaceScript
         BonusType bonusType)
     {
         this.face = face;
-        this.settings = settings;
+        this.settings = settings ?? ScriptableObject.CreateInstance<BonusFaceSettings>();
         this.settingsBasic = settingsBasic;
         this.presenter = presenter;
         this.bonusType = bonusType;
 
-        if (settings.isLifeDuration)
-            lifeDuration = settings.lifeDurationSeconds;
+        if (this.settings.isLifeDuration)
+            lifeDuration = this.settings.lifeDurationSeconds;
+        else
+            lifeDuration = float.MaxValue;
 
-        if (settings.isDeathDuration)
-            deathDuration = settings.deathDurationSeconds;
+        if (this.settings.isDeathDuration)
+            deathDuration = this.settings.deathDurationSeconds;
+        else
+            deathDuration = 0f;
 
         faceScript = face.GetComponent<FaceScript>();
         faceState = face.GetComponent<FaceStateScript>();
