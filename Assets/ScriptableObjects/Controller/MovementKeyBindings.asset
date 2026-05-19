@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64ecf80d3f0aa043b2f80504f5f2fee, type: 3}
-  m_Name: KeyBindings
+  m_Script: {fileID: 11500000, guid: 20f73b9c5491ad64e83dd026b6b5f53b, type: 3}
+  m_Name: MovementKeyBindings
   m_EditorClassIdentifier: 
-  moveLeft: 97
-  moveRight: 100
-  moveTop: 119
+  keyLeft: 97
+  keyRight: 100
+  keyTop: 119

@@ -8,8 +8,10 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Transform center; 
     [SerializeField] private float followSpeed = 5f; 
 
-    private void Start()
+
+    public void Initialize(Transform playerFollow)
     {
+        player = playerFollow;
         transform.position = player.position;
         Vector3 direction = center.position - transform.position;
         transform.rotation = Quaternion.LookRotation(direction);

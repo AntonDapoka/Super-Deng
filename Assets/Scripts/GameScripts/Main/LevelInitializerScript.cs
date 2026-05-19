@@ -7,13 +7,8 @@ public class LevelInitializerScript : MonoBehaviour
     [SerializeField] private ActionBasicSettingsDataBase basicSettingsData;
 
     [Header("Controller Data")]
-    [SerializeField] private KeyBindingDataScript playerMovementKeyBindingData;
-
-    [Header("Controllers")]
-    [SerializeField] private PlayerMovementControllerScript playerMovementController;
-
-    [Header("Presenters")]
-    [SerializeField] private PlayerMovementKeyBindingHintsPresenterScript playerMovementKeyBindingHintsPresenter;
+    [SerializeField] private MovementKeyBindingDataScript playerMovementKeyBindingData;
+    [SerializeField] private AbilityKeyBindingDataScript playerAbilityKeyBindingData;
 
     [Header("Initializers")]
     [SerializeField] private FieldInitializerScript fieldInitializer;
@@ -37,10 +32,7 @@ public class LevelInitializerScript : MonoBehaviour
         musicManager.clip = musicTrack;
         musicManager.Play();
 
-        playerMovementController.SetKeyBindings(playerMovementKeyBindingData);
-        playerMovementKeyBindingHintsPresenter.SetKeyBindings(playerMovementKeyBindingData);
-        playerMovementKeyBindingHintsPresenter.TurnOn();
-        playerMovementKeyBindingHintsPresenter.Initialize();
+
         fieldInitializer.InitializeField();
         LevelTimeManagement.InitializeTime(0f, musicTrack.length);
         rhythmManager.StartWithSync();
@@ -52,7 +44,7 @@ public class LevelInitializerScript : MonoBehaviour
     {
         timeIntializer.TurnOn();
 
-        playerInitializer.InitializePlayer(rhythmManager.GetBeatInterval());
+        playerInitializer.InitializePlayer(playerMovementKeyBindingData, playerAbilityKeyBindingData, rhythmManager.GetBeatInterval());
         startCountDownInteractor.StartStartCountDown(rhythmManager.GetBeatInterval());
     }
 }

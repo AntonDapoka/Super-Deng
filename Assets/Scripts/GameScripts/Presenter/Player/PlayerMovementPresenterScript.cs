@@ -22,7 +22,6 @@ public class PlayerMovementPresenterScript : MonoBehaviour, IPlayerMovementPrese
             Debug.LogError("More than three sides!!!!");
             return;
         }
-        
 
         foreach (var pair in sides)
         {

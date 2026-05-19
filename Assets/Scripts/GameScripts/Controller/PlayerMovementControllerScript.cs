@@ -4,11 +4,11 @@ public class PlayerMovementControllerScript : InputHandlerScript
 {
     public override void HandleInput(KeyCode key)
     {
-        if (key == keyBindings.moveLeft)
+        if (key == keyBindings.keyLeft)
             MovePlayer("Left");
-        else if (key == keyBindings.moveRight)
+        else if (key == keyBindings.keyRight)
             MovePlayer("Right");
-        else if (key == keyBindings.moveTop)
+        else if (key == keyBindings.keyTop)
             MovePlayer("Top");
     }
 

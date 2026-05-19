@@ -6,12 +6,14 @@ public class PlayerAbilityControllerScript : InputHandlerScript
 
     public override void HandleInput(KeyCode key)
     {
-        if (key == keyBindings.moveLeft)
+        if (key == keyBindings.keyLeft)
             ActivateAbility(AbilityType.Taunt);
-        else if (key == keyBindings.moveRight)
+        else if (key == keyBindings.keyRight)
             ActivateAbility(AbilityType.Taunt);
-        else if (key == keyBindings.moveTop)
+        else if (key == keyBindings.keyTop)
             ActivateAbility(AbilityType.Taunt);
+        //else if (key == keyBindings.keyCenter)
+        //    ActivateAbility(AbilityType.Taunt);
     }
 
 

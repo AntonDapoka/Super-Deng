@@ -72,8 +72,6 @@ public class RedWaveSpawnerScript : SpawnerActionScript
         }
 
         redWaveBasicSettings = redWaveSettings;
-
-        Debug.Log("Basic is setted");
     }
 
     public override bool IsSuitableSpecialRequirements(FaceScript FS, FaceStateScript FSS)
@@ -115,7 +113,7 @@ public class RedWaveSpawnerScript : SpawnerActionScript
 
         if (redWavePresenter == null)
             Debug.Log("presenter null");
-        Debug.Log("cREATED");
+
         return new RedWaveScript(face, redWaveSettings, redWaveBasicSettings, redWavePresenter);
     }
 

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,28 +5,31 @@ public class PlayerStatePresenterScript : MonoBehaviour
 {
     [SerializeField] private PlayerStateViewScript playerStateView;
 
-    [SerializeField] private GameObject partTop;
-    [SerializeField] private GameObject partMiddle;
-    [SerializeField] private GameObject partLeft;
-    [SerializeField] private GameObject partRight;
-
     [SerializeField] private Material materialTurnOn;
     [SerializeField] private Material materialTurnOff;
     [SerializeField] private Material materialRed;
 
-    private MeshRenderer rendPartTop;
-    private MeshRenderer rendPartMiddle;
-    private MeshRenderer rendPartLeft;
-    private MeshRenderer rendPartRight;
+    private MeshRenderer[] heartParts;
 
     private int hp = 4;
 
-    private void Start() //Replace for Initialize
+    public void Initialize(PlayerReferencesHolderScript referencesHolder)
     {
-        rendPartTop = partTop.GetComponent<MeshRenderer>();
-        rendPartMiddle = partMiddle.GetComponent<MeshRenderer>();
-        rendPartLeft = partLeft.GetComponent<MeshRenderer>();
-        rendPartRight = partRight.GetComponent<MeshRenderer>();
+        heartParts = CollectMeshRenderers(referencesHolder.HeartParts);
+    }
+
+    private MeshRenderer[] CollectMeshRenderers(GameObject[] objects)
+    {
+        List<MeshRenderer> result = new();
+
+        foreach (GameObject obj in objects)
+        {
+            if (obj == null) continue;
+
+            if (obj.TryGetComponent<MeshRenderer>(out var renderer)) result.Add(renderer);
+        }
+
+        return result.ToArray();
     }
 
     public void SetNewHP(int hp)
@@ -38,20 +40,14 @@ public class PlayerStatePresenterScript : MonoBehaviour
     public void DisplayHP()
     {
         Material[] materials = new Material[] { materialTurnOff, materialTurnOn };
-        MeshRenderer[] parts = new MeshRenderer[] { rendPartMiddle, rendPartTop, rendPartLeft, rendPartRight};
-
         for (int i = 0; i < 4; i++)
-        {
-            parts[i].material = materials[(hp >= i + 1) ? 1 : 0];
-        }
+            heartParts[i].material = materials[(hp >= i + 1) ? 1 : 0];
     }
 
     public void SetPartsMaterial(Material material)
     {
-        rendPartTop.material = material;
-        rendPartMiddle.material = material;
-        rendPartLeft.material = material;
-        rendPartRight.material = material;
+        foreach (MeshRenderer part in heartParts)
+            part.material = material;
     }
 
     public void SetColoredState()

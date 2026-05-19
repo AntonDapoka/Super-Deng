@@ -19,6 +19,11 @@ public class PlayerMovementInteractorScript : MonoBehaviour
 
     private bool isTurnOn = false;
 
+    public void SetPlayer(GameObject player)
+    {
+        this.player = player;
+    }
+
     public void InitializePlayerFace(FaceScript face)
     {
         playerFace = face;
