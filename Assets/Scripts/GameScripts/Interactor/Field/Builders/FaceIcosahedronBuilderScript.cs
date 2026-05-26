@@ -18,7 +18,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 
     public GameObject Holder => fieldHolder;
 
-    public void BuildField(GameObject newFacePrefab, float newSideLength, float newFaceScale) //interface
+    public virtual void BuildField(GameObject newFacePrefab, float newSideLength, float newFaceScale) //interface
     {
         //dataStructure.GetData unique class data blablabla
         facePrefab = newFacePrefab;

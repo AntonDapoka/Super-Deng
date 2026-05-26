@@ -5,13 +5,18 @@ using UnityEngine;
 
 public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
 {
-    [SerializeField] private int interation;
-    private void Start()
+    [SerializeField] private int iteration;
+    
+    public override void BuildField(GameObject newFacePrefab, float newSideLength, float newFaceScale) //interface
     {
-        StartCoroutine(BuildIcosphere(sideLength, interation));
+        //dataStructure.GetData unique class data blablabla
+        facePrefab = newFacePrefab;
+        sideLength = newSideLength;
+        faceScale = newFaceScale;
+        BuildIcosphere(sideLength);
     }
 
-    protected IEnumerator BuildIcosphere(float sideLen, int iteration)
+    protected IEnumerator BuildIcosphere(float sideLen)
     {
         radiusIco = iteration * sideLen * 0.250000f * (Mathf.Sqrt(2.00000f * (5.0f + Mathf.Sqrt(5.00000f))));
         float radiusPenta = iteration * sideLen * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.0f + Mathf.Sqrt(5.00000f))) / 10.00000f;
@@ -24,7 +29,7 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         //if (isTest) 
         GenerateInitialVertices(combined);
         GenerateInitialVertices(AdjustVerticesToRadius(combined, radiusIco));
-        //Debug.Log("You have 1f");
+        Debug.Log("You have 1f");
         yield return new WaitForSeconds(1f);
         StartCoroutine(GeneratingFaces(combined, sideLen, radiusIco));
 

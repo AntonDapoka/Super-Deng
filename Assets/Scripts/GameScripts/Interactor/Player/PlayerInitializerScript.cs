@@ -16,7 +16,7 @@ public class PlayerInitializerScript : MonoBehaviour
     [SerializeField] private PlayerBeatSyncValidatorScript playerBeatSyncValidator;
     [SerializeField] private FaceArrayScript faceArray;
     [SerializeField] private PathCounterScript pathCounter;
-    [SerializeField] private CameraFollow cameraFollow;
+    [SerializeField] private IcosphereRotateToCameraScript cameraFollow;
 
     [Header("Presenters")]
     [SerializeField] private PlayerStatePresenterScript playerStatePresenter;
@@ -47,7 +47,7 @@ public class PlayerInitializerScript : MonoBehaviour
         playerBeatSyncValidator.Initialize(beatInterval); //Add data
         pathCounter.StartPathCount();
 
-        cameraFollow.Initialize(player.GetComponent<PlayerReferencesHolderScript>().PositionCameraFollow);
+        cameraFollow.Initialize(player.transform);
     }
 
     private void InitializePresentors(MovementKeyBindingDataScript movementKeyBindingData, AbilityKeyBindingDataScript abilityKeyBindingData)
