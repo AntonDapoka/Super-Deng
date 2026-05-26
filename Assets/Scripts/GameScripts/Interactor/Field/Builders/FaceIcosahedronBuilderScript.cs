@@ -108,7 +108,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         //GroupGameObjects(faces.ToArray());
     }
 
-    protected GameObject SetFace(Vector3[] verticesABC, Transform parent, int id)
+    protected virtual GameObject SetFace(Vector3[] verticesABC, Transform parent, int id)
     {
         if (verticesABC.Length != 3)
         {
@@ -116,7 +116,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         }
         Vector3 center = (verticesABC[0] + verticesABC[1] + verticesABC[2]) / 3f;
 
-        Vector3 vertexOnXAxis = verticesABC[Random.Range(0, 3)]; //CHANGE IT
+        Vector3 vertexOnXAxis = verticesABC[0];
         Quaternion rotation = SetFaceRightRotation(vertexOnXAxis, verticesABC, center, Vector3.zero);
 
         GameObject face = Instantiate(facePrefab, center, rotation, parent);
