@@ -125,10 +125,13 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         faceScript.SetFaceID(id);
         GameObject shadow = faceScript.shadow;
 
-        float distanceFace = Vector3.Distance(face.transform.position, Vector3.zero); // Distance to (0,0,0)
-        float distanceShadow = Vector3.Distance(shadow.transform.position, Vector3.zero); // Distance to (0,0,0)
+        Vector3 A = verticesABC[0];
+        Vector3 B = verticesABC[1];
+        Vector3 C = verticesABC[2];
+        Vector3 normal = Vector3.Cross(B - A, C - A).normalized;
 
-        if (distanceFace < distanceShadow) //If shadow is futher away from the center, we need to Rotate our Face
+        Vector3 shadowOffset = shadow.transform.position - face.transform.position;
+        if (Vector3.Dot(normal, shadowOffset) > 0f) // shadow is on the outward side of the plane
         {
             face.transform.Rotate(0, 0, 180, Space.Self);
         }
@@ -136,7 +139,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         return face;
     }
 
-    private Quaternion SetFaceRightRotation(Vector3 vertexOnZAxis, Vector3[] verticesABC, Vector3 centerTriangle, Vector3 zero)
+    protected Quaternion SetFaceRightRotation(Vector3 vertexOnZAxis, Vector3[] verticesABC, Vector3 centerTriangle, Vector3 zero)
     {
         Vector3 A = verticesABC[0];
         Vector3 B = verticesABC[1];
