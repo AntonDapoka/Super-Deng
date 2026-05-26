@@ -9,14 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5600188f43e96f409dde2875436b445, type: 3}
-  m_Name: RedFaceBasicSettings
+  m_Script: {fileID: 11500000, guid: 61714268c09ad704ea89dc5693f1f0d2, type: 3}
+  m_Name: RedWaveBasicSettings
   m_EditorClassIdentifier: 
-  type: 0
-  heightBasic: 100
-  offsetBasic: 0.1
+  type: 1
+  materialBasic: {fileID: 2100000, guid: f371f526a1fd49e43b1b4d8d39074dbe, type: 2}
+  proximityLimit: 0
+  distanceLimit: 99
   colorDurationSecondsBasic: 1
   scaleUpDurationSecondsBasic: 1
-  waitDurationSecondsBasic: 2
+  waitDurationSecondsBasic: 1
   scaleDownDurationSecondsBasic: 1
-  materialBasic: {fileID: 2100000, guid: c2cc1665bb0be8f478ab47be7bac8ad7, type: 2}
+  heightBasic: 70
+  offsetBasic: 0.08

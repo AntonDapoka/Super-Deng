@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23611e6e2dfd4094b90c3c3ec81a0283, type: 3}
+  m_Name: BonusFaceSettings
+  m_EditorClassIdentifier: 
+  effectName: 
+  isHint: 0
+  bpm: 90
+  timeStartSeconds: 4
+  timeStartBeats: 6
+  isTimeEnd: 0
+  timeEndSeconds: 0
+  timeEndBeats: 0
+  isTimeForcedBreak: 0
+  timeForcedBreakSeconds: 0
+  timeForcedBreakBeats: 0
+  type: 3
+  isRandom: 1
+  isPseudoRandom: 0
+  isCertain: 0
+  isStableQuantity: 1
+  quantityExact: 0.3
+  quantityMin: 0
+  quantityMax: 0
+  isRelativeToPlayer: 0
+  arrayOfFacesRelativeToPlayer: 
+  isRelativeToFigure: 0
+  arrayOfFacesRelativeToFigure: 
+  isProximityLimit: 1
+  proximityLimit: 1
+  isDistanceLimit: 0
+  distanceLimit: 0
+  isBasicSettingsChange: 0
+  typeBonus: 1
+  isLifeDuration: 0
+  lifeDurationSeconds: 0
+  lifeDurationBeats: 0
+  isDeathDuration: 0
+  deathDurationSeconds: 0
+  deathDurationBeats: 0
+  isMaterialChange: 0
+  material: {fileID: 0}
+  isBonusSymbolPrefabChange: 0
+  bonusSymbolPrefab: {fileID: 0}

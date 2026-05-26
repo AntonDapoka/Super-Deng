@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(FaceStateScript))]
 public class FaceScript : MonoBehaviour, IFaceScript
 {
     // Mandatory Disclaimer: "Right," "Left," and "Top" are for a triangle with its base pointing DOWN!!!
@@ -34,9 +35,9 @@ public class FaceScript : MonoBehaviour, IFaceScript
     public GameObject glowingPart;
     public GameObject shadow;
 
-    public bool IsTurnOn { get => isTurnOn; set => isTurnOn = value; } //interface
-    public int PathObjectCount { get => pathObjectCount; set => pathObjectCount = value; } //interface
-    public FaceStateScript FaceState => faceState; //interface
+    public bool IsTurnOn { get => isTurnOn; set => isTurnOn = value; }
+    public int PathObjectCount { get => pathObjectCount; set => pathObjectCount = value; }
+    public FaceStateScript FaceState => faceState;
 
     private void OnEnable()
     {
@@ -71,14 +72,8 @@ public class FaceScript : MonoBehaviour, IFaceScript
         {
             Shadow foundShadow = GetComponentInChildren<Shadow>();
 
-            if (foundShadow != null)
-            {
-                shadow = foundShadow.gameObject;
-            }
-            else
-            {
-                Debug.LogWarning($"{name}: No Shadow found in children!");
-            }
+            if (foundShadow != null)shadow = foundShadow.gameObject;
+            else Debug.LogWarning($"{name}: No Shadow found in children!");
         }
     }
 
