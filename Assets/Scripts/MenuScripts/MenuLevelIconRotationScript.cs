@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
-public class CubeRotation : MonoBehaviour
+public class MenuLevelIconRotationScript : MonoBehaviour
 {
     [Range(0, 20)]
     [SerializeField] private float rotationSpeed;
     [SerializeField] private bool clockwiseRotation = true;
-
 
     private void Update()
     {
