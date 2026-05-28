@@ -85440,7 +85440,7 @@ MonoBehaviour:
   - {fileID: 1937744191}
   - {fileID: 535292940}
   levelObjects:
-  - {fileID: 0}
+  - {fileID: 893813845}
   prefabDoor: {fileID: 8728528089906865466, guid: 212e8679774d4e946b5fa65874609762, type: 3}
   targetPoint: {fileID: 106749787}
   enviromentHolder: {fileID: 691730785}

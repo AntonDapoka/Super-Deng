@@ -29,10 +29,10 @@ public class StartToSavingsTransitionScript : MonoBehaviour
     private IEnumerator PerformEffects()
     {
         StartCoroutine(RotateCameraToTarget());
-        //yield return StartCoroutine(ToggleAndResizeImage(false)); // �������� � �������
+        //yield return StartCoroutine(ToggleAndResizeImage(false)); 
         yield return new WaitForSeconds(0.6f);
-        StartCoroutine(ExpandDoor()); // ���������� � ����������� �������
-        //yield return StartCoroutine(ZoomCamera(originalCameraSize)); // ���������� ���
+        StartCoroutine(ExpandDoor());
+        //yield return StartCoroutine(ZoomCamera(originalCameraSize));
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(ExpandDoor());
         yield return new WaitForSeconds(0.5f);
