@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class WindowPresenterScript : MonoBehaviour, IFlickerable
 {
-    [SerializeField] protected WindowViewScript windowView;
+    //[SerializeField] protected WindowViewScript windowView;
     [SerializeField] protected FlickeringViewScript flickeringView;
     [SerializeField] protected AnimationCurve heightCurve;
     [SerializeField] protected AnimationCurve positionCurve;

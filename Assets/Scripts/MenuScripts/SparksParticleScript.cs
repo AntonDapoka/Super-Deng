@@ -10,20 +10,10 @@ public class SparksParticleScript : MonoBehaviour
 
     private void Start()
     {
-        foreach (Transform child in sparksHolder.transform)
-        {
-            if (child.TryGetComponent<Spark>(out var spark))
-            {
-                if (spark.TryGetComponent<ParticleSystem>(out var ps))
-                {
-                    particleSystems.Add(ps);
-                }
-            }
-        }
-
-
-
-        //StartRandomParticles();
+        particleSystems = sparksHolder.GetComponentsInChildren<Spark>()
+            .Select(s => s.GetComponent<ParticleSystem>())
+            .Where(ps => ps != null)
+            .ToList();
     }
 
     public void StartRandomParticles()
@@ -44,15 +34,7 @@ public class SparksParticleScript : MonoBehaviour
     private void PlayRandomParticles(int quantity)
     {
         if (particleSystems.Count == 0 || quantity <= 0) return;
-
-        // Перемешиваем список и берем нужное количество элементов
         var selectedParticles = particleSystems.OrderBy(x => Random.value).Take(quantity);
-
-        foreach (var ps in selectedParticles)
-        {
-            ps.Play();
-        }
+        foreach (var ps in selectedParticles) ps.Play();
     }
-
-
 }
