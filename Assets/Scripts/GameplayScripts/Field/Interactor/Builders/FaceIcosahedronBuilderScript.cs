@@ -75,9 +75,11 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         }
     }
 
+    protected readonly IFaceIdProviderScript _faceIdProvider = new FaceIdProviderScript();
+
     protected void GenerateFaces(Vector3[] vertices, float maxDistance, float radius, Transform parent)
     {
-        int id = 0;
+        var entries = new List<(GameObject face, long rawKey)>();
         for (int i = 0; i < vertices.Length; i++)
         {
             for (int j = i + 1; j < vertices.Length; j++)
@@ -97,18 +99,20 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
                     {
 
                         Vector3[] verticesABC = AdjustVerticesToRadius(new Vector3[3] { a, b, c }, radius);
-                        GameObject face = SetFace(verticesABC, parent, id);
+                        long key = _faceIdProvider.ComputeIcosphereFaceKey(i, j, k);
+                        GameObject face = SetFace(verticesABC, parent);
 
                         faces.Add(face);
-                        id++;
+                        entries.Add((face, key));
                     }
                 }
             }
         }
+        FaceIdCanonicalizerScript.AssignIds(entries);
         //GroupGameObjects(faces.ToArray());
     }
 
-    protected virtual GameObject SetFace(Vector3[] verticesABC, Transform parent, int id)
+    protected virtual GameObject SetFace(Vector3[] verticesABC, Transform parent)
     {
         if (verticesABC.Length != 3)
         {
@@ -122,7 +126,6 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         GameObject face = Instantiate(facePrefab, center, rotation, parent);
         face.transform.localScale = new Vector3(faceScale, faceScale, faceScale); 
         FaceScript faceScript = face.GetComponent<FaceScript>();
-        faceScript.SetFaceID(id);
         GameObject shadow = faceScript.shadow;
 
         Vector3 A = verticesABC[0];
@@ -166,54 +169,4 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
     {
         return faces.ToArray();
     }
-
-    /*
-    public void GroupGameObjects(GameObject[] gameObjects)
-    {
-        List<List<GameObject>> stripes = new List<List<GameObject>>();
-
-        List<GameObject> sortedObjects = new List<GameObject>(faces);
-        sortedObjects.Sort((a, b) => a.transform.position.y.CompareTo(b.transform.position.y));
-
-        foreach (var obj in sortedObjects)
-        {
-            bool added = false;
-            foreach (var stripe in stripes)
-            {
-                if (Mathf.Abs(stripe[0].transform.position.y - obj.transform.position.y) <= 0.1f) //////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                {
-                    stripe.Add(obj);
-                    added = true;
-                    break;
-                }
-            }
-            if (!added)
-            {
-                stripes.Add(new List<GameObject> { obj });
-            }
-        }
-
-        int k = 0;
-        foreach (var stripe in stripes)
-        {
-            char letter = (char)('A' + k);
-            GameObject emptyObject = new GameObject("Strip" + letter);
-
-            foreach (var face in stripe)
-            {
-                face.transform.SetParent(emptyObject.transform);
-
-                if (k % 2 != 0)
-                {
-                    AlignLocalZDown(face);
-                    //face.transform.localScale = Vector3.one / 3f;  
-                }
-                else
-                {
-                    AlignLocalZUp(face);
-                }
-            }
-            k++;
-        }
-    }*/
 }

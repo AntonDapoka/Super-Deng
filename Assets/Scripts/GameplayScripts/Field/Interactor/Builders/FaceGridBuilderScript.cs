@@ -7,6 +7,7 @@ public class FaceGridBuilderScript : MonoBehaviour
 {
     [SerializeField] private GameObject prefabFace;
     private GameObject[,] faceGrid;
+    private readonly IFaceIdProviderScript _faceIdProvider = new FaceIdProviderScript();
 
     [Header("Grid Settings")]
     [SerializeField] private float horizontalSpacing = 0.9f;
@@ -28,8 +29,9 @@ public class FaceGridBuilderScript : MonoBehaviour
         faceGrid = new GameObject[gridHeight, gridWidth];
         GameObject grid = new GameObject("Grid");
 
-        // Список всех позиций для вычисления центра
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         List<Vector3> positions = new List<Vector3>();
+        var entries = new List<(GameObject face, long rawKey)>();
 
         for (int y = 0; y < gridHeight; y++)
         {
@@ -53,11 +55,15 @@ public class FaceGridBuilderScript : MonoBehaviour
                 }
 
                 faceGrid[y, x] = triangle;
+                long key = _faceIdProvider.ComputeGridFaceKey(x, y, gridWidth);
+                entries.Add((triangle, key));
                 positions.Add(worldPosition);
             }
         }
 
-        // Вычисление центра
+        FaceIdCanonicalizerScript.AssignIds(entries);
+
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         Vector3 total = Vector3.zero;
         foreach (Vector3 pos in positions)
             total += pos;

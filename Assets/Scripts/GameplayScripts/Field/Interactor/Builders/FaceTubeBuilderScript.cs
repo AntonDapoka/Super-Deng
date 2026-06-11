@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -7,6 +8,7 @@ public class FaceTubeBuilderScript : MonoBehaviour
     [SerializeField] private GameObject prefabFace;
 
     private GameObject[] lineArray;
+    private readonly IFaceIdProviderScript _faceIdProvider = new FaceIdProviderScript();
 
     [Header("Grid Settings")]
     [SerializeField] private float horizontalSpacing = 0.9f;
@@ -27,6 +29,7 @@ public class FaceTubeBuilderScript : MonoBehaviour
         lineArray = new GameObject[gridHeight];
 
         GameObject grid = new GameObject("Grid");
+        var entries = new List<(GameObject face, long rawKey)>();
 
         for (int y = 0; y < gridHeight; y++)
         {
@@ -58,6 +61,8 @@ public class FaceTubeBuilderScript : MonoBehaviour
                 {
                     triangle.transform.Rotate(0f, 180f, 0f);
                 }
+                long key = _faceIdProvider.ComputeGridFaceKey(x, y, gridWidth);
+                entries.Add((triangle, key));
             }
             /*
             Vector3 outward = new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0f).normalized;
@@ -70,6 +75,7 @@ public class FaceTubeBuilderScript : MonoBehaviour
             line.transform.Rotate(0f, 0f, 180f); // если оси в префабе отличаются
         }
 
+        FaceIdCanonicalizerScript.AssignIds(entries);
 
         /*
         for (int i = 0; i < gridHeight; i++)

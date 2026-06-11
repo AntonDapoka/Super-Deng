@@ -64,10 +64,12 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
                     return;
                 }
                 int randomIndex = Random.Range(0, availableFaces.Count);
-                int selectedFaceIndex = availableFaces[randomIndex];
+                int selectedFaceId = availableFaces[randomIndex];
                 availableFaces.RemoveAt(randomIndex);
 
-                SetActionFace(faces[selectedFaceIndex]); //Launch random ones from the available ones
+                GameObject targetFace = FaceArray.GetFaceByID(selectedFaceId);
+                if (targetFace != null)
+                    SetActionFace(targetFace); //Launch random ones from the available ones
                 quantityAccumulator -= 1f;
             }
         }
@@ -84,16 +86,18 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
             if (isRelativeToFigure)
                 source = source.Concat(arrayOfFacesRelativeToFigure);
 
-            var intersectedIndices = source
+            var intersectedFaceIds = source
             .Distinct()
             .Intersect(availableFaces)
             .ToList();
 
-            foreach (int index in intersectedIndices)
+            foreach (int faceId in intersectedFaceIds)
             {
-                availableFaces.RemoveAt(index);
+                availableFaces.Remove(faceId);
 
-                SetActionFace(faces[index]); //Launch the specified ones from the available ones
+                GameObject targetFace = FaceArray.GetFaceByID(faceId);
+                if (targetFace != null)
+                    SetActionFace(targetFace); //Launch the specified ones from the available ones
             }
         }
     }
@@ -108,7 +112,7 @@ public abstract class SpawnerActionScript : ActionScript, IBeatUpdate, IPlayerIn
             FaceStateScript FSS = faces[i].GetComponent<FaceStateScript>();
             if (CheckIsSuitableFace(FS, FSS))
             {
-                availableFaces.Add(i);
+                availableFaces.Add(FS.GetFaceID());
             }
         }
         return availableFaces;

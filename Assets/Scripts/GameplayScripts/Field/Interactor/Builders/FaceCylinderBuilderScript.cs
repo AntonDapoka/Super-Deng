@@ -14,6 +14,7 @@ public class FaceCylinderBuilderScript : MonoBehaviour
     [SerializeField] private float alternateHeightOffset = 0.5f;
 
     private GameObject[,] faceGrid;
+    private readonly IFaceIdProviderScript _faceIdProvider = new FaceIdProviderScript();
 
     public void GenerateCylindricalGrid()
     {
@@ -27,6 +28,7 @@ public class FaceCylinderBuilderScript : MonoBehaviour
         faceGrid = new GameObject[gridHeight, gridWidth];
 
         float angleStep = 360f / gridWidth;
+        var entries = new List<(GameObject face, long rawKey)>();
 
         for (int y = 0; y < gridHeight; y++)
         {
@@ -47,7 +49,7 @@ public class FaceCylinderBuilderScript : MonoBehaviour
 
                 GameObject triangle = Instantiate(prefabFace, position, Quaternion.identity, cylinderGrid.transform);
 
-                // Повернуть треугольник так, чтобы он смотрел наружу от центра трубы
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                 Vector3 outward = new Vector3(xPos, 0f, zPos).normalized;
                 triangle.transform.rotation = Quaternion.LookRotation(outward, Vector3.up);
 
@@ -57,7 +59,10 @@ public class FaceCylinderBuilderScript : MonoBehaviour
                 }
 
                 faceGrid[y, x] = triangle;
+                long key = _faceIdProvider.ComputeGridFaceKey(x, y, gridWidth);
+                entries.Add((triangle, key));
             }
         }
+        FaceIdCanonicalizerScript.AssignIds(entries);
     }
 }

@@ -46,18 +46,23 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         fieldHolder = new GameObject("FieldHolder");
         fieldHolder.transform.position = Vector3.zero;
 
-        int id = 0;
+        var entries = new List<(GameObject face, long rawKey)>();
         for (int i = 0; i < triangles.Count; i += 3)
         {
-            Vector3 a = vertices[triangles[i]];
-            Vector3 b = vertices[triangles[i + 1]];
-            Vector3 c = vertices[triangles[i + 2]];
+            int v0 = triangles[i];
+            int v1 = triangles[i + 1];
+            int v2 = triangles[i + 2];
+            Vector3 a = vertices[v0];
+            Vector3 b = vertices[v1];
+            Vector3 c = vertices[v2];
 
             Vector3[] verticesABC = new Vector3[] { a, b, c };
-            GameObject face = SetFace(verticesABC, fieldHolder.transform, id);
+            long key = _faceIdProvider.ComputeIcosphereFaceKey(v0, v1, v2);
+            GameObject face = SetFace(verticesABC, fieldHolder.transform);
             faces.Add(face);
-            id++;
+            entries.Add((face, key));
         }
+        FaceIdCanonicalizerScript.AssignIds(entries);
     }
 
     private void Subdivide(ref List<Vector3> vertices, ref List<int> triangles, float radius)
@@ -128,7 +133,7 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         };
     }
 
-    protected override GameObject SetFace(Vector3[] verticesABC, Transform parent, int id)
+    protected override GameObject SetFace(Vector3[] verticesABC, Transform parent)
     {
         if (verticesABC.Length != 3)
         {
@@ -142,7 +147,6 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         GameObject face = Instantiate(facePrefab, center, rotation, parent);
         face.transform.localScale = new Vector3(faceScale, faceScale, faceScale);
         FaceScript faceScript = face.GetComponent<FaceScript>();
-        faceScript.SetFaceID(id);
         GameObject shadow = faceScript.shadow;
 
         Vector3 A = verticesABC[0];

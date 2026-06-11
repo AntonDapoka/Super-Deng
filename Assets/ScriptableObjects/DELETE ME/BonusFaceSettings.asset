@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: 
   isHint: 0
-  bpm: 90
-  timeStartSeconds: 4
-  timeStartBeats: 6
+  bpm: 85
+  timeStartSeconds: 22
+  timeStartBeats: 31.166666
   isTimeEnd: 0
   timeEndSeconds: 0
   timeEndBeats: 0
