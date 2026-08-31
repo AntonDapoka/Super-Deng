@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 535dd89d9cb7b9d439ae469735d29090
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: d65326e25246b50d6fbf171f1b38b44c
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -44,8 +44,8 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
-  - {fileID: 11400000, guid: 37fa0b76fa70e2b499a7363a48f916c0, type: 2}
   - {fileID: 11400000, guid: 2ac6f0e39d90f0441a59b3efaf016e29, type: 2}
+  - {fileID: 11400000, guid: 37fa0b76fa70e2b499a7363a48f916c0, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -63,10 +63,10 @@ MonoBehaviour:
         m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
       - m_Id: 42ca0a416e1fff74c873ec016ad5294f
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
-      - m_Id: d460d16d92663ad409ea180cdfb95eb0
-        m_Value: ServerData/[BuildTarget]
       - m_Id: cfcd9b7b361061942b3e147bee22397f
         m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+      - m_Id: d460d16d92663ad409ea180cdfb95eb0
+        m_Value: ServerData/[BuildTarget]
     m_ProfileEntryNames:
     - m_Id: 181622837840f0a448bb937ca84b6e60
       m_Name: BuildTarget
@@ -77,16 +77,17 @@ MonoBehaviour:
     - m_Id: 42ca0a416e1fff74c873ec016ad5294f
       m_Name: Local.LoadPath
       m_InlineUsage: 0
-    - m_Id: d460d16d92663ad409ea180cdfb95eb0
-      m_Name: Remote.BuildPath
-      m_InlineUsage: 0
     - m_Id: cfcd9b7b361061942b3e147bee22397f
       m_Name: Remote.LoadPath
+      m_InlineUsage: 0
+    - m_Id: d460d16d92663ad409ea180cdfb95eb0
+      m_Name: Remote.BuildPath
       m_InlineUsage: 0
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
     - default
+    - MusicTrack
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: c38089725a321f44d94ee9257c16816c, type: 2}

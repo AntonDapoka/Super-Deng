@@ -3532,6 +3532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timePresenter: {fileID: 72481480}
+  timeElapsed: 0
 --- !u!1 &385798342
 GameObject:
   m_ObjectHideFlags: 0
@@ -5032,6 +5033,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e2160b1dcecd83409b36d2111626a21, type: 3}
+--- !u!1 &566050963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 566050964}
+  m_Layer: 0
+  m_Name: FieldHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &566050964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566050963}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &573429652
 GameObject:
   m_ObjectHideFlags: 0
@@ -5248,7 +5280,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: f7eca3c295e62e640a0ff9f0ad32108e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -5346,7 +5378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d27add0126d23345a7c7dced6f54eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioClip: {fileID: 8300000, guid: 6047c5f520d574e49b2ca51a3852b7c0, type: 3}
+  _audioClip: {fileID: 0}
   _useMicrophone: 0
   _selectedDevice: 
   _mixerGroupMicrophone: {fileID: 3455294738414626162, guid: 070eaf058f1df7c4aa6f24f6528c6639, type: 2}
@@ -7370,7 +7402,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1917424614}
+  m_Father: {fileID: 996740247}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &714725110
 MonoBehaviour:
@@ -7571,7 +7603,6 @@ GameObject:
   - component: {fileID: 729326025}
   - component: {fileID: 729326030}
   - component: {fileID: 729326029}
-  - component: {fileID: 729326028}
   - component: {fileID: 729326031}
   m_Layer: 3
   m_Name: Main Camera
@@ -7745,56 +7776,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shakeAmount: 0.1
   shakeSpeed: 3
---- !u!114 &729326028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 729326018}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e5e2c741e414724bb82e6b18576760a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: 739c6569a1eb0c448804a9e0e49f34b1, type: 3}
-  FilterQuality: 0
-  VideoMode: 0
-  DisplaySizeX: 960
-  DisplaySizeY: 480
-  StretchToDisplay: 1
-  AspectRatio: 5.82
-  EnableTVCurvature: 0
-  Curvature: 0
-  TVOverlay: {fileID: 2800000, guid: 983b4e2248d599443981d96b39576aeb, type: 3}
-  EnablePixelMask: 1
-  PixelMaskTexture: {fileID: 2800000, guid: 54879ed44e1474142a873e2113e8e8e4, type: 3}
-  MaskRepeatX: 160
-  MaskRepeatY: 90
-  PixelMaskBrightness: 1
-  IQOffset: {x: 0, y: 0}
-  IQScale: {x: 1, y: 1}
-  RFNoise: 1.49
-  LumaSharpen: 0
-  QuantizeRGB: 0
-  RBits: 8
-  GBits: 8
-  BBits: 8
-  EnableBurstCountAnimation: 1
-  AntiFlicker: 0
-  EnableRollingFlicker: 0
-  RollingFlickerFactor: 0.25
-  RollingVSyncTime: 1
-  _material: {fileID: 0}
-  _compositeTemp: {fileID: 0}
-  _frameCount: 0
-  _flickerOffset: 0
-  _antiFlickerEnabled: 0
-  _rollingFlickerEnabled: 0
-  _pixelMaskEnabled: 0
-  _tvCurvatureEnabled: 0
-  _quantizeRGBEnabled: 0
-  _rfEnabled: 0
 --- !u!114 &729326029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11828,6 +11809,7 @@ Transform:
   - {fileID: 72481479}
   - {fileID: 409273873}
   - {fileID: 2076837382}
+  - {fileID: 714725109}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1004435662
@@ -16247,8 +16229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48bef29c362e45e4083619e4d3b3a883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenarioData: {fileID: 11400000, guid: ebdc7e9e46ac6c74182241e000408e07, type: 2}
-  basicSettingsData: {fileID: 11400000, guid: d8ce66499a368e041b08a06f95fb1ab1, type: 2}
+  levelSettings: {fileID: 11400000, guid: 1d5341e9c24f7494891dd1b4616013f7, type: 2}
   playerMovementKeyBindingData: {fileID: 11400000, guid: 1280c947214136a45a24456e6fcd5a20, type: 2}
   playerAbilityKeyBindingData: {fileID: 11400000, guid: 1bfbb9b875db0bc48a38d2ac26a666c8, type: 2}
   fieldInitializer: {fileID: 1105626570}
@@ -16258,7 +16239,6 @@ MonoBehaviour:
   timeIntializer: {fileID: 367171417}
   rhythmManager: {fileID: 603728928}
   musicManager: {fileID: 592274666}
-  musicTrack: {fileID: 8300000, guid: 6047c5f520d574e49b2ca51a3852b7c0, type: 3}
   startCountDownInteractor: {fileID: 979417275}
   cameraBehaivorInteractor: {fileID: 2063850014}
 --- !u!1 &1446769170
@@ -19982,7 +19962,6 @@ GameObject:
   - component: {fileID: 1782083940}
   - component: {fileID: 1782083939}
   - component: {fileID: 1782083938}
-  - component: {fileID: 1782083942}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -20083,18 +20062,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1782083942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1782083937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae623cfa9183ce4b996d05afcc52320, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1799491710
 Mesh:
   m_ObjectHideFlags: 0
@@ -21761,15 +21728,14 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 367171416}
-  - {fileID: 979417274}
   - {fileID: 603728927}
+  - {fileID: 979417274}
   - {fileID: 843907668}
   - {fileID: 580793640}
   - {fileID: 2111358478}
   - {fileID: 1735818581}
   - {fileID: 1446769171}
   - {fileID: 2063850013}
-  - {fileID: 714725109}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1939941413
@@ -23960,3 +23926,4 @@ SceneRoots:
   - {fileID: 340450776}
   - {fileID: 1517765444}
   - {fileID: 643522107}
+  - {fileID: 566050964}

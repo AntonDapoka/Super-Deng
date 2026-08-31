@@ -4,7 +4,7 @@ public class LevelTimeManagementScript : MonoBehaviour
 {
     [SerializeField] private LevelTimePresenterScript timePresenter;
     private bool isTurnOn = false;
-    private float timeElapsed;
+    [SerializeField] private float timeElapsed;
     private float timeTotal;
 
     public void InitializeTime(float timeStart, float timeTotal)

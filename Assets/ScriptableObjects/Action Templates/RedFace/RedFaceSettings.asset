@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: dfsdfsdfsdf
   isHint: 0
-  bpm: 90
-  timeStartSeconds: 0
-  timeStartBeats: 0
+  bpm: 85
+  timeStartSeconds: 3.5294118
+  timeStartBeats: 5
   isTimeEnd: 1
   timeEndSeconds: 10
-  timeEndBeats: 15
+  timeEndBeats: 14.166667
   isTimeForcedBreak: 0
   timeForcedBreakSeconds: 11.4
   timeForcedBreakBeats: 29.449999
