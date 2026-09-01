@@ -96,7 +96,6 @@ public class LevelInitializerScript : MonoBehaviour
         if (musicLoaded)
         {
             Addressables.Release(musicHandle);
-
             musicLoaded = false;
             musicHandle = default;
         }

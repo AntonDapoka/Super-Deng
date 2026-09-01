@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class FaceTubeBuilderScript : MonoBehaviour
+public class FaceTubeBuilderScript : MonoBehaviour, IBuilderScript
 {
     [SerializeField] private GameObject prefabFace;
 
@@ -18,6 +18,9 @@ public class FaceTubeBuilderScript : MonoBehaviour
     [Header("Height Offsets")]
     [SerializeField] private float alternateHeightOffset = 0.5f;
     [SerializeField] private float radius = 2f;
+
+    protected GameObject fieldHolder;
+    public GameObject Holder => fieldHolder;
 
     public void GenerateGrid()
     {
@@ -96,5 +99,15 @@ public class FaceTubeBuilderScript : MonoBehaviour
 
             lineArray[i].transform.position = spawnPosition;    
         }*/
+    }
+
+    public void BuildField(GameObject facePrefab, float sideLength, float faceScale)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public GameObject[] GetField()
+    {
+        throw new System.NotImplementedException();
     }
 }

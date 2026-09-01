@@ -16,10 +16,8 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         sideLength = newSideLength;
         faceScale = newFaceScale;
 
-        if (faces == null)
-            faces = new List<GameObject>();
-        else
-            faces.Clear();
+        if (faces == null) faces = new List<GameObject>();
+        else faces.Clear();
 
         BuildIcosphere(iteration);
     }
@@ -34,14 +32,7 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
         List<int> triangles = new List<int>(GetInitialTriangles());
 
         for (int s = 0; s < subdivisions; s++)
-        {
             Subdivide(ref vertices, ref triangles, radiusIco);
-        }
-
-        if (isTest)
-        {
-            GenerateInitialVertices(vertices.ToArray());
-        }
 
         fieldHolder = new GameObject("FieldHolder");
         fieldHolder.transform.position = Vector3.zero;
@@ -215,11 +206,7 @@ public class FaceIcosphereBuilderScript : FaceIcosahedronBuilderScript
             // Flip winding order to turn every face inside-out
             int[] triangles = mesh.triangles;
             for (int i = 0; i < triangles.Length; i += 3)
-            {
-                int temp = triangles[i];
-                triangles[i] = triangles[i + 1];
-                triangles[i + 1] = temp;
-            }
+                (triangles[i + 1], triangles[i]) = (triangles[i], triangles[i + 1]);
 
             mesh.vertices = vertices;
             mesh.normals = normals;

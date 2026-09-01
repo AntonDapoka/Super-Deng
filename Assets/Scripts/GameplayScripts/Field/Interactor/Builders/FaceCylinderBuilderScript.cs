@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FaceCylinderBuilderScript : MonoBehaviour
+public class FaceCylinderBuilderScript : MonoBehaviour, IBuilderScript
 {
     [SerializeField] private GameObject prefabFace;
 
@@ -15,8 +15,10 @@ public class FaceCylinderBuilderScript : MonoBehaviour
 
     private GameObject[,] faceGrid;
     private readonly IFaceIdProviderScript _faceIdProvider = new FaceIdProviderScript();
+    protected GameObject fieldHolder;
+    public GameObject Holder => fieldHolder;
 
-    public void GenerateCylindricalGrid()
+   public void GenerateCylindricalGrid()
     {
         if (prefabFace == null)
         {
@@ -65,4 +67,15 @@ public class FaceCylinderBuilderScript : MonoBehaviour
         }
         FaceIdCanonicalizerScript.AssignIds(entries);
     }
+
+   public void BuildField(GameObject facePrefab, float sideLength, float faceScale)
+   {
+      throw new System.NotImplementedException();
+   }
+
+   public GameObject[] GetField()
+   {
+      throw new System.NotImplementedException();
+   }
+
 }

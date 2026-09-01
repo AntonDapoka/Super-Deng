@@ -14,6 +14,7 @@ public class LevelSettings : ScriptableObject
     [SerializeField] private ushort idFaceStart;
     [SerializeField] private ActionScenarioDataBase scenarioData;
     [SerializeField] private ActionBasicSettingsDataBase basicSettingsData;
+    [SerializeField] private FieldType fieldType;
 
     [Header("Background")]
     [SerializeField] private GameObject background;

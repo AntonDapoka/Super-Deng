@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
 {
-    [SerializeField] protected bool isTest = false;
-
     [SerializeField] protected List<GameObject> faces;
     protected GameObject fieldHolder;
     protected GameObject facePrefab;
@@ -33,10 +31,7 @@ public class FaceIcosahedronBuilderScript : MonoBehaviour, IBuilderScript
         float radiusPenta = sideLength * (Mathf.Sqrt(10.00000f) * Mathf.Sqrt(5.00000f + Mathf.Sqrt(5.00000f))) / 10.00000f;
 
         Vector3[] verticesIcosahedron = GetIcosahedronVertices(radiusIco, radiusPenta);
-
-        if (isTest) 
-            GenerateInitialVertices(verticesIcosahedron);
-
+        
         fieldHolder = new GameObject("FieldHolder");
         fieldHolder.transform.position = Vector3.zero;
 

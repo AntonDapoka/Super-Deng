@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
-public class FaceGridBuilderScript : MonoBehaviour
+public class FaceGridBuilderScript : MonoBehaviour, IBuilderScript
 {
     [SerializeField] private GameObject prefabFace;
     private GameObject[,] faceGrid;
@@ -18,7 +16,10 @@ public class FaceGridBuilderScript : MonoBehaviour
     [SerializeField] private float alternateHeightOffset = 0.5f;
     [SerializeField] private float rowHeightOffset = 2f;
 
-    public void GenerateGrid()
+   protected GameObject fieldHolder;
+   public GameObject Holder => fieldHolder;
+   
+   public void GenerateGrid()
     {
         if (prefabFace == null)
         {
@@ -76,4 +77,15 @@ public class FaceGridBuilderScript : MonoBehaviour
         grid.transform.position = Vector3.zero;
         grid.transform.rotation = Quaternion.Euler(-30f, 0f, 0f);
     }
+
+   public void BuildField(GameObject facePrefab, float sideLength, float faceScale)
+   {
+      throw new System.NotImplementedException();
+   }
+
+   public GameObject[] GetField()
+   {
+      throw new System.NotImplementedException();
+   }
+
 }
