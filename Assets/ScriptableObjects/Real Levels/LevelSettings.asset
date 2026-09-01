@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2be449f2e1567ad48b4a17806296ac4d, type: 3}
   m_Name: LevelSettings
   m_EditorClassIdentifier: 
-  id: 0
+  idLevel: 1
   levelName: L1
+  idFaceStart: 10
   scenarioData: {fileID: 11400000, guid: ebdc7e9e46ac6c74182241e000408e07, type: 2}
   basicSettingsData: {fileID: 11400000, guid: d8ce66499a368e041b08a06f95fb1ab1, type: 2}
   background: {fileID: 0}

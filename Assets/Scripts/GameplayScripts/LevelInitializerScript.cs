@@ -6,9 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class LevelInitializerScript : MonoBehaviour
 {
     [Header("Level Data")]
-    [SerializeField] private LevelSettings levelSettings;/*
-    [SerializeField] private ActionScenarioDataBase scenarioData; 
-    [SerializeField] private ActionBasicSettingsDataBase basicSettingsData;*/
+    [SerializeField] private LevelSettings levelSettings;
 
     [Header("Controller Data")]
     [SerializeField] private MovementKeyBindingDataScript playerMovementKeyBindingData;
@@ -89,8 +87,7 @@ public class LevelInitializerScript : MonoBehaviour
     private void Start()
     {
         timeIntializer.TurnOn();
-
-        playerInitializer.InitializePlayer(playerMovementKeyBindingData, playerAbilityKeyBindingData, rhythmManager.GetBeatInterval());
+        playerInitializer.InitializePlayer(levelSettings.IDFaceStart, playerMovementKeyBindingData, playerAbilityKeyBindingData, rhythmManager.GetBeatInterval());
         startCountDownInteractor.StartStartCountDown(rhythmManager.GetBeatInterval());
     }
 

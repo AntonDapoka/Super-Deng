@@ -10,7 +10,7 @@ public class PlayerInitializerScript : MonoBehaviour
     [SerializeField] private PlayerAbilityControllerScript playerAbilityController;
 
     [Header("Interactors")]
-    [SerializeField] private int startFaceID;
+    [SerializeField] private ushort idFaceStart;
     [SerializeField] private PlayerSetterScript playerSetter;
     [SerializeField] private PlayerStateInteractorScript playerScript;
     [SerializeField] private PlayerBeatSyncValidatorScript playerBeatSyncValidator;
@@ -23,10 +23,10 @@ public class PlayerInitializerScript : MonoBehaviour
     [SerializeField] private PlayerMovementKeyBindingHintsPresenterScript playerMovementKeyBindingHintsPresenter;
 
 
-    public void InitializePlayer(MovementKeyBindingDataScript movementKeyBindingData, AbilityKeyBindingDataScript abilityKeyBindingData, float beatInterval)
+    public void InitializePlayer(ushort idFace, MovementKeyBindingDataScript movementKeyBindingData, AbilityKeyBindingDataScript abilityKeyBindingData, float beatInterval)
     {
         player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-
+        idFaceStart = idFace;
         InitializeControllers(movementKeyBindingData, abilityKeyBindingData);
         InitializePresentors(movementKeyBindingData, abilityKeyBindingData);
         InitializeInteractors(beatInterval);
@@ -41,7 +41,7 @@ public class PlayerInitializerScript : MonoBehaviour
 
     private void InitializeInteractors(float beatInterval)
     {
-        GameObject face = faceArray.GetFaceByID(startFaceID); //Rewrite!!!!!
+        GameObject face = faceArray.GetFaceByID(idFaceStart);
         playerSetter.SetPlayer(player, face);
         playerScript.SetCurrentFace(face);
         playerBeatSyncValidator.Initialize(beatInterval); //Add data
