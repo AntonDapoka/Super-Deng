@@ -1,6 +1,6 @@
-using UnityEngine;
+using UnityEngine.InputSystem;
 
 public interface IMenuSecretRepositoryScript
 {
-    bool Contains(KeyCode[] sequence);
+    bool Contains(Key[] sequence);
 }

@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class MenuSecretRepositoryScript : MonoBehaviour, IMenuSecretRepositoryScript
 {
-    private protected KeyCode[] code;
+    private protected Key[] code;
 
-    public bool Contains(KeyCode[] sequence)
+    public bool Contains(Key[] sequence)
     {
         if (sequence == null || sequence.Length < code.Length)
             return false;

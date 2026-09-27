@@ -1,12 +1,13 @@
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public abstract class MenuKeyboardInputInteractorScript : MonoBehaviour
+public abstract class MenuKeyboardInputInteractorScript : MonoBehaviour, IMenuKeyboardInputInteractorScript
 {
     [SerializeField] private MonoBehaviour repository;
     private IMenuSecretRepositoryScript Repository => repository as IMenuSecretRepositoryScript;
 
-    public void HandleKeyboardBuffer(KeyCode[] buffer)
+    public void HandleKeyboardBuffer(Key[] buffer)
     {
         if (buffer == null || buffer.Length == 0 || Repository == null)
         {

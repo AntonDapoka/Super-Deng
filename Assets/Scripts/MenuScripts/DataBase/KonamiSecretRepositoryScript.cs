@@ -1,19 +1,20 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class KonamiSecretRepositoryScript : MenuSecretRepositoryScript
 {
-    private static readonly KeyCode[] KonamiCode =
+    private static readonly Key[] KonamiCode =
        {
-        KeyCode.UpArrow,
-        KeyCode.UpArrow,
-        KeyCode.DownArrow,
-        KeyCode.DownArrow,
-        KeyCode.LeftArrow,
-        KeyCode.RightArrow,
-        KeyCode.LeftArrow,
-        KeyCode.RightArrow,
-        KeyCode.B,
-        KeyCode.A
+        Key.UpArrow,
+        Key.UpArrow,
+        Key.DownArrow,
+        Key.DownArrow,
+        Key.LeftArrow,
+        Key.RightArrow,
+        Key.LeftArrow,
+        Key.RightArrow,
+        Key.B,
+        Key.A
     };
 
     private void Awake()

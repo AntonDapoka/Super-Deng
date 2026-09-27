@@ -26,7 +26,7 @@ public class MenuKeyboardInputControllerScript : MonoBehaviour
 
         foreach (var key in keyboard.allKeys)
         {
-            if (key.wasPressedThisFrame)
+            if (key != null && key.wasPressedThisFrame)
             {
                 AddKeyToBuffer(key.keyCode);
                 NotifyInteractors();

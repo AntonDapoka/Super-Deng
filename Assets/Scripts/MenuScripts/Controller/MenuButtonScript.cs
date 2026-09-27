@@ -4,25 +4,17 @@ using UnityEngine.UI;
 public class MenuButtonScript : MonoBehaviour
 {
     [SerializeField] private Button button;
-    private Command command;
-
-    public void Initialize(Command command)
-    {
-        this.command = command;
-    }
+    [SerializeField] private Command command;
 
     private void Start()
     {
-        button.onClick.AddListener(Execute);
-    }
-
-    private void Execute()
-    {
-        command.Execute();
+        if (button != null && command != null)
+            button.onClick.AddListener(command.Execute);
     }
 
     private void OnDestroy()
     {
-        button.onClick.RemoveListener(Execute);
+        if (button != null && command != null)
+            button.onClick.RemoveListener(command.Execute);
     }
 }

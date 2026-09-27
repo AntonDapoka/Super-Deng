@@ -1,14 +1,15 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AnnihilationSecretRepositoryScript : MenuSecretRepositoryScript
 {
-    private static readonly KeyCode[] AnnihilationCode =
+    private static readonly Key[] AnnihilationCode =
        {
-        KeyCode.A,
-        KeyCode.S,
-        KeyCode.Comma,
-        KeyCode.Z,
-        KeyCode.B
+        Key.A,
+        Key.S,
+        Key.Comma,
+        Key.Z,
+        Key.B
     };
 
     private void Awake()
