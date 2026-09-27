@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuButtonInteractorScript : MonoBehaviour, IButtonInputInteractorScript
 {
-    public void HandleInput(ButtonInputDataScript input)
+    public void HandleInput(ButtonInputData input)
     {
         throw new System.NotImplementedException();
     }
-
-
 }

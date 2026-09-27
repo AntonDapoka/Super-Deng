@@ -1,36 +1,37 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuButtonHolderScript : MonoBehaviour
 {
-    [Header("Настройки расположения")]
-    [SerializeField] private RectTransform onCanvasHolder;
-    [SerializeField] private float verticalSpacing = 80f;
-    [SerializeField] private bool autoRepositionOnStart = true;
+    [SerializeField] private RectTransform holder;
+    [SerializeField] private float spacingHorizontal = 80f;
+    [SerializeField] private bool isRepositionedOnStart = true;
 
-    private List<RectTransform> _buttons = new List<RectTransform>();
+    private List<RectTransform> buttons = new();
 
+    private void Start()
+    {
+        if (isRepositionedOnStart) RepositionButtons();
+    }
 
     public void AddButton(IMenuButtonViewScript buttonView)
     {
         RectTransform rect = buttonView.GetRectTransform();
-        _buttons.Add(rect);
-        rect.SetParent(onCanvasHolder, false);
+        buttons.Add(rect);
+        rect.SetParent(holder, false);
 
-        //RepositionButtons();
+        RepositionButtons();
     }
-    
 
     public void SetButtons(IEnumerable<IMenuButtonViewScript> buttonViews)
     {
-        _buttons.Clear();
+        buttons.Clear();
 
         foreach (var b in buttonViews)
         {
             RectTransform rect = b.GetRectTransform();
-            _buttons.Add(rect);
-            rect.SetParent(onCanvasHolder, false);
+            buttons.Add(rect);
+            rect.SetParent(holder, false);
         }
 
         RepositionButtons();
@@ -38,27 +39,19 @@ public class MenuButtonHolderScript : MonoBehaviour
 
     public void RepositionButtons()
     {
-        if (_buttons.Count == 0)
+        if (buttons.Count == 0)
             return;
 
-        float totalHeight = (_buttons.Count - 1) * verticalSpacing;
+        float totalHeight = (buttons.Count - 1) * spacingHorizontal;
 
         float startY = totalHeight * 0.5f;
-        // Первая кнопка — сверху, последняя — снизу, центрируется автоматически
 
-        for (int i = 0; i < _buttons.Count; i++)
+        for (int i = 0; i < buttons.Count; i++)
         {
-            float y = startY - i * verticalSpacing;
-            RectTransform rect = _buttons[i];
+            float y = startY - i * spacingHorizontal;
+            RectTransform rect = buttons[i];
 
             rect.anchoredPosition = new Vector2(0f, y);
         }
-    }
-
-
-    private void Start()
-    {
-        if (autoRepositionOnStart)
-            RepositionButtons();
     }
 }

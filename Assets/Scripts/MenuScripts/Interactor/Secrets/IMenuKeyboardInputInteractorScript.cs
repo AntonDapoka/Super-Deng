@@ -1,6 +1,6 @@
-using UnityEngine;
+using UnityEngine.InputSystem;
 
 public interface IMenuKeyboardInputInteractorScript
 {
-    void HandleKeyboardBuffer(KeyCode[] buffer);
+    void HandleKeyboardBuffer(Key[] buffer);
 }

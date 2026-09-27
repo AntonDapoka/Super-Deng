@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public struct ButtonInputDataScript
+public struct ButtonInputData
 {
     public bool IsClick;
     public bool IsPointerDown;

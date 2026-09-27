@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public abstract class MenuKeyboardInputInteractorScript : MonoBehaviour, IMenuKeyboardInputInteractorScript
+public abstract class MenuKeyboardInputInteractorScript : MonoBehaviour
 {
     [SerializeField] private MonoBehaviour repository;
     private IMenuSecretRepositoryScript Repository => repository as IMenuSecretRepositoryScript;

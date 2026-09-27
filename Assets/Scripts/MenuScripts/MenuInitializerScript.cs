@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class MenuInitializerScript : MonoBehaviour
 {
-    // REWRITE IT!!!!!!!!!!
     [SerializeField] private MenuButtonHolderScript menuButtonHolder;
-    [SerializeField] private RectTransform[] buttons;
-
+    [SerializeField] private RectTransform[] buttons;     // REWRITE IT!!!!!!!!!!
 
     private void Start()
     {
