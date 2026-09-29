@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class MenuNavigationScript : MonoBehaviour
 {
+    [SerializeField] private MenuState menuStateCurrent;
     [SerializeField] private MenuPresenterScript menuPresenter;
 
     public void NavigateTo(MenuState state)
     {
+        menuStateCurrent = state;
+
         switch (state)
         {
             case MenuState.Main:
@@ -53,10 +56,14 @@ public class MenuNavigationScript : MonoBehaviour
     {
         
     }
-    
 
     public void ClearMenu()
     {
-        
+        menuPresenter.HideEveryButton();
+    }
+
+    public MenuState GetMenuState()
+    {
+        return menuStateCurrent;
     }
 }
