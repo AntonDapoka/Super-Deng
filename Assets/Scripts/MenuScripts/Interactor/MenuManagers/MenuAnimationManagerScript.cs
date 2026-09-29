@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuInteractorScript : MonoBehaviour
+public class MenuAnimationManagerScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

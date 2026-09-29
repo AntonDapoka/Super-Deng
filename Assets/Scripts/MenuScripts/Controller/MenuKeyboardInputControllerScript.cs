@@ -4,20 +4,10 @@ using System.Collections.Generic;
 
 public class MenuKeyboardInputControllerScript : MonoBehaviour
 {
-    [SerializeField] private MonoBehaviour[] interactors;
-    private readonly List<IMenuKeyboardInputInteractorScript> Interactors = new();
+    [SerializeField] private MenuKeyboardInputInteractorScript[] interactors;
 
     private readonly Queue<Key> buffer = new();
     private const int bufferSize = 20;
-
-    private void Awake()
-    {
-        foreach (var behaviour in interactors)
-        {
-            if (behaviour is IMenuKeyboardInputInteractorScript interactor) Interactors.Add(interactor);
-            else Debug.LogError($"{behaviour.name} does not implement interface");
-        }
-    }
 
     private void Update()
     {
@@ -43,6 +33,6 @@ public class MenuKeyboardInputControllerScript : MonoBehaviour
 
     private void NotifyInteractors()
     {
-        foreach (var interactor in Interactors) interactor.HandleKeyboardBuffer(buffer.ToArray());
+        foreach (var interactor in interactors) interactor.HandleKeyboardBuffer(buffer.ToArray());
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class MenuSecretRepositoryScript : MonoBehaviour, IMenuSecretRepositoryScript
+public abstract class MenuSecretRepositoryScript : MonoBehaviour
 {
     private protected Key[] code;
 

@@ -78,6 +78,7 @@ public class MenuController : MonoBehaviour
         LCMS.TurnOnAndOff(false);
 
         MLNFS.LogoTurningOnAndOff(moveImagesDuration*0.4f, false, false, false, false, true, false, 0.1f, 0.4f);
+        
         StartCoroutine(SetImageChangeButtons(imageLevelDescription, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
             waitBetweenButtons, new[] { buttonChoose, buttonBack }, false, false));
     }
@@ -89,8 +90,6 @@ public class MenuController : MonoBehaviour
         MLNFS.LogoTurningOnAndOff(moveImagesDuration, true, false, false, false, true, true, 0.1f, 0.4f);
         StartCoroutine(SetImageChangeButtons(imageLevelDescription, new[] { buttonChoose, buttonBack },
             waitBetweenButtons, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits }, true, false));
-
-
     }
 
     private void OnSettingsClick()
@@ -204,7 +203,7 @@ public class MenuController : MonoBehaviour
         else
         {
             panel.gameObject.SetActive(false);
-            ///Включить лого
+            ///пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         }
     }
 }

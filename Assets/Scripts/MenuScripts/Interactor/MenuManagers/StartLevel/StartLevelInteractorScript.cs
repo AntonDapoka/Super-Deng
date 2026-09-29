@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class StartLevelInteractorScript : MonoBehaviour
 {
+    [SerializeField] private MenuNavigationScript menuNavigation;
+
     public void StartLevel()
     {
-        Debug.Log("AHAHAHA");
+        menuNavigation.ClearMenu();
     }
 }
