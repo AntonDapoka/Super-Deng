@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine;
 public class SparksParticleScript : MonoBehaviour
 {
     [SerializeField] private GameObject sparksHolder;
-    public List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+    public List<ParticleSystem> particleSystems = new();
 
     private void Start()
     {
