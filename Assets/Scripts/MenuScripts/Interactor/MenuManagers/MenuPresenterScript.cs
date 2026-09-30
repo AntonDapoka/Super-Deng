@@ -63,6 +63,10 @@ public class MenuPresenterScript : MonoBehaviour
     {
         /*показать Settings image
             ↓
-        показать Settings buttons*/
+        показать Settings buttons
+        
+        
+        //if (isInteractWithLogo) MLNFS.LogoTurningOnAndOff(moveImagesDuration, isImageUp, true, isImageUp, true, false, true, 0.1f, 0.4f);
+        */
     }
 }

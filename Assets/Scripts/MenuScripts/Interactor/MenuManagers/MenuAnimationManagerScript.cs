@@ -7,69 +7,78 @@ public class MenuAnimationManagerScript : MonoBehaviour
     [Header("References")]
     [SerializeField] private MenuFadeManagerScript fadeManager;
 
-    [Header("Settings")]
-    [SerializeField] private float moveImagesDuration = 2f;
-    [SerializeField] private float moveButtonsDuration = 1f;
-    [SerializeField] private float waitBetweenButtons = 1f;
-    [SerializeField] private float panelFadeDuration;
+    [Header("Distance Settings")]
+    [SerializeField] private float distanceMoveImage = 900f;
+    [SerializeField] private float distanceMoveButtons = 300f;
+
+
+    [Header("Duration Settings")]
+    [SerializeField] private float durationMoveImage = 2f;
+    [SerializeField] private float durationMoveButtons = 1f;
+    [SerializeField] private float durationBetweenButtons = 1f;
+    [SerializeField] private float durationPanelFade;
 
     [Header("UI Curves")]
-    [SerializeField] private AnimationCurve moveSettingsCurve;
-    [SerializeField] private AnimationCurve panelFadeCurve;
+    [SerializeField] private AnimationCurve curveMoveSettings;
+    [SerializeField] private AnimationCurve curvePanelFade;
+
+    private void MovePanel(Image image, bool isShown)
+    {
+        if (image != null) 
+            StartCoroutine(MoveUIObject(image.gameObject, distanceMoveImage, durationMoveImage, isShown, true, isShown));
+    }
+
+    private IEnumerator ChangeButtons(Button[] buttonsToHide, Button[] buttonsToShow)
+    {
+        foreach (Button button in buttonsToHide)
+            StartCoroutine(MoveUIObject(button.gameObject, distanceMoveButtons, durationMoveButtons, false, true));
+
+        yield return new WaitForSeconds(durationBetweenButtons);
+
+        foreach (Button button in buttonsToShow)
+            StartCoroutine(MoveUIObject(button.gameObject, distanceMoveButtons, moveButtonsDuration, true, false));
+
+        float max = Math.Max(moveImagesDuration, 2 * moveButtonsDuration);
+
+        yield return new WaitForSeconds(max - timeWait);
+    }
 
     public void HideButtons(Button[] buttons)
     {
-        
+        foreach (Button button in buttons)
+            StartCoroutine(MoveUIObject(button.gameObject, distanceMoveButtons, moveButtonsDuration, false, true));
     }
 
-    private IEnumerator SetImageChangeButtons(Image image, Button[] buttonsMain, float timeWait, Button[] buttonsExtra, bool isImageUp, bool isInteractWithLogo)
+    private IEnumerator MoveUIObject(GameObject obj, float distance, float duration, bool isShown, bool isActiveBefore, bool IsActiveAfter)
     {
-       // wall.gameObject.SetActive(true);
+        obj.SetActive(isActiveBefore);
 
-        //if (isInteractWithLogo) MLNFS.LogoTurningOnAndOff(moveImagesDuration, isImageUp, true, isImageUp, true, false, true, 0.1f, 0.4f);
-        if (image != null) 
-            StartCoroutine(MoveObjectAndUI(image.gameObject, 900f * (isImageUp ? -1 : 1), moveImagesDuration, true, true));
+        var rectTransform = obj.GetComponent<RectTransform>();
+        int positionMultiplier = isShown ? 1 : -1;
 
-        foreach (Button button in buttonsMain)
-        {
-            StartCoroutine(MoveObjectAndUI(button.gameObject, 300f, moveButtonsDuration, false, true));
-        }
-        yield return new WaitForSeconds(timeWait);
+        Vector2 startPosition = rectTransform.anchoredPosition;
+        Vector2 targetPosition = startPosition + positionMultiplier * distance * Vector2.down;
 
-        foreach (Button button in buttonsExtra)
-        {
-            StartCoroutine(MoveObjectAndUI(button.gameObject, 300f, moveButtonsDuration, true, false));
-        }
+        yield return AnimatePosition(rectTransform, startPosition, targetPosition, duration);
 
-        float max = System.Math.Max(moveImagesDuration, 2* moveButtonsDuration);
-
-        yield return new WaitForSeconds(max - timeWait);
-        //wall.gameObject.SetActive(false);
+        obj.SetActive(IsActiveAfter);
     }
 
-    private IEnumerator MoveObjectAndUI(GameObject obj, float bias, float duration, bool isChosen, bool isDown)
+    private IEnumerator AnimatePosition(RectTransform rectTransform, Vector2 start, Vector2 target, float duration)
     {
-        if (isChosen) obj.SetActive(true);
-        
-        float elapsedTime = 0f;
+        float elapsed = 0f;
 
-        int positionMultiplier = isDown ? 1 : -1;
-
-        RectTransform rectTransform = obj.GetComponent<RectTransform>();
-
-        Vector2 initialPos = rectTransform.anchoredPosition;
-
-        while (elapsedTime < duration)
+        while (elapsed < duration)
         {
-            float curveProgress = moveSettingsCurve.Evaluate(elapsedTime / duration);
+            float t = elapsed / duration;
+            float progress = moveSettingsCurve.Evaluate(t);
 
-            rectTransform.anchoredPosition = Vector2.Lerp(initialPos, initialPos - new Vector2(0, bias * positionMultiplier), curveProgress);
-            elapsedTime += Time.deltaTime;
+            rectTransform.anchoredPosition = Vector2.Lerp(start, target, progress);
+
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        rectTransform.anchoredPosition = initialPos - new Vector2(0, bias) * positionMultiplier;
-        
-        if (!isChosen) obj.SetActive(false);
+        rectTransform.anchoredPosition = target;
     }
 }
