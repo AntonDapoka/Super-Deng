@@ -41,7 +41,7 @@ public class MenuNavigationScript : MonoBehaviour
     
     private void OpenLevelSelection()
     {
-        
+        menuPresenter.ShowMenuState(MenuState.LevelSelection);
     }
     
     private void OpenSettings(MenuState state)

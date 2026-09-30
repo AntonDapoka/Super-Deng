@@ -1,84 +1,158 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuAnimationManagerScript : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private MenuFadeManagerScript fadeManager;
-
     [Header("Distance Settings")]
     [SerializeField] private float distanceMoveImage = 900f;
     [SerializeField] private float distanceMoveButtons = 300f;
 
-
     [Header("Duration Settings")]
     [SerializeField] private float durationMoveImage = 2f;
     [SerializeField] private float durationMoveButtons = 1f;
-    [SerializeField] private float durationBetweenButtons = 1f;
-    [SerializeField] private float durationPanelFade;
+    [SerializeField] private float durationSwitchButtons = 1f;
 
     [Header("UI Curves")]
     [SerializeField] private AnimationCurve curveMoveSettings;
-    [SerializeField] private AnimationCurve curvePanelFade;
 
-    private void MovePanel(Image image, bool isShown)
+    private readonly Dictionary<RectTransform, Coroutine> activeAnimations = new();
+
+    public void ShowPanel(RectTransform panel)
     {
-        if (image != null) 
-            StartCoroutine(MoveUIObject(image.gameObject, distanceMoveImage, durationMoveImage, isShown, true, isShown));
+        if (panel == null) return;
+        StartAnimation(panel, MovePanel(panel, true));
     }
 
-    private IEnumerator ChangeButtons(Button[] buttonsToHide, Button[] buttonsToShow)
+    public void HidePanel(RectTransform panel)
     {
-        foreach (Button button in buttonsToHide)
-            StartCoroutine(MoveUIObject(button.gameObject, distanceMoveButtons, durationMoveButtons, false, true));
+        if (panel == null) return;
+        StartAnimation(panel, MovePanel(panel, false));
+    }
 
-        yield return new WaitForSeconds(durationBetweenButtons);
+    public void ChangeButtons(Button[] buttonsToHide, Button[] buttonsToShow)
+    {
+        StartCoroutine(ChangingButtons(buttonsToHide, buttonsToShow));
+    }
 
-        foreach (Button button in buttonsToShow)
-            StartCoroutine(MoveUIObject(button.gameObject, distanceMoveButtons, moveButtonsDuration, true, false));
+    private IEnumerator ChangingButtons(Button[] buttonsToHide, Button[] buttonsToShow)
+    {
+        HideButtons(buttonsToHide);
+        yield return new WaitForSeconds(durationSwitchButtons);
+        ShowButtons(buttonsToShow);
+    }
 
-        float max = Math.Max(moveImagesDuration, 2 * moveButtonsDuration);
+    public void ShowButtons(Button[] buttons)
+    {
+        if (buttons == null)return;
 
-        yield return new WaitForSeconds(max - timeWait);
+        foreach (Button button in buttons)
+        {
+            if (button == null) continue;
+            if (!button.TryGetComponent<RectTransform>(out var rect)) continue;
+            StartAnimation(rect, ShowUI(rect));
+        }
     }
 
     public void HideButtons(Button[] buttons)
     {
+        if (buttons == null) return;
+
         foreach (Button button in buttons)
-            StartCoroutine(MoveUIObject(button.gameObject, distanceMoveButtons, moveButtonsDuration, false, true));
+        {
+            if (button == null) continue;
+            if (!button.TryGetComponent<RectTransform>(out var rect)) continue;
+            StartAnimation(rect, HideUI(rect));
+        }
     }
 
-    private IEnumerator MoveUIObject(GameObject obj, float distance, float duration, bool isShown, bool isActiveBefore, bool IsActiveAfter)
+    private void StartAnimation(RectTransform rect, IEnumerator animation)
     {
-        obj.SetActive(isActiveBefore);
-
-        var rectTransform = obj.GetComponent<RectTransform>();
-        int positionMultiplier = isShown ? 1 : -1;
-
-        Vector2 startPosition = rectTransform.anchoredPosition;
-        Vector2 targetPosition = startPosition + positionMultiplier * distance * Vector2.down;
-
-        yield return AnimatePosition(rectTransform, startPosition, targetPosition, duration);
-
-        obj.SetActive(IsActiveAfter);
+        StopAnimation(rect);
+        Coroutine coroutine = StartCoroutine(animation);
+        activeAnimations[rect] = coroutine;
     }
 
-    private IEnumerator AnimatePosition(RectTransform rectTransform, Vector2 start, Vector2 target, float duration)
+    private void StopAnimation(RectTransform rect)
     {
+        if (activeAnimations.TryGetValue(rect, out Coroutine coroutine))
+        {
+            StopCoroutine(coroutine);
+            activeAnimations.Remove(rect);
+        }
+    }
+
+    private IEnumerator ShowUI(RectTransform rect)
+    {
+        rect.gameObject.SetActive(true);
+
+        Vector2 start = rect.anchoredPosition;
+        Vector2 target = start + distanceMoveButtons * Vector2.up;
+
+        yield return AnimatePosition(rect, start, target, durationMoveButtons);
+
+        RemoveAnimation(rect);
+    }
+
+    private IEnumerator HideUI(RectTransform rect)
+    {
+        Vector2 start = rect.anchoredPosition;
+        Vector2 target = start + distanceMoveButtons * Vector2.down;
+
+        yield return AnimatePosition(rect,start, target,durationMoveButtons);
+
+        rect.gameObject.SetActive(false);
+
+        RemoveAnimation(rect);
+    }
+
+    private IEnumerator MovePanel(RectTransform panel, bool show)
+    {
+        panel.gameObject.SetActive(true);
+
+        Vector2 start = panel.anchoredPosition;
+        Vector2 target = show ? start + distanceMoveImage * Vector2.down : start - distanceMoveImage * Vector2.down;
+
+        yield return AnimatePosition(panel, start, target, durationMoveImage);
+
+        panel.gameObject.SetActive(show);
+        RemoveAnimation(panel);
+    }
+
+    private IEnumerator AnimatePosition(RectTransform rect, Vector2 start, Vector2 target, float duration)
+    {
+        if (duration <= 0f)
+        {
+            rect.anchoredPosition = target;
+            yield break;
+        }
+
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
-            float t = elapsed / duration;
-            float progress = moveSettingsCurve.Evaluate(t);
-
-            rectTransform.anchoredPosition = Vector2.Lerp(start, target, progress);
-
             elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float progress = curveMoveSettings.Evaluate(t);
+
+            rect.anchoredPosition = Vector2.LerpUnclamped(start, target, progress);
+
             yield return null;
         }
+        rect.anchoredPosition = target;
+    }
 
-        rectTransform.anchoredPosition = target;
+    private void RemoveAnimation(RectTransform rect)
+    {
+        activeAnimations.Remove(rect);
+    }
+
+    private void OnDisable()
+    {
+        foreach (Coroutine coroutine in activeAnimations.Values)
+            if (coroutine != null) StopCoroutine(coroutine);
+
+        activeAnimations.Clear();
     }
 }

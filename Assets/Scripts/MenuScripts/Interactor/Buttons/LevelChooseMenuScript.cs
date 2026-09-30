@@ -19,7 +19,6 @@ public class LevelChooseMenuScript : MonoBehaviour
     [SerializeField] private Button buttonLeft;
     [SerializeField] private Button buttonChoose;
     [SerializeField] private GameObject wall;
-    [SerializeField] private SecretPasswordInputScript SPIS;
 
     public void TurnOnAndOff(bool isTurn)
     {
@@ -38,7 +37,7 @@ public class LevelChooseMenuScript : MonoBehaviour
         buttonRight.gameObject.SetActive(!isTurn);
     }
     /*
-    [SerializeField] private Button buttonÑhoose;
+    [SerializeField] private Button buttonï¿½hoose;
     [SerializeField] private LevelButtonTransition LBT;
 
     [SerializeField] private Vector3 positionChosen;
@@ -60,8 +59,6 @@ public class LevelChooseMenuScript : MonoBehaviour
         buttonLeft.onClick.AddListener(OnLeftButtonClick);
         //positionUnchosen = Vector3.zero;
         //wall.SetActive(false);
-        SPIS.SetCurrentIndex(currentIndex);
-        SPIS.SetAmountOfLevels(objects.Length - 1);
     }
 
     public void OnLeftButtonClick()
@@ -98,7 +95,7 @@ public class LevelChooseMenuScript : MonoBehaviour
 
         //while (currentIndex != newIndex)
         //{
-            //Debug.Log(currentIndex.ToString() +  "âââ"  + newIndex.ToString());
+            //Debug.Log(currentIndex.ToString() +  "ï¿½ï¿½ï¿½"  + newIndex.ToString());
         while (elapsedTime < moveDuration / Mathf.Abs(newIndex - currentIndex))
         {
             float curveProgress = movementCurve.Evaluate(elapsedTime / (moveDuration / Mathf.Abs(newIndex - currentIndex)));
@@ -135,8 +132,7 @@ public class LevelChooseMenuScript : MonoBehaviour
 
         currentIndex -= multiplier;
         //}
-        SPIS.SetCurrentIndex(currentIndex);
-        SPIS.SetAcrivePasswordUI(currentIndex == objects.Length - 1);
+
         //Debug.Log(currentIndex == objects.Length - 1);
 
 
