@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,15 +32,10 @@ public class MenuAnimationManagerScript : MonoBehaviour
         StartAnimation(panel, MovePanel(panel, false));
     }
 
-    public void ChangeButtons(Button[] buttonsToHide, Button[] buttonsToShow)
+    public async Task ChangeButtonsAsync(Button[] buttonsToHide, Button[] buttonsToShow)
     {
-        StartCoroutine(ChangingButtons(buttonsToHide, buttonsToShow));
-    }
-
-    private IEnumerator ChangingButtons(Button[] buttonsToHide, Button[] buttonsToShow)
-    {
-        HideButtons(buttonsToHide);
-        yield return new WaitForSeconds(durationSwitchButtons);
+        await HideButtonsAsync(buttonsToHide);
+        await this.RunAsync(WaitSeconds(durationSwitchButtons));
         ShowButtons(buttonsToShow);
     }
 
@@ -55,23 +51,41 @@ public class MenuAnimationManagerScript : MonoBehaviour
         }
     }
 
-    public void HideButtons(Button[] buttons)
+    public Task HideButtonsAsync(Button[] buttons)
     {
-        if (buttons == null) return;
+        if (buttons == null) return Task.CompletedTask;
 
+        var animations = new List<Task>();
         foreach (Button button in buttons)
         {
             if (button == null) continue;
             if (!button.TryGetComponent<RectTransform>(out var rect)) continue;
-            StartAnimation(rect, HideUI(rect));
+            animations.Add(StartAnimation(rect, HideUI(rect)));
         }
+        return Task.WhenAll(animations);
     }
 
-    private void StartAnimation(RectTransform rect, IEnumerator animation)
+    private Task StartAnimation(RectTransform rect, IEnumerator animation)
     {
         StopAnimation(rect);
-        Coroutine coroutine = StartCoroutine(animation);
+
+        var completion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        Coroutine coroutine = StartCoroutine(TrackAnimation(rect, animation, completion));
         activeAnimations[rect] = coroutine;
+        return completion.Task;
+    }
+
+    private IEnumerator TrackAnimation(RectTransform rect, IEnumerator animation, TaskCompletionSource<bool> completion)
+    {
+        try
+        {
+            yield return animation;
+        }
+        finally
+        {
+            RemoveAnimation(rect);
+            completion.TrySetResult(true);
+        }
     }
 
     private void StopAnimation(RectTransform rect)
@@ -141,6 +155,11 @@ public class MenuAnimationManagerScript : MonoBehaviour
             yield return null;
         }
         rect.anchoredPosition = target;
+    }
+
+    private static IEnumerator WaitSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 
     private void RemoveAnimation(RectTransform rect)

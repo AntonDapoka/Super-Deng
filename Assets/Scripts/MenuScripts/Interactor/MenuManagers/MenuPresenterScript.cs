@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MenuPresenterScript : MonoBehaviour
@@ -12,36 +13,33 @@ public class MenuPresenterScript : MonoBehaviour
         referencesHolder.GetButtonsMain();
     }
 
-    public void HideEveryButton()
+    public Task HideEveryButtonAsync()
     {
-        menuAnimationManager.HideButtons(referencesHolder.GetButtonsMain());
+        return menuAnimationManager.HideButtonsAsync(referencesHolder.GetButtonsMain());
     }
 
-    public void ShowMenuState(MenuState state)
+    public Task ShowMenuStateAsync(MenuState state)
     {
         switch (state)
         {
-            case MenuState.Main:
-                
-                break;
-
             case MenuState.LevelSelection:
-                menuAnimationManager.ChangeButtons(referencesHolder.GetButtonsMain(), referencesHolder.GetButtonsLevelSelection());
-                break;
+                return menuAnimationManager.ChangeButtonsAsync(
+                    referencesHolder.GetButtonsMain(),
+                    referencesHolder.GetButtonsLevelSelection());
 
             case MenuState.Settings:
-                menuAnimationManager.ChangeButtons(referencesHolder.GetButtonsMain(), referencesHolder.GetButtonsSettings());
-                menuAnimationManager.ShowPanel(referencesHolder.GetRectTransformSettings());
-                break;
+                return ShowSettingsAsync();
 
+            case MenuState.Main:
             case MenuState.Credits:
-                //OpenCredits();
-                break;
-
             default:
-                Debug.Log("No match found");
-                //OpenMain();
-                break;
+                return Task.CompletedTask;
         }
+    }
+
+    private async Task ShowSettingsAsync()
+    {
+        await menuAnimationManager.ChangeButtonsAsync(referencesHolder.GetButtonsMain(), referencesHolder.GetButtonsSettings());
+        menuAnimationManager.ShowPanel(referencesHolder.GetRectTransformSettings());
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class StartLevelInteractorScript : MonoBehaviour
@@ -8,14 +9,10 @@ public class StartLevelInteractorScript : MonoBehaviour
     [SerializeField] private MenuNavigationScript menuNavigation;
     [SerializeField] private StartLevelAnimationManagerScript animationManager;
 
-    public void StartLevel()
+    public async Task StartLevelAsync()
     {
-        menuNavigation.NavigateTo(MenuState.StartingLevel);
-        //Get Response and then do the next action
-
-        animationManager.StartTransition();
-        //Get Response and then do the next action
-
+        await menuNavigation.NavigateTo(MenuState.StartingLevel);
+        await animationManager.StartTransitionAsync();
         sceneLoader.LoadSceneByIndex(1);
     }
 }

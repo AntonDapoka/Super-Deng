@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class StartLevelAnimationManagerScript : MonoBehaviour
@@ -14,25 +15,33 @@ public class StartLevelAnimationManagerScript : MonoBehaviour
     [SerializeField] private float rotationDuration = 1.5f;
     [SerializeField] private float imageResizeDuration = 0.8f;
 
-    public void StartTransition()
+    public Task StartTransitionAsync()
     {
         background.SetActive(false);
         foreach (var levelObject in levelObjects) levelObject.SetActive(false);
         foreach (var canvas in canvases) canvas.SetActive(false);
-        StartCoroutine(PerformEffects());
+        return PerformEffectsAsync();
     }
 
-    private IEnumerator PerformEffects()
+    private async Task PerformEffectsAsync()
     {
-        StartCoroutine(RotateCameraToTarget());
-        //yield return StartCoroutine(ToggleAndResizeImage(false)); 
-        yield return new WaitForSeconds(0.6f);
-        StartCoroutine(ExpandDoor());
-        //yield return StartCoroutine(ZoomCamera(originalCameraSize));
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(ExpandDoor());
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(ExpandDoor());
+        Task cameraRotation = this.RunAsync(RotateCameraToTarget());
+        //await this.RunAsync(ToggleAndResizeImage(false));
+        await this.RunAsync(WaitSeconds(0.6f));
+        _ = this.RunAsync(ExpandDoor());
+        //await this.RunAsync(ZoomCamera(originalCameraSize));
+        await this.RunAsync(WaitSeconds(0.5f));
+        _ = this.RunAsync(ExpandDoor());
+        await this.RunAsync(WaitSeconds(0.5f));
+        Task lastDoor = this.RunAsync(ExpandDoor());
+
+        await cameraRotation;
+        await lastDoor;
+    }
+
+    private static IEnumerator WaitSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 
     private IEnumerator RotateCameraToTarget()

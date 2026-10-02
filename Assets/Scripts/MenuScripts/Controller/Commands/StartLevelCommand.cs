@@ -6,6 +6,6 @@ public sealed class StartLevelCommand : Command
 
     public override void Execute()
     {
-        interactor.StartLevel();
+        _ = interactor.StartLevelAsync();
     }
 }

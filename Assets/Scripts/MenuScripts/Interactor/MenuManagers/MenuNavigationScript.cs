@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MenuNavigationScript : MonoBehaviour
@@ -6,71 +7,42 @@ public class MenuNavigationScript : MonoBehaviour
     [Header("References")]
     [SerializeField] private MenuPresenterScript menuPresenter;
 
-    public void NavigateTo(MenuState state)
+    public Task NavigateTo(MenuState state)
     {
         menuStateCurrent = state;
 
         switch (state)
         {
             case MenuState.Main:
-                OpenMain();
-                break;
-            
+                return Task.CompletedTask;
+
             case MenuState.StartingLevel:
-                StartLevel();
-                break;
+                return StartLevelAsync();
 
             case MenuState.LevelSelection:
-                OpenLevelSelection();
-                break;
+                return menuPresenter.ShowMenuStateAsync(MenuState.LevelSelection);
 
             case MenuState.Settings:
-                OpenSettings(state);
-                break;
+                return OpenSettingsAsync();
 
             case MenuState.Credits:
-                OpenCredits();
-                break;
+                return Task.CompletedTask;
 
             default:
                 Debug.Log("No match found");
-                OpenMain();
-                break;
+                return Task.CompletedTask;
         }
     }
 
-    private void OpenMain()
+    private async Task StartLevelAsync()
     {
-        
+        await menuPresenter.HideEveryButtonAsync();
     }
 
-    private void StartLevel()
-    {
-        //StartAnimations
-        ClearMenu();
-    }
-    
-    private void OpenLevelSelection()
-    {
-        menuPresenter.ShowMenuState(MenuState.LevelSelection);
-    }
-    
-    private void OpenSettings(MenuState state)
+    private async Task OpenSettingsAsync()
     {
         menuPresenter.HideMainButtons();
-
-        menuPresenter.ShowMenuState(state);
-
-    }
-    
-    private void OpenCredits()
-    {
-        
-    }
-
-    private void ClearMenu()
-    {
-        menuPresenter.HideEveryButton();
+        await menuPresenter.ShowMenuStateAsync(MenuState.Settings);
     }
 
     public MenuState GetMenuState()
