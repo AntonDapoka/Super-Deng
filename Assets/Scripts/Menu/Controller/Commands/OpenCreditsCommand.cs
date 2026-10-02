@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpenCreditsCommand : MonoBehaviour
+public class OpenCreditsCommand : Command
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private OpenCreditsInteractorScript interactor;
 
-    // Update is called once per frame
-    void Update()
+    public override void Execute()
     {
-        
+        _ = interactor.OpenCreditsAsync();
     }
 }

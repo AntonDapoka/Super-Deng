@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -13,10 +12,10 @@ public class MenuCreditsScript : MonoBehaviour
     [SerializeField] private GameObject[] parentObjects;
     [SerializeField] private float timeForLine;
     [SerializeField] private float cameraSpeed;
-    [SerializeField] private float t = 0f; // Время интерполяции
-    [SerializeField] private float duration = 1.5f; // Длительность ускорения/замедления
-    [SerializeField] private float durationCameraReturn = 1.5f; // Длительность ускорения/замедления
-    [SerializeField] private float currentSpeed = 0f; // Текущая скорость
+    [SerializeField] private float t = 0f; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private float duration = 1.5f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private float durationCameraReturn = 1.5f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private float currentSpeed = 0f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     private GameObject[][] sortedChildren;
     public AnimationCurve colorChangeCurveTurnOn;
     public Image wall;
@@ -99,7 +98,7 @@ public class MenuCreditsScript : MonoBehaviour
         Vector3 startPosition = cam.transform.position;
         Vector3 targetPosition = camPos;
         float elapsedTime = 0f;
-         t = 0f; // Время интерполяции
+         t = 0f; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         while (elapsedTime < durationCameraReturn)
         {
             wall.gameObject.SetActive(true);

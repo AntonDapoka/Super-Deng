@@ -54,7 +54,7 @@
 ### Top-Level Folders
 ```
 Assets/
-  Scripts/           # All C# gameplay and menu code (~224 .cs files)
+  Scripts/           # All C# gameplay and menu code (~229 .cs files)
   Scenes/            # Unity scenes
   ScriptableObjects/ # Data assets (scenarios, settings, material configs)
   Prefabs/           # GameObject prefabs (Player, faces, UI, etc.)
@@ -77,14 +77,15 @@ The codebase follows a **layered MVP-ish architecture**. Each gameplay domain ha
 
 | Folder | Role | Domains Inside |
 |--------|------|----------------|
-| `GameplayScripts/` | **Core gameplay** (~153 scripts) | Field, Player, Time&Rhythm, Actions, Abilities, Camera, Background, Input, DataBase/SaveSystem, Other Stuff |
-| `MenuScripts/` | **Main menu stack** (~57 scripts) | Buttons, windows, settings, secrets, credits, camera, sound |
-| `Editor/` | **Custom Inspector drawers** (~15 scripts) | Action settings editors (`ActionSettingsEditor` hierarchy) |
+| `Gameplay/` | **Core gameplay** (~160 scripts) | Field, Player, Time&Rhythm, Actions, Abilities, Camera, Background, Input, DataBase/SaveSystem, Other Stuff |
+| `Menu/` | **Main menu stack** (~53 scripts) | Controller (buttons/commands/keyboard), Effects, Screens, Secrets, Windows, Sound & Music |
+| `Editor/` | **Custom Inspector drawers** (~12 scripts) | Action settings editors (`ActionSettingsEditor` hierarchy) |
 | `Steamworks.NET/` | **Steam wrapper** (1 script) | `SteamManager.cs` |
 | `OldScripts/` | **Deprecated code** (`.txt` files) | Legacy implementations kept for reference |
-| `GameScripts/` | **Legacy leftover** (1 script) | `FaceIdAssignerScript.cs` — do not add new code here |
 
-#### Domain Layer Breakdown (inside `GameplayScripts/`)
+A few shared utilities live directly in `Assets/Scripts/` root: `Command.cs` (abstract MonoBehaviour command, base of the menu Command pattern), `CoroutineAsyncScript.cs` (coroutine ↔ `Task` bridging extensions), `FadeInAndOutScript.cs`.
+
+#### Domain Layer Breakdown (inside `Gameplay/`)
 Each domain typically contains:
 - `Main/` — initializer / orchestrator scripts
 - `Controller/` — input adapters
@@ -93,7 +94,7 @@ Each domain typically contains:
 - `View/` — visual feedback (material changes, UI updates, camera zoom)
 - `Database/` — data definitions, save/load helpers
 
-> **Important**: The old `GameScripts/` folder referenced in earlier documentation is **obsolete**. All active gameplay code lives in `GameplayScripts/`.
+> **Note**: The old `GameplayScripts/`, `MenuScripts/` and `GameScripts/` folders from earlier revisions no longer exist — everything was consolidated into `Gameplay/` and `Menu/`.
 
 ### Script Naming Conventions
 | Construct | Convention | Example |
@@ -155,13 +156,16 @@ Each domain typically contains:
 - `PlayerMovementInteractorScript` validates moves against adjacent faces and beat timing.
 - `PlayerBeatSyncValidatorScript` checks whether the player pressed on-beat.
 - `PlayerMovementPresenterScript` / `PlayerMovementViewScript` handle visual feedback.
-- **Abilities**: `PlayerAbilityTauntInteractorScript`, `PlayerAbilityRedFaceInteractorScript`, `PlayerAbilityPortalFaceInteractorScript`, `PlayerAbilityJumpFaceInteractorScript`. Some are fully implemented; `JumpFace` and `PortalFace` abilities currently throw `NotImplementedException`.
+- **Abilities**: `PlayerAbilityTauntInteractorScript`, `PlayerAbilityRedFaceInteractorScript`, `PlayerAbilityPortalFaceInteractorScript`, `PlayerAbilityJumpFaceInteractorScript` (in `Gameplay/Abilities/Interactor/Abilities/`). `JumpFace` and `PortalFace` abilities currently throw `NotImplementedException`.
+- Other `NotImplementedException` stubs: `FaceGridBuilderScript`, `FaceCylinderBuilderScript`, `FaceTubeBuilderScript` (alternative field geometries), `InputGamePadControllerScript` (gamepad support), `WindowPresenterScript`.
 
 ### 6. Menu Architecture
-- `MenuController` is the central orchestrator for the main menu.
-- `WindowInteractorScript` / `WindowViewScript` implement draggable/settings/credits windows.
-- Secret inputs (Konami code, annihilation password) have dedicated `*SecretRepositoryScript` and `*InteractorScript` classes.
-- Menu buttons use a transition system with configurable `AnimationCurve`s.
+- `MenuNavigationScript` is the central orchestrator: it switches on the `MenuState` enum (Main, LevelSelection, Settings, Credits, StartingLevel) and delegates to `MenuPresenterScript`, which translates state into async view transitions via `MenuAnimationManagerScript` (uses `CoroutineAsyncScript` to bridge coroutines and `Task`s).
+- Button clicks follow the **Command pattern**: `Command` (abstract, `Assets/Scripts/Command.cs`) subclasses live in `Menu/Controller/Commands/` (`StartLevelCommand`, `ChooseLevelCommand`, `MenuBackCommand`, `OpenSettingsCommand`, `OpenCreditsCommand`). Button input plumbing is in `Menu/Controller/Buttons/`.
+- `MenuSceneLoaderScript` (`Menu/MenuSceneLoaderScript.cs`) loads scenes by build index (used for secret levels).
+- `Window*` scripts (`Menu/Windows/`) implement draggable settings/credits windows.
+- Secret inputs (Konami code, annihilation password, triangle interaction) have dedicated `*SecretRepositoryScript` classes in `Menu/Secrets/DataBase/` and `*InteractorScript` classes in `Menu/Secrets/`.
+- Per-screen logic is grouped under `Menu/Screens/` (`Credits/`, `LevelSelection/`, `LevelStart/`, `Settings/`).
 
 ---
 
@@ -261,10 +265,10 @@ Designer-configurable data lives in `Assets/ScriptableObjects/`:
 ## Quick Reference for Agents
 
 ### I want to add a new enemy type
-1. Create a new `ActionScript` subclass in `Assets/Scripts/GameplayScripts/Actions/Interactor/EnemySpawner/<YourEnemy>/`.
+1. Create a new `ActionScript` subclass in `Assets/Scripts/Gameplay/Actions/Interactor/EnemySpawner/<YourEnemy>/`.
 2. Create matching `*Settings` and `*BasicSettings` ScriptableObject classes.
 3. Add a custom editor in `Assets/Scripts/Editor/` inheriting from `ActionSettingsEditor`.
-4. Add the new `ActionType` enum value in `Assets/Scripts/GameplayScripts/Other Stuff/Types/ActionType.cs`.
+4. Add the new `ActionType` enum value in `Assets/Scripts/Gameplay/Other Stuff/Types/ActionType.cs`.
 5. Create prefabs in `Assets/Prefabs/GamePrefabs/`.
 6. Add entries to `ActionScenarioDataBase` assets for levels that use it.
 
@@ -285,4 +289,4 @@ Designer-configurable data lives in `Assets/ScriptableObjects/`:
 
 ---
 
-*Last updated: 2026-05-31 by agent exploration.*
+*Last updated: 2026-10-03 — re-sorted `GameplayScripts/`→`Gameplay/`, `MenuScripts/`→`Menu/`; removed obsolete `GameScripts/` note; refreshed Menu architecture (Command pattern, navigation/presenter split).*

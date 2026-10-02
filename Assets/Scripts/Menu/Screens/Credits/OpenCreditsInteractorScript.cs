@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class OpenCreditsInteractorScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("References")] 
+    [SerializeField] private MenuCreditsScript menuCredits;
+    [SerializeField] private MenuNavigationScript menuNavigation;
 
-    // Update is called once per frame
-    void Update()
+    public async Task OpenCreditsAsync()
     {
-        
+        await menuNavigation.NavigateTo(MenuState.Credits);
+        menuCredits.StartCredits();
     }
 }

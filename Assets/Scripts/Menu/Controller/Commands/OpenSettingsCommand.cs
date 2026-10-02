@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class OpenSettingsCommand : Command
 {
-    //[SerializeField] private StartLevelInteractorScript interactor;
+    [SerializeField] private OpenSettingsInteractorScript interactor;
 
     public override void Execute()
     {
-        //interactor.StartLevel();
+        _ = interactor.OpenSettingsAsync();
     }
 }

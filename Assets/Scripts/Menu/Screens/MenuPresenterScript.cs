@@ -22,6 +22,11 @@ public class MenuPresenterScript : MonoBehaviour
     {
         switch (state)
         {
+            case MenuState.Main:
+                return menuAnimationManager.ChangeButtonsAsync(
+                    referencesHolder.GetButtonsCurrent(),
+                    referencesHolder.GetButtonsMain());
+
             case MenuState.LevelSelection:
                 return menuAnimationManager.ChangeButtonsAsync(
                     referencesHolder.GetButtonsMain(),
@@ -30,8 +35,10 @@ public class MenuPresenterScript : MonoBehaviour
             case MenuState.Settings:
                 return ShowSettingsAsync();
 
-            case MenuState.Main:
             case MenuState.Credits:
+                return menuAnimationManager.ChangeButtonsAsync(
+                    referencesHolder.GetButtonsMain(),
+                    referencesHolder.GetButtonsCredits());
             default:
                 return Task.CompletedTask;
         }
@@ -39,7 +46,9 @@ public class MenuPresenterScript : MonoBehaviour
 
     private async Task ShowSettingsAsync()
     {
+        Debug.Log("HERE");
         await menuAnimationManager.ChangeButtonsAsync(referencesHolder.GetButtonsMain(), referencesHolder.GetButtonsSettings());
         menuAnimationManager.ShowPanel(referencesHolder.GetRectTransformSettings());
+        Debug.Log("THERE");
     }
 }

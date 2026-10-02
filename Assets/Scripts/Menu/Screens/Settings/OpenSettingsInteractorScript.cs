@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class OpenSettingsInteractorScript : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+{    
+    [Header("Presenter")]
+    [SerializeField] private MenuNavigationScript menuNavigation;
 
-    // Update is called once per frame
-    void Update()
+    public async Task OpenSettingsAsync()
     {
-        
+        await menuNavigation.NavigateTo(MenuState.StartingLevel);
     }
 }

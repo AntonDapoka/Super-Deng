@@ -26,7 +26,7 @@ public class MenuNavigationScript : MonoBehaviour
                 return OpenSettingsAsync();
 
             case MenuState.Credits:
-                return Task.CompletedTask;
+                return OpenCreditsAsync();
 
             default:
                 Debug.Log("No match found");
@@ -41,8 +41,12 @@ public class MenuNavigationScript : MonoBehaviour
 
     private async Task OpenSettingsAsync()
     {
-        menuPresenter.HideMainButtons();
         await menuPresenter.ShowMenuStateAsync(MenuState.Settings);
+    }
+
+    private async Task OpenCreditsAsync()
+    {
+        await menuPresenter.ShowMenuStateAsync(MenuState.Credits);
     }
 
     public MenuState GetMenuState()
