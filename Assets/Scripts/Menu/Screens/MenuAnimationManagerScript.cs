@@ -18,7 +18,13 @@ public class MenuAnimationManagerScript : MonoBehaviour
     [Header("UI Curves")]
     [SerializeField] private AnimationCurve curveMoveSettings;
 
-    private readonly Dictionary<RectTransform, Coroutine> activeAnimations = new();
+    private class ActiveAnimation
+    {
+        public Coroutine coroutine;
+        public TaskCompletionSource<bool> completion;
+    }
+
+    private readonly Dictionary<RectTransform, ActiveAnimation> activeAnimations = new();
 
     public void ShowPanel(RectTransform panel)
     {
@@ -71,7 +77,7 @@ public class MenuAnimationManagerScript : MonoBehaviour
 
         var completion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         Coroutine coroutine = StartCoroutine(TrackAnimation(rect, animation, completion));
-        activeAnimations[rect] = coroutine;
+        activeAnimations[rect] = new ActiveAnimation { coroutine = coroutine, completion = completion };
         return completion.Task;
     }
 
@@ -90,9 +96,12 @@ public class MenuAnimationManagerScript : MonoBehaviour
 
     private void StopAnimation(RectTransform rect)
     {
-        if (activeAnimations.TryGetValue(rect, out Coroutine coroutine))
+        if (activeAnimations.TryGetValue(rect, out ActiveAnimation active))
         {
-            StopCoroutine(coroutine);
+            // StopCoroutine aborts the iterator without running its finally block,
+            // so the pending task must be completed here or awaiters hang forever.
+            if (active.coroutine != null) StopCoroutine(active.coroutine);
+            active.completion.TrySetResult(false);
             activeAnimations.Remove(rect);
         }
     }
@@ -169,8 +178,11 @@ public class MenuAnimationManagerScript : MonoBehaviour
 
     private void OnDisable()
     {
-        foreach (Coroutine coroutine in activeAnimations.Values)
-            if (coroutine != null) StopCoroutine(coroutine);
+        foreach (ActiveAnimation active in activeAnimations.Values)
+        {
+            if (active.coroutine != null) StopCoroutine(active.coroutine);
+            active.completion.TrySetResult(false);
+        }
 
         activeAnimations.Clear();
     }

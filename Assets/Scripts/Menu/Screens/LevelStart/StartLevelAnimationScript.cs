@@ -2,7 +2,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class StartLevelAnimationManagerScript : MonoBehaviour
+public class StartLevelAnimationScript : MonoBehaviour
 {
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject[] canvases;

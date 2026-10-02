@@ -8,6 +8,6 @@ public class OpenSettingsInteractorScript : MonoBehaviour
 
     public async Task OpenSettingsAsync()
     {
-        await menuNavigation.NavigateTo(MenuState.StartingLevel);
+        await menuNavigation.NavigateTo(MenuState.Settings);
     }
 }

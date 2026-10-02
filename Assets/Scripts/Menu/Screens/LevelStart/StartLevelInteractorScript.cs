@@ -7,7 +7,7 @@ public class StartLevelInteractorScript : MonoBehaviour
     [SerializeField] private MenuSceneLoaderScript sceneLoader;
     [Header("Presenter")]
     [SerializeField] private MenuNavigationScript menuNavigation;
-    [SerializeField] private StartLevelAnimationManagerScript animationManager;
+    [SerializeField] private StartLevelAnimationScript animationManager;
 
     public async Task StartLevelAsync()
     {

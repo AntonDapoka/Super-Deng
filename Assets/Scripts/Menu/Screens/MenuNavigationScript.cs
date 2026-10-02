@@ -14,7 +14,7 @@ public class MenuNavigationScript : MonoBehaviour
         switch (state)
         {
             case MenuState.Main:
-                return Task.CompletedTask;
+                return OpenMainAsync();
 
             case MenuState.StartingLevel:
                 return StartLevelAsync();
@@ -32,6 +32,11 @@ public class MenuNavigationScript : MonoBehaviour
                 Debug.Log("No match found");
                 return Task.CompletedTask;
         }
+    }
+    
+    private async Task OpenMainAsync()
+    {
+        await menuPresenter.ShowMenuStateAsync(MenuState.Main);
     }
 
     private async Task StartLevelAsync()
