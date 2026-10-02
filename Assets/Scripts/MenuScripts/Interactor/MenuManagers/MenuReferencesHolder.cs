@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class MenuReferencesHolder : MonoBehaviour
 {
+    [SerializeField] private Button[] buttonsCurrent;
     [Header("Button Group")]
     [SerializeField] private Button[] buttonsMain;
     [SerializeField] private Button[] buttonsLevelSelection;
@@ -12,6 +13,21 @@ public class MenuReferencesHolder : MonoBehaviour
     [Header("Images")]
     [SerializeField] private RectTransform imageSettings;
     [SerializeField] private RectTransform imageLevelDescription;
+
+    private void Start()
+    {
+        buttonsCurrent = buttonsMain;
+    }
+
+    public void SetButtonsCurrent(Button[] buttons)
+    {
+        buttonsCurrent = buttons;
+    }
+
+    public Button[] GetButtonsCurrent()
+    {
+        return buttonsCurrent;
+    }
 
     public Button[] GetButtonsMain()
     {

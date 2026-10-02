@@ -1,7 +1,7 @@
 public enum MenuState
 {
     Main,
-    StartLevel,
+    StartingLevel,
     LevelSelection,
     Settings,
     Credits

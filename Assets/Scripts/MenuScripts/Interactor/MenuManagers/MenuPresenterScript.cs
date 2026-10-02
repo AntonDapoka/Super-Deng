@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MenuPresenterScript : MonoBehaviour
 {
+    [Header("References")]
+    //[SerializeField] private CreditsButtonViewScript
     [SerializeField] private MenuAnimationManagerScript menuAnimationManager;
     [SerializeField] private MenuReferencesHolder referencesHolder;
 

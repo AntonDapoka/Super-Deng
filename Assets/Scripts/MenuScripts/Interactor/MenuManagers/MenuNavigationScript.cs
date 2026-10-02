@@ -3,6 +3,7 @@ using UnityEngine;
 public class MenuNavigationScript : MonoBehaviour
 {
     [SerializeField] private MenuState menuStateCurrent;
+    [Header("References")]
     [SerializeField] private MenuPresenterScript menuPresenter;
 
     public void NavigateTo(MenuState state)
@@ -13,6 +14,10 @@ public class MenuNavigationScript : MonoBehaviour
         {
             case MenuState.Main:
                 OpenMain();
+                break;
+            
+            case MenuState.StartingLevel:
+                StartLevel();
                 break;
 
             case MenuState.LevelSelection:
@@ -38,6 +43,12 @@ public class MenuNavigationScript : MonoBehaviour
     {
         
     }
+
+    private void StartLevel()
+    {
+        //StartAnimations
+        ClearMenu();
+    }
     
     private void OpenLevelSelection()
     {
@@ -57,7 +68,7 @@ public class MenuNavigationScript : MonoBehaviour
         
     }
 
-    public void ClearMenu()
+    private void ClearMenu()
     {
         menuPresenter.HideEveryButton();
     }

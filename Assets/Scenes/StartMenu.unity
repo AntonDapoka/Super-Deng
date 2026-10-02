@@ -42434,6 +42434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ee7c46d2617a9f4e845a7d80cf521c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonsCurrent: []
   buttonsMain:
   - {fileID: 786519766}
   - {fileID: 334238745}
@@ -45579,6 +45580,50 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &863311358
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 863311359}
+  - component: {fileID: 863311360}
+  m_Layer: 0
+  m_Name: MenuLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &863311359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863311358}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1679717660}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &863311360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863311358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae77df5e99ba2e469b2a71462d1a62a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &865693827
 GameObject:
   m_ObjectHideFlags: 0
@@ -45654,23 +45699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaefba56e6fb214499809bb74ec59612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holderDescriptionUI: {fileID: 0}
-  holderPasswordUI: {fileID: 0}
-  currentIndex: 0
-  amountOfLevels: 0
-  buttonRight1: {fileID: 0}
-  buttonLeft1: {fileID: 0}
-  items:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  currentIndexButton1: 0
-  buttonRight2: {fileID: 0}
-  buttonLeft2: {fileID: 0}
-  buttonRight3: {fileID: 0}
-  buttonLeft3: {fileID: 0}
 --- !u!1 &871886945
 GameObject:
   m_ObjectHideFlags: 0
@@ -80592,6 +80620,7 @@ Transform:
   - {fileID: 1452105879}
   - {fileID: 632235840}
   - {fileID: 1708314082}
+  - {fileID: 863311359}
   m_Father: {fileID: 266456116}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1693718317 stripped
