@@ -7,7 +7,6 @@ public class MenuController : MonoBehaviour
 {
     [Header("MenuScripts")]
     [SerializeField] private MenuLogoNeonFlinkeringScript MLNFS;
-    [SerializeField] private StartToSavingsTransitionScript STSTS;
     [SerializeField] private MenuCreditsScript MCS;
     [SerializeField] private LevelChooseMenuScript LCMS;
     [Header("MainButtons")]
@@ -58,7 +57,6 @@ public class MenuController : MonoBehaviour
         buttonBack.onClick.RemoveAllListeners();
         buttonBack.onClick.AddListener(OnSavingsBackClick);
 
-        STSTS.StartTransition();
         /*
         StartCoroutine(SetImageChangeButtons(imageSavings, new[] { buttonStart, buttonLevel, buttonSettings, buttonCredits },
             waitBetweenButtons, new[] { buttonSavingsPlay, buttonSavingsDelete, buttonBack }, false));*/

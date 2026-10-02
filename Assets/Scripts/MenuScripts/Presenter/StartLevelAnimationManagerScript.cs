@@ -1,8 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class StartToSavingsTransitionScript : MonoBehaviour
+public class StartLevelAnimationManagerScript : MonoBehaviour
 {
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject[] canvases;
@@ -18,12 +17,9 @@ public class StartToSavingsTransitionScript : MonoBehaviour
     public void StartTransition()
     {
         background.SetActive(false);
-        foreach (var levelObject in levelObjects)
-            levelObject.SetActive(false);
-        foreach (var canvas in canvases)
-            canvas.SetActive(false);
+        foreach (var levelObject in levelObjects) levelObject.SetActive(false);
+        foreach (var canvas in canvases) canvas.SetActive(false);
         StartCoroutine(PerformEffects());
-
     }
 
     private IEnumerator PerformEffects()
@@ -78,27 +74,6 @@ public class StartToSavingsTransitionScript : MonoBehaviour
 
         door.transform.localScale = targetScale;
 
-        SceneManager.LoadScene(1);
+        //SceneManager.LoadScene(1);
     }
-    /*
-    private IEnumerator ToggleAndResizeImage(bool expand)
-    {
-        uiImage.rectTransform.anchoredPosition = Vector2.zero;
-        if (!expand) uiImage.gameObject.SetActive(false);
-
-        float elapsedTime = 0;
-        Vector3 startScale = expand ? Vector3.zero : originalImageScale;
-        Vector3 targetScale = expand ? originalImageScale : Vector3.zero;
-
-        while (elapsedTime < imageResizeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            uiImage.rectTransform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / imageResizeDuration);
-            yield return null;
-        }
-
-        uiImage.rectTransform.localScale = targetScale;
-
-        if (expand) uiImage.gameObject.SetActive(true);
-    }*/
 }

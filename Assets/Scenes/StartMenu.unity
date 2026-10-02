@@ -18583,6 +18583,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 254492019}
   m_CullTransparentMesh: 1
+--- !u!1 &257044600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 257044601}
+  - component: {fileID: 257044602}
+  m_Layer: 0
+  m_Name: StartAnimation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &257044601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257044600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1447283325}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &257044602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 257044600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb865faa5d4748d42935e782c0a9e91f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 77955212}
+  canvases:
+  - {fileID: 1937744191}
+  - {fileID: 535292940}
+  - {fileID: 1210543341}
+  - {fileID: 1178248243}
+  levelObjects:
+  - {fileID: 893813845}
+  prefabDoor: {fileID: 8728528089906865466, guid: 212e8679774d4e946b5fa65874609762, type: 3}
+  targetPoint: {fileID: 106749787}
+  enviromentHolder: {fileID: 1157845836}
+  targetPosition: {x: 0, y: 15, z: 0}
+  doorPosition: {x: 0, y: 0, z: 0}
+  rotationDuration: 10
+  imageResizeDuration: 1
 --- !u!1 &264814355
 GameObject:
   m_ObjectHideFlags: 0
@@ -46767,7 +46826,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.2784314, g: 0.2784314, b: 0.2784314, a: 1}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -49713,7 +49772,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9371ea9f73de144b1d66635cc0befe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneLoader: {fileID: 863311360}
   menuNavigation: {fileID: 762824599}
+  animationManager: {fileID: 257044602}
 --- !u!1 &1044198884
 GameObject:
   m_ObjectHideFlags: 0
@@ -66619,9 +66680,9 @@ Transform:
   m_Children:
   - {fileID: 164499045}
   - {fileID: 360713337}
-  - {fileID: 1722063830}
   - {fileID: 1046496121}
   - {fileID: 807944149}
+  - {fileID: 257044601}
   m_Father: {fileID: 266456116}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1449503579
@@ -85858,63 +85919,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cba27a6ddffd684f96a554657ee251b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1722063829
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1722063830}
-  - component: {fileID: 1722063831}
-  m_Layer: 0
-  m_Name: StartToSavingsTransition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &1722063830
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722063829}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1447283325}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1722063831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722063829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09cbef6d4c2f81e439125d24e72d1671, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background: {fileID: 77955212}
-  canvases:
-  - {fileID: 1937744191}
-  - {fileID: 535292940}
-  levelObjects:
-  - {fileID: 893813845}
-  prefabDoor: {fileID: 8728528089906865466, guid: 212e8679774d4e946b5fa65874609762, type: 3}
-  targetPoint: {fileID: 106749787}
-  enviromentHolder: {fileID: 691730785}
-  targetPosition: {x: 0, y: -15, z: 0}
-  doorPosition: {x: 0, y: 4, z: 0}
-  rotationDuration: 1
-  imageResizeDuration: 1
 --- !u!1 &1723680356
 GameObject:
   m_ObjectHideFlags: 0
@@ -94445,7 +94449,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MLNFS: {fileID: 440268912}
-  STSTS: {fileID: 1722063831}
   MCS: {fileID: 1452105880}
   LCMS: {fileID: 1149041586}
   buttonStart: {fileID: 786519766}
