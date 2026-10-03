@@ -18653,12 +18653,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257044600}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1447283325}
+  m_Father: {fileID: 519458196}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &257044602
 MonoBehaviour:
@@ -33658,6 +33658,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 257044601}
   - {fileID: 987165772}
   - {fileID: 1837652247}
   - {fileID: 1973972224}
@@ -49198,9 +49199,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceMoveImage: 900
   distanceMoveButtons: 300
-  durationMoveImage: 1
-  durationMoveButtons: 0.5
-  durationSwitchButtons: 0.25
+  durationMoveImage: 0.9
+  durationMoveButtons: 0.4
+  durationSwitchButtons: 0.1
   curveMoveSettings:
     serializedVersion: 2
     m_Curve:
@@ -66716,7 +66717,6 @@ Transform:
   - {fileID: 360713337}
   - {fileID: 1046496121}
   - {fileID: 807944149}
-  - {fileID: 257044601}
   m_Father: {fileID: 266456116}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1449503579

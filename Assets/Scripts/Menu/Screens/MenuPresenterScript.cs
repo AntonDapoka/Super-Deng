@@ -18,12 +18,12 @@ public class MenuPresenterScript : MonoBehaviour
 
     public async Task ShowMenuStateAsync(MenuState state)
     {
-        await CloseSettingsPanelAsync();
+        //        await CloseSettingsPanelAsync();
 
         switch (state)
         {
             case MenuState.Main:
-                await ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsMain());
+                await Task.WhenAll(CloseSettingsPanelAsync(), ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsMain()));
                 referencesHolder.SetButtonsCurrent(referencesHolder.GetButtonsMain());
                 break;
 
