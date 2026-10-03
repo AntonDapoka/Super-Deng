@@ -5,11 +5,14 @@ public class MenuNavigationScript : MonoBehaviour
 {
     [SerializeField] private MenuState menuStateCurrent;
     [Header("References")]
+    [SerializeField] private MenuBlockWallManagerScript blockWallManager;
     [SerializeField] private MenuPresenterScript menuPresenter;
+    
 
     public Task NavigateTo(MenuState state)
     {
         menuStateCurrent = state;
+        blockWallManager.TurnOnBlockWall();
 
         switch (state)
         {
@@ -20,7 +23,7 @@ public class MenuNavigationScript : MonoBehaviour
                 return StartLevelAsync();
 
             case MenuState.LevelSelection:
-                return menuPresenter.ShowMenuStateAsync(MenuState.LevelSelection);
+                return OpenLevelSelectionAsync();
 
             case MenuState.Settings:
                 return OpenSettingsAsync();
@@ -30,6 +33,7 @@ public class MenuNavigationScript : MonoBehaviour
 
             default:
                 Debug.Log("No match found");
+                blockWallManager.TurnOffBlockWall();
                 return Task.CompletedTask;
         }
     }
@@ -37,21 +41,31 @@ public class MenuNavigationScript : MonoBehaviour
     private async Task OpenMainAsync()
     {
         await menuPresenter.ShowMenuStateAsync(MenuState.Main);
+        blockWallManager.TurnOffBlockWall();
     }
 
     private async Task StartLevelAsync()
     {
         await menuPresenter.HideEveryButtonAsync();
+        blockWallManager.TurnOffBlockWall();
+    }
+
+    private async Task OpenLevelSelectionAsync()
+    {
+        await menuPresenter.ShowMenuStateAsync(MenuState.LevelSelection);
+        blockWallManager.TurnOffBlockWall();
     }
 
     private async Task OpenSettingsAsync()
     {
         await menuPresenter.ShowMenuStateAsync(MenuState.Settings);
+        blockWallManager.TurnOffBlockWall();
     }
 
     private async Task OpenCreditsAsync()
     {
         await menuPresenter.ShowMenuStateAsync(MenuState.Credits);
+        blockWallManager.TurnOffBlockWall();
     }
 
     public MenuState GetMenuState()

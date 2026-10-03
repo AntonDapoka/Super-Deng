@@ -10,15 +10,15 @@ public class MenuPresenterScript : MonoBehaviour
 
     private bool isSettingsPanelOpen;
 
-    public Task HideEveryButtonAsync()
+    public async Task HideEveryButtonAsync()
     {
-        CloseSettingsPanel();
-        return menuAnimationManager.HideButtonsAsync(referencesHolder.GetButtonsCurrent());
+        await CloseSettingsPanelAsync();
+        await menuAnimationManager.HideButtonsAsync(referencesHolder.GetButtonsCurrent());
     }
 
     public async Task ShowMenuStateAsync(MenuState state)
     {
-        CloseSettingsPanel();
+        await CloseSettingsPanelAsync();
 
         switch (state)
         {
@@ -33,8 +33,9 @@ public class MenuPresenterScript : MonoBehaviour
                 break;
 
             case MenuState.Settings:
-                await ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsSettings());
-                menuAnimationManager.ShowPanel(referencesHolder.GetRectTransformSettings());
+                await Task.WhenAll(
+                    ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsSettings()),
+                    menuAnimationManager.ShowPanelAsync(referencesHolder.GetRectTransformSettings()));
                 isSettingsPanelOpen = true;
                 referencesHolder.SetButtonsCurrent(referencesHolder.GetButtonsSettings());
                 break;
@@ -51,11 +52,11 @@ public class MenuPresenterScript : MonoBehaviour
         return menuAnimationManager.ChangeButtonsAsync(buttonsToHide, buttonsToShow);
     }
 
-    private void CloseSettingsPanel()
+    private Task CloseSettingsPanelAsync()
     {
-        if (!isSettingsPanelOpen) return;
+        if (!isSettingsPanelOpen) return Task.CompletedTask;
 
-        menuAnimationManager.HidePanel(referencesHolder.GetRectTransformSettings());
         isSettingsPanelOpen = false;
+        return menuAnimationManager.HidePanelAsync(referencesHolder.GetRectTransformSettings());
     }
 }

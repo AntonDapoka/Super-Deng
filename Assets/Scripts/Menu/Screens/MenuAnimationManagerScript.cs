@@ -26,35 +26,37 @@ public class MenuAnimationManagerScript : MonoBehaviour
 
     private readonly Dictionary<RectTransform, ActiveAnimation> activeAnimations = new();
 
-    public void ShowPanel(RectTransform panel)
+    public Task ShowPanelAsync(RectTransform panel)
     {
-        if (panel == null) return;
-        StartAnimation(panel, MovePanel(panel, true));
+        if (panel == null) return Task.CompletedTask;
+        return StartAnimation(panel, MovePanel(panel, true));
     }
 
-    public void HidePanel(RectTransform panel)
+    public Task HidePanelAsync(RectTransform panel)
     {
-        if (panel == null) return;
-        StartAnimation(panel, MovePanel(panel, false));
+        if (panel == null) return Task.CompletedTask;
+        return StartAnimation(panel, MovePanel(panel, false));
     }
 
     public async Task ChangeButtonsAsync(Button[] buttonsToHide, Button[] buttonsToShow)
     {
         await HideButtonsAsync(buttonsToHide);
         await this.RunAsync(WaitSeconds(durationSwitchButtons));
-        ShowButtons(buttonsToShow);
+        await ShowButtonsAsync(buttonsToShow);
     }
 
-    public void ShowButtons(Button[] buttons)
+    public Task ShowButtonsAsync(Button[] buttons)
     {
-        if (buttons == null)return;
+        if (buttons == null) return Task.CompletedTask;
 
+        var animations = new List<Task>();
         foreach (Button button in buttons)
         {
             if (button == null) continue;
             if (!button.TryGetComponent<RectTransform>(out var rect)) continue;
-            StartAnimation(rect, ShowUI(rect));
+            animations.Add(StartAnimation(rect, ShowUI(rect)));
         }
+        return Task.WhenAll(animations);
     }
 
     public Task HideButtonsAsync(Button[] buttons)
@@ -98,8 +100,6 @@ public class MenuAnimationManagerScript : MonoBehaviour
     {
         if (activeAnimations.TryGetValue(rect, out ActiveAnimation active))
         {
-            // StopCoroutine aborts the iterator without running its finally block,
-            // so the pending task must be completed here or awaiters hang forever.
             if (active.coroutine != null) StopCoroutine(active.coroutine);
             active.completion.TrySetResult(false);
             activeAnimations.Remove(rect);
