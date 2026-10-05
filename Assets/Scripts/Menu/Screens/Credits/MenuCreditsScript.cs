@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
@@ -5,21 +6,27 @@ using UnityEngine;
 
 public class MenuCreditsScript : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private Camera cam;
     [SerializeField] private MenuCreditsAnimationManagerScript animationManager;
-    [SerializeField] private GameObject cam;
-    [SerializeField] private Vector3 camPos;
     [SerializeField] private MenuLogoNeonFlinkeringScript MLNFS;
     [SerializeField] private GameObject[] parentObjects;
+
+    [Header("Settings")]
     [SerializeField] private float timeForLine;
-    [SerializeField] private float cameraSpeed;
-    [SerializeField] private float t = 0f;
+    [SerializeField] private float speedCamera;
     [SerializeField] private float duration = 1.5f;
     [SerializeField] private float durationCameraReturn = 1.5f;
     [SerializeField] private float currentSpeed = 0f;
+
+    [Header("Line time modifiers")]
+    [SerializeField] private CreditsLineTimeModifierScript[] lineTimeModifiers;
+
     private GameObject[][] sortedChildren;
-    [SerializeField] private AnimationCurve colorChangeCurveTurnOn;
-    public bool isStarted = false;
-    public bool isEnded = false;
+    private Vector3 camPos;
+    private float t = 0f;
+    private bool isStarted = false;
+    private bool isEnded = false;
 
     private void Start()
     {
@@ -36,11 +43,9 @@ public class MenuCreditsScript : MonoBehaviour
 
         for (int i = 0; i < sortedChildren.Length; i++)
             foreach (var child in sortedChildren[i])
-            {
-                if (child.TryGetComponent<TextMeshPro>(out var textMesh)) textMesh.color = Color.gray;
-                child.SetActive(false);
-            }
+                animationManager.HideWord(child);
     }
+
     private void Update()
     {
         if (isStarted && !isEnded)
@@ -48,20 +53,17 @@ public class MenuCreditsScript : MonoBehaviour
             if (t < duration)
             {
                 t += Time.deltaTime;
-                currentSpeed = Mathf.Lerp(0, cameraSpeed, t / duration);
+                currentSpeed = Mathf.Lerp(0, speedCamera, t / duration);
             }
-            else
-            {
-                currentSpeed = cameraSpeed;
-            }
+            else currentSpeed = speedCamera;
 
-            cam.transform.position += Vector3.down * currentSpeed * Time.deltaTime;
+            animationManager.MoveCameraDown(cam.transform, currentSpeed * Time.deltaTime);
         }
         else if (isEnded && currentSpeed > 0)
         {
             t -= Time.deltaTime;
-            currentSpeed = Mathf.Lerp(0, cameraSpeed, t / duration);
-            cam.transform.position += Vector3.down * currentSpeed * Time.deltaTime;
+            currentSpeed = Mathf.Lerp(0, speedCamera, t / duration);
+            animationManager.MoveCameraDown(cam.transform, currentSpeed * Time.deltaTime);
         }
     }
 
@@ -72,65 +74,25 @@ public class MenuCreditsScript : MonoBehaviour
 
     public void EndCredits()
     {
-        //wall.gameObject.SetActive(true);
         StopAllCoroutines();
         isStarted = false;
         isEnded = true;
         StartCoroutine(ReturningCamera());
-        
         StartCoroutine(TurningOffWords());
     }
 
     private IEnumerator ReturningCamera()
     {
-        Vector3 startPosition = cam.transform.position;
-        Vector3 targetPosition = camPos;
-        float elapsedTime = 0f;
         t = 0f;
-        while (elapsedTime < durationCameraReturn)
-        {
-            //wall.gameObject.SetActive(true);
-            cam.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / durationCameraReturn);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        cam.transform.position = targetPosition;
+        yield return StartCoroutine(animationManager.ReturnCameraAsync(cam.transform, camPos, durationCameraReturn));
     }
 
     private IEnumerator TurningOffWords()
     {
-        if (!MLNFS.isTurnOn)
-        {
-            MLNFS.LogoTurningOnAndOff(0.75f, true, true, true, false);
-            ///MLNFS.LogoTurningOnAndOff( Color.gray, Color.white, 0.75f, 2f, 3f, true, true);
-        }
-        
-        for (int i = 0; i < sortedChildren.Length; i++)
-        {
-            foreach (var child in sortedChildren[i])
-            {
-                TextMeshPro textMesh = child.GetComponent<TextMeshPro>();
+        if (!MLNFS.isTurnOn) MLNFS.LogoTurningOnAndOff(0.75f, true, true, true, false);
 
-                if (child.activeSelf == true)
-                {
-                    StartCoroutine(ChangingColorSmoothly(textMesh, timeForLine / 4, Color.white, Color.clear));
-                }
-            }
-        }
-        yield return new WaitForSeconds(timeForLine);
-
-        for (int i = 0; i < sortedChildren.Length; i++)
-        {
-            foreach (var child in sortedChildren[i])
-            {
-                child.SetActive(false);
-            }
-        }
-
-
+        yield return StartCoroutine(animationManager.TurnOffWordsAsync(sortedChildren, timeForLine));
     }
-
 
     private IEnumerator SettingMaterial()
     {
@@ -142,149 +104,44 @@ public class MenuCreditsScript : MonoBehaviour
             if (i == 1)
             {
                 MLNFS.LogoTurningOnAndOff(timeForLine, true, true, true, false);
-                
+
                 yield return new WaitForSeconds(timeForLine);
                 isStarted = true;
                 isEnded = false;
+            }
+            else foreach (var modifier in lineTimeModifiers)
+                    if (modifier.lineIndex == i) timeForLine *= modifier.timeModifier;
 
-            }else if (i == 13)
-            {
-                timeForLine *= 1.25f;
-            }
-            else if (i == 20)
-            {
-                timeForLine *= 1.5f;
-            }
             float timeForWord = timeForLine / sortedChildren[i].Length;
+            
             for (int j = 0; j < sortedChildren[i].Length; j++)
             {
-                TextMeshPro textMesh = sortedChildren[i][j].GetComponent<TextMeshPro>();
-
-                if (textMesh != null)
-                {
-                    textMesh.color = Color.gray;
-                }
-                sortedChildren[i][j].SetActive(true);
-
-                
+                animationManager.ShowWord(sortedChildren[i][j]);
 
                 if (j < sortedChildren[i].Length - 1)
                 {
-                    yield return new WaitForSeconds(Random.Range((i == 0 ? 2f : 1f) * 0.7f * timeForWord / 2,(i == 0 ? 3f : 1f) * timeForWord / 2));
+                    yield return new WaitForSeconds(UnityEngine.Random.Range((i == 0 ? 2f : 1f) * 0.7f * timeForWord / 2, (i == 0 ? 3f : 1f) * timeForWord / 2));
 
-                    TextMeshPro textMeshNext = sortedChildren[i][j+1].GetComponent<TextMeshPro>();
-
-                    if (textMeshNext != null)
-                    {
-                        textMeshNext.color = Color.gray;
-                    }
-                    sortedChildren[i][j+1].SetActive(true);
+                    animationManager.ShowWord(sortedChildren[i][j + 1]);
                 }
 
-                yield return StartCoroutine(ChangingColorSmoothly(textMesh, timeForWord, Color.gray, Color.white));
+                TextMeshPro textMesh = sortedChildren[i][j].GetComponent<TextMeshPro>();
+
+                yield return StartCoroutine(animationManager.ChangingColorSmoothly(textMesh, timeForWord, Color.gray, Color.white));
 
                 if (i == sortedChildren.Length - 1 && j == sortedChildren[i].Length - 1)
                 {
-                    yield return new WaitForSeconds(timeForLine/2);
+                    yield return new WaitForSeconds(timeForLine / 2);
                     isEnded = true;
                 }
             }
         }
     }
+}
 
-    private IEnumerator ChangingColorSmoothly(TextMeshPro text, float time, Color initialColor, Color targetColor)
-    {
-        float elapsedTime = 0f;
-        float randomTime = 0f;
-        float randomTimeExtra = 0f;
-        int randomNum = Random.Range(0, 100);
-        int interruptionCount = 0;
-        if (randomNum >= 40 && randomNum <= 87)
-        {
-            interruptionCount = 1;
-        } 
-        else if (randomNum > 87)
-        {
-            interruptionCount = 2;
-        }
-            
-        Color initialColorSafer = initialColor;
-        if (interruptionCount == 0)
-        {
-            while (elapsedTime < time )
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTime - randomTimeExtra));
-                Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            text.color = targetColor;
-        }
-        else if (interruptionCount == 1)
-        {
-            randomTime = Random.Range(time * 0.2f, time * 0.8f);
-
-            while (elapsedTime < randomTime)
-            {
-                float curveValue =  colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime);
-                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            elapsedTime = 0f;
-
-            while (elapsedTime < (time - randomTime))
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTime - randomTimeExtra));
-                Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            text.color = targetColor;
-        }
-        else if (interruptionCount == 2)
-        {
-
-            randomTime = Random.Range(time * 0.22f, time * 0.45f) ;
-            randomTimeExtra = Random.Range((time - randomTime)*1.0005f, time * 0.9f);
-            while (elapsedTime < randomTime)
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime) ;
-                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            elapsedTime = 0f;
-
-            while (elapsedTime < randomTimeExtra - randomTime)
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (randomTimeExtra - randomTime));
-                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            elapsedTime = 0f;
-
-            while (elapsedTime < (time -  randomTimeExtra))
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTimeExtra));
-                Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            text.color = targetColor;
-        }
-    }
+[Serializable]
+public class CreditsLineTimeModifierScript
+{
+    public int lineIndex;
+    public float timeModifier;
 }

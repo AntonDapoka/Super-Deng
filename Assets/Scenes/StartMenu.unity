@@ -18640,7 +18640,7 @@ GameObject:
   - component: {fileID: 257044601}
   - component: {fileID: 257044602}
   m_Layer: 0
-  m_Name: StartAnimation
+  m_Name: StartAnimationManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33659,8 +33659,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 257044601}
   - {fileID: 987165772}
+  - {fileID: 257044601}
+  - {fileID: 1329746694}
   - {fileID: 1837652247}
   - {fileID: 1973972224}
   - {fileID: 440268911}
@@ -64641,6 +64642,107 @@ RectTransform:
   m_AnchoredPosition: {x: 11.25, y: -48.3}
   m_SizeDelta: {x: 914.5, y: 55.2}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1329746693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1329746694}
+  - component: {fileID: 1329746695}
+  m_Layer: 0
+  m_Name: CreditsAnimationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1329746694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329746693}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 519458196}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1329746695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329746693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e3c965fae5e484a8c82a146abd819a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorChangeCurveTurnOn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  speedByDistanceToTargetCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2.4999924
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1.9984721
+      inSlope: -2.2883596
+      outSlope: -2.2883596
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.15467657
+    - serializedVersion: 3
+      time: 1
+      value: 1.0012964
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 0
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1333025281
 GameObject:
   m_ObjectHideFlags: 0
@@ -66714,8 +66816,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 400616052}
   - {fileID: 164499045}
+  - {fileID: 400616052}
   - {fileID: 360713337}
   - {fileID: 1046496121}
   - {fileID: 807944149}
@@ -66805,8 +66907,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0455db4c42f6a7446bec44eacfea2489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 912186664}
-  camPos: {x: 0, y: 0, z: 0}
+  cam: {fileID: 912186669}
+  animationManager: {fileID: 1329746695}
   MLNFS: {fileID: 440268912}
   parentObjects:
   - {fileID: 15887288}
@@ -66831,38 +66933,15 @@ MonoBehaviour:
   - {fileID: 1400029207}
   - {fileID: 2099027155}
   timeForLine: 1.2
-  cameraSpeed: 0.74
-  t: 0
+  speedCamera: 0.7
   duration: 1.5
   durationCameraReturn: 1
   currentSpeed: 0
-  colorChangeCurveTurnOn:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  wall: {fileID: 0}
-  isStarted: 0
-  isEnded: 0
+  lineTimeModifiers:
+  - lineIndex: 13
+    timeModifier: 1.25
+  - lineIndex: 20
+    timeModifier: 1.5
 --- !u!1 &1460766431
 GameObject:
   m_ObjectHideFlags: 0
