@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -22,16 +23,23 @@ public class MenuCreditsAnimationManagerScript : MonoBehaviour
     [SerializeField] private float doubleInterruptionSecondStopMinExtra = 1.0005f;
     [SerializeField] private float doubleInterruptionSecondStopMaxShare = 0.9f;
 
+    private const float MinSegmentDuration = 0.001f;
+
     public void ShowWord(GameObject word)
     {
-        if (word.TryGetComponent<TextMeshPro>(out var textMesh)) textMesh.color = Color.gray;
+        SetWordGray(word);
         word.SetActive(true);
     }
 
     public void HideWord(GameObject word)
     {
-        if (word.TryGetComponent<TextMeshPro>(out var textMesh)) textMesh.color = Color.gray;
+        SetWordGray(word);
         word.SetActive(false);
+    }
+
+    private static void SetWordGray(GameObject word)
+    {
+        if (word.TryGetComponent<TextMeshPro>(out var textMesh)) textMesh.color = Color.gray;
     }
 
     public void MoveCameraDown(Transform camera, float distance)
@@ -42,6 +50,13 @@ public class MenuCreditsAnimationManagerScript : MonoBehaviour
     public IEnumerator ReturnCameraAsync(Transform camera, Vector3 targetPosition, float duration)
     {
         float startDistance = Vector3.Distance(camera.position, targetPosition);
+
+        if (duration <= 0f || startDistance <= cameraArrivalThreshold)
+        {
+            camera.position = targetPosition;
+            yield break;
+        }
+
         float baseSpeed = startDistance / duration;
 
         while (Vector3.Distance(camera.position, targetPosition) > cameraArrivalThreshold)
@@ -57,111 +72,90 @@ public class MenuCreditsAnimationManagerScript : MonoBehaviour
 
     public IEnumerator TurnOffWordsAsync(GameObject[][] sortedChildren, float timeForLine)
     {
+        float fadeDuration = timeForLine * durationModifierWordsFadeOut;
+
         foreach (var line in sortedChildren)
+        {
+            if (line == null) continue;
+
             foreach (var child in line)
-                if (child.activeSelf && child.TryGetComponent<TextMeshPro>(out var textMesh))
-                    StartCoroutine(ChangingColorSmoothly(textMesh, timeForLine * durationModifierWordsFadeOut, Color.white, Color.clear));
+                if (child != null && child.activeSelf && child.TryGetComponent<TextMeshPro>(out var textMesh))
+                    StartCoroutine(ChangingColorSmoothly(textMesh, fadeDuration, Color.white, Color.clear));
+        }
 
         yield return new WaitForSeconds(timeForLine);
 
         foreach (var line in sortedChildren)
+        {
+            if (line == null) continue;
+
             foreach (var child in line)
-                child.SetActive(false);
+                if (child != null) child.SetActive(false);
+        }
     }
 
     public IEnumerator ChangingColorSmoothly(TextMeshPro text, float time, Color initialColor, Color targetColor)
     {
-        float elapsedTime = 0f;
-        float randomTime = 0f;
-        float randomTimeExtra = 0f;
-        int randomNum = Random.Range(0, glitchRollMax);
+        if (time <= 0f)
+        {
+            text.color = targetColor;
+            yield break;
+        }
+
+        foreach (float segmentDuration in BuildGlitchSegmentDurations(time))
+        {
+            float elapsedTime = 0f;
+            while (elapsedTime < segmentDuration)
+            {
+                float curveValue = colorChangeCurveTurnOn.Evaluate(Mathf.Clamp01(elapsedTime / segmentDuration));
+                text.color = Color.Lerp(initialColor, targetColor, curveValue);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        text.color = targetColor;
+    }
+
+
+    private List<float> BuildGlitchSegmentDurations(float totalTime)
+    {
+        int roll = Random.Range(0, glitchRollMax);
+
         int interruptionCount = 0;
+        if (roll >= singleInterruptionMinRoll && roll <= doubleInterruptionMinRoll) interruptionCount = 1;
+        else if (roll > doubleInterruptionMinRoll) interruptionCount = 2;
 
-        if (randomNum >= singleInterruptionMinRoll && randomNum <= doubleInterruptionMinRoll)
+        var boundaries = new List<float>(2);
+        if (interruptionCount == 1)
         {
-            interruptionCount = 1;
-        }
-        else if (randomNum > doubleInterruptionMinRoll)
-        {
-            interruptionCount = 2;
-        }
-
-        Color initialColorSafer = initialColor;
-        if (interruptionCount == 0)
-        {
-            while (elapsedTime < time)
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTime - randomTimeExtra));
-                Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            text.color = targetColor;
-        }
-        else if (interruptionCount == 1)
-        {
-            randomTime = Random.Range(time * singleInterruptionMinTimeShare, time * singleInterruptionMaxTimeShare);
-
-            while (elapsedTime < randomTime)
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime);
-                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            elapsedTime = 0f;
-
-            while (elapsedTime < (time - randomTime))
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTime - randomTimeExtra));
-                Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            text.color = targetColor;
+            boundaries.Add(Random.Range(totalTime * singleInterruptionMinTimeShare, totalTime * singleInterruptionMaxTimeShare));
         }
         else if (interruptionCount == 2)
         {
-            randomTime = Random.Range(time * doubleInterruptionFirstStopMinShare, time * doubleInterruptionFirstStopMaxShare);
-            randomTimeExtra = Random.Range((time - randomTime) * doubleInterruptionSecondStopMinExtra, time * doubleInterruptionSecondStopMaxShare);
-            while (elapsedTime < randomTime)
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime);
-                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            elapsedTime = 0f;
-
-            while (elapsedTime < randomTimeExtra - randomTime)
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (randomTimeExtra - randomTime));
-                Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            elapsedTime = 0f;
-
-            while (elapsedTime < (time - randomTimeExtra))
-            {
-                float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / (time - randomTimeExtra));
-                Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
-                text.color = newColor;
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            text.color = targetColor;
+            float firstBoundary = Random.Range(totalTime * doubleInterruptionFirstStopMinShare, totalTime * doubleInterruptionFirstStopMaxShare);
+            float secondBoundary = Random.Range((totalTime - firstBoundary) * doubleInterruptionSecondStopMinExtra, totalTime * doubleInterruptionSecondStopMaxShare);
+            boundaries.Add(firstBoundary);
+            boundaries.Add(secondBoundary);
         }
+
+        var segmentDurations = new List<float>(boundaries.Count + 1);
+        float previousBoundary = 0f;
+        foreach (float boundary in boundaries)
+        {
+            float clampedBoundary = Mathf.Clamp(boundary, 0f, totalTime);
+            if (clampedBoundary - previousBoundary < MinSegmentDuration) continue;
+
+            segmentDurations.Add(clampedBoundary - previousBoundary);
+            previousBoundary = clampedBoundary;
+        }
+
+        if (totalTime - previousBoundary >= MinSegmentDuration)
+            segmentDurations.Add(totalTime - previousBoundary);
+
+        if (segmentDurations.Count == 0) segmentDurations.Add(totalTime);
+
+        return segmentDurations;
     }
 }

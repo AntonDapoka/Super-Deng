@@ -64724,7 +64724,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.5
-      value: 1.9984721
+      value: 1.749998
       inSlope: -2.2883596
       outSlope: -2.2883596
       tangentMode: 0
@@ -64743,6 +64743,17 @@ MonoBehaviour:
     m_PreInfinity: 0
     m_PostInfinity: 2
     m_RotationOrder: 4
+  cameraArrivalThreshold: 0.001
+  durationModifierWordsFadeOut: 0.25
+  glitchRollMax: 100
+  singleInterruptionMinRoll: 40
+  doubleInterruptionMinRoll: 87
+  singleInterruptionMinTimeShare: 0.2
+  singleInterruptionMaxTimeShare: 0.8
+  doubleInterruptionFirstStopMinShare: 0.22
+  doubleInterruptionFirstStopMaxShare: 0.45
+  doubleInterruptionSecondStopMinExtra: 1.0005
+  doubleInterruptionSecondStopMaxShare: 0.9
 --- !u!1 &1333025281
 GameObject:
   m_ObjectHideFlags: 0
@@ -66909,7 +66920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 912186669}
   animationManager: {fileID: 1329746695}
-  MLNFS: {fileID: 440268912}
+  menuLogo: {fileID: 440268912}
   parentObjects:
   - {fileID: 15887288}
   - {fileID: 1856574330}
@@ -66934,9 +66945,15 @@ MonoBehaviour:
   - {fileID: 2099027155}
   timeForLine: 1.2
   speedCamera: 0.7
-  duration: 1.5
+  cameraSpeedUpDuration: 1.5
   durationCameraReturn: 1
-  currentSpeed: 0
+  logoTurnOffDuration: 0.75
+  logoTurnOnDuration: 0.75
+  delayMinFirstLineNextWord: 0.7
+  delayMaxFirstLineNextWord: 1.5
+  delayMinOtherLinesNextWord: 0.35
+  delayMaxOtherLinesNextWord: 0.5
+  durationModifierFinalWord: 0.5
   lineTimeModifiers:
   - lineIndex: 13
     timeModifier: 1.25
