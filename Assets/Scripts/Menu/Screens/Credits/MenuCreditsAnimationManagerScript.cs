@@ -6,6 +6,21 @@ public class MenuCreditsAnimationManagerScript : MonoBehaviour
 {
     [SerializeField] private AnimationCurve colorChangeCurveTurnOn;
     [SerializeField] private AnimationCurve speedByDistanceToTargetCurve;
+    [SerializeField] private float cameraArrivalThreshold = 0.001f;
+    [SerializeField] private float durationModifierWordsFadeOut = 0.25f;
+
+    [Header("Glitch chances (roll of 0..glitchRollMax)")]
+    [SerializeField] private int glitchRollMax = 100;
+    [SerializeField] private int singleInterruptionMinRoll = 40;
+    [SerializeField] private int doubleInterruptionMinRoll = 87;
+
+    [Header("Glitch timing")]
+    [SerializeField] private float singleInterruptionMinTimeShare = 0.2f;
+    [SerializeField] private float singleInterruptionMaxTimeShare = 0.8f;
+    [SerializeField] private float doubleInterruptionFirstStopMinShare = 0.22f;
+    [SerializeField] private float doubleInterruptionFirstStopMaxShare = 0.45f;
+    [SerializeField] private float doubleInterruptionSecondStopMinExtra = 1.0005f;
+    [SerializeField] private float doubleInterruptionSecondStopMaxShare = 0.9f;
 
     public void ShowWord(GameObject word)
     {
@@ -29,7 +44,7 @@ public class MenuCreditsAnimationManagerScript : MonoBehaviour
         float startDistance = Vector3.Distance(camera.position, targetPosition);
         float baseSpeed = startDistance / duration;
 
-        while (Vector3.Distance(camera.position, targetPosition) > 0.001f)
+        while (Vector3.Distance(camera.position, targetPosition) > cameraArrivalThreshold)
         {
             float distanceLeft = Vector3.Distance(camera.position, targetPosition);
             float speed = baseSpeed * speedByDistanceToTargetCurve.Evaluate(Mathf.Clamp01(distanceLeft / startDistance));
@@ -45,7 +60,7 @@ public class MenuCreditsAnimationManagerScript : MonoBehaviour
         foreach (var line in sortedChildren)
             foreach (var child in line)
                 if (child.activeSelf && child.TryGetComponent<TextMeshPro>(out var textMesh))
-                    StartCoroutine(ChangingColorSmoothly(textMesh, timeForLine / 4, Color.white, Color.clear));
+                    StartCoroutine(ChangingColorSmoothly(textMesh, timeForLine * durationModifierWordsFadeOut, Color.white, Color.clear));
 
         yield return new WaitForSeconds(timeForLine);
 
@@ -59,14 +74,14 @@ public class MenuCreditsAnimationManagerScript : MonoBehaviour
         float elapsedTime = 0f;
         float randomTime = 0f;
         float randomTimeExtra = 0f;
-        int randomNum = Random.Range(0, 100);
+        int randomNum = Random.Range(0, glitchRollMax);
         int interruptionCount = 0;
-        
-        if (randomNum >= 40 && randomNum <= 87)
+
+        if (randomNum >= singleInterruptionMinRoll && randomNum <= doubleInterruptionMinRoll)
         {
             interruptionCount = 1;
         }
-        else if (randomNum > 87)
+        else if (randomNum > doubleInterruptionMinRoll)
         {
             interruptionCount = 2;
         }
@@ -87,7 +102,7 @@ public class MenuCreditsAnimationManagerScript : MonoBehaviour
         }
         else if (interruptionCount == 1)
         {
-            randomTime = Random.Range(time * 0.2f, time * 0.8f);
+            randomTime = Random.Range(time * singleInterruptionMinTimeShare, time * singleInterruptionMaxTimeShare);
 
             while (elapsedTime < randomTime)
             {
@@ -113,8 +128,8 @@ public class MenuCreditsAnimationManagerScript : MonoBehaviour
         }
         else if (interruptionCount == 2)
         {
-            randomTime = Random.Range(time * 0.22f, time * 0.45f);
-            randomTimeExtra = Random.Range((time - randomTime) * 1.0005f, time * 0.9f);
+            randomTime = Random.Range(time * doubleInterruptionFirstStopMinShare, time * doubleInterruptionFirstStopMaxShare);
+            randomTimeExtra = Random.Range((time - randomTime) * doubleInterruptionSecondStopMinExtra, time * doubleInterruptionSecondStopMaxShare);
             while (elapsedTime < randomTime)
             {
                 float curveValue = colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime);

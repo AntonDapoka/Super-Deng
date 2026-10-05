@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MenuCreditsScript : MonoBehaviour
 {
@@ -15,9 +16,23 @@ public class MenuCreditsScript : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float timeForLine;
     [SerializeField] private float speedCamera;
-    [SerializeField] private float duration = 1.5f;
+    [FormerlySerializedAs("duration")]
+    [SerializeField] private float cameraSpeedUpDuration = 1.5f;
     [SerializeField] private float durationCameraReturn = 1.5f;
     [SerializeField] private float currentSpeed = 0f;
+
+    [Header("Logo")]
+    [SerializeField] private float logoTurnOffDuration = 0.75f;
+    [SerializeField] private float logoTurnOnDuration = 0.75f;
+
+    [Header("Word delays")]
+    [SerializeField] private float delayMinFirstLineNextWord = 0.7f;
+    [SerializeField] private float delayMaxFirstLineNextWord = 1.5f;
+
+    [SerializeField] private float delayMinOtherLinesNextWord = 0.35f;
+    [SerializeField] private float delayMaxOtherLinesNextWord = 0.5f;
+
+    [SerializeField] private float durationModifierFinalWord= 0.5f;
 
     [Header("Line time modifiers")]
     [SerializeField] private CreditsLineTimeModifierScript[] lineTimeModifiers;
@@ -50,10 +65,10 @@ public class MenuCreditsScript : MonoBehaviour
     {
         if (isStarted && !isEnded)
         {
-            if (t < duration)
+            if (t < cameraSpeedUpDuration)
             {
                 t += Time.deltaTime;
-                currentSpeed = Mathf.Lerp(0, speedCamera, t / duration);
+                currentSpeed = Mathf.Lerp(0, speedCamera, t / cameraSpeedUpDuration);
             }
             else currentSpeed = speedCamera;
 
@@ -62,7 +77,7 @@ public class MenuCreditsScript : MonoBehaviour
         else if (isEnded && currentSpeed > 0)
         {
             t -= Time.deltaTime;
-            currentSpeed = Mathf.Lerp(0, speedCamera, t / duration);
+            currentSpeed = Mathf.Lerp(0, speedCamera, t / cameraSpeedUpDuration);
             animationManager.MoveCameraDown(cam.transform, currentSpeed * Time.deltaTime);
         }
     }
@@ -89,14 +104,14 @@ public class MenuCreditsScript : MonoBehaviour
 
     private IEnumerator TurningOffWords()
     {
-        if (!MLNFS.isTurnOn) MLNFS.LogoTurningOnAndOff(0.75f, true, true, true, false);
+        if (!MLNFS.isTurnOn) MLNFS.LogoTurningOnAndOff(logoTurnOnDuration, true, true, true, false);
 
         yield return StartCoroutine(animationManager.TurnOffWordsAsync(sortedChildren, timeForLine));
     }
 
     private IEnumerator SettingMaterial()
     {
-        MLNFS.LogoTurningOnAndOff(0.75f, false, true, false, false);
+        MLNFS.LogoTurningOnAndOff(logoTurnOffDuration, false, true, false, false);
 
         yield return new WaitForSeconds(timeForLine);
         for (int i = 0; i < sortedChildren.Length; i++)
@@ -120,7 +135,9 @@ public class MenuCreditsScript : MonoBehaviour
 
                 if (j < sortedChildren[i].Length - 1)
                 {
-                    yield return new WaitForSeconds(UnityEngine.Random.Range((i == 0 ? 2f : 1f) * 0.7f * timeForWord / 2, (i == 0 ? 3f : 1f) * timeForWord / 2));
+                    float nextWordDelayMin = (i == 0 ? delayMinFirstLineNextWord : delayMinOtherLinesNextWord) * timeForWord;
+                    float nextWordDelayMax = (i == 0 ? delayMaxFirstLineNextWord : delayMaxOtherLinesNextWord) * timeForWord;
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(nextWordDelayMin, nextWordDelayMax));
 
                     animationManager.ShowWord(sortedChildren[i][j + 1]);
                 }
@@ -131,7 +148,7 @@ public class MenuCreditsScript : MonoBehaviour
 
                 if (i == sortedChildren.Length - 1 && j == sortedChildren[i].Length - 1)
                 {
-                    yield return new WaitForSeconds(timeForLine / 2);
+                    yield return new WaitForSeconds(timeForLine * durationModifierFinalWord);
                     isEnded = true;
                 }
             }
