@@ -38,7 +38,6 @@ public class MenuPresenterScript : MonoBehaviour
 
     private async Task ShowMainStateAsync(MenuState statePrevious)
     {
-        Debug.Log("YEY");
         switch (statePrevious)
         {
             case MenuState.LevelSelection:

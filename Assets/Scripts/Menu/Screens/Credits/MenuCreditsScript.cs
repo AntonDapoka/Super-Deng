@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class MenuCreditsScript : MonoBehaviour
 {
@@ -14,41 +13,19 @@ public class MenuCreditsScript : MonoBehaviour
     [SerializeField] private MenuCreditsAnimationManagerScript animationManager;
     [SerializeField] private MenuLogoNeonFlinkeringScript menuLogo;
     [SerializeField] private GameObject[] parentObjects;
-
-    [Header("Settings")]
-    [SerializeField] private float timeForLine;
-    [SerializeField] private float speedCamera;
-    [FormerlySerializedAs("duration")]
-    [SerializeField] private float cameraSpeedUpDuration = 1.5f;
-    [SerializeField] private float durationCameraReturn = 1.5f;
-    private float currentSpeed = 0f;
-
-    [Header("Logo")]
-    [SerializeField] private float logoTurnOffDuration = 0.75f;
-    [SerializeField] private float logoTurnOnDuration = 0.75f;
-
-    [Header("Word delays")]
-    [SerializeField] private float delayMinFirstLineNextWord = 0.7f;
-    [SerializeField] private float delayMaxFirstLineNextWord = 1.5f;
-
-    [SerializeField] private float delayMinOtherLinesNextWord = 0.35f;
-    [SerializeField] private float delayMaxOtherLinesNextWord = 0.5f;
-
-    [SerializeField] private float durationModifierFinalWord = 0.5f;
-
-    [Header("Line time modifiers")]
-    [SerializeField] private CreditsLineTimeModifier[] lineTimeModifiers;
+    [SerializeField] private CreditsSettings settings;
 
     private GameObject[][] sortedChildren;
     private Transform camTransform;
     private Vector3 camPos;
     private float t = 0f;
+    private float currentSpeed = 0f;
     private CreditsState state = CreditsState.Idle;
 
     private void Start()
     {
-        if (cam == null || animationManager == null || menuLogo == null)
-            Debug.LogError($"{nameof(MenuCreditsScript)}: references are not fully assigned.", this);
+        if (cam == null || animationManager == null || menuLogo == null || settings == null)
+            Debug.LogError("references are not assigned");
 
         camTransform = cam.transform;
         camPos = camTransform.position;
@@ -64,8 +41,7 @@ public class MenuCreditsScript : MonoBehaviour
                 .Select(t => t.gameObject)
                 .ToArray();
 
-            foreach (var child in sortedChildren[i])
-                animationManager.HideWord(child);
+            foreach (var child in sortedChildren[i]) animationManager.HideWord(child);
         }
     }
 
@@ -73,12 +49,12 @@ public class MenuCreditsScript : MonoBehaviour
     {
         if (state == CreditsState.Running)
         {
-            if (t < cameraSpeedUpDuration)
+            if (t < settings.durationCameraSpeedUp)
             {
                 t += Time.deltaTime;
-                currentSpeed = Mathf.Lerp(0, speedCamera, t / cameraSpeedUpDuration);
+                currentSpeed = Mathf.Lerp(0, settings.cameraSpeed, t / settings.durationCameraSpeedUp);
             }
-            else currentSpeed = speedCamera;
+            else currentSpeed = settings.cameraSpeed;
 
             animationManager.MoveCameraDown(camTransform, currentSpeed * Time.deltaTime);
         }
@@ -93,7 +69,7 @@ public class MenuCreditsScript : MonoBehaviour
             }
             else
             {
-                currentSpeed = Mathf.Lerp(0, speedCamera, t / cameraSpeedUpDuration);
+                currentSpeed = Mathf.Lerp(0, settings.cameraSpeed, t / settings.durationCameraSpeedUp);
                 animationManager.MoveCameraDown(camTransform, currentSpeed * Time.deltaTime);
             }
         }
@@ -118,23 +94,23 @@ public class MenuCreditsScript : MonoBehaviour
 
     private IEnumerator ReturningCamera()
     {
-        yield return StartCoroutine(animationManager.ReturnCameraAsync(camTransform, camPos, durationCameraReturn));
+        yield return StartCoroutine(animationManager.ReturnCameraAsync(camTransform, camPos, settings.durationCameraReturn));
     }
 
     private IEnumerator TurningOffWords()
     {
-        if (!menuLogo.isTurnOn) menuLogo.LogoTurningOnAndOff(logoTurnOnDuration, true, true, true, false);
+        if (!menuLogo.isTurnOn) menuLogo.LogoTurningOnAndOff(settings.durationLogoTurnOn, true, true, true, false);
 
-        yield return StartCoroutine(animationManager.TurnOffWordsAsync(sortedChildren, timeForLine));
+        yield return StartCoroutine(animationManager.TurnOffWordsAsync(sortedChildren, settings.durationLine));
     }
 
     private IEnumerator PlayCreditsSequence()
     {
-        menuLogo.LogoTurningOnAndOff(logoTurnOffDuration, false, true, false, false);
+        menuLogo.LogoTurningOnAndOff(settings.durationLogoTurnOff, false, true, false, false);
 
-        yield return new WaitForSeconds(timeForLine);
+        yield return new WaitForSeconds(settings.durationLine);
 
-        float lineTime = timeForLine;
+        float lineTime = settings.durationLine;
 
         for (int i = 0; i < sortedChildren.Length; i++)
         {
@@ -142,15 +118,15 @@ public class MenuCreditsScript : MonoBehaviour
 
             if (i == LogoLineIndex)
             {
-                menuLogo.LogoTurningOnAndOff(timeForLine, true, true, true, false);
-                yield return new WaitForSeconds(timeForLine);
+                menuLogo.LogoTurningOnAndOff(settings.durationLine, true, true, true, false);
+                yield return new WaitForSeconds(settings.durationLine);
                 t = 0f;
                 currentSpeed = 0f;
                 state = CreditsState.Running;
             }
-            else if (lineTimeModifiers != null)
+            else if (settings.lineTimeModifiers != null)
             {
-                foreach (var modifier in lineTimeModifiers)
+                foreach (var modifier in settings.lineTimeModifiers)
                     if (modifier != null && modifier.lineIndex == i)
                         lineTime *= modifier.timeModifier;
             }
@@ -163,8 +139,8 @@ public class MenuCreditsScript : MonoBehaviour
             {
                 if (j < sortedChildren[i].Length - 1)
                 {
-                    float nextWordDelayMin = (i == 0 ? delayMinFirstLineNextWord : delayMinOtherLinesNextWord) * timeForWord;
-                    float nextWordDelayMax = (i == 0 ? delayMaxFirstLineNextWord : delayMaxOtherLinesNextWord) * timeForWord;
+                    float nextWordDelayMin = (i == 0 ? settings.delayFirstLineNextWordMin : settings.delayOtherLinesNextWordMin) * timeForWord;
+                    float nextWordDelayMax = (i == 0 ? settings.delayFirstLineNextWordMax : settings.delayOtherLinesNextWordMax) * timeForWord;
                     yield return new WaitForSeconds(UnityEngine.Random.Range(nextWordDelayMin, nextWordDelayMax));
 
                     animationManager.ShowWord(sortedChildren[i][j + 1]);
@@ -180,7 +156,7 @@ public class MenuCreditsScript : MonoBehaviour
 
                 if (i == sortedChildren.Length - 1 && j == sortedChildren[i].Length - 1)
                 {
-                    yield return new WaitForSeconds(lineTime * durationModifierFinalWord);
+                    yield return new WaitForSeconds(lineTime * settings.durationModifierFinalWord);
                     state = CreditsState.Decelerating;
                 }
             }
