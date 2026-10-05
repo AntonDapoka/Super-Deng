@@ -3,14 +3,20 @@ using UnityEngine;
 
 public class MenuNavigationScript : MonoBehaviour
 {
-    [SerializeField] private MenuState menuStateCurrent;
+    [SerializeField] private MenuState menuStateCurrent = MenuState.Main;
+    [SerializeField] private MenuState menuStatePrevious = MenuState.Main;
     [Header("References")]
     [SerializeField] private MenuBlockWallManagerScript blockWallManager;
     [SerializeField] private MenuPresenterScript menuPresenter;
     
+    public MenuState GetMenuState()
+    {
+        return menuStateCurrent;
+    }
 
     public Task NavigateTo(MenuState state)
     {
+        menuStatePrevious = menuStateCurrent;
         menuStateCurrent = state;
         blockWallManager.TurnOnBlockWall();
 
@@ -40,7 +46,7 @@ public class MenuNavigationScript : MonoBehaviour
     
     private async Task OpenMainAsync()
     {
-        await menuPresenter.ShowMenuStateAsync(MenuState.Main);
+        await menuPresenter.ShowMenuStateAsync(MenuState.Main, menuStatePrevious);
         blockWallManager.TurnOffBlockWall();
     }
 
@@ -52,24 +58,19 @@ public class MenuNavigationScript : MonoBehaviour
 
     private async Task OpenLevelSelectionAsync()
     {
-        await menuPresenter.ShowMenuStateAsync(MenuState.LevelSelection);
+        await menuPresenter.ShowMenuStateAsync(MenuState.LevelSelection, menuStatePrevious);
         blockWallManager.TurnOffBlockWall();
     }
 
     private async Task OpenSettingsAsync()
     {
-        await menuPresenter.ShowMenuStateAsync(MenuState.Settings);
+        await menuPresenter.ShowMenuStateAsync(MenuState.Settings, menuStatePrevious);
         blockWallManager.TurnOffBlockWall();
     }
 
     private async Task OpenCreditsAsync()
     {
-        await menuPresenter.ShowMenuStateAsync(MenuState.Credits);
+        await menuPresenter.ShowMenuStateAsync(MenuState.Credits, menuStatePrevious);
         blockWallManager.TurnOffBlockWall();
-    }
-
-    public MenuState GetMenuState()
-    {
-        return menuStateCurrent;
     }
 }

@@ -12192,6 +12192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuAnimationManager: {fileID: 987165773}
   referencesHolder: {fileID: 703551523}
+  menuCredits: {fileID: 1452105880}
 --- !u!1 &169664557
 GameObject:
   m_ObjectHideFlags: 0
@@ -43898,6 +43899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuStateCurrent: 0
+  menuStatePrevious: 0
   blockWallManager: {fileID: 400616053}
   menuPresenter: {fileID: 164499046}
 --- !u!1 &763333221

@@ -2,23 +2,22 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MenuCreditsScript : MonoBehaviour
 {
+    [SerializeField] private MenuCreditsAnimationManagerScript animationManager;
     [SerializeField] private GameObject cam;
     [SerializeField] private Vector3 camPos;
     [SerializeField] private MenuLogoNeonFlinkeringScript MLNFS;
     [SerializeField] private GameObject[] parentObjects;
     [SerializeField] private float timeForLine;
     [SerializeField] private float cameraSpeed;
-    [SerializeField] private float t = 0f; // ����� ������������
-    [SerializeField] private float duration = 1.5f; // ������������ ���������/����������
-    [SerializeField] private float durationCameraReturn = 1.5f; // ������������ ���������/����������
-    [SerializeField] private float currentSpeed = 0f; // ������� ��������
+    [SerializeField] private float t = 0f;
+    [SerializeField] private float duration = 1.5f;
+    [SerializeField] private float durationCameraReturn = 1.5f;
+    [SerializeField] private float currentSpeed = 0f;
     private GameObject[][] sortedChildren;
-    public AnimationCurve colorChangeCurveTurnOn;
-    public Image wall;
+    [SerializeField] private AnimationCurve colorChangeCurveTurnOn;
     public bool isStarted = false;
     public bool isEnded = false;
 
@@ -28,30 +27,19 @@ public class MenuCreditsScript : MonoBehaviour
         sortedChildren = new GameObject[parentObjects.Length][];
 
         for (int i = 0; i < parentObjects.Length; i++)
-        {
             if (parentObjects[i] != null)
-            {
                 sortedChildren[i] = parentObjects[i].transform
                     .Cast<Transform>()
                     .OrderBy(t => t.position.x)
                     .Select(t => t.gameObject)
                     .ToArray();
-            }
-        }
 
         for (int i = 0; i < sortedChildren.Length; i++)
-        {
             foreach (var child in sortedChildren[i])
             {
-                TextMeshPro textMesh = child.GetComponent<TextMeshPro>();
-
-                if (textMesh != null)
-                {
-                    textMesh.color = Color.gray;
-                }
+                if (child.TryGetComponent<TextMeshPro>(out var textMesh)) textMesh.color = Color.gray;
                 child.SetActive(false);
             }
-        }
     }
     private void Update()
     {
@@ -84,7 +72,7 @@ public class MenuCreditsScript : MonoBehaviour
 
     public void EndCredits()
     {
-        wall.gameObject.SetActive(true);
+        //wall.gameObject.SetActive(true);
         StopAllCoroutines();
         isStarted = false;
         isEnded = true;
@@ -98,17 +86,16 @@ public class MenuCreditsScript : MonoBehaviour
         Vector3 startPosition = cam.transform.position;
         Vector3 targetPosition = camPos;
         float elapsedTime = 0f;
-         t = 0f; // ����� ������������
+        t = 0f;
         while (elapsedTime < durationCameraReturn)
         {
-            wall.gameObject.SetActive(true);
+            //wall.gameObject.SetActive(true);
             cam.transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / durationCameraReturn);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         cam.transform.position = targetPosition;
-        wall.gameObject.SetActive(false);
     }
 
     private IEnumerator TurningOffWords()
@@ -221,8 +208,6 @@ public class MenuCreditsScript : MonoBehaviour
             interruptionCount = 2;
         }
             
-        
-        //Debug.Log(interruptionCount);
         Color initialColorSafer = initialColor;
         if (interruptionCount == 0)
         {
@@ -301,7 +286,5 @@ public class MenuCreditsScript : MonoBehaviour
             }
             text.color = targetColor;
         }
-
-        
     }
 }
