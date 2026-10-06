@@ -5,9 +5,9 @@ namespace Menu.Screens.Credits
 {
     public static class MenuCreditsGlitchTimingScript
     {
-        private const float MinSegmentDuration = 0.001f;
+        private const float durationSegmentMin = 0.001f;
 
-        public static List<float> BuildGlitchSegmentDurations(float totalTime, MenuCreditsSettings settings)
+        public static List<float> BuildGlitchSegmentDurations(float timeTotal, MenuCreditsSettings settings)
         {
             int roll = Random.Range(0, settings.maxGlitchRoll);
 
@@ -18,29 +18,29 @@ namespace Menu.Screens.Credits
             var boundaries = new List<float>(2);
             if (interruptionCount == 1)
             {
-                boundaries.Add(Random.Range(totalTime * settings.shareTimeSingleInterruptionMin, totalTime * settings.shareTimeSingleInterruptionMax));
+                boundaries.Add(Random.Range(timeTotal * settings.shareTimeSingleInterruptionMin, timeTotal * settings.shareTimeSingleInterruptionMax));
             }
             else if (interruptionCount == 2)
             {
-                float firstBoundary = Random.Range(totalTime * settings.shareTimeDoubleInterruptionFirstStopMin, totalTime * settings.shareTimeDoubleInterruptionFirstStopMax);
-                float secondBoundary = Random.Range((totalTime - firstBoundary) * settings.shareTimeDoubleInterruptionSecondStopExtraMin, totalTime * settings.shareTimeDoubleInterruptionSecondStopMax);
-                boundaries.Add(firstBoundary);
-                boundaries.Add(secondBoundary);
+                float boundaryFirst = Random.Range(timeTotal * settings.shareTimeDoubleInterruptionFirstStopMin, timeTotal * settings.shareTimeDoubleInterruptionFirstStopMax);
+                float boundarySecond = Random.Range((timeTotal - boundaryFirst) * settings.shareTimeDoubleInterruptionSecondStopExtraMin, timeTotal * settings.shareTimeDoubleInterruptionSecondStopMax);
+                boundaries.Add(boundaryFirst);
+                boundaries.Add(boundarySecond);
             }
 
             var segmentDurations = new List<float>(boundaries.Count + 1);
             float previousBoundary = 0f;
             foreach (float boundary in boundaries)
             {
-                float clampedBoundary = Mathf.Clamp(boundary, 0f, totalTime);
-                if (clampedBoundary - previousBoundary < MinSegmentDuration) continue;
+                float clampedBoundary = Mathf.Clamp(boundary, 0f, timeTotal);
+                if (clampedBoundary - previousBoundary < durationSegmentMin) continue;
 
                 segmentDurations.Add(clampedBoundary - previousBoundary);
                 previousBoundary = clampedBoundary;
             }
 
-            if (totalTime - previousBoundary >= MinSegmentDuration) segmentDurations.Add(totalTime - previousBoundary);
-            if (segmentDurations.Count == 0) segmentDurations.Add(totalTime);
+            if (timeTotal - previousBoundary >= durationSegmentMin) segmentDurations.Add(timeTotal - previousBoundary);
+            if (segmentDurations.Count == 0) segmentDurations.Add(timeTotal);
 
             return segmentDurations;
         }

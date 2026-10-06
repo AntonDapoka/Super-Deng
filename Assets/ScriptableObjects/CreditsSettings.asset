@@ -11,8 +11,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f5c8a1d9b2e4c6f8a0d1e3b5c7a9f10, type: 3}
   m_Name: CreditsSettings
-  m_EditorClassIdentifier:
-  cameraSpeed: 0.7
+  m_EditorClassIdentifier: 
+  speedCamera: 0.7
   durationCameraSpeedUp: 1.5
   durationCameraReturn: 1
   thresholdCameraArrival: 0.001
@@ -50,8 +50,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   durationLine: 1.2
+  durationModifierWordsFadeOut: 0.5
   durationModifierFinalWord: 0.5
-  durationModifierWordsFadeOut: 0.25
   durationLogoTurnOff: 0.75
   durationLogoTurnOn: 0.75
   delayFirstLineNextWordMin: 0.7

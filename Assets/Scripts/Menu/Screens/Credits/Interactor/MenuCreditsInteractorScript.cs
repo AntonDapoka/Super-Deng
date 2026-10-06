@@ -1,54 +1,31 @@
-using System.Threading.Tasks;
 using System.Collections;
-using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
-using TMPro;
 
 namespace Menu.Screens.Credits
 {
     public class MenuCreditsInteractorScript : MonoBehaviour
     {
-        [Header("Lines")]
-        [SerializeField] private GameObject[] parentObjects;
-
         [Header("References")]
-        [SerializeField] private MenuCreditsCameraManagerScript cameraManager;
-        [SerializeField] private MenuLogoNeonFlinkeringScript menuLogo;
-        [SerializeField] private MenuCreditsViewScript view;
-
+        [SerializeField] private MenuCreditsPresenterScript presenter;
         [Header("Settings")]
         [SerializeField] private MenuCreditsSettings settings;
 
         private MenuCreditsState state = MenuCreditsState.Idle;
-        private GameObject[][] sortedChildren;
         private const int LogoLineIndex = 1;
 
         private void Awake()
         {
-            if (cameraManager == null || view == null || menuLogo == null || settings == null)
+            if (presenter == null || settings == null)
             {
                 Debug.LogError("references aren't assigned");
                 enabled = false;
                 return;
             }
 
-            cameraManager.Initialize(settings);
-            view.Initialize(settings);
+            presenter.Initialize(settings);
 
-            sortedChildren = new GameObject[parentObjects.Length][];
-
-            for (int i = 0; i < parentObjects.Length; i++)
-            {
-                if (parentObjects[i] == null) continue;
-
-                sortedChildren[i] = parentObjects[i].transform
-                    .Cast<Transform>()
-                    .OrderBy(child => child.position.x)
-                    .Select(child => child.gameObject)
-                    .ToArray();
-            }
-
-            view.HideAllWords(sortedChildren);
+            if (!presenter.IsReady) enabled = false;
         }
 
         public void StartCredits()
@@ -62,8 +39,8 @@ namespace Menu.Screens.Credits
         public void EndCredits()
         {
             StopAllCoroutines();
-            view.StopAllAnimations();
-            cameraManager.StopMoving();
+            presenter.StopAllAnimations();
+            presenter.StopCameraMoving();
 
             state = MenuCreditsState.Ending;
             StartCoroutine(EndingCreditsSequence());
@@ -71,11 +48,11 @@ namespace Menu.Screens.Credits
 
         private IEnumerator EndingCreditsSequence()
         {
-            if (!menuLogo.isTurnOn) menuLogo.LogoTurningOnAndOff(settings.durationLogoTurnOn, true, true, true, false);
+            presenter.EnsureLogoOn(settings.durationLogoTurnOn);
 
             yield return Task.WhenAll(
-                cameraManager.ReturnToInitialAsync(),
-                view.TurnOffWordsAsync(sortedChildren, settings.durationLine)
+                presenter.ReturnCameraToInitialAsync(),
+                presenter.TurnOffAllWordsAsync(settings.durationLine)
             ).WaitAsync();
 
             state = MenuCreditsState.Idle;
@@ -83,48 +60,43 @@ namespace Menu.Screens.Credits
 
         private IEnumerator PlayingCreditsSequence()
         {
-            menuLogo.LogoTurningOnAndOff(settings.durationLogoTurnOff, false, true, false, false);
+            presenter.TurnLogoOff(settings.durationLogoTurnOff);
 
             yield return new WaitForSeconds(settings.durationLine);
 
-            for (int i = 0; i < sortedChildren.Length; i++)
+            for (int i = 0; i < presenter.LinesCount; i++)
             {
-                if (sortedChildren[i] == null || sortedChildren[i].Length == 0) continue;
+                int wordCount = presenter.GetWordCountInLine(i);
+                if (wordCount == 0) continue;
 
                 float lineTime = MenuCreditsTimelineCalculatorScript.GetLineDuration(i, settings);
 
                 if (i == LogoLineIndex)
                 {
-                    menuLogo.LogoTurningOnAndOff(settings.durationLine, true, true, true, false);
+                    presenter.TurnLogoOn(settings.durationLine);
                     yield return new WaitForSeconds(settings.durationLine);
-                    cameraManager.BeginRun();
+                    presenter.BeginCameraRun();
                     state = MenuCreditsState.Running;
                 }
 
-                float timeForWord = lineTime / sortedChildren[i].Length;
+                float timeForWord = lineTime / wordCount;
 
-                view.ShowWord(sortedChildren[i][0]);
+                presenter.ShowWord(i, 0);
 
-                for (int j = 0; j < sortedChildren[i].Length; j++)
+                for (int j = 0; j < wordCount; j++)
                 {
-                    if (j < sortedChildren[i].Length - 1)
+                    if (j < wordCount - 1)
                     {
-                        yield return new WaitForSeconds(MenuCreditsTimelineCalculatorScript.GetNextWordDelayDuration(i, sortedChildren[i].Length, settings));
-                        view.ShowWord(sortedChildren[i][j + 1]);
+                        yield return new WaitForSeconds(MenuCreditsTimelineCalculatorScript.GetNextWordDelayDuration(i, wordCount, settings));
+                        presenter.ShowWord(i, j + 1);
                     }
 
-                    if (!sortedChildren[i][j].TryGetComponent<TextMeshPro>(out var textMesh))
-                    {
-                        Debug.LogWarning($"word '{sortedChildren[i][j].name}' has no TextMeshPro");
-                        continue;
-                    }
+                    yield return presenter.FadeWordAsync(i, j, timeForWord).WaitAsync();
 
-                    yield return view.FadeWordAsync(textMesh, timeForWord, Color.gray, Color.white).WaitAsync();
-
-                    if (i == sortedChildren.Length - 1 && j == sortedChildren[i].Length - 1)
+                    if (i == presenter.LinesCount - 1 && j == wordCount - 1)
                     {
                         yield return new WaitForSeconds(lineTime * settings.durationModifierFinalWord);
-                        cameraManager.BeginDeceleration();
+                        presenter.BeginCameraDeceleration();
                         state = MenuCreditsState.Decelerating;
                     }
                 }

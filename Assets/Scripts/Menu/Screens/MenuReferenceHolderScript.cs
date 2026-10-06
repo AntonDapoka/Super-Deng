@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace Menu.Screens
 {
-    public class MenuReferencesHolder : MonoBehaviour
+    public class MenuReferenceHolderScript : MonoBehaviour
     {
         [Header("Button Group")]
         [SerializeField] private Button[] buttonsMain;

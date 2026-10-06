@@ -10,7 +10,7 @@ namespace Menu.Screens
     {
         [Header("References")]
         [SerializeField] private MenuAnimationManagerScript menuAnimationManager;
-        [SerializeField] private MenuReferencesHolder referencesHolder;
+        [SerializeField] private MenuReferenceHolderScript referencesHolder;
         [SerializeField] private MenuCreditsInteractorScript menuCredits;
 
         private bool isSettingsPanelOpen;

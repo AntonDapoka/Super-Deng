@@ -64,9 +64,9 @@ namespace Menu.Screens.Credits
                 if (elapsedSpeedUp < settings.durationCameraSpeedUp)
                 {
                     elapsedSpeedUp += Time.deltaTime;
-                    speedCurrent = Mathf.Lerp(0, settings.cameraSpeed, elapsedSpeedUp / settings.durationCameraSpeedUp);
+                    speedCurrent = Mathf.Lerp(0, settings.speedCamera, elapsedSpeedUp / settings.durationCameraSpeedUp);
                 }
-                else speedCurrent = settings.cameraSpeed;
+                else speedCurrent = settings.speedCamera;
 
                 MoveDown(speedCurrent * Time.deltaTime);
             }
@@ -81,7 +81,7 @@ namespace Menu.Screens.Credits
                 }
                 else
                 {
-                    speedCurrent = Mathf.Lerp(0, settings.cameraSpeed, elapsedSpeedUp / settings.durationCameraSpeedUp);
+                    speedCurrent = Mathf.Lerp(0, settings.speedCamera, elapsedSpeedUp / settings.durationCameraSpeedUp);
                     MoveDown(speedCurrent * Time.deltaTime);
                 }
             }
