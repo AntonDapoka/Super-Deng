@@ -8,6 +8,7 @@ namespace Menu.Screens.Credits
     {
         [Header("References")]
         [SerializeField] private MenuCreditsPresenterScript presenter;
+        [SerializeField] private MenuNavigationScript navigation;
         [Header("Settings")]
         [SerializeField] private MenuCreditsSettings settings;
 
@@ -16,7 +17,7 @@ namespace Menu.Screens.Credits
 
         private void Awake()
         {
-            if (presenter == null || settings == null)
+            if (presenter == null || settings == null || navigation == null)
             {
                 Debug.LogError("references aren't assigned");
                 enabled = false;
@@ -26,6 +27,21 @@ namespace Menu.Screens.Credits
             presenter.Initialize(settings);
 
             if (!presenter.IsReady) enabled = false;
+        }
+
+        private void OnEnable()
+        {
+            navigation.OnMenuStateChanged += HandleMenuStateChanged;
+        }
+
+        private void OnDisable()
+        {
+            navigation.OnMenuStateChanged -= HandleMenuStateChanged;
+        }
+
+        private void HandleMenuStateChanged(MenuState statePrevious, MenuState stateCurrent)
+        {
+            if (statePrevious == MenuState.Credits && stateCurrent != MenuState.Credits) EndCredits();
         }
 
         public void StartCredits()
@@ -38,6 +54,8 @@ namespace Menu.Screens.Credits
 
         public void EndCredits()
         {
+            if (state == MenuCreditsState.Idle) return;
+
             StopAllCoroutines();
             presenter.StopAllAnimations();
             presenter.StopCameraMoving();

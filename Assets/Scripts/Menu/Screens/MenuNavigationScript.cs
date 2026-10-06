@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -10,7 +11,9 @@ namespace Menu.Screens
         [Header("References")]
         [SerializeField] private MenuBlockWallManagerScript blockWallManager;
         [SerializeField] private MenuPresenterScript menuPresenter;
-        
+
+        public event Action<MenuState, MenuState> OnMenuStateChanged;
+
         public MenuState GetMenuState()
         {
             return menuStateCurrent;
@@ -20,6 +23,8 @@ namespace Menu.Screens
         {
             menuStatePrevious = menuStateCurrent;
             menuStateCurrent = state;
+            OnMenuStateChanged?.Invoke(menuStatePrevious, menuStateCurrent);
+            
             blockWallManager.TurnOnBlockWall();
 
             switch (state)
