@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace Menu.Screens.Settings
 {
@@ -18,13 +20,13 @@ namespace Menu.Screens.Settings
         [SerializeField] private Image buttonLeftImage;
         [SerializeField] private Image buttonTopImage;
 
-        [SerializeField] private AudioSource errorSound; 
+        [SerializeField] private AudioSource errorSound;
 
         private int currentButtonIndex = -1;
 
-        private KeyCode rightKey = KeyCode.D;
-        private KeyCode leftKey = KeyCode.A;
-        private KeyCode topKey = KeyCode.W;
+        private Key rightKey = Key.D;
+        private Key leftKey = Key.A;
+        private Key topKey = Key.W;
 
         private void Start()
         {
@@ -39,23 +41,21 @@ namespace Menu.Screens.Settings
 
         private void Update()
         {
-            if (currentButtonIndex != -1)
+            if (currentButtonIndex != -1 && Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
             {
-                if (Input.anyKeyDown)
+                foreach (Key key in System.Enum.GetValues(typeof(Key)))
                 {
-                    foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
+                    KeyControl control = Keyboard.current[key];
+                    if (control != null && control.wasPressedThisFrame && IsValidKey(key))
                     {
-                        if (Input.GetKeyDown(keyCode) && IsValidKey(keyCode))
+                        if (!IsKeyAlreadyAssigned(key))
                         {
-                            if (!IsKeyAlreadyAssigned(keyCode)) 
-                            {
-                                UpdateButtonTextAndImage(currentButtonIndex, keyCode);
-                                currentButtonIndex = -1; 
-                                SetButtonsInteractable(true); 
-                            }
-                            else errorSound.Play();
-                            break;
+                            UpdateButtonTextAndImage(currentButtonIndex, key);
+                            currentButtonIndex = -1;
+                            SetButtonsInteractable(true);
                         }
+                        else errorSound.Play();
+                        break;
                     }
                 }
             }
@@ -63,7 +63,7 @@ namespace Menu.Screens.Settings
 
         private void OnButtonClick(int index)
         {
-            if (currentButtonIndex == -1) 
+            if (currentButtonIndex == -1)
             {
                 SetButtonsInteractable(false);
 
@@ -82,11 +82,11 @@ namespace Menu.Screens.Settings
                     buttonTopText.text = "Press";
                     buttonTopImage.enabled = false;
                 }
-                currentButtonIndex = index; 
+                currentButtonIndex = index;
             }
         }
 
-        private void UpdateButtonTextAndImage(int index, KeyCode newKey)
+        private void UpdateButtonTextAndImage(int index, Key newKey)
         {
             if (index == 0)
             {
@@ -108,19 +108,22 @@ namespace Menu.Screens.Settings
             }
         }
 
-        private bool IsValidKey(KeyCode keyCode)
+        private bool IsValidKey(Key key)
         {
-            return (keyCode >= KeyCode.A && keyCode <= KeyCode.Z) ||
-                (keyCode >= KeyCode.Alpha0 && keyCode <= KeyCode.Alpha9) ||
-                (keyCode >= KeyCode.Keypad0 && keyCode <= KeyCode.Keypad9) ||
-                (keyCode == KeyCode.LeftArrow || keyCode == KeyCode.RightArrow || keyCode == KeyCode.UpArrow || keyCode == KeyCode.DownArrow);
+            return (key >= Key.A && key <= Key.Z) ||
+                (key >= Key.Digit0 && key <= Key.Digit9) ||
+                (key >= Key.Numpad0 && key <= Key.Numpad9) ||
+                key == Key.LeftArrow ||
+                key == Key.RightArrow ||
+                key == Key.UpArrow ||
+                key == Key.DownArrow;
         }
 
-        private bool IsKeyAlreadyAssigned(KeyCode keyCode)
+        private bool IsKeyAlreadyAssigned(Key key)
         {
-            if (currentButtonIndex == 0) return keyCode == leftKey || keyCode == topKey;
-            else if (currentButtonIndex == 1) return keyCode == rightKey || keyCode == topKey;
-            else return keyCode == rightKey || keyCode == leftKey;
+            if (currentButtonIndex == 0) return key == leftKey || key == topKey;
+            else if (currentButtonIndex == 1) return key == rightKey || key == topKey;
+            else return key == rightKey || key == leftKey;
         }
 
         private void SetButtonsInteractable(bool interactable)
@@ -142,11 +145,14 @@ namespace Menu.Screens.Settings
 
         public void SetSettings(MovementBindsSettingsData movementData)
         {
-            UpdateButtonTextAndImage(0, (KeyCode)System.Enum.Parse(typeof(KeyCode), movementData.right));
+            UpdateButtonTextAndImage(0, ParseKey(movementData.right, rightKey));
+            UpdateButtonTextAndImage(1, ParseKey(movementData.left, leftKey));
+            UpdateButtonTextAndImage(2, ParseKey(movementData.top, topKey));
+        }
 
-            UpdateButtonTextAndImage(1, (KeyCode)System.Enum.Parse(typeof(KeyCode), movementData.left));
-
-            UpdateButtonTextAndImage(2, (KeyCode)System.Enum.Parse(typeof(KeyCode), movementData.top));
+        private static Key ParseKey(string name, Key fallback)
+        {
+            return System.Enum.TryParse(name, out Key key) ? key : fallback;
         }
     }
 

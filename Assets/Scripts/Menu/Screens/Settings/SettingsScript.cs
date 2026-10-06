@@ -11,7 +11,7 @@ namespace Menu.Screens.Settings
     public class SettingsScript : MonoBehaviour
     {
         private IDataServiceScript dataService = new JsonDataServiceScript();
-        public SettingsSaveData saveData = new SettingsSaveData();
+        public SettingsSaveData saveData = new();
         private bool isEncrypted;
 
         [SerializeField] private AudioMixer audioMixer;
@@ -46,16 +46,14 @@ namespace Menu.Screens.Settings
         public int parameter;
         private Resolution[] resolutions;
 
-        private string relativePath = "/settings-savefile.json";
+        private readonly string relativePath = "/settings-savefile.json";
 
         private void Awake()
         {
             string path = Application.persistentDataPath + relativePath;
             Debug.Log(path);
-            if (!File.Exists(path))
-            {
-                SetFirstSaveFile();
-            }
+
+            if (!File.Exists(path)) SetFirstSaveFile();
         }
 
         private void Start()
@@ -150,7 +148,7 @@ namespace Menu.Screens.Settings
             if (dataService.SaveData("/settings-savefile.json", saveData, isEncrypted))
             {
                 f = DateTime.Now.Ticks - s;
-                Debug.Log($"Save Time {(f / 100000f):N4}ms");
+                Debug.Log($"Save Time {f / 100000f:N4}ms");
                 Debug.Log(Application.persistentDataPath + "/settings-savefile.json");
             }
             else
@@ -173,7 +171,7 @@ namespace Menu.Screens.Settings
             {
                 saveData = dataService.LoadData<SettingsSaveData>("/settings-savefile.json", isEncrypted);
                 f = DateTime.Now.Ticks - s;
-                Debug.Log($"Load Time {(f / 100000f):N4}ms");
+                Debug.Log($"Load Time {f / 100000f:N4}ms");
             }
             catch
             {
@@ -202,7 +200,6 @@ namespace Menu.Screens.Settings
             ///saveData.skipCutScenes = ???;
             ///saveData.comments = ???;
             ///saveData.gamepadRumble = ???;
-
         }
 
         private void SetVolume(float savedVolume, string volumeParameter, TextMeshProUGUI volumeText)
@@ -217,8 +214,6 @@ namespace Menu.Screens.Settings
             var value = Mathf.Log10(volumeValue) * parameter - 45;
             return value;
         }
-
-
 
         public void IncreaseValue(ref float currentVolume, string volumeParameter, TextMeshProUGUI text, bool isEasterEgg)
         {
@@ -283,28 +278,5 @@ namespace Menu.Screens.Settings
 
             SaveSettings();
         }
-    }
-
-    [System.Serializable]
-    public class SettingsSaveData
-    {
-        public int language;
-
-        public float volumeMaster;
-        public float volumeMusic;
-        public float volumeSFX;
-
-        public int resolution;
-        public int aspectRatio;
-        public int fullscreen;
-        public int quality;
-
-        public MovementBindsSettingsData movementBindsData;
-
-        public string difficulty;
-
-        public bool skipCutScenes;
-        public bool comments;
-        public bool gamepadRumble;
     }
 }
