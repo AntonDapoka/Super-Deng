@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class AnnihilationSecretRepositoryScript : MenuSecretRepositoryScript
@@ -12,8 +11,5 @@ public class AnnihilationSecretRepositoryScript : MenuSecretRepositoryScript
         Key.B
     };
 
-    private void Awake()
-    {
-        code = AnnihilationCode;
-    }
+    private protected override Key[] Code => AnnihilationCode;
 }

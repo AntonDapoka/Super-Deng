@@ -7,9 +7,9 @@ namespace Menu.Screens.Settings
     public class SettingsPresenterScript : MonoBehaviour
     {
         [Header("Views")]
-        [SerializeField] private VolumeSettingsViewScript volumeView;
-        [SerializeField] private KeyBindingViewScript keyBindingView;
-        [SerializeField] private DisplaySettingsViewScript displayView;
+        [SerializeField] private VolumeSettingsViewScript viewVolume;
+        [SerializeField] private KeyBindingViewScript viewKeyBinding;
+        [SerializeField] private DisplaySettingsViewScript viewDisplay;
 
         [Header("Services")]
         [SerializeField] private AudioMixerSettingsApplierScript audioApplier;
@@ -17,40 +17,40 @@ namespace Menu.Screens.Settings
         public void UpdateVolumeDisplay(VolumeChannel channel, float value)
         {
             audioApplier.ApplyVolume(channel, value);
-            volumeView.SetText(channel, value.ToString());
+            viewVolume.SetText(channel, value.ToString());
         }
 
         public void ShowBinding(MovementDirection direction, Key key)
         {
-            keyBindingView.ShowBinding(direction, key);
+            viewKeyBinding.ShowBinding(direction, key);
         }
 
         public void BeginRebindDisplay(MovementDirection direction)
         {
-            keyBindingView.ShowCapturingState(direction);
-            keyBindingView.SetAllInteractableExcept(direction, false);
+            viewKeyBinding.ShowCapturingState(direction);
+            viewKeyBinding.SetAllInteractableExcept(direction, false);
         }
 
         public void EndRebindDisplay()
         {
-            keyBindingView.SetAllInteractable(true);
+            viewKeyBinding.SetAllInteractable(true);
         }
 
         public void PlayBindingError()
         {
-            keyBindingView.PlayErrorSound();
+            viewKeyBinding.PlayErrorSound();
         }
 
         public void ShowResolutions(List<string> options, int currentIndex)
         {
-            displayView.SetResolutions(options, currentIndex);
+            viewDisplay.SetResolutions(options, currentIndex);
         }
 
         public void SyncDisplayControls(bool isFullscreen, int quality, int language)
         {
-            displayView.SetFullscreen(isFullscreen);
-            displayView.SetQuality(quality);
-            displayView.SetLanguage(language);
+            viewDisplay.SetFullscreen(isFullscreen);
+            viewDisplay.SetQuality(quality);
+            viewDisplay.SetLanguage(language);
         }
     }
 }

@@ -16,8 +16,5 @@ public class KonamiSecretRepositoryScript : MenuSecretRepositoryScript
         Key.A
     };
 
-    private void Awake()
-    {
-        code = KonamiCode;
-    }
+    private protected override Key[] Code => KonamiCode;
 }

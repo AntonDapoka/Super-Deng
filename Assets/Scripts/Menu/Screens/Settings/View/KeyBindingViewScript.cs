@@ -23,7 +23,7 @@ namespace Menu.Screens.Settings
         [SerializeField] private Image imageTop;
 
         [Header("Sounds")]
-        [SerializeField] private AudioSource errorSound;
+        [SerializeField] private AudioSource soundError;
 
         public void ShowCapturingState(MovementDirection direction)
         {
@@ -53,7 +53,7 @@ namespace Menu.Screens.Settings
 
         public void PlayErrorSound()
         {
-            errorSound.Play();
+            soundError.Play();
         }
 
         private TextMeshProUGUI GetText(MovementDirection direction)

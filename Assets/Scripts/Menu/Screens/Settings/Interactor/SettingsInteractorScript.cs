@@ -91,8 +91,6 @@ namespace Menu.Screens.Settings
             Display.Language = languageIndex;
         }
 
-
-
         private void ApplyFromSave(SettingsSaveData data)
         {
             Volume.SetVolume(VolumeChannel.Master, data.volumeMaster);
