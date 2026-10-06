@@ -1,62 +1,65 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuReferencesHolder : MonoBehaviour
+namespace Menu.Screens
 {
-    [Header("Button Group")]
-    [SerializeField] private Button[] buttonsMain;
-    [SerializeField] private Button[] buttonsLevelSelection;
-    [SerializeField] private Button[] buttonsSettings;
-    [SerializeField] private Button[] buttonsCredits;
-
-    [Header("Images")]
-    [SerializeField] private RectTransform imageSettings;
-    [SerializeField] private RectTransform imageLevelDescription;
-
-    private Button[] buttonsCurrent;
-
-    private void Start()
+    public class MenuReferencesHolder : MonoBehaviour
     {
-        buttonsCurrent = buttonsMain;
-    }
+        [Header("Button Group")]
+        [SerializeField] private Button[] buttonsMain;
+        [SerializeField] private Button[] buttonsLevelSelection;
+        [SerializeField] private Button[] buttonsSettings;
+        [SerializeField] private Button[] buttonsCredits;
 
-    public void SetButtonsCurrent(Button[] buttons)
-    {
-        buttonsCurrent = buttons;
-    }
+        [Header("Images")]
+        [SerializeField] private RectTransform imageSettings;
+        [SerializeField] private RectTransform imageLevelDescription;
 
-    public Button[] GetButtonsCurrent()
-    {
-        return buttonsCurrent;
-    }
+        private Button[] buttonsCurrent;
 
-    public Button[] GetButtonsMain()
-    {
-        return buttonsMain;
-    }
+        private void Start()
+        {
+            buttonsCurrent = buttonsMain;
+        }
 
-    public Button[] GetButtonsLevelSelection()
-    {
-        return buttonsLevelSelection;
-    }
+        public void SetButtonsCurrent(Button[] buttons)
+        {
+            buttonsCurrent = buttons;
+        }
 
-    public Button[] GetButtonsSettings()
-    {
-        return buttonsSettings;
-    }
+        public Button[] GetButtonsCurrent()
+        {
+            return buttonsCurrent;
+        }
 
-    public Button[] GetButtonsCredits()
-    {
-        return buttonsCredits;
-    }
+        public Button[] GetButtonsMain()
+        {
+            return buttonsMain;
+        }
 
-    public RectTransform GetRectTransformSettings()
-    {
-        return imageSettings;
-    }
+        public Button[] GetButtonsLevelSelection()
+        {
+            return buttonsLevelSelection;
+        }
 
-    public RectTransform GetRectTransformLevelDescription()
-    {
-        return imageLevelDescription;
+        public Button[] GetButtonsSettings()
+        {
+            return buttonsSettings;
+        }
+
+        public Button[] GetButtonsCredits()
+        {
+            return buttonsCredits;
+        }
+
+        public RectTransform GetRectTransformSettings()
+        {
+            return imageSettings;
+        }
+
+        public RectTransform GetRectTransformLevelDescription()
+        {
+            return imageLevelDescription;
+        }
     }
 }

@@ -1,13 +1,15 @@
-using System.Threading.Tasks;
 using UnityEngine;
 
-public class BackToMainInteractorScript : MonoBehaviour
+namespace Menu.Screens.Main
 {
-    [Header("Presenter")]
-    [SerializeField] private MenuNavigationScript menuNavigation;
-
-    public void BackToMain()
+    public class BackToMainInteractorScript : MonoBehaviour
     {
-        _ = menuNavigation.NavigateTo(MenuState.Main);
+        [Header("Presenter")]
+        [SerializeField] private MenuNavigationScript menuNavigation;
+
+        public void BackToMain()
+        {
+            _ = menuNavigation.NavigateTo(MenuState.Main);
+        }
     }
 }

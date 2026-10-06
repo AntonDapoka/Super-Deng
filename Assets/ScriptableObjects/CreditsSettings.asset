@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5c8a1d9b2e4c6f8a0d1e3b5c7a9f10, type: 3}
+  m_Name: CreditsSettings
+  m_EditorClassIdentifier:
+  cameraSpeed: 0.7
+  durationCameraSpeedUp: 1.5
+  durationCameraReturn: 1
+  thresholdCameraArrival: 0.001
+  curveSpeedByDistanceToTarget:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2.4999924
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1.749998
+      inSlope: -2.2883596
+      outSlope: -2.2883596
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.15467657
+    - serializedVersion: 3
+      time: 1
+      value: 1.0012964
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 0
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  durationLine: 1.2
+  durationModifierFinalWord: 0.5
+  durationModifierWordsFadeOut: 0.25
+  durationLogoTurnOff: 0.75
+  durationLogoTurnOn: 0.75
+  delayFirstLineNextWordMin: 0.7
+  delayFirstLineNextWordMax: 1.5
+  delayOtherLinesNextWordMin: 0.35
+  delayOtherLinesNextWordMax: 0.5
+  lineTimeModifiers:
+  - lineIndex: 13
+    timeModifier: 1.25
+  - lineIndex: 20
+    timeModifier: 1.5
+  curveColorChangeTurnOn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxGlitchRoll: 100
+  rollSingleInterruptionMin: 40
+  rollDoubleInterruptionMin: 87
+  shareTimeSingleInterruptionMin: 0.2
+  shareTimeSingleInterruptionMax: 0.8
+  shareTimeDoubleInterruptionFirstStopMin: 0.22
+  shareTimeDoubleInterruptionFirstStopMax: 0.45
+  shareTimeDoubleInterruptionSecondStopExtraMin: 1.0005
+  shareTimeDoubleInterruptionSecondStopMax: 0.9

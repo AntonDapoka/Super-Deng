@@ -1,76 +1,79 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class MenuNavigationScript : MonoBehaviour
+namespace Menu.Screens
 {
-    [SerializeField] private MenuState menuStateCurrent = MenuState.Main;
-    [SerializeField] private MenuState menuStatePrevious = MenuState.Main;
-    [Header("References")]
-    [SerializeField] private MenuBlockWallManagerScript blockWallManager;
-    [SerializeField] private MenuPresenterScript menuPresenter;
-    
-    public MenuState GetMenuState()
+    public class MenuNavigationScript : MonoBehaviour
     {
-        return menuStateCurrent;
-    }
-
-    public Task NavigateTo(MenuState state)
-    {
-        menuStatePrevious = menuStateCurrent;
-        menuStateCurrent = state;
-        blockWallManager.TurnOnBlockWall();
-
-        switch (state)
+        [SerializeField] private MenuState menuStateCurrent = MenuState.Main;
+        [SerializeField] private MenuState menuStatePrevious = MenuState.Main;
+        [Header("References")]
+        [SerializeField] private MenuBlockWallManagerScript blockWallManager;
+        [SerializeField] private MenuPresenterScript menuPresenter;
+        
+        public MenuState GetMenuState()
         {
-            case MenuState.Main:
-                return OpenMainAsync();
-
-            case MenuState.StartingLevel:
-                return StartLevelAsync();
-
-            case MenuState.LevelSelection:
-                return OpenLevelSelectionAsync();
-
-            case MenuState.Settings:
-                return OpenSettingsAsync();
-
-            case MenuState.Credits:
-                return OpenCreditsAsync();
-
-            default:
-                Debug.Log("No match found");
-                blockWallManager.TurnOffBlockWall();
-                return Task.CompletedTask;
+            return menuStateCurrent;
         }
-    }
-    
-    private async Task OpenMainAsync()
-    {
-        await menuPresenter.ShowMenuStateAsync(MenuState.Main, menuStatePrevious);
-        blockWallManager.TurnOffBlockWall();
-    }
 
-    private async Task StartLevelAsync()
-    {
-        await menuPresenter.HideEveryButtonAsync();
-        blockWallManager.TurnOffBlockWall();
-    }
+        public Task NavigateTo(MenuState state)
+        {
+            menuStatePrevious = menuStateCurrent;
+            menuStateCurrent = state;
+            blockWallManager.TurnOnBlockWall();
 
-    private async Task OpenLevelSelectionAsync()
-    {
-        await menuPresenter.ShowMenuStateAsync(MenuState.LevelSelection, menuStatePrevious);
-        blockWallManager.TurnOffBlockWall();
-    }
+            switch (state)
+            {
+                case MenuState.Main:
+                    return OpenMainAsync();
 
-    private async Task OpenSettingsAsync()
-    {
-        await menuPresenter.ShowMenuStateAsync(MenuState.Settings, menuStatePrevious);
-        blockWallManager.TurnOffBlockWall();
-    }
+                case MenuState.StartingLevel:
+                    return StartLevelAsync();
 
-    private async Task OpenCreditsAsync()
-    {
-        await menuPresenter.ShowMenuStateAsync(MenuState.Credits, menuStatePrevious);
-        blockWallManager.TurnOffBlockWall();
+                case MenuState.LevelSelection:
+                    return OpenLevelSelectionAsync();
+
+                case MenuState.Settings:
+                    return OpenSettingsAsync();
+
+                case MenuState.Credits:
+                    return OpenCreditsAsync();
+
+                default:
+                    Debug.Log("No match found");
+                    blockWallManager.TurnOffBlockWall();
+                    return Task.CompletedTask;
+            }
+        }
+        
+        private async Task OpenMainAsync()
+        {
+            await menuPresenter.ShowMenuStateAsync(MenuState.Main, menuStatePrevious);
+            blockWallManager.TurnOffBlockWall();
+        }
+
+        private async Task StartLevelAsync()
+        {
+            await menuPresenter.HideEveryButtonAsync();
+            blockWallManager.TurnOffBlockWall();
+        }
+
+        private async Task OpenLevelSelectionAsync()
+        {
+            await menuPresenter.ShowMenuStateAsync(MenuState.LevelSelection, menuStatePrevious);
+            blockWallManager.TurnOffBlockWall();
+        }
+
+        private async Task OpenSettingsAsync()
+        {
+            await menuPresenter.ShowMenuStateAsync(MenuState.Settings, menuStatePrevious);
+            blockWallManager.TurnOffBlockWall();
+        }
+
+        private async Task OpenCreditsAsync()
+        {
+            await menuPresenter.ShowMenuStateAsync(MenuState.Credits, menuStatePrevious);
+            blockWallManager.TurnOffBlockWall();
+        }
     }
 }

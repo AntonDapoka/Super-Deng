@@ -1,13 +1,16 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class OpenSettingsInteractorScript : MonoBehaviour
-{    
-    [Header("Presenter")]
-    [SerializeField] private MenuNavigationScript menuNavigation;
+namespace Menu.Screens.Settings
+{
+    public class OpenSettingsInteractorScript : MonoBehaviour
+    {    
+        [Header("Presenter")]
+        [SerializeField] private MenuNavigationScript menuNavigation;
 
-    public async Task OpenSettingsAsync()
-    {
-        await menuNavigation.NavigateTo(MenuState.Settings);
+        public async Task OpenSettingsAsync()
+        {
+            await menuNavigation.NavigateTo(MenuState.Settings);
+        }
     }
 }

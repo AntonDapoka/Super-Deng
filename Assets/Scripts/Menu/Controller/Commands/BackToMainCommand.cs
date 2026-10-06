@@ -1,11 +1,16 @@
 using UnityEngine;
 
-public class BackToMainCommand : Command
-{
-    [SerializeField] private BackToMainInteractorScript interactor;
+using Menu.Screens.Main;
 
-    public override void Execute()
+namespace Menu.Controller.Commands
+{
+    public class BackToMainCommand : Command
     {
-        interactor.BackToMain();
+        [SerializeField] private BackToMainInteractorScript interactor;
+
+        public override void Execute()
+        {
+            interactor.BackToMain();
+        }
     }
 }

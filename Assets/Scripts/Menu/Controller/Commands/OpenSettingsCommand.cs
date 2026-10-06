@@ -1,11 +1,16 @@
 using UnityEngine;
 
-public class OpenSettingsCommand : Command
-{
-    [SerializeField] private OpenSettingsInteractorScript interactor;
+using Menu.Screens.Settings;
 
-    public override void Execute()
+namespace Menu.Controller.Commands
+{
+    public class OpenSettingsCommand : Command
     {
-        _ = interactor.OpenSettingsAsync();
+        [SerializeField] private OpenSettingsInteractorScript interactor;
+
+        public override void Execute()
+        {
+            _ = interactor.OpenSettingsAsync();
+        }
     }
 }

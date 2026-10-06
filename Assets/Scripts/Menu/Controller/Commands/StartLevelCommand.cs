@@ -1,11 +1,16 @@
 using UnityEngine;
 
-public sealed class StartLevelCommand : Command
-{
-    [SerializeField] private StartLevelInteractorScript interactor;
+using Menu.Screens.LevelStart;
 
-    public override void Execute()
+namespace Menu.Controller.Commands
+{
+    public sealed class StartLevelCommand : Command
     {
-        _ = interactor.StartLevelAsync();
+        [SerializeField] private StartLevelInteractorScript interactor;
+
+        public override void Execute()
+        {
+            _ = interactor.StartLevelAsync();
+        }
     }
 }

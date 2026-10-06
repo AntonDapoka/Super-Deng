@@ -1,38 +1,41 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
-public class MenuKeyboardInputControllerScript : MonoBehaviour
+namespace Menu.Controller.Keyboard
 {
-    [SerializeField] private MenuKeyboardInputInteractorScript[] interactors;
-
-    private readonly Queue<Key> buffer = new();
-    private const int bufferSize = 20;
-
-    private void Update()
+    public class MenuKeyboardInputControllerScript : MonoBehaviour
     {
-        var keyboard = Keyboard.current;
-        if (keyboard == null) return;
+        [SerializeField] private MenuKeyboardInputInteractorScript[] interactors;
 
-        foreach (var key in keyboard.allKeys)
+        private readonly Queue<Key> buffer = new();
+        private const int bufferSize = 20;
+
+        private void Update()
         {
-            if (key != null && key.wasPressedThisFrame)
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard == null) return;
+
+            foreach (var key in keyboard.allKeys)
             {
-                AddKeyToBuffer(key.keyCode);
-                NotifyInteractors();
+                if (key != null && key.wasPressedThisFrame)
+                {
+                    AddKeyToBuffer(key.keyCode);
+                    NotifyInteractors();
+                }
             }
         }
-    }
 
-    private void AddKeyToBuffer(Key key)
-    {
-        if (buffer.Count >= bufferSize) buffer.Dequeue();
+        private void AddKeyToBuffer(Key key)
+        {
+            if (buffer.Count >= bufferSize) buffer.Dequeue();
 
-        buffer.Enqueue(key);
-    }
+            buffer.Enqueue(key);
+        }
 
-    private void NotifyInteractors()
-    {
-        foreach (var interactor in interactors) interactor.HandleKeyboardBuffer(buffer.ToArray());
+        private void NotifyInteractors()
+        {
+            foreach (var interactor in interactors) interactor.HandleKeyboardBuffer(buffer.ToArray());
+        }
     }
 }

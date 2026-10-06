@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class ChooseLevelInteractorScript : MonoBehaviour
+namespace Menu.Screens.LevelSelection
 {
-    [SerializeField] private MenuNavigationScript menuNavigation;
-
-    public void StartToChooseLevel()
+    public class ChooseLevelInteractorScript : MonoBehaviour
     {
-        _ = menuNavigation.NavigateTo(MenuState.LevelSelection);
+        [SerializeField] private MenuNavigationScript menuNavigation;
+
+        public void StartToChooseLevel()
+        {
+            _ = menuNavigation.NavigateTo(MenuState.LevelSelection);
+        }
     }
 }

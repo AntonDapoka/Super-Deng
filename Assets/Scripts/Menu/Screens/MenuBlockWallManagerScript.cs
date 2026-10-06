@@ -2,17 +2,20 @@
 using UnityEngine.UI;
 using UnityEngine;
 
-public class MenuBlockWallManagerScript : MonoBehaviour
+namespace Menu.Screens
 {
-    [SerializeField] private Image wall;
-
-    public void TurnOnBlockWall()
+    public class MenuBlockWallManagerScript : MonoBehaviour
     {
-        wall.gameObject.SetActive(true);
-    }
+        [SerializeField] private Image wall;
 
-    public void TurnOffBlockWall()
-    {
-        wall.gameObject.SetActive(false);
+        public void TurnOnBlockWall()
+        {
+            wall.gameObject.SetActive(true);
+        }
+
+        public void TurnOffBlockWall()
+        {
+            wall.gameObject.SetActive(false);
+        }
     }
 }

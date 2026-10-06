@@ -1,8 +1,12 @@
-public enum MenuState
+
+namespace Menu.Screens
 {
-    Main,
-    StartingLevel,
-    LevelSelection,
-    Settings,
-    Credits
+    public enum MenuState
+    {
+        Main,
+        StartingLevel,
+        LevelSelection,
+        Settings,
+        Credits
+    }
 }

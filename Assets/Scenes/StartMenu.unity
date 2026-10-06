@@ -33662,6 +33662,7 @@ Transform:
   - {fileID: 987165772}
   - {fileID: 257044601}
   - {fileID: 1329746694}
+  - {fileID: 573939891}
   - {fileID: 1837652247}
   - {fileID: 1973972224}
   - {fileID: 440268911}
@@ -39970,6 +39971,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571023615}
   m_CullTransparentMesh: 1
+--- !u!1 &573939890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 573939891}
+  - component: {fileID: 573939892}
+  m_Layer: 0
+  m_Name: CreditsView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &573939891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573939890}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 519458196}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &573939892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573939890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f520b6df8547f19eeee7a22b24b71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &586207964
 GameObject:
   m_ObjectHideFlags: 0
@@ -64651,9 +64696,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1329746694}
-  - component: {fileID: 1329746695}
+  - component: {fileID: 1329746696}
   m_Layer: 0
-  m_Name: CreditsAnimationManager
+  m_Name: CreditsCameraManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64674,7 +64719,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 519458196}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1329746695
+--- !u!114 &1329746696
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64683,10 +64728,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1329746693}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21e3c965fae5e484a8c82a146abd819a, type: 3}
+  m_Script: {fileID: 11500000, guid: 47aee9dfcdcc4444b7f6a43905d65e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 7a1e3c5b9d2f4a6c8e0b1d3f5a7c9e20, type: 2}
+  cam: {fileID: 912186669}
 --- !u!1 &1333025281
 GameObject:
   m_ObjectHideFlags: 0
@@ -66852,9 +66897,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0455db4c42f6a7446bec44eacfea2489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 912186669}
-  animationManager: {fileID: 1329746695}
-  menuLogo: {fileID: 440268912}
   parentObjects:
   - {fileID: 15887288}
   - {fileID: 1856574330}
@@ -66877,6 +66919,9 @@ MonoBehaviour:
   - {fileID: 810029526}
   - {fileID: 1400029207}
   - {fileID: 2099027155}
+  cameraManager: {fileID: 1329746696}
+  menuLogo: {fileID: 440268912}
+  view: {fileID: 573939892}
   settings: {fileID: 11400000, guid: 7a1e3c5b9d2f4a6c8e0b1d3f5a7c9e20, type: 2}
 --- !u!1 &1460766431
 GameObject:
@@ -96808,8 +96853,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d8238f18c94e5448ed809856051542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuCredits: {fileID: 1452105880}
-  menuNavigation: {fileID: 762824599}
+  creditsInteractor: {fileID: 1452105880}
+  navigation: {fileID: 762824599}
 --- !u!1 &1989627019
 GameObject:
   m_ObjectHideFlags: 0

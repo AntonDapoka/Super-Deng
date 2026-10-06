@@ -1,18 +1,21 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class StartLevelInteractorScript : MonoBehaviour
+namespace Menu.Screens.LevelStart
 {
-    [Header("References")]
-    [SerializeField] private MenuSceneLoaderScript sceneLoader;
-    [Header("Presenter")]
-    [SerializeField] private MenuNavigationScript menuNavigation;
-    [SerializeField] private StartLevelAnimationScript animationManager;
-
-    public async Task StartLevelAsync()
+    public class StartLevelInteractorScript : MonoBehaviour
     {
-        await menuNavigation.NavigateTo(MenuState.StartingLevel);
-        await animationManager.StartTransitionAsync();
-        sceneLoader.LoadSceneByIndex(1);
+        [Header("References")]
+        [SerializeField] private MenuSceneLoaderScript sceneLoader;
+        [Header("Presenter")]
+        [SerializeField] private MenuNavigationScript menuNavigation;
+        [SerializeField] private StartLevelAnimationScript animationManager;
+
+        public async Task StartLevelAsync()
+        {
+            await menuNavigation.NavigateTo(MenuState.StartingLevel);
+            await animationManager.StartTransitionAsync();
+            sceneLoader.LoadSceneByIndex(1);
+        }
     }
 }

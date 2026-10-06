@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuSceneLoaderScript : MonoBehaviour
+namespace Menu
 {
-    public void LoadSceneByIndex(int indexScene)
+    public class MenuSceneLoaderScript : MonoBehaviour
     {
-        SceneManager.LoadScene(indexScene);
+        public void LoadSceneByIndex(int indexScene)
+        {
+            SceneManager.LoadScene(indexScene);
+        }
     }
 }
