@@ -47,6 +47,9 @@ namespace Menu.Screens
                 case MenuState.Settings:
                     await Task.WhenAll(CloseSettingsPanelAsync(), ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsMain()));
                     break;
+                case MenuState.Credits:
+                    await ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsMain());
+                    break;
             }
             
             referencesHolder.SetButtonsCurrent(referencesHolder.GetButtonsMain());

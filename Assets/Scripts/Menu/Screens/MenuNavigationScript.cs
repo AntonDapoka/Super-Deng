@@ -6,11 +6,12 @@ namespace Menu.Screens
 {
     public class MenuNavigationScript : MonoBehaviour
     {
-        [SerializeField] private MenuState menuStateCurrent = MenuState.Main;
-        [SerializeField] private MenuState menuStatePrevious = MenuState.Main;
         [Header("References")]
         [SerializeField] private MenuBlockWallManagerScript blockWallManager;
         [SerializeField] private MenuPresenterScript menuPresenter;
+
+        private MenuState menuStateCurrent = MenuState.Main;
+        private MenuState menuStatePrevious = MenuState.Main;
 
         public event Action<MenuState, MenuState> OnMenuStateChanged;
 

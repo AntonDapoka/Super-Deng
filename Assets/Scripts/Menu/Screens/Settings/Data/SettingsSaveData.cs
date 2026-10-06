@@ -9,16 +9,9 @@ namespace Menu.Screens.Settings
         public float volumeSFX;
 
         public int resolution;
-        public int aspectRatio;
         public int fullscreen;
         public int quality;
 
         public MovementBindsSettingsData movementBindsData;
-
-        public string difficulty;
-
-        public bool skipCutScenes;
-        public bool comments;
-        public bool gamepadRumble;
     }
 }
