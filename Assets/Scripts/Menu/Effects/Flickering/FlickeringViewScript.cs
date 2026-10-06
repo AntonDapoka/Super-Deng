@@ -32,18 +32,9 @@ public class FlickeringViewScript : MonoBehaviour
                 float curveValue = isTurningOn ? colorChangeCurveTurnOn.Evaluate(elapsedTime / randomTime) : colorChangeCurveTurnOff.Evaluate(elapsedTime / randomTime);
                 Color newColor = Color.Lerp(initialColor, targetColor, curveValue);
 
-                if (isImage)
-                {
-                    (component as Image).color = newColor;
-                }
-                else if (isTextMeshProUGUI)
-                {
-                    (component as TextMeshProUGUI).color = newColor;
-                }
-                else
-                {
-                    (component as Renderer).material.color = newColor;
-                }
+                if (isImage) (component as Image).color = newColor;
+                else if (isTextMeshProUGUI) (component as TextMeshProUGUI).color = newColor;
+                else (component as Renderer).material.color = newColor;
 
                 elapsedTime += Time.deltaTime;
                 yield return null;
@@ -58,35 +49,18 @@ public class FlickeringViewScript : MonoBehaviour
             float curveValue = isTurningOn ? colorChangeCurveTurnOn.Evaluate(elapsedTime / (duration - randomTime)) : colorChangeCurveTurnOff.Evaluate(elapsedTime / (duration - randomTime));
             Color newColor = Color.Lerp(initialColorSafer, targetColor, curveValue);
 
-            if (isImage)
-            {
-                (component as Image).color = newColor;
-            }
-            else if (isTextMeshProUGUI)
-            {
-                (component as TextMeshProUGUI).color = newColor;
-            }
-            else
-            {
-                (component as Renderer).material.color = newColor;
-            }
+            if (isImage) (component as Image).color = newColor;
+            else if (isTextMeshProUGUI) (component as TextMeshProUGUI).color = newColor;
+            else (component as Renderer).material.color = newColor;
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        if (isImage)
-        {
-        (component as Image).color = targetColor;
-        }
-        else if (isTextMeshProUGUI)
-        {
-            (component as TextMeshProUGUI).color = targetColor;
-        }
-        else
-        {
-            (component as Renderer).material.color = targetColor;
-        }
+        if (isImage) (component as Image).color = targetColor;
+        else if (isTextMeshProUGUI) (component as TextMeshProUGUI).color = targetColor;
+        else (component as Renderer).material.color = targetColor;
+        
         component.gameObject.SetActive(!isTurningOn);
     }
 }

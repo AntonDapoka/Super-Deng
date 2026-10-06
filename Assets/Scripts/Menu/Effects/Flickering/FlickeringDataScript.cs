@@ -2,7 +2,7 @@ using UnityEngine;
 
 public struct FlickeringDataScript
 {
-    public Component СomponentRenderer { get; } 
+    public Component ComponentRenderer { get; } 
     public float Duration { get; } 
     public Color InitialColor { get; } 
     public Color TargetColor { get; } 
@@ -11,7 +11,7 @@ public struct FlickeringDataScript
 
     public FlickeringDataScript(Component component , float duration, Color initialColor, Color targetColor, bool isTurningOn, bool isBlinking)
     {
-        СomponentRenderer = component;
+        ComponentRenderer = component;
         Duration = duration;
         InitialColor = initialColor;
         TargetColor = targetColor;
