@@ -1,8 +1,6 @@
 using UnityEngine;
 
-using Menu.Screens.Settings;
-
-namespace Menu.Controller.Commands
+namespace Menu.Screens.Settings
 {
     public class OpenSettingsCommand : Command
     {

@@ -1,8 +1,6 @@
 using UnityEngine;
 
-using Menu.Screens.Main;
-
-namespace Menu.Controller.Commands
+namespace Menu.Screens.Main
 {
     public class BackToMainCommand : Command
     {

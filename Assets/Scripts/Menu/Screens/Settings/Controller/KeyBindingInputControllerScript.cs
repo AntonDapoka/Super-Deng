@@ -14,33 +14,56 @@ namespace Menu.Screens.Settings
         [SerializeField] private Button buttonLeft;
         [SerializeField] private Button buttonTop;
 
-        private bool isCapturing;
+        private InputAction captureAction;
 
         private void Awake()
         {
-            buttonRight.onClick.AddListener(() => settingsInteractor.BeginRebind(MovementDirection.Right));
-            buttonLeft.onClick.AddListener(() => settingsInteractor.BeginRebind(MovementDirection.Left));
-            buttonTop.onClick.AddListener(() => settingsInteractor.BeginRebind(MovementDirection.Top));
+            captureAction = new InputAction(name: "RebindCapture", type: InputActionType.Button);
+            AddCaptureBindings();
+            captureAction.performed += OnCapturePerformed;
+
+            buttonRight.onClick.AddListener(() => BeginRebind(MovementDirection.Right));
+            buttonLeft.onClick.AddListener(() => BeginRebind(MovementDirection.Left));
+            buttonTop.onClick.AddListener(() => BeginRebind(MovementDirection.Top));
         }
 
-        public void SetCapturing(bool capturing)
+        private void OnDestroy()
         {
-            isCapturing = capturing;
+            captureAction.performed -= OnCapturePerformed;
+            captureAction.Dispose();
         }
 
-        private void Update()
+        private void BeginRebind(MovementDirection direction)
         {
-            if (!isCapturing || Keyboard.current == null || !Keyboard.current.anyKey.wasPressedThisFrame)
-                return;
+            settingsInteractor.BeginRebind(direction);
+            captureAction.Enable();
+        }
 
-            foreach (KeyControl control in Keyboard.current.allKeys)
+        private void OnCapturePerformed(InputAction.CallbackContext context)
+        {
+            if (!(context.control is KeyControl keyControl)) return;
+
+            settingsInteractor.HandleKeyPressed(keyControl.keyCode);
+
+            if (!settingsInteractor.KeyBinding.IsRebinding)
+                captureAction.Disable();
+        }
+
+        private void AddCaptureBindings()
+        {
+            for (int i = 0; i < 26; i++)
+                captureAction.AddBinding($"<Keyboard>/{(char)('a' + i)}");
+
+            for (int i = 0; i < 10; i++)
             {
-                if (control.wasPressedThisFrame)
-                {
-                    settingsInteractor.HandleKeyPressed(control.keyCode);
-                    break;
-                }
+                captureAction.AddBinding($"<Keyboard>/{(char)('0' + i)}");
+                captureAction.AddBinding($"<Keyboard>/numpad{i}");
             }
+
+            captureAction.AddBinding("<Keyboard>/leftArrow");
+            captureAction.AddBinding("<Keyboard>/rightArrow");
+            captureAction.AddBinding("<Keyboard>/upArrow");
+            captureAction.AddBinding("<Keyboard>/downArrow");
         }
     }
 }

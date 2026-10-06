@@ -1,8 +1,6 @@
 using UnityEngine;
 
-using Menu.Screens.LevelSelection;
-
-namespace Menu.Commands.Buttons
+namespace Menu.Screens.LevelSelection
 {
     public class ChooseLevelCommand : Command
     {

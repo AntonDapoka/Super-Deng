@@ -1,8 +1,6 @@
 using UnityEngine;
 
-using Menu.Screens.Credits;
-
-namespace Menu.Controller.Commands
+namespace Menu.Screens.Credits
 {
     public class OpenCreditsCommand : Command
     {

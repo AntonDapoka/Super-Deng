@@ -1,8 +1,6 @@
 using UnityEngine;
 
-using Menu.Screens.LevelStart;
-
-namespace Menu.Controller.Commands
+namespace Menu.Screens.LevelStart
 {
     public sealed class StartLevelCommand : Command
     {

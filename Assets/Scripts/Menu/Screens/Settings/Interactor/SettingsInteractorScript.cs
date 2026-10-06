@@ -7,12 +7,13 @@ namespace Menu.Screens.Settings
     {
         [Header("References")]
         [SerializeField] private SettingsPresenterScript presenter;
-        [SerializeField] private KeyBindingInputControllerScript keyInputController;
 
         public SettingsSaveInteractorScript Save { get; } = new SettingsSaveInteractorScript();
         public VolumeSettingsInteractorScript Volume { get; } = new VolumeSettingsInteractorScript();
         public KeyBindingInteractorScript KeyBinding { get; } = new KeyBindingInteractorScript();
         public DisplaySettingsInteractorScript Display { get; } = new DisplaySettingsInteractorScript();
+
+        private bool isInitialized;
 
         private void Awake()
         {
@@ -27,6 +28,8 @@ namespace Menu.Screens.Settings
 
             presenter.ShowResolutions(resolutionOptions, Display.ResolutionIndex);
             presenter.SyncDisplayControls(Display.IsFullscreen, Display.Quality, Display.Language);
+
+            isInitialized = true;
         }
 
         private void Initialize()
@@ -38,11 +41,13 @@ namespace Menu.Screens.Settings
         public void IncreaseVolume(VolumeChannel channel)
         {
             Volume.Increase(channel);
+            AutoSave();
         }
 
         public void DecreaseVolume(VolumeChannel channel)
         {
             Volume.Decrease(channel);
+            AutoSave();
         }
 
         public void SaveAll()
@@ -50,10 +55,14 @@ namespace Menu.Screens.Settings
             Save.Save(BuildSaveData());
         }
 
+        private void AutoSave()
+        {
+            if (isInitialized) SaveAll();
+        }
+
         public void BeginRebind(MovementDirection direction)
         {
             KeyBinding.BeginRebind(direction);
-            keyInputController.SetCapturing(true);
             presenter.BeginRebindDisplay(direction);
         }
 
@@ -62,8 +71,8 @@ namespace Menu.Screens.Settings
             switch (KeyBinding.TryAssignKey(key))
             {
                 case KeyAssignResult.Assigned:
-                    keyInputController.SetCapturing(false);
                     presenter.EndRebindDisplay();
+                    AutoSave();
                     break;
                 case KeyAssignResult.Duplicate:
                     presenter.PlayBindingError();
@@ -74,21 +83,25 @@ namespace Menu.Screens.Settings
         public void ChangeResolution(int index)
         {
             Display.ApplyResolution(index);
+            AutoSave();
         }
 
         public void ChangeFullscreen(bool isFullscreen)
         {
             Display.SetFullscreen(isFullscreen);
+            AutoSave();
         }
 
         public void ChangeQuality(int qualityIndex)
         {
             Display.SetQuality(qualityIndex);
+            AutoSave();
         }
 
         public void ChangeLanguage(int languageIndex)
         {
             Display.Language = languageIndex;
+            AutoSave();
         }
 
         private void ApplyFromSave(SettingsSaveData data)
@@ -113,8 +126,8 @@ namespace Menu.Screens.Settings
 
             KeyBinding.ResetToDefaults();
 
-            Display.ResolutionIndex = Display.CurrentResolutionIndex;
-            Display.SetFullscreen(false);
+            Display.SetFullscreen(true);
+            Display.ApplyResolution(Display.CurrentResolutionIndex);
             Display.SetQuality(1);
             Display.Language = 0;
 
