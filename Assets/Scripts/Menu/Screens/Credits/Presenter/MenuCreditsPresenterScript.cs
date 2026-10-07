@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using Menu.Effects.Flickering.Logo;
 
 namespace Menu.Screens.Credits
 {
@@ -11,7 +12,7 @@ namespace Menu.Screens.Credits
         [Header("References")]
         [SerializeField] private MenuCreditsReferenceHolderScript referenceHolder;
         [SerializeField] private MenuCreditsCameraManagerScript cameraManager;
-        [SerializeField] private MenuLogoNeonFlinkeringScript menuLogo;
+        [SerializeField] private MenuLogoPresenterScript menuLogo;
         [SerializeField] private MenuCreditsViewScript view;
 
         private GameObject[][] sortedChildren;
@@ -73,17 +74,17 @@ namespace Menu.Screens.Credits
 
         public void TurnLogoOff(float duration)
         {
-            menuLogo.LogoTurningOnAndOff(duration, false, true, false, false);
+            menuLogo.TurnOff(duration: duration);
         }
 
         public void TurnLogoOn(float duration)
         {
-            menuLogo.LogoTurningOnAndOff(duration, true, true, true, false);
+            menuLogo.TurnOn(duration: duration);
         }
 
         public void EnsureLogoOn(float duration)
         {
-            if (!menuLogo.isTurnOn) TurnLogoOn(duration);
+            if (!menuLogo.IsTurnOn) TurnLogoOn(duration);
         }
 
         public void BeginCameraRun()

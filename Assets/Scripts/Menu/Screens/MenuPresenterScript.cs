@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Menu.Effects.Flickering.Logo;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ namespace Menu.Screens
         [Header("References")]
         [SerializeField] private MenuAnimationManagerScript menuAnimationManager;
         [SerializeField] private MenuReferenceHolderScript referencesHolder;
+        [SerializeField] private MenuLogoPresenterScript logoNeonPresenter;
 
         private bool isSettingsPanelOpen;
 
@@ -63,6 +65,7 @@ namespace Menu.Screens
 
         private async Task ShowSettingsStateAsync()
         {
+            logoNeonPresenter.TurnOff(isFlickerTriangle:true);
             await Task.WhenAll(
                 ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsSettings()),
                 menuAnimationManager.ShowPanelAsync(referencesHolder.GetRectTransformSettings()));
@@ -84,7 +87,7 @@ namespace Menu.Screens
         private Task CloseSettingsPanelAsync()
         {
             if (!isSettingsPanelOpen) return Task.CompletedTask;
-
+            logoNeonPresenter.TurnOn();
             isSettingsPanelOpen = false;
             return menuAnimationManager.HidePanelAsync(referencesHolder.GetRectTransformSettings());
         }

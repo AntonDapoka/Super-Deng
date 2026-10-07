@@ -2,61 +2,57 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Menu.Effects.Flickering;
 
-public class WindowPresenterScript : MonoBehaviour, IFlickerable
+public class WindowPresenterScript : MonoBehaviour
 {
     //[SerializeField] protected WindowViewScript windowView;
-    [SerializeField] protected FlickeringViewScript flickeringView;
+    [SerializeField] protected FlickeringPresenterScript flickeringPresenter;
     [SerializeField] protected AnimationCurve heightCurve;
     [SerializeField] protected AnimationCurve positionCurve;
     [SerializeField] protected Sprite spriteButtonMin;
     [SerializeField] protected Sprite spriteButtonMax;
 
-   public FlickeringViewScript FlickeringView => flickeringView;
+    [Header("Durations")]
+    [SerializeField, Min(0f)] private float closeDuration = 0.5f;
+    [SerializeField, Min(0f)] private float closeMinimizeDuration = 0.33f;
+    [SerializeField, Min(0f)] private float minimizeDuration = 0.25f;
+    [SerializeField, Min(0f)] private float maximizeDuration = 0.25f;
 
-   public void Initialize()
+    public void Initialize()
     {
         
     }
     public void CloseWindow(WindowComponentsScript components)
     {
-        float durationLocal = 0.5f;
-        MinimizeWindow(components, 0.33f);
+        MinimizeWindow(components, closeMinimizeDuration);
 
-        StartFlickering(components.GetWindowTitleBar().GetComponent<Image>(), durationLocal);
-        StartFlickering(components.GetWindowSpace().GetComponent<Image>(), durationLocal);
-        StartFlickering(components.GetWindowSpaceInner().GetComponent<Image>(), durationLocal);
-        StartFlickering(components.GetIconButtonMinMax().GetComponent<Image>(), durationLocal);
-        StartFlickering(components.GetIconButtonClose().GetComponent<Image>(), durationLocal);
-        StartFlickering(components.GetImageButtonClose().GetComponent<Image>(), durationLocal);
-        StartFlickering(components.GetImageButtonMinMax().GetComponent<Image>(), durationLocal);
-        StartFlickering(components.GetWindowSpaceInnerText().GetComponent<TextMeshProUGUI>(), durationLocal);
-        StartFlickering(components.GetWindowTitleBarText().GetComponent<TextMeshProUGUI>(), durationLocal);
+        StartFlickering(components.GetWindowTitleBar().GetComponent<Image>(), closeDuration);
+        StartFlickering(components.GetWindowSpace().GetComponent<Image>(), closeDuration);
+        StartFlickering(components.GetWindowSpaceInner().GetComponent<Image>(), closeDuration);
+        StartFlickering(components.GetIconButtonMinMax().GetComponent<Image>(), closeDuration);
+        StartFlickering(components.GetIconButtonClose().GetComponent<Image>(), closeDuration);
+        StartFlickering(components.GetImageButtonClose().GetComponent<Image>(), closeDuration);
+        StartFlickering(components.GetImageButtonMinMax().GetComponent<Image>(), closeDuration);
+        StartFlickering(components.GetWindowSpaceInnerText().GetComponent<TextMeshProUGUI>(), closeDuration);
+        StartFlickering(components.GetWindowTitleBarText().GetComponent<TextMeshProUGUI>(), closeDuration);
     }
 
-    private void StartFlickering(Component component, float duration)
+    private void StartFlickering(Graphic graphic, float duration)
     {
-        bool isImage = component is Image;
+        Color initialColor = graphic.color;
+        Color transparentColor = initialColor;
+        transparentColor.a = 0f;
 
-        if (isImage)
-        {
-            Image image = component as Image;
-            Color colorStart = image.color;
-            Color transparentColor = image.color;
-            transparentColor.a = 0f;
-            FlickeringView.StartFlickeringAnimationEffect(image, duration, colorStart, transparentColor, true, true);
-        }
-        else
-        {
-            TextMeshProUGUI tmpro = component as TextMeshProUGUI;
-            Color colorStart = tmpro.color;
-            Color transparentColor = tmpro.color;
-            transparentColor.a = 0f;
-            FlickeringView.StartFlickeringAnimationEffect(tmpro, duration, colorStart, transparentColor, true, true);
-        }
+        flickeringPresenter.Flicker(graphic, initialColor, transparentColor, duration, isTurningOn: true, isBlinking: true, isDeactivateTargetAfter: true);
     }
 
-    public void MinimizeWindow(WindowComponentsScript components, float duration = 0.25f)
+    public void MinimizeWindow(WindowComponentsScript components)
+    {
+        MinimizeWindow(components, minimizeDuration);
+    }
+
+    private void MinimizeWindow(WindowComponentsScript components, float duration)
     {
         RectTransform windowSpace = components.GetWindowSpace();
         WindowSettingsScript windowSettings = components.GetWindowSettings();
@@ -68,8 +64,10 @@ public class WindowPresenterScript : MonoBehaviour, IFlickerable
         StartCoroutine(ChangingWindowHeight(windowSpace, windowPositionStart, windowPositionTarget, windowSpaceHeight, 0f, duration));
     }
 
-    public void MaximizeWindow(WindowComponentsScript components, float duration = 0.25f)
+    public void MaximizeWindow(WindowComponentsScript components)
     {
+        float duration = maximizeDuration;
+
         RectTransform windowSpace = components.GetWindowSpace();
         WindowSettingsScript windowSettings = components.GetWindowSettings();
         float windowSpaceHeight = windowSettings.GetWindowSpaceHeight();
@@ -103,9 +101,4 @@ public class WindowPresenterScript : MonoBehaviour, IFlickerable
         windowSpace.sizeDelta = new Vector2(size.x, heightTarget);
         windowSpace.anchoredPosition = positionTarget;
     }
-
-   public void SetFlickeringEffect()
-   {
-      throw new System.NotImplementedException();
-   }
 }
