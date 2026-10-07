@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace Menu.Screens.LevelSelection
 {
-    public class LevelChooseMenuScript : MonoBehaviour
+    public class LevelSelectionViewScript : MonoBehaviour
     {
         [SerializeField] GameObject holder;
         [SerializeField] private GameObject[] objects;
@@ -36,22 +36,7 @@ namespace Menu.Screens.LevelSelection
             buttonLeft.gameObject.SetActive(!isTurn);
             buttonRight.gameObject.SetActive(!isTurn);
         }
-        /*
-        [SerializeField] private Button buttonChoose;
-        [SerializeField] private LevelButtonTransition LBT;
 
-        [SerializeField] private Vector3 positionChosen;
-        [SerializeField] private Vector3 positionUnchosen;
-        [SerializeField] private RectTransform bannerLevelDesc;
-        [SerializeField] private RectTransform[] uiElements;
-        [SerializeField] private GameObject wall;
-        [SerializeField] private int[] scenes;
-
-        public float biasBanner = 700f;
-        public float biasUI = 400f;
-        public float moveDuration = 1f; 
-        public AnimationCurve movementCurve;
-        */
         private void Start()
         {
             //buttonChoose.onClick.AddListener(LoadMenuScene);

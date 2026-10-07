@@ -93,7 +93,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7800980154219369879}
   - component: {fileID: 2239070679450912360}
-  - component: {fileID: 338408409961419950}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -144,23 +143,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &338408409961419950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49347026995869964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &344457925179049956
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +476,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1961285157623240612}
   - component: {fileID: 1291761716429086939}
-  - component: {fileID: 4534118179936911701}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -545,23 +526,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4534118179936911701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 762558639539217367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &864739652188946321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,7 +1060,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7393293928287054916}
   - component: {fileID: 5879408096199093256}
-  - component: {fileID: 7917592977571123393}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -1147,23 +1110,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7917592977571123393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301606394133740528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &1375039116114935755
 GameObject:
   m_ObjectHideFlags: 0
@@ -2390,7 +2336,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7296194202916574993}
   - component: {fileID: 1481510398979833774}
-  - component: {fileID: 4497806614648894301}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -2441,23 +2386,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4497806614648894301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2801878513395675707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &2882271482501079499
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,7 +2741,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5783513385154583931}
   - component: {fileID: 4218886958210088942}
-  - component: {fileID: 171991088471936784}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -2864,23 +2791,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &171991088471936784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3147168339610124859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &3200815056931191883
 GameObject:
   m_ObjectHideFlags: 0
@@ -3249,7 +3159,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6496605721035384673}
   - component: {fileID: 3336354754068516523}
-  - component: {fileID: 2671583258183388764}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -3300,23 +3209,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2671583258183388764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3466752184933449940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &3474777802980366124
 GameObject:
   m_ObjectHideFlags: 0
@@ -3755,7 +3647,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6451288431415668103}
   - component: {fileID: 7190736480132534915}
-  - component: {fileID: 1364686770636487661}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -3806,23 +3697,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1364686770636487661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3738453793661570133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &3789641507300750617
 GameObject:
   m_ObjectHideFlags: 0
@@ -4130,7 +4004,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3132979380832429708}
   - component: {fileID: 2547531047416099563}
-  - component: {fileID: 8939335923250713435}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -4181,23 +4054,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8939335923250713435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4115707128173738305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &4194838801582137806
 GameObject:
   m_ObjectHideFlags: 0
@@ -4326,7 +4182,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7978166067731461759}
   - component: {fileID: 2491442648868587617}
-  - component: {fileID: 3969928249967231794}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -4377,23 +4232,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3969928249967231794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4314037082260828981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &4458819783488860863
 GameObject:
   m_ObjectHideFlags: 0
@@ -4998,7 +4836,6 @@ GameObject:
   m_Component:
   - component: {fileID: 679779430817508383}
   - component: {fileID: 1496375400830987334}
-  - component: {fileID: 978789498617333608}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -5049,23 +4886,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &978789498617333608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4766692905708421114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &4772238923441223750
 GameObject:
   m_ObjectHideFlags: 0
@@ -5076,7 +4896,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8416088743858398756}
   - component: {fileID: 5104663810275904162}
-  - component: {fileID: 8944036117498349909}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -5127,23 +4946,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8944036117498349909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4772238923441223750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &4805628077725433033
 GameObject:
   m_ObjectHideFlags: 0
@@ -5617,7 +5419,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2475432924921039089}
   - component: {fileID: 1717525368728710412}
-  - component: {fileID: 1820580362175829256}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -5668,23 +5469,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1820580362175829256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5389919494525314469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &5427376231448170785
 GameObject:
   m_ObjectHideFlags: 0
@@ -6232,7 +6016,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5618775880640851936}
   - component: {fileID: 4787150840223162223}
-  - component: {fileID: 4333347803499912661}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -6283,23 +6066,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4333347803499912661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5799157356212912116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &5827767304236817279
 GameObject:
   m_ObjectHideFlags: 0
@@ -6703,7 +6469,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4547579941076204668}
   - component: {fileID: 7341166553500643715}
-  - component: {fileID: 2549368510543152626}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -6754,23 +6519,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2549368510543152626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6358819804827361520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &6391892692644499456
 GameObject:
   m_ObjectHideFlags: 0
@@ -6817,7 +6565,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3094737069135695226}
   - component: {fileID: 5291335109297815923}
-  - component: {fileID: 7911761914292435794}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -6868,23 +6615,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7911761914292435794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6426742643899600694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &6581891112076847835
 GameObject:
   m_ObjectHideFlags: 0
@@ -7218,7 +6948,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4787939129752415649}
   - component: {fileID: 4913361787296641724}
-  - component: {fileID: 8444426235089959875}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -7269,23 +6998,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8444426235089959875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755617037130311633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &6780031495890786675
 GameObject:
   m_ObjectHideFlags: 0
@@ -7462,7 +7174,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6164018942065572757}
   - component: {fileID: 9138200207510794574}
-  - component: {fileID: 3576562462364233116}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -7513,23 +7224,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3576562462364233116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6962859156116802422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &6969920266598859267
 GameObject:
   m_ObjectHideFlags: 0
@@ -7575,7 +7269,6 @@ GameObject:
   m_Component:
   - component: {fileID: 189911274667269436}
   - component: {fileID: 7804223171233426506}
-  - component: {fileID: 5897629958734821684}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -7626,23 +7319,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5897629958734821684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6973997577333430841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &7128916027127566140
 GameObject:
   m_ObjectHideFlags: 0
@@ -8440,7 +8116,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4330574201132447890}
   - component: {fileID: 8290598097625275716}
-  - component: {fileID: 7505655869821241}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -8491,23 +8166,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7505655869821241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7892954878984461624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &7915429327422530566
 GameObject:
   m_ObjectHideFlags: 0
@@ -9077,7 +8735,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4235749695223516799}
   - component: {fileID: 3460242354550049080}
-  - component: {fileID: 6987882844701835001}
   m_Layer: 0
   m_Name: IcoFace(Clone)
   m_TagString: Untagged
@@ -9128,23 +8785,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6987882844701835001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8547567634519075434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5d4bea3a32065458c8bb63ee160954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerPoint: {x: 0, y: 0, z: 0}
-  impulseForce: 10
-  torqueStrength: 10
-  moveDuration: 2
-  delay: 0
 --- !u!1 &8557883161057017392
 GameObject:
   m_ObjectHideFlags: 0

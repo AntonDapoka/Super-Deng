@@ -11,21 +11,23 @@ namespace Menu.Effects.Flickering.Logo
 
         public bool IsTurnOn { get; private set; }
 
-        public void TurnOn(bool isFlickerTriangle = false, float? duration = null)
+        public void TurnOn(bool isChangingIcon = true, bool isFlickerTriangle = false, float? duration = null)
         {
             SetLogoState(
-                isTurningOn: true,
+                isTurningOn: true, 
                 duration: duration ?? settings.DurationChangeBasic,
+                isChangingIcon,
                 isDisappearMode: false,
                 isFlickerTriangle
             );
         }
 
-        public void TurnOff( bool isDisappearMode = false, bool isFlickerTriangle = false, float? duration = null)
+        public void TurnOff(bool isChangingIcon = true, bool isDisappearMode = false, bool isFlickerTriangle = false, float? duration = null)
         {
             SetLogoState(
-                isTurningOn: false, 
-                duration: duration ?? settings.DurationChangeBasic, 
+                isTurningOn: false,
+                duration: duration ?? settings.DurationChangeBasic,
+                isChangingIcon,
                 isDisappearMode, 
                 isFlickerTriangle);
         }
@@ -35,16 +37,19 @@ namespace Menu.Effects.Flickering.Logo
             if (!IsTurnOn) TurnOn();
         }
 
-        private void SetLogoState(bool isTurningOn, float duration, bool isDisappearMode, bool isFlickerTriangle)
+        private void SetLogoState(bool isTurningOn, float duration, bool isChangingIcon, bool isDisappearMode, bool isFlickerTriangle)
         {
             IsTurnOn = isTurningOn;
             Color colorInitial = isTurningOn ? GetOffColor(isDisappearMode) : settings.ColorLogoOn;
             Color colorTarget = isTurningOn ? settings.ColorLogoOn : GetOffColor(isDisappearMode);
 
-            Material materialLevelIcon = isTurningOn
+            if (isChangingIcon)
+            {
+                Material materialLevelIcon = isTurningOn
                 ? settings.MaterialIcosahedronOn
                 : settings.MaterialIcosahedronOff;
-            view.SwapLevelIconMaterial(materialLevelIcon, duration, settings.FactorMaterialSwapDelayMin);
+                view.SwapLevelIconMaterial(materialLevelIcon, duration, settings.FactorMaterialSwapDelayMin);
+            }
 
             foreach (SpriteRenderer logoPart in view.LogoParts)
             {

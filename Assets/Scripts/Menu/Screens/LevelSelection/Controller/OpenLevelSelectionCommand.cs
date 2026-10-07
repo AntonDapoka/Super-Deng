@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Menu.Screens.LevelSelection
 {
-    public class ChooseLevelCommand : Command
+    public class OpenLevelSelectionCommand : Command
     {
         [SerializeField] private OpenLevelSelectionInteractorScript interactor;
 

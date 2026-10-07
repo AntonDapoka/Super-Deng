@@ -12,11 +12,13 @@ namespace Menu.Screens
         [SerializeField] private MenuReferenceHolderScript referencesHolder;
         [SerializeField] private MenuLogoPresenterScript logoNeonPresenter;
 
-        private bool isSettingsPanelOpen;
+        private bool isLevelSelectionOpen;
+        private bool isSettingsOpen;
+
 
         public async Task HideEveryButtonAsync()
         {
-            await CloseSettingsPanelAsync();
+            await CloseSettingsAsync();
             await menuAnimationManager.HideButtonsAsync(referencesHolder.GetButtonsCurrent());
         }
 
@@ -44,10 +46,10 @@ namespace Menu.Screens
             switch (statePrevious)
             {
                 case MenuState.LevelSelection:
-                    await ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsMain());
+                    await Task.WhenAll(ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsMain()), CloseLevelSelectionAsync());
                     break;
                 case MenuState.Settings:
-                    await Task.WhenAll(CloseSettingsPanelAsync(), ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsMain()));
+                    await Task.WhenAll(CloseSettingsAsync(), ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsMain()));
                     break;
                 case MenuState.Credits:
                     await ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsMain());
@@ -59,17 +61,21 @@ namespace Menu.Screens
 
         private async Task ShowLevelSelectionStateAsync()
         {
-            await ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsLevelSelection());
+            logoNeonPresenter.TurnOff(isChangingIcon : false, isDisappearMode:true);
+            await Task.WhenAll(
+                ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsLevelSelection()),
+                menuAnimationManager.ShowPanelAsync(referencesHolder.GetRectTransformLevelDescription()));
+            isLevelSelectionOpen = true;
             referencesHolder.SetButtonsCurrent(referencesHolder.GetButtonsLevelSelection());
         }
 
         private async Task ShowSettingsStateAsync()
         {
-            logoNeonPresenter.TurnOff(isFlickerTriangle:true);
+            logoNeonPresenter.TurnOff(isFlickerTriangle : true);
             await Task.WhenAll(
                 ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsSettings()),
                 menuAnimationManager.ShowPanelAsync(referencesHolder.GetRectTransformSettings()));
-            isSettingsPanelOpen = true;
+            isSettingsOpen = true;
             referencesHolder.SetButtonsCurrent(referencesHolder.GetButtonsSettings());
         }
 
@@ -84,11 +90,19 @@ namespace Menu.Screens
             return menuAnimationManager.ChangeButtonsAsync(buttonsToHide, buttonsToShow);
         }
 
-        private Task CloseSettingsPanelAsync()
+        private Task CloseLevelSelectionAsync()
         {
-            if (!isSettingsPanelOpen) return Task.CompletedTask;
+            if (!isLevelSelectionOpen) return Task.CompletedTask;
+            logoNeonPresenter.TurnOn(isChangingIcon : false);
+            isLevelSelectionOpen = false;
+            return menuAnimationManager.HidePanelAsync(referencesHolder.GetRectTransformLevelDescription());
+        }
+
+        private Task CloseSettingsAsync()
+        {
+            if (!isSettingsOpen) return Task.CompletedTask;
             logoNeonPresenter.TurnOn();
-            isSettingsPanelOpen = false;
+            isSettingsOpen = false;
             return menuAnimationManager.HidePanelAsync(referencesHolder.GetRectTransformSettings());
         }
     }

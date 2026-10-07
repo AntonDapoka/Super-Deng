@@ -86,20 +86,5 @@ namespace Menu.Screens.LevelSelection
             _numberMenu = num;
         }
 
-        private void OnEnable()
-        {
-            _button.onClick.AddListener(OnClick);
-        }
-
-        private void OnClick()
-        {
-            if (_isRight) { _isRightClicked = true; }
-            else { _isLeftClicked = true; }
-        }
-
-        private void OnDisable()
-        {
-            _button.onClick.RemoveListener(OnClick);
-        }
     }
 }

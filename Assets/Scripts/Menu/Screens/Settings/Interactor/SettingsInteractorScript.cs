@@ -8,10 +8,10 @@ namespace Menu.Screens.Settings
         [Header("References")]
         [SerializeField] private SettingsPresenterScript presenter;
 
-        public SettingsSaveInteractorScript Save { get; } = new SettingsSaveInteractorScript();
-        public VolumeSettingsInteractorScript Volume { get; } = new VolumeSettingsInteractorScript();
-        public KeyBindingInteractorScript KeyBinding { get; } = new KeyBindingInteractorScript();
-        public DisplaySettingsInteractorScript Display { get; } = new DisplaySettingsInteractorScript();
+        public SettingsSaveInteractorScript Save { get; } = new();
+        public VolumeSettingsInteractorScript Volume { get; } = new();
+        public KeyBindingInteractorScript KeyBinding { get; } = new();
+        public DisplaySettingsInteractorScript Display { get; } = new();
 
         private bool isInitialized;
 
