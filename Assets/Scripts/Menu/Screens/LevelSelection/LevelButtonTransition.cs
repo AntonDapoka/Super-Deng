@@ -18,7 +18,6 @@ namespace Menu.Screens.LevelSelection
         private bool _isLeftClicked;
         public int _numberMenu;
 
-
         private void Start()
         {
             _numberMenu = 0;

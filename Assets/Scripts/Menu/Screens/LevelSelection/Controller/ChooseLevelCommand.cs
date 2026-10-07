@@ -4,7 +4,7 @@ namespace Menu.Screens.LevelSelection
 {
     public class ChooseLevelCommand : Command
     {
-        [SerializeField] private ChooseLevelInteractorScript interactor;
+        [SerializeField] private OpenLevelSelectionInteractorScript interactor;
 
         public override void Execute()
         {

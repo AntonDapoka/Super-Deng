@@ -37,7 +37,7 @@ namespace Menu.Screens.LevelSelection
             buttonRight.gameObject.SetActive(!isTurn);
         }
         /*
-        [SerializeField] private Button button�hoose;
+        [SerializeField] private Button buttonChoose;
         [SerializeField] private LevelButtonTransition LBT;
 
         [SerializeField] private Vector3 positionChosen;

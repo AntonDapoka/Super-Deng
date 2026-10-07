@@ -78168,7 +78168,7 @@ GameObject:
   - component: {fileID: 1545875889}
   - component: {fileID: 1545875890}
   m_Layer: 0
-  m_Name: ChooseLevelInteractor
+  m_Name: OpenLevelSelectionInteractor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98195,7 +98195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   view: {fileID: 766993118}
-  defaultSettings: {fileID: 11400000, guid: 6be0d394156375445b10dbc8527d3198, type: 2}
+  settingsDefault: {fileID: 0}
 --- !u!4 &2101508915
 Transform:
   m_ObjectHideFlags: 0

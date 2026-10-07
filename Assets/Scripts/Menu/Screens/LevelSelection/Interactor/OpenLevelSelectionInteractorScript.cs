@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Menu.Screens.LevelSelection
 {
-    public class ChooseLevelInteractorScript : MonoBehaviour
+    public class OpenLevelSelectionInteractorScript : MonoBehaviour
     {
         [SerializeField] private MenuNavigationScript menuNavigation;
 
