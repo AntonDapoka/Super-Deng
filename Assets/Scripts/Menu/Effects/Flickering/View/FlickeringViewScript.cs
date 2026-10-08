@@ -42,6 +42,9 @@ namespace Menu.Effects.Flickering
                 case Renderer renderer:
                     renderer.material.color = color;
                     break;
+                case Button button:
+                    button.image.color = color;
+                    break;
                 default:
                     Debug.LogError($"unsupported color target");
                     break;

@@ -1,11 +1,14 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Menu.Screens.LevelSelection
 {
     public class LevelSelectionInteractorScript : MonoBehaviour
     {
+        private int numberOfLevels = 0;
         private int idLevelCurrent = 0;
+        private const int IdLevelinitial = 2;
+        
         [Header("References")]
         [SerializeField] private LevelSelectionPresenterScript presenter;
 
@@ -13,19 +16,25 @@ namespace Menu.Screens.LevelSelection
         
         private void Start()
         {
-            //Initialize();
+            Initialize();
+            presenter.Initialize(IdLevelinitial);
 
             //presenter.Show
         }
 
         public void SwitchToRightLevel()
         {
-            
+            if (idLevelCurrent < numberOfLevels)
+            {
+                presenter.ChangeLevelIcons(idLevelCurrent++, idLevelCurrent);
+            }
+
         }
 
         public void SwitchToLeftLevel()
         {
-            
+            if (idLevelCurrent >= 0)
+                presenter.ChangeLevelIcons(idLevelCurrent--, idLevelCurrent);
         }
 
         public void PlaySelectedLevel()
@@ -41,12 +50,68 @@ namespace Menu.Screens.LevelSelection
 
         private void ApplyFromSave(GameSaveData data)
         {
-            //throw new NotImplementedException();
+            numberOfLevels = data.Levels.Count;
         }
 
         private void ResetToDefaults()
         {
             //throw new NotImplementedException();
+
+            SaveAll();
+        }
+
+        public void SaveAll()
+        {
+            Save.Save(BuildSaveData());
+        }
+
+        private GameSaveData BuildSaveData()
+        {
+            return new GameSaveData
+            {
+                Levels = GetNewLevels(),
+            };
+        }
+
+        private List<LevelSaveData> GetNewLevels()
+        {
+            List<LevelSaveData> levels = new();
+            LevelSaveData level0 = new()
+            {
+                levelId = 0
+            };
+            levels.Add(level0);
+            LevelSaveData level1 = new()
+            {
+                levelId = 1
+            };
+            levels.Add(level1);
+            LevelSaveData level2 = new()
+            {
+                levelId = 2
+            };
+            levels.Add(level2);
+            LevelSaveData level3 = new()
+            {
+                levelId = 3
+            };
+            levels.Add(level3);
+            LevelSaveData level4 = new()
+            {
+                levelId = 4
+            };
+            levels.Add(level4);
+            LevelSaveData level5 = new()
+            {
+                levelId = 5
+            };
+            levels.Add(level5);
+            LevelSaveData level6 = new()
+            {
+                levelId = 6
+            };
+            levels.Add(level6);
+            return levels;
         }
    }
 }

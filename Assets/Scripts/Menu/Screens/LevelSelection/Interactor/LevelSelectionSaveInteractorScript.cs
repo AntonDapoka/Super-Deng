@@ -21,14 +21,14 @@ namespace Menu.Screens.LevelSelection
             }
             catch
             {
-                Debug.LogError("can't load settings file");
+                Debug.LogError("can't load game file");
                 return false;
             }
         }
 
         public void Save(GameSaveData data)
         {
-            if (!dataService.SaveData(FileName, data, IsEncrypted)) Debug.LogError("can't save settings file");
+            if (!dataService.SaveData(FileName, data, IsEncrypted)) Debug.LogError("can't save game file");
         }
     }
 }

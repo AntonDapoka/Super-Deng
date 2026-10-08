@@ -1,127 +1,106 @@
 using UnityEngine.UI;
 using UnityEngine;
 using System.Collections;
+using Menu.Effects.Flickering;
 
 namespace Menu.Screens.LevelSelection
 {
     public class LevelSelectionViewScript : MonoBehaviour
     {
-        [SerializeField] GameObject holder;
-        [SerializeField] private GameObject[] objects;
-        [SerializeField] private Transform[] points;
-        [SerializeField] private int[] scenes;
-        public int currentIndex = 2;
+        [SerializeField] private Color colorButtonTurnOn = Color.white;
+        [SerializeField] private Color colorButtonTurnOff = Color.clear;
+        [SerializeField] private float durationButtonChange = 0.25f;
 
         public float moveDuration = 1f;
         public AnimationCurve movementCurve;
-        [Header("UI")]
-        [SerializeField] private Button buttonRight;
-        [SerializeField] private Button buttonLeft;
-        [SerializeField] private Button buttonChoose;
-        [SerializeField] private GameObject wall;
 
-        public void TurnOnAndOff(bool isTurn)
+        public void ShowLevelIcons(Transform[] objects)
         {
-            StartCoroutine(TurningOnAndOff(isTurn));
-        }
-
-        private IEnumerator TurningOnAndOff(bool isTurn)
-        {
-            yield return new WaitForSeconds(!isTurn ? 0.3f : 0f);
-            for (int i = 0; i < objects.Length; i++)
+            foreach (Transform obj in objects)
             {
-                if (i != currentIndex)
-                    objects[i].SetActive(!isTurn);
-            }
-            buttonLeft.gameObject.SetActive(!isTurn);
-            buttonRight.gameObject.SetActive(!isTurn);
-        }
-
-        private void Start()
-        {
-            //buttonChoose.onClick.AddListener(LoadMenuScene);
-            buttonRight.onClick.AddListener(OnRightButtonClick);
-            buttonLeft.onClick.AddListener(OnLeftButtonClick);
-            //positionUnchosen = Vector3.zero;
-            //wall.SetActive(false);
-        }
-
-        public void OnLeftButtonClick()
-        {
-
-            if (currentIndex != 0)
-            {
-                StartCoroutine(MoveObjectAndUI(currentIndex + 1));
-                
-            }
-            else
-            {
-                //Play sound
+                obj.gameObject.SetActive(true);
             }
         }
 
-        public void OnRightButtonClick()
+        public void HideLevelIcons(Transform[] objects)
         {
-            if (currentIndex != objects.Length - 1)
+            foreach (Transform obj in objects)
             {
-                StartCoroutine(MoveObjectAndUI(currentIndex - 1));
-            }
-            else
-            {
-                //PlaySound
+                obj.gameObject.SetActive(false);
             }
         }
 
-        private IEnumerator MoveObjectAndUI(int newIndex)
+        public void ChangeButtonStateInstant(Button button, bool isTurningOn)
         {
-            wall.SetActive(true);
+            button.image.color = isTurningOn ? colorButtonTurnOn : colorButtonTurnOff;
+        }
+
+        public void ChangeButtonState(
+            Button button, 
+            FlickeringSettings settings, 
+            FlickeringPresenterScript flickeringPresenter, 
+            bool isTurningOn)
+        {
+            Color colorInitial = isTurningOn ? colorButtonTurnOff : colorButtonTurnOn;
+            Color colorTarget = isTurningOn ? colorButtonTurnOn : colorButtonTurnOff;
+            FlickeringRequestScript request = new(button, 
+            settings, 
+            colorInitial, 
+            colorTarget, 
+            durationButtonChange, 
+            isTurningOn, 
+            isBlinking: true);
+            flickeringPresenter.Flicker(in request);
+        }
+
+        public void MoveLevelIcons(Transform[] iconsTransform, Transform[] points, int indexNew, int indexCurrent)
+        {
+            StartCoroutine(MovingLevelIcons(iconsTransform, points, indexNew, indexCurrent));
+        }
+
+        private IEnumerator MovingLevelIcons(Transform[] iconsTransform, Transform[] points, int indexNew, int indexCurrent)
+        {
             float elapsedTime = 0f;
-            int multiplier = newIndex > currentIndex ? 1 : -1;
+            int multiplier = indexNew > indexCurrent ? 1 : -1;
 
-            //while (currentIndex != newIndex)
-            //{
-                //Debug.Log(currentIndex.ToString() +  "���"  + newIndex.ToString());
-            while (elapsedTime < moveDuration / Mathf.Abs(newIndex - currentIndex))
+            while (elapsedTime < moveDuration / Mathf.Abs(indexNew - indexCurrent))
             {
-                float curveProgress = movementCurve.Evaluate(elapsedTime / (moveDuration / Mathf.Abs(newIndex - currentIndex)));
-                //Debug.Log(multiplier);
-                objects[currentIndex].transform.position = Vector3.Lerp(points[2].position, points[2 + multiplier].position, curveProgress);
+                float curveProgress = movementCurve.Evaluate(elapsedTime / (moveDuration / Mathf.Abs(indexNew - indexCurrent)));
+
+                iconsTransform[indexCurrent].transform.position = Vector3.Lerp(points[2].position, points[2 + multiplier].position, curveProgress);
 
                 if (multiplier >= 0) {
-                    if (currentIndex > 0)
-                        objects[currentIndex - 1].transform.position = Vector3.Lerp(points[1].position, points[2].position, curveProgress);
-                    if (currentIndex > 1)
-                        objects[currentIndex - 2].transform.position = Vector3.Lerp(points[0].position, points[1].position, curveProgress);
-                    if (currentIndex < objects.Length - 1)
-                        objects[currentIndex + 1].transform.position = Vector3.Lerp(points[3].position, points[4].position, curveProgress);
+                    if (indexCurrent > 0)
+                        iconsTransform[indexCurrent - 1].transform.position = Vector3.Lerp(points[1].position, points[2].position, curveProgress);
+                    if (indexCurrent > 1)
+                        iconsTransform[indexCurrent - 2].transform.position = Vector3.Lerp(points[0].position, points[1].position, curveProgress);
+                    if (indexCurrent < iconsTransform.Length - 1)
+                        iconsTransform[indexCurrent + 1].transform.position = Vector3.Lerp(points[3].position, points[4].position, curveProgress);
                 }
                 else
                 {
-                    if (currentIndex < objects.Length- 1)
-                        objects[currentIndex + 1].transform.position = Vector3.Lerp(points[3].position, points[2].position, curveProgress);
-                    if (currentIndex < objects.Length - 2)
-                        objects[currentIndex + 2].transform.position = Vector3.Lerp(points[4].position, points[3].position, curveProgress);
-                    if (currentIndex > 0)
-                        objects[currentIndex - 1].transform.position = Vector3.Lerp(points[1].position, points[0].position, curveProgress);
+                    if (indexCurrent < iconsTransform.Length- 1)
+                        iconsTransform[indexCurrent + 1].transform.position = Vector3.Lerp(points[3].position, points[2].position, curveProgress);
+                    if (indexCurrent < iconsTransform.Length - 2)
+                        iconsTransform[indexCurrent + 2].transform.position = Vector3.Lerp(points[4].position, points[3].position, curveProgress);
+                    if (indexCurrent > 0)
+                        iconsTransform[indexCurrent - 1].transform.position = Vector3.Lerp(points[1].position, points[0].position, curveProgress);
                     //if (currentIndex > 1 && multiplier < 0)
                     //  objects[currentIndex - 2].transform.position = Vector3.Lerp(points[currentIndex - 2].position, points[currentIndex - 3].position, curveProgress);
                 }
-
-
-                
 
                 elapsedTime += Time.deltaTime;
 
                 yield return null;
             }
 
-            currentIndex -= multiplier;
+            indexCurrent -= multiplier;
             //}
 
             //Debug.Log(currentIndex == objects.Length - 1);
 
 
-            wall.SetActive(false);
+            //wall.SetActive(false);
 
         }
 

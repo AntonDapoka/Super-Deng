@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Menu.Effects.Flickering.Logo;
+using Menu.Screens.LevelSelection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +12,10 @@ namespace Menu.Screens
         [SerializeField] private MenuAnimationManagerScript menuAnimationManager;
         [SerializeField] private MenuReferenceHolderScript referencesHolder;
         [SerializeField] private MenuLogoPresenterScript logoNeonPresenter;
+        [SerializeField] private LevelSelectionPresenterScript levelSelectionPresenter;
 
         private bool isLevelSelectionOpen;
         private bool isSettingsOpen;
-
 
         public async Task HideEveryButtonAsync()
         {
@@ -62,9 +63,12 @@ namespace Menu.Screens
         private async Task ShowLevelSelectionStateAsync()
         {
             logoNeonPresenter.TurnOff(isChangingIcon : false, isDisappearMode:true);
+            levelSelectionPresenter.ShowButtons();
+            levelSelectionPresenter.ShowLevelIcons();
             await Task.WhenAll(
                 ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsLevelSelection()),
                 menuAnimationManager.ShowPanelAsync(referencesHolder.GetRectTransformLevelDescription()));
+ 
             isLevelSelectionOpen = true;
             referencesHolder.SetButtonsCurrent(referencesHolder.GetButtonsLevelSelection());
         }
@@ -94,6 +98,8 @@ namespace Menu.Screens
         {
             if (!isLevelSelectionOpen) return Task.CompletedTask;
             logoNeonPresenter.TurnOn(isChangingIcon : false);
+            levelSelectionPresenter.HideButtons();
+            levelSelectionPresenter.HideLevelIcons();
             isLevelSelectionOpen = false;
             return menuAnimationManager.HidePanelAsync(referencesHolder.GetRectTransformLevelDescription());
         }
