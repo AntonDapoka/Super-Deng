@@ -11624,7 +11624,7 @@ MonoBehaviour:
   colorButtonTurnOn: {r: 1, g: 1, b: 1, a: 1}
   colorButtonTurnOff: {r: 0.5018867, g: 0.5018867, b: 0.5018867, a: 0}
   durationButtonChange: 0.3
-  moveDuration: 1
+  moveDuration: 0.4
   movementCurve:
     serializedVersion: 2
     m_Curve:
@@ -40250,6 +40250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   view: {fileID: 112317120}
+  blockWallManager: {fileID: 400616053}
   points:
   - {fileID: 1938435106}
   - {fileID: 646118203}
@@ -95119,6 +95120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ac5918afc8d644ab91421a7e151841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numberOfLevels: 0
+  idLevelCurrent: 0
   presenter: {fileID: 556857625}
 --- !u!1 &1823036124
 GameObject:

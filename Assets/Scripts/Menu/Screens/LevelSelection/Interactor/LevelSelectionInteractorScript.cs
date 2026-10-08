@@ -5,8 +5,8 @@ namespace Menu.Screens.LevelSelection
 {
     public class LevelSelectionInteractorScript : MonoBehaviour
     {
-        private int numberOfLevels = 0;
-        private int idLevelCurrent = 0;
+        [SerializeField] private int numberOfLevels = 0;
+        [SerializeField] private int idLevelCurrent = 0;
         private const int IdLevelinitial = 2;
         
         [Header("References")]
@@ -17,24 +17,30 @@ namespace Menu.Screens.LevelSelection
         private void Start()
         {
             Initialize();
+            idLevelCurrent = IdLevelinitial;
             presenter.Initialize(IdLevelinitial);
 
-            //presenter.Show
+            ResetToDefaults();
         }
 
         public void SwitchToRightLevel()
         {
-            if (idLevelCurrent < numberOfLevels)
+            if (idLevelCurrent < numberOfLevels - 1)
             {
-                presenter.ChangeLevelIcons(idLevelCurrent++, idLevelCurrent);
+                int indexNew = idLevelCurrent + 1;
+                _ = presenter.ChangeLevelIcons(indexNew, idLevelCurrent);
+                idLevelCurrent = indexNew;
             }
-
         }
 
         public void SwitchToLeftLevel()
         {
-            if (idLevelCurrent >= 0)
-                presenter.ChangeLevelIcons(idLevelCurrent--, idLevelCurrent);
+            if (idLevelCurrent > 0)
+            {
+                int indexNew = idLevelCurrent - 1;
+                _ = presenter.ChangeLevelIcons(indexNew, idLevelCurrent);
+                idLevelCurrent = indexNew;
+            }
         }
 
         public void PlaySelectedLevel()

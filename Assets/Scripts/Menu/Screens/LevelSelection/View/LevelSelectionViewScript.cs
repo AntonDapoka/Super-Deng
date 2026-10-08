@@ -1,6 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 using System.Collections;
+using System.Threading.Tasks;
 using Menu.Effects.Flickering;
 
 namespace Menu.Screens.LevelSelection
@@ -30,6 +31,14 @@ namespace Menu.Screens.LevelSelection
             }
         }
 
+        public void HideSideLevelIcons(Transform[] objects, int indexCurrent)
+        {
+            for (int i = 0; i < objects.Length; i++)
+            {
+                if (i != indexCurrent) objects[i].gameObject.SetActive(false);
+            }
+        }
+
         public void ChangeButtonStateInstant(Button button, bool isTurningOn)
         {
             button.image.color = isTurningOn ? colorButtonTurnOn : colorButtonTurnOff;
@@ -53,55 +62,50 @@ namespace Menu.Screens.LevelSelection
             flickeringPresenter.Flicker(in request);
         }
 
-        public void MoveLevelIcons(Transform[] iconsTransform, Transform[] points, int indexNew, int indexCurrent)
+        public Task MoveLevelIcons(Transform[] iconsTransform, Transform[] points, int indexNew, int indexCurrent)
         {
-            StartCoroutine(MovingLevelIcons(iconsTransform, points, indexNew, indexCurrent));
+            return this.RunAsync(MovingLevelIcons(iconsTransform, points, indexNew, indexCurrent));
         }
 
         private IEnumerator MovingLevelIcons(Transform[] iconsTransform, Transform[] points, int indexNew, int indexCurrent)
         {
-            float elapsedTime = 0f;
-            int multiplier = indexNew > indexCurrent ? 1 : -1;
+            int stepsTotal = Mathf.Abs(indexNew - indexCurrent);
+            if (stepsTotal == 0) yield break;
 
-            while (elapsedTime < moveDuration / Mathf.Abs(indexNew - indexCurrent))
+            int direction = (int)Mathf.Sign(indexNew - indexCurrent);
+            float stepDuration = moveDuration / stepsTotal;
+            int centerSlot = points.Length / 2;
+
+            for (int step = 0; step < stepsTotal; step++)
             {
-                float curveProgress = movementCurve.Evaluate(elapsedTime / (moveDuration / Mathf.Abs(indexNew - indexCurrent)));
+                int indexFrom = indexCurrent + direction * step;
+                int indexTo = indexFrom + direction;
 
-                iconsTransform[indexCurrent].transform.position = Vector3.Lerp(points[2].position, points[2 + multiplier].position, curveProgress);
-
-                if (multiplier >= 0) {
-                    if (indexCurrent > 0)
-                        iconsTransform[indexCurrent - 1].transform.position = Vector3.Lerp(points[1].position, points[2].position, curveProgress);
-                    if (indexCurrent > 1)
-                        iconsTransform[indexCurrent - 2].transform.position = Vector3.Lerp(points[0].position, points[1].position, curveProgress);
-                    if (indexCurrent < iconsTransform.Length - 1)
-                        iconsTransform[indexCurrent + 1].transform.position = Vector3.Lerp(points[3].position, points[4].position, curveProgress);
-                }
-                else
+                float elapsedTime = 0f;
+                while (elapsedTime < stepDuration)
                 {
-                    if (indexCurrent < iconsTransform.Length- 1)
-                        iconsTransform[indexCurrent + 1].transform.position = Vector3.Lerp(points[3].position, points[2].position, curveProgress);
-                    if (indexCurrent < iconsTransform.Length - 2)
-                        iconsTransform[indexCurrent + 2].transform.position = Vector3.Lerp(points[4].position, points[3].position, curveProgress);
-                    if (indexCurrent > 0)
-                        iconsTransform[indexCurrent - 1].transform.position = Vector3.Lerp(points[1].position, points[0].position, curveProgress);
-                    //if (currentIndex > 1 && multiplier < 0)
-                    //  objects[currentIndex - 2].transform.position = Vector3.Lerp(points[currentIndex - 2].position, points[currentIndex - 3].position, curveProgress);
+                    float curveProgress = movementCurve.Evaluate(elapsedTime / stepDuration);
+
+                    for (int i = 0; i < iconsTransform.Length; i++)
+                    {
+                        Vector3 positionFrom = GetPointPositionByOffset(points, centerSlot, i - indexFrom);
+                        Vector3 positionTo = GetPointPositionByOffset(points, centerSlot, i - indexTo);
+                        iconsTransform[i].position = Vector3.Lerp(positionFrom, positionTo, curveProgress);
+                    }
+
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
                 }
 
-                elapsedTime += Time.deltaTime;
-
-                yield return null;
+                for (int i = 0; i < iconsTransform.Length; i++)
+                    iconsTransform[i].position = GetPointPositionByOffset(points, centerSlot, i - indexTo);
             }
+        }
 
-            indexCurrent -= multiplier;
-            //}
-
-            //Debug.Log(currentIndex == objects.Length - 1);
-
-
-            //wall.SetActive(false);
-
+        private static Vector3 GetPointPositionByOffset(Transform[] points, int centerSlot, int offset)
+        {
+            int slot = Mathf.Clamp(centerSlot + offset, 0, points.Length - 1);
+            return points[slot].position;
         }
 
     }

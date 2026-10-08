@@ -99,7 +99,7 @@ namespace Menu.Screens
             if (!isLevelSelectionOpen) return Task.CompletedTask;
             logoNeonPresenter.TurnOn(isChangingIcon : false);
             levelSelectionPresenter.HideButtons();
-            levelSelectionPresenter.HideLevelIcons();
+            levelSelectionPresenter.HideSideLevelIcons();
             isLevelSelectionOpen = false;
             return menuAnimationManager.HidePanelAsync(referencesHolder.GetRectTransformLevelDescription());
         }

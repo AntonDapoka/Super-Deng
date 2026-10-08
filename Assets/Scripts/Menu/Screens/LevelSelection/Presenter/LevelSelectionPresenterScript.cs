@@ -1,4 +1,5 @@
 using Menu.Effects.Flickering;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace Menu.Screens.LevelSelection
     {
         [Header("References")]
         [SerializeField] private LevelSelectionViewScript view;
+        [SerializeField] private MenuBlockWallManagerScript blockWallManager; 
 
         [Header("Level Selection Icons")]
         [SerializeField] private Transform[] points;
@@ -24,6 +26,7 @@ namespace Menu.Screens.LevelSelection
 
         private bool isButtonRightActive;
         private bool isButtonLeftActive;
+        private int indexCurrent;
 
         private void Awake()
         {
@@ -34,10 +37,12 @@ namespace Menu.Screens.LevelSelection
 
         public void Initialize(int levelIndexInitial)
         {
+            indexCurrent = levelIndexInitial;
             isButtonRightActive = false;
             isButtonRightActive = false;
             view.ChangeButtonStateInstant(buttonRight, false);
             view.ChangeButtonStateInstant(buttonLeft, false);
+            
 
             foreach (LevelIconScript levelIcon in icons)
             {
@@ -97,9 +102,17 @@ namespace Menu.Screens.LevelSelection
             view.HideLevelIcons(iconsTransform);
         }
 
-        public void ChangeLevelIcons(int indexNew, int indexCurrent)
+        public void HideSideLevelIcons()
         {
-            view.MoveLevelIcons(iconsTransform, points, indexNew, indexCurrent);
+            view.HideSideLevelIcons(iconsTransform, indexCurrent);
+        }
+
+        public async Task ChangeLevelIcons(int indexNew, int indexCurrent)
+        {
+            this.indexCurrent = indexNew;
+            blockWallManager.TurnOnBlockWall();
+            await view.MoveLevelIcons(iconsTransform, points, indexNew, indexCurrent);
+            blockWallManager.TurnOffBlockWall();
         }
     }
 }
