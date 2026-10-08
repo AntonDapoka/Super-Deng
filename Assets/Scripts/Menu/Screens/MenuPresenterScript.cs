@@ -63,7 +63,7 @@ namespace Menu.Screens
         private async Task ShowLevelSelectionStateAsync()
         {
             logoNeonPresenter.TurnOff(isChangingIcon : false, isDisappearMode:true);
-            levelSelectionPresenter.ShowButtons();
+            _ = levelSelectionPresenter.ShowButtonsWithDelay();
             levelSelectionPresenter.ShowLevelIcons();
             await Task.WhenAll(
                 ChangeButtonsAsync(referencesHolder.GetButtonsCurrent(), referencesHolder.GetButtonsLevelSelection()),

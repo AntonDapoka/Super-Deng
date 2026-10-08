@@ -7,30 +7,24 @@ namespace Menu.Effects.Flickering.Logo
     public class MenuLogoViewScript : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private GameObject levelIcon;
+        private GameObject levelIcon;
         [SerializeField] private SpriteRenderer logoTriangle;
         [SerializeField] private SpriteRenderer[] logoParts;
         [SerializeField] private SparksParticleScript sparksManager;
+        [SerializeField] private LevelIconMaterialManagerScript levelIconMaterialManager;
 
-        private Renderer[] levelIconGlowingRenderers;
         private bool isTriangleFlickering;
 
         public IReadOnlyList<SpriteRenderer> LogoParts => logoParts;
 
-        private void Awake()
-        {
-            GlowingPart[] glowingParts = levelIcon.GetComponentsInChildren<GlowingPart>();
-            levelIconGlowingRenderers = new Renderer[glowingParts.Length];
-
-            for (int i = 0; i < glowingParts.Length; i++)
-                levelIconGlowingRenderers[i] = glowingParts[i].GetComponent<Renderer>();
-        }
-
         public void SwapLevelIconMaterial(Material material, float duration, float minDelayFactor)
         {
-            foreach (Renderer glowingRenderer in levelIconGlowingRenderers)
-                if (duration <= 0f) glowingRenderer.material = material;
-                else StartCoroutine(SwappingLevelIconMaterial(glowingRenderer, material, duration, minDelayFactor));
+            levelIconMaterialManager.SwapMaterial(levelIcon, material, duration, minDelayFactor);
+        }
+
+        public void SetLevelIcon(GameObject levelIcon)
+        {
+            this.levelIcon = levelIcon;
         }
 
         public void SetTriangleColor(Color color)
@@ -50,13 +44,6 @@ namespace Menu.Effects.Flickering.Logo
         public void StopTriangleFlicker() => isTriangleFlickering = false;
 
         public void PlaySparks() => sparksManager.StartRandomParticles();
-
-        private IEnumerator SwappingLevelIconMaterial(Renderer glowingRenderer, Material material, float duration, float minDelayFactor)
-        {
-            float delay = Random.Range(duration * minDelayFactor, duration);
-            yield return new WaitForSeconds(delay);
-            glowingRenderer.material = material;
-        }
 
         private IEnumerator TriangleFlickeringRoutine(Color primaryColor, Color secondaryColor, Vector2 intervalRange, float factorPrimary, float factorSecondary, bool isShowPrimaryColor)
         {

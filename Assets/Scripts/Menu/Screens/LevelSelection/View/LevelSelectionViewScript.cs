@@ -3,31 +3,42 @@ using UnityEngine;
 using System.Collections;
 using System.Threading.Tasks;
 using Menu.Effects.Flickering;
+using Menu.Effects.Flickering.Logo;
+using System.Linq;
 
 namespace Menu.Screens.LevelSelection
 {
     public class LevelSelectionViewScript : MonoBehaviour
     {
+        [SerializeField] private LevelIconMaterialManagerScript iconMaterialManager;
         [SerializeField] private Color colorButtonTurnOn = Color.white;
         [SerializeField] private Color colorButtonTurnOff = Color.clear;
+        [SerializeField] private Material materialGlowingTurnOn;
+        [SerializeField] private Material materialGlowingTurnOff;
         [SerializeField] private float durationButtonChange = 0.25f;
+        [SerializeField] private float durationIconChangeTurnOn = 0.25f;
+        [SerializeField] private float durationIconChangeTurnOff = 0.25f;
 
         public float moveDuration = 1f;
         public AnimationCurve movementCurve;
 
-        public void ShowLevelIcons(Transform[] objects)
+        public void ShowLevelIcons(Transform[] objects, int indexCurrent)
         {
-            foreach (Transform obj in objects)
+            for (int i = 0; i < objects.Length; i++)
             {
-                obj.gameObject.SetActive(true);
+                objects[i].gameObject.SetActive(true);
+                if (i != indexCurrent)
+                {
+                    iconMaterialManager.SwapMaterial(objects[i].gameObject, materialGlowingTurnOff, 0f, 0.25f);
+                }
             }
         }
 
         public void HideLevelIcons(Transform[] objects)
         {
-            foreach (Transform obj in objects)
+            for (int i = 0; i < objects.Length; i++)
             {
-                obj.gameObject.SetActive(false);
+                objects[i].gameObject.SetActive(false);
             }
         }
 
@@ -64,6 +75,15 @@ namespace Menu.Screens.LevelSelection
 
         public Task MoveLevelIcons(Transform[] iconsTransform, Transform[] points, int indexNew, int indexCurrent)
         {
+            iconMaterialManager.SwapMaterial(iconsTransform[indexNew].gameObject, materialGlowingTurnOn, durationIconChangeTurnOn, 0.25f);
+            iconMaterialManager.SwapMaterial(iconsTransform[indexCurrent].gameObject, materialGlowingTurnOff, durationIconChangeTurnOff, 0.25f);
+            Spark[] sparks = iconsTransform[indexNew].GetComponent<LevelIconScript>().GetSparks();
+            int count = Random.Range(Random.Range(0,1), sparks.Length);
+
+            foreach (Spark spark in sparks.OrderBy(x => Random.value).Take(count))
+            {
+                spark.GetComponent<ParticleSystem>().Play();
+            }
             return this.RunAsync(MovingLevelIcons(iconsTransform, points, indexNew, indexCurrent));
         }
 

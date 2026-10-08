@@ -11,6 +11,8 @@ namespace Menu.Screens.LevelSelection
         
         [Header("References")]
         [SerializeField] private LevelSelectionPresenterScript presenter;
+        [SerializeField] private MenuSceneLoaderScript sceneLoader;
+
 
         public LevelSelectionSaveInteractorScript Save { get; } = new();
         
@@ -18,9 +20,15 @@ namespace Menu.Screens.LevelSelection
         {
             Initialize();
             idLevelCurrent = IdLevelinitial;
-            presenter.Initialize(IdLevelinitial);
+            presenter.Initialize(IdLevelinitial, numberOfLevels);
 
             ResetToDefaults();
+        }
+
+        private void Initialize()
+        {
+            if (Save.TryLoad(out GameSaveData data)) ApplyFromSave(data); ///!!!!!!!!!!
+            else ResetToDefaults();
         }
 
         public void SwitchToRightLevel()
@@ -45,13 +53,7 @@ namespace Menu.Screens.LevelSelection
 
         public void PlaySelectedLevel()
         {
-            
-        }
-
-        private void Initialize()
-        {
-            if (Save.TryLoad(out GameSaveData data)) ApplyFromSave(data);
-            else ResetToDefaults();
+            //sceneLoader
         }
 
         private void ApplyFromSave(GameSaveData data)
@@ -61,7 +63,7 @@ namespace Menu.Screens.LevelSelection
 
         private void ResetToDefaults()
         {
-            //throw new NotImplementedException();
+            //!!!!!!!!!!!
 
             SaveAll();
         }
