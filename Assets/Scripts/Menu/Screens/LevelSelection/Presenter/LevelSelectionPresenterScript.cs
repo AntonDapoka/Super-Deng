@@ -18,6 +18,7 @@ namespace Menu.Screens.LevelSelection
         [SerializeField] private Transform[] points;
         [SerializeField] private LevelIconScript[] icons;
         private Transform[] iconsTransform;
+        private int[] levelsID;
         
         [Header("UI")]       
         [SerializeField] private Button buttonRight;
@@ -40,10 +41,11 @@ namespace Menu.Screens.LevelSelection
                 iconsTransform[i] = icons[i].gameObject.transform;
         }
 
-        public void Initialize(int levelIndexInitial, int numberOfLevels)
+        public void Initialize(int[] levelsID, int levelIndexInitial)
         {
             indexCurrent = levelIndexInitial;
-            this.numberOfLevels = numberOfLevels;
+            this.levelsID = levelsID;
+            numberOfLevels = levelsID.Length;
             isButtonRightActive = false;
             isButtonLeftActive = false;
             view.ChangeButtonStateInstant(buttonRight, false);

@@ -5,24 +5,23 @@ namespace Menu.Screens.LevelSelection
 {
     public class LevelSelectionInteractorScript : MonoBehaviour
     {
-        [SerializeField] private int numberOfLevels = 0;
         [SerializeField] private int idLevelCurrent = 0;
-        private const int IdLevelinitial = 2;
+        private int levelIDInitial = 2;
+        private int[] levelsIDAccessible;
         
         [Header("References")]
         [SerializeField] private LevelSelectionPresenterScript presenter;
         [SerializeField] private MenuSceneLoaderScript sceneLoader;
-
 
         public LevelSelectionSaveInteractorScript Save { get; } = new();
         
         private void Start()
         {
             Initialize();
-            idLevelCurrent = IdLevelinitial;
-            presenter.Initialize(IdLevelinitial, numberOfLevels);
+            idLevelCurrent = levelIDInitial;
+            presenter.Initialize(levelsIDAccessible, levelIDInitial);
 
-            ResetToDefaults();
+            ResetToDefaults(); //REMOVE
         }
 
         private void Initialize()
@@ -33,7 +32,7 @@ namespace Menu.Screens.LevelSelection
 
         public void SwitchToRightLevel()
         {
-            if (idLevelCurrent < numberOfLevels - 1)
+            if (idLevelCurrent < levelsIDAccessible.Length - 1)
             {
                 int indexNew = idLevelCurrent + 1;
                 _ = presenter.ChangeLevelIcons(indexNew, idLevelCurrent);
@@ -58,7 +57,21 @@ namespace Menu.Screens.LevelSelection
 
         private void ApplyFromSave(GameSaveData data)
         {
-            numberOfLevels = data.Levels.Count;
+            levelsIDAccessible = GetAccessibleLevelsID(data);
+        }
+
+        private int[] GetAccessibleLevelsID(GameSaveData data)
+        {
+            List<int> levelsID = new();
+            foreach (LevelSaveData levelData in data.Levels)
+            {
+                if (levelData.isLevelAccessible)
+                    levelsID.Add(levelData.levelId);
+                if (levelData.isLevelIconInitial)
+                    levelIDInitial = levelData.levelId;
+            }
+
+            return levelsID.ToArray();
         }
 
         private void ResetToDefaults()
@@ -86,37 +99,51 @@ namespace Menu.Screens.LevelSelection
             List<LevelSaveData> levels = new();
             LevelSaveData level0 = new()
             {
-                levelId = 0
+                levelId = 0,
+                isLevelAccessible = true,
+                isLevelIconInitial = false
             };
             levels.Add(level0);
             LevelSaveData level1 = new()
             {
-                levelId = 1
+                levelId = 1,
+                isLevelAccessible = true,
+                isLevelIconInitial = false
             };
             levels.Add(level1);
             LevelSaveData level2 = new()
             {
-                levelId = 2
+                levelId = 2,
+                isLevelAccessible = true,
+                isLevelIconInitial = true
             };
             levels.Add(level2);
             LevelSaveData level3 = new()
             {
-                levelId = 3
+                levelId = 3,
+                isLevelAccessible = true,
+                isLevelIconInitial = false
             };
             levels.Add(level3);
             LevelSaveData level4 = new()
             {
-                levelId = 4
+                levelId = 4,
+                isLevelAccessible = true,
+                isLevelIconInitial = false
             };
             levels.Add(level4);
             LevelSaveData level5 = new()
             {
-                levelId = 5
+                levelId = 5,
+                isLevelAccessible = true,
+                isLevelIconInitial = false
             };
             levels.Add(level5);
             LevelSaveData level6 = new()
             {
-                levelId = 6
+                levelId = 6,
+                isLevelAccessible = true,
+                isLevelIconInitial = false
             };
             levels.Add(level6);
             return levels;
