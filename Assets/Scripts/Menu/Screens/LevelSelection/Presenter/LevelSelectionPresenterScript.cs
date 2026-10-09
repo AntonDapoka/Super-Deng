@@ -33,14 +33,21 @@ namespace Menu.Screens.LevelSelection
 
         private bool isButtonRightActive;
         private bool isButtonLeftActive;
-        private int indexCurrent;
+        private int idCurrent;
+        private int numberCurrent;
         private int numberOfLevels;
 
-        public void Initialize(int[] levelsID, int levelIndexInitial)
+        public void Initialize(int[] levelsID, int levelIDInitial)
         {
-            indexCurrent = levelIndexInitial;
             this.levelsID = levelsID;
             numberOfLevels = levelsID.Length;
+            idCurrent = levelIDInitial;
+            numberCurrent = System.Array.IndexOf(levelsID, levelIDInitial);
+            if (numberCurrent < 0)
+            {
+                numberCurrent = 0;
+                idCurrent = levelsID[0];
+            }
             isButtonRightActive = false;
             isButtonLeftActive = false;
             view.ChangeButtonStateInstant(buttonRight, false);
@@ -48,22 +55,23 @@ namespace Menu.Screens.LevelSelection
 
             int centerSlot = points.Length / 2;
 
+            iconsAccessible.Clear();
             foreach (LevelIconScript levelIcon in icons)
             {
                 for (int i = 0; i < levelsID.Length; i++)
                 {
                     if (levelIcon.GetLevelID() == levelsID[i])
                         iconsAccessible.Add(levelIcon);
-                    if (levelIcon.GetLevelID() == indexCurrent) //add flag
+                    if (levelIcon.GetLevelID() == idCurrent)
                         logoView.SetLevelIcon(levelIcon.gameObject);
                 }
             }
 
-            foreach (LevelIconScript levelIconAccessible in iconsAccessible)
+            for (int i = 0; i < iconsAccessible.Count; i++)
             {
-                int slot = GetSlotByOffset(centerSlot, levelIconAccessible.GetLevelID() - levelIndexInitial);
-                levelIconAccessible.gameObject.transform.position = points[slot].position;
-                levelIconAccessible.gameObject.SetActive(slot == centerSlot);
+                int slot = GetSlotByOffset(centerSlot, i - numberCurrent);
+                iconsAccessible[i].gameObject.transform.position = points[slot].position;
+                iconsAccessible[i].gameObject.SetActive(slot == centerSlot);
             }
 
             iconsTransform = new Transform[iconsAccessible.Count];
@@ -117,12 +125,12 @@ namespace Menu.Screens.LevelSelection
 
         public GameObject GetCurrentLevelIcon()
         {
-            return icons[indexCurrent].gameObject;
+            return iconsAccessible[numberCurrent].gameObject;
         }
 
         public void ShowLevelIcons()
         {
-            view.ShowLevelIcons(iconsTransform, indexCurrent);
+            view.ShowLevelIcons(iconsTransform, numberCurrent);
         }
 
         public void HideLevelIcons()
@@ -132,13 +140,14 @@ namespace Menu.Screens.LevelSelection
 
         public void HideSideLevelIcons()
         {
-            view.HideSideLevelIcons(iconsTransform, indexCurrent);
+            view.HideSideLevelIcons(iconsTransform, numberCurrent);
         }
 
-        public async Task ChangeLevelIcons(int indexNew, int indexCurrent)
+        public async Task ChangeLevelIcons(int numberNew, int numberCurrent)
         {
-            this.indexCurrent = indexNew;
-            logoView.SetLevelIcon(icons[indexCurrent].gameObject);
+            this.numberCurrent = numberNew;
+            idCurrent = levelsID[numberNew];
+            logoView.SetLevelIcon(iconsAccessible[this.numberCurrent].gameObject);
             blockWallManager.TurnOnBlockWall();
             if (!isButtonLeftActive)
             {
@@ -150,13 +159,13 @@ namespace Menu.Screens.LevelSelection
                 view.ChangeButtonState(buttonRight, flickeringSettings, flickeringPresenter, true);
                 isButtonRightActive = true;
             }
-            await view.MoveLevelIcons(iconsTransform, points, indexNew, indexCurrent);
-            if (indexNew == 0)
+            await view.MoveLevelIcons(iconsTransform, points, numberNew, numberCurrent);
+            if (numberNew == 0)
             {
                 view.ChangeButtonState(buttonLeft, flickeringSettings, flickeringPresenter, false);
                 isButtonLeftActive = false;
             }
-            else if (indexNew == numberOfLevels-1)
+            else if (numberNew == numberOfLevels-1)
             {
                 view.ChangeButtonState(buttonRight, flickeringSettings, flickeringPresenter, false);
                 isButtonRightActive = false;

@@ -22,12 +22,12 @@ namespace Menu.Screens.LevelSelection
         public float moveDuration = 1f;
         public AnimationCurve movementCurve;
 
-        public void ShowLevelIcons(Transform[] objects, int indexCurrent)
+        public void ShowLevelIcons(Transform[] objects, int numberCurrent)
         {
             for (int i = 0; i < objects.Length; i++)
             {
                 objects[i].gameObject.SetActive(true);
-                if (i != indexCurrent)
+                if (i != numberCurrent)
                 {
                     iconMaterialManager.SwapMaterial(objects[i].gameObject, materialGlowingTurnOff, 0f, 0.25f);
                 }
@@ -42,11 +42,11 @@ namespace Menu.Screens.LevelSelection
             }
         }
 
-        public void HideSideLevelIcons(Transform[] objects, int indexCurrent)
+        public void HideSideLevelIcons(Transform[] objects, int numberCurrent)
         {
             for (int i = 0; i < objects.Length; i++)
             {
-                if (i != indexCurrent) objects[i].gameObject.SetActive(false);
+                if (i != numberCurrent) objects[i].gameObject.SetActive(false);
             }
         }
 
@@ -73,33 +73,33 @@ namespace Menu.Screens.LevelSelection
             flickeringPresenter.Flicker(in request);
         }
 
-        public Task MoveLevelIcons(Transform[] iconsTransform, Transform[] points, int indexNew, int indexCurrent)
+        public Task MoveLevelIcons(Transform[] iconsTransform, Transform[] points, int numberNew, int numberCurrent)
         {
-            iconMaterialManager.SwapMaterial(iconsTransform[indexNew].gameObject, materialGlowingTurnOn, durationIconChangeTurnOn, 0.25f);
-            iconMaterialManager.SwapMaterial(iconsTransform[indexCurrent].gameObject, materialGlowingTurnOff, durationIconChangeTurnOff, 0.25f);
-            Spark[] sparks = iconsTransform[indexNew].GetComponent<LevelIconScript>().GetSparks();
+            iconMaterialManager.SwapMaterial(iconsTransform[numberNew].gameObject, materialGlowingTurnOn, durationIconChangeTurnOn, 0.25f);
+            iconMaterialManager.SwapMaterial(iconsTransform[numberCurrent].gameObject, materialGlowingTurnOff, durationIconChangeTurnOff, 0.25f);
+            Spark[] sparks = iconsTransform[numberNew].GetComponent<LevelIconScript>().GetSparks();
             int count = Random.Range(Random.Range(0,1), sparks.Length);
 
             foreach (Spark spark in sparks.OrderBy(x => Random.value).Take(count))
             {
                 spark.GetComponent<ParticleSystem>().Play();
             }
-            return this.RunAsync(MovingLevelIcons(iconsTransform, points, indexNew, indexCurrent));
+            return this.RunAsync(MovingLevelIcons(iconsTransform, points, numberNew, numberCurrent));
         }
 
-        private IEnumerator MovingLevelIcons(Transform[] iconsTransform, Transform[] points, int indexNew, int indexCurrent)
+        private IEnumerator MovingLevelIcons(Transform[] iconsTransform, Transform[] points, int numberNew, int numberCurrent)
         {
-            int stepsTotal = Mathf.Abs(indexNew - indexCurrent);
+            int stepsTotal = Mathf.Abs(numberNew - numberCurrent);
             if (stepsTotal == 0) yield break;
 
-            int direction = (int)Mathf.Sign(indexNew - indexCurrent);
+            int direction = (int)Mathf.Sign(numberNew - numberCurrent);
             float stepDuration = moveDuration / stepsTotal;
             int centerSlot = points.Length / 2;
 
             for (int step = 0; step < stepsTotal; step++)
             {
-                int indexFrom = indexCurrent + direction * step;
-                int indexTo = indexFrom + direction;
+                int numberFrom = numberCurrent + direction * step;
+                int numberTo = numberFrom + direction;
 
                 float elapsedTime = 0f;
                 while (elapsedTime < stepDuration)
@@ -108,8 +108,8 @@ namespace Menu.Screens.LevelSelection
 
                     for (int i = 0; i < iconsTransform.Length; i++)
                     {
-                        Vector3 positionFrom = GetPointPositionByOffset(points, centerSlot, i - indexFrom);
-                        Vector3 positionTo = GetPointPositionByOffset(points, centerSlot, i - indexTo);
+                        Vector3 positionFrom = GetPointPositionByOffset(points, centerSlot, i - numberFrom);
+                        Vector3 positionTo = GetPointPositionByOffset(points, centerSlot, i - numberTo);
                         iconsTransform[i].position = Vector3.Lerp(positionFrom, positionTo, curveProgress);
                     }
 
@@ -118,7 +118,7 @@ namespace Menu.Screens.LevelSelection
                 }
 
                 for (int i = 0; i < iconsTransform.Length; i++)
-                    iconsTransform[i].position = GetPointPositionByOffset(points, centerSlot, i - indexTo);
+                    iconsTransform[i].position = GetPointPositionByOffset(points, centerSlot, i - numberTo);
             }
         }
 

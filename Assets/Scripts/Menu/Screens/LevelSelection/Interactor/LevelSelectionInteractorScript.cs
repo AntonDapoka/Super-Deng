@@ -7,7 +7,7 @@ namespace Menu.Screens.LevelSelection
     {
         [SerializeField] private int idLevelCurrent = 0;
         [SerializeField] private int numberLevelCurrent = 0;
-        private int levelIDInitial = 2;
+        private int levelIDInitial;
         private int[] levelsIDAccessible;
         
         [Header("References")]
@@ -18,11 +18,15 @@ namespace Menu.Screens.LevelSelection
         
         private void Start()
         {
+            ResetToDefaults(); //REMOVE
             Initialize();
             idLevelCurrent = levelIDInitial;
+
+            numberLevelCurrent = System.Array.IndexOf(levelsIDAccessible, levelIDInitial);
+            if (numberLevelCurrent < 0) numberLevelCurrent = 0;
             presenter.Initialize(levelsIDAccessible, levelIDInitial);
 
-            ResetToDefaults(); //REMOVE
+
         }
 
         private void Initialize()
@@ -33,21 +37,23 @@ namespace Menu.Screens.LevelSelection
 
         public void SwitchToRightLevel()
         {
-            if (idLevelCurrent < levelsIDAccessible.Length - 1)
+            if (numberLevelCurrent < levelsIDAccessible.Length - 1)
             {
-                int indexNew = idLevelCurrent + 1;
-                _ = presenter.ChangeLevelIcons(indexNew, idLevelCurrent);
-                idLevelCurrent = indexNew;
+                int numberNew = numberLevelCurrent + 1;
+                _ = presenter.ChangeLevelIcons(numberNew, numberLevelCurrent);
+                numberLevelCurrent = numberNew;
+                idLevelCurrent = levelsIDAccessible[numberLevelCurrent];
             }
         }
 
         public void SwitchToLeftLevel()
         {
-            if (idLevelCurrent > 0)
+            if (numberLevelCurrent > 0)
             {
-                int indexNew = idLevelCurrent - 1;
-                _ = presenter.ChangeLevelIcons(indexNew, idLevelCurrent);
-                idLevelCurrent = indexNew;
+                int numberNew = numberLevelCurrent - 1;
+                _ = presenter.ChangeLevelIcons(numberNew, numberLevelCurrent);
+                numberLevelCurrent = numberNew;
+                idLevelCurrent = levelsIDAccessible[numberLevelCurrent];
             }
         }
 
@@ -66,7 +72,7 @@ namespace Menu.Screens.LevelSelection
             List<int> levelsID = new();
             foreach (LevelSaveData levelData in data.Levels)
             {
-                if (levelData.isLevelAccessible)
+                if (levelData.isLevelAccessible || levelData.isLevelIconInitial)
                     levelsID.Add(levelData.levelId);
                 if (levelData.isLevelIconInitial)
                     levelIDInitial = levelData.levelId;
@@ -102,27 +108,27 @@ namespace Menu.Screens.LevelSelection
             {
                 levelId = 0,
                 isLevelAccessible = true,
-                isLevelIconInitial = false
+                isLevelIconInitial = true
             };
             levels.Add(level0);
             LevelSaveData level1 = new()
             {
                 levelId = 1,
-                isLevelAccessible = true,
+                isLevelAccessible = false,
                 isLevelIconInitial = false
             };
             levels.Add(level1);
             LevelSaveData level2 = new()
             {
                 levelId = 2,
-                isLevelAccessible = true,
-                isLevelIconInitial = true
+                isLevelAccessible = false,
+                isLevelIconInitial = false
             };
             levels.Add(level2);
             LevelSaveData level3 = new()
             {
                 levelId = 3,
-                isLevelAccessible = true,
+                isLevelAccessible = false,
                 isLevelIconInitial = false
             };
             levels.Add(level3);
@@ -136,7 +142,7 @@ namespace Menu.Screens.LevelSelection
             LevelSaveData level5 = new()
             {
                 levelId = 5,
-                isLevelAccessible = true,
+                isLevelAccessible = false,
                 isLevelIconInitial = false
             };
             levels.Add(level5);
