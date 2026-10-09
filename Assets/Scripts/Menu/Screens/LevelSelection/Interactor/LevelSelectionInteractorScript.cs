@@ -6,6 +6,7 @@ namespace Menu.Screens.LevelSelection
     public class LevelSelectionInteractorScript : MonoBehaviour
     {
         [SerializeField] private int idLevelCurrent = 0;
+        [SerializeField] private int numberLevelCurrent = 0;
         private int levelIDInitial = 2;
         private int[] levelsIDAccessible;
         
@@ -128,7 +129,7 @@ namespace Menu.Screens.LevelSelection
             LevelSaveData level4 = new()
             {
                 levelId = 4,
-                isLevelAccessible = true,
+                isLevelAccessible = false,
                 isLevelIconInitial = false
             };
             levels.Add(level4);

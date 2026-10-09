@@ -1,6 +1,7 @@
 using Menu.Effects.Flickering;
 using Menu.Effects.Flickering.Logo;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ namespace Menu.Screens.LevelSelection
         [Header("Level Selection Icons")]
         [SerializeField] private Transform[] points;
         [SerializeField] private LevelIconScript[] icons;
+        [SerializeField] private List<LevelIconScript> iconsAccessible;
         private Transform[] iconsTransform;
         private int[] levelsID;
         
@@ -34,13 +36,6 @@ namespace Menu.Screens.LevelSelection
         private int indexCurrent;
         private int numberOfLevels;
 
-        private void Awake()
-        {
-            iconsTransform = new Transform[icons.Length];
-            for (int i = 0; i < icons.Length; i++)
-                iconsTransform[i] = icons[i].gameObject.transform;
-        }
-
         public void Initialize(int[] levelsID, int levelIndexInitial)
         {
             indexCurrent = levelIndexInitial;
@@ -50,14 +45,30 @@ namespace Menu.Screens.LevelSelection
             isButtonLeftActive = false;
             view.ChangeButtonStateInstant(buttonRight, false);
             view.ChangeButtonStateInstant(buttonLeft, false);
-            logoView.SetLevelIcon(icons[indexCurrent].gameObject);
+
             int centerSlot = points.Length / 2;
+
             foreach (LevelIconScript levelIcon in icons)
             {
-                int slot = GetSlotByOffset(centerSlot, levelIcon.GetLevelID() - levelIndexInitial);
-                levelIcon.gameObject.transform.position = points[slot].position;
-                levelIcon.gameObject.SetActive(slot == centerSlot);
+                for (int i = 0; i < levelsID.Length; i++)
+                {
+                    if (levelIcon.GetLevelID() == levelsID[i])
+                        iconsAccessible.Add(levelIcon);
+                    if (levelIcon.GetLevelID() == indexCurrent) //add flag
+                        logoView.SetLevelIcon(levelIcon.gameObject);
+                }
             }
+
+            foreach (LevelIconScript levelIconAccessible in iconsAccessible)
+            {
+                int slot = GetSlotByOffset(centerSlot, levelIconAccessible.GetLevelID() - levelIndexInitial);
+                levelIconAccessible.gameObject.transform.position = points[slot].position;
+                levelIconAccessible.gameObject.SetActive(slot == centerSlot);
+            }
+
+            iconsTransform = new Transform[iconsAccessible.Count];
+            for (int i = 0; i < iconsAccessible.Count; i++)
+                iconsTransform[i] = iconsAccessible[i].gameObject.transform;
         }
 
         private int GetSlotByOffset(int centerSlot, int offset)
