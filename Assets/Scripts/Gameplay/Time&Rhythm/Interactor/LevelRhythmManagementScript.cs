@@ -10,7 +10,7 @@ public class LevelRhythmManagementScript : MonoBehaviour, IRhythmableScript
     [SerializeField] private float beatInterval;
     [SerializeField] private int currentBeat = 0;
     [SerializeField] private AudioSource musicManager;
-    [SerializeField] private List<Intervals> intervals = new List<Intervals>();
+    [SerializeField] private List<Intervals> intervals = new();
 
     public float CurrentBeat => currentBeat;
 
