@@ -37,7 +37,7 @@ Shader "Custom/ShadertoyWaves"
                     d = pow(0.04 / max(abs(d), 0.0001), 2.2);
                 }
 
-                return float4(d - 0.4, d / 2.0, d, 0.1);
+                return float4(d - 0.4, d / 2.0, d, 1.0);
             }
 
             ENDCG
